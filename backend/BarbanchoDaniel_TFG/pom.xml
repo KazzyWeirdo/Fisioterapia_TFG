@@ -11,7 +11,7 @@
     </parent>
 
     <groupId>laboratory</groupId>
-    <artifactId>BarbanchoDaniel_TFG</artifactId>
+    <artifactId>Fisioterapia_TFG</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <packaging>pom</packaging>
