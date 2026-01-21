@@ -25,6 +25,13 @@ jobs:
       - name: Run Tests
         run: mvn -f backend/Fisioterapia_TFG/pom.xml clean verify
 
+      - name: Upload Test Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-report
+          path: backend/Fisioterapia_TFG/**/target/site/jacoco/
+
       - name: Build JAR
         run: mvn -f backend/Fisioterapia_TFG/pom.xml package -DskipTests -pl bootstrap -am
 
