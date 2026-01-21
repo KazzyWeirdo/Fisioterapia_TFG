@@ -1,0 +1,40 @@
+services:
+  backend:
+    image: ghcr.io/KazzyWeirdo/fisioterapia-backend:latest
+    container_name: fisio-app
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/fisio_db
+      - SPRING_DATASOURCE_USERNAME=user_admin
+      - SPRING_DATASOURCE_PASSWORD=password_secret
+      - SPRING_DATA_MONGODB_URI=mongodb://admin:password_secret@mongo-db:27017/fisio_logs?authSource=admin
+    depends_on:
+      - postgres-db
+      - mongo-db
+    networks:
+      - fisio-network
+
+    postgres-db:
+      image: postgres:15-alpine
+      container_name: fisio-postgres
+      environment:
+        POSTGRES_DB: fisio_db
+        POSTGRES_USER: user_admin
+        POSTGRES_PASSWORD: password_secret
+      networks:
+        - fisio-network
+
+    mongo-db:
+      image: mongo:6.0
+      container_name: fisio-mongo
+      environment:
+        MONGO_INITDB_ROOT_USERNAME: admin
+        MONGO_INITDB_ROOT_PASSWORD: password_secret
+      networks:
+        - fisio-network
+
+  networks:
+    fisio-network:
+      driver: bridge

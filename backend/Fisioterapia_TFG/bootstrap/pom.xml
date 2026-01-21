@@ -64,6 +64,8 @@
     </dependencies>
 
     <build>
+        <!-- For Maven to always generate the same name for the final jar -->
+        <finalName>fisioterapia-app</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
