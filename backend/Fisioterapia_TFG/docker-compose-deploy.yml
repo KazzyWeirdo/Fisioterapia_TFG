@@ -16,25 +16,25 @@ services:
     networks:
       - fisio-network
 
-    postgres-db:
-      image: postgres:15-alpine
-      container_name: fisio-postgres
-      environment:
-        POSTGRES_DB: fisio_db
-        POSTGRES_USER: user_admin
-        POSTGRES_PASSWORD: password_secret
-      networks:
-        - fisio-network
+  postgres-db:
+    image: postgres:15-alpine
+    container_name: fisio-postgres
+    environment:
+      POSTGRES_DB: fisio_db
+      POSTGRES_USER: user_admin
+      POSTGRES_PASSWORD: password_secret
+    networks:
+      - fisio-network
 
-    mongo-db:
-      image: mongo:6.0
-      container_name: fisio-mongo
-      environment:
-        MONGO_INITDB_ROOT_USERNAME: admin
-        MONGO_INITDB_ROOT_PASSWORD: password_secret
-      networks:
-        - fisio-network
+  mongo-db:
+    image: mongo:6.0
+    container_name: fisio-mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password_secret
+    networks:
+      - fisio-network
 
-  networks:
-    fisio-network:
-      driver: bridge
+networks:
+  fisio-network:
+    driver: bridge
