@@ -35,13 +35,21 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      ## Docker can't create containers with uppercase names, so we convert the owner to lowercase
+      - name: Lowercase Registry Owner
+        id: string_transform
+        run: |
+            echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
+        env:
+            OWNER: '${{ github.repository_owner }}'
+
       - name: Build and Push
         uses: docker/build-push-action@v5
         with:
           context: ./backend/Fisioterapia_TFG
           file: ./backend/Fisioterapia_TFG/Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/fisioterapia-backend:latest
+          tags: ghcr.io/${{ env.OWNER_LC }}/fisioterapia-backend:latest
           build-args: |
             JAR_FILE=bootstrap/target/fisioterapia-app.jar
   
