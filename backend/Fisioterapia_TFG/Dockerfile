@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jdk-jammy
 
 RUN groupadd -r spring && useradd -r -g spring spring
 USER spring:spring
