@@ -1,6 +1,6 @@
 services:
   backend:
-    image: ghcr.io/KazzyWeirdo/fisioterapia-backend:latest
+    image: ghcr.io/kazzyweirdo/fisioterapia-backend:latest
     container_name: fisio-app
     ports:
       - "8080:8080"
