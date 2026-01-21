@@ -30,7 +30,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: jacoco-report
-          path: backend/**/target/site/jacoco/
+          path: **/target/site/jacoco/
 
       - name: Build JAR
         run: mvn -f backend/Fisioterapia_TFG/pom.xml package -DskipTests -pl bootstrap -am
