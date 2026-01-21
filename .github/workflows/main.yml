@@ -43,5 +43,5 @@ jobs:
           push: true
           tags: ...
           build-args: |
-            JAR_FILE=backend/bootstrap/target/fisioterapia-app.jarsioterapia-backend:latest
+            JAR_FILE=backend/Fisioterapia_TFG/bootstrap/target/fisioterapia-app.jarsioterapia-backend:latest
   
