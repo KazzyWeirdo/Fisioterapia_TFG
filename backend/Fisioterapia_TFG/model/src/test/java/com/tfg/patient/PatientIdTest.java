@@ -1,0 +1,26 @@
+package com.tfg.patient;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+
+import org.assertj.core.api.ThrowableAssert;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+
+public class PatientIdTest {
+    @ParameterizedTest
+    @ValueSource(ints = {-100, -1, 0})
+    void givenValidValue_newPatientId_succeeds(int value) {
+        ThrowableAssert.ThrowingCallable invocation = () -> new PatientId(value);
+
+        assertThatIllegalArgumentException().isThrownBy(invocation);
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 8_765, 2_000_000_000})
+    void givenInvalidValue_newPatientId_throwsException(int value) {
+        PatientId customerId = new PatientId(value);
+
+        assertThat(customerId.value()).isEqualTo(value);
+    }
+}
