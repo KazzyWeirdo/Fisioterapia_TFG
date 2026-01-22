@@ -5,11 +5,11 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - SPRING_PROFILES_ACTIVE=prod
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/fisio_db
-      - SPRING_DATASOURCE_USERNAME=user_admin
-      - SPRING_DATASOURCE_PASSWORD=password_secret
-      - SPRING_DATA_MONGODB_URI=mongodb://admin:password_secret@mongo-db:27017/fisio_logs?authSource=admin
+    - SPRING_PROFILES_ACTIVE=prod
+    - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/${POSTGRES_DB}
+    - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
+    - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+    - SPRING_DATA_MONGODB_URI=mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongo-db:27017/fisio_logs?authSource=admin
     depends_on:
       - postgres-db
       - mongo-db
@@ -20,9 +20,9 @@ services:
     image: postgres:15-alpine
     container_name: fisio-postgres
     environment:
-      POSTGRES_DB: fisio_db
-      POSTGRES_USER: user_admin
-      POSTGRES_PASSWORD: password_secret
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     networks:
       - fisio-network
 
@@ -30,8 +30,8 @@ services:
     image: mongo:6.0
     container_name: fisio-mongo
     environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: password_secret
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
     networks:
       - fisio-network
 

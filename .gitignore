@@ -39,3 +39,4 @@ build/
 /.idea
 /backend/Fisioterapia_TFG/.idea
 /backend/Fisioterapia_TFG/compose.yml
+backend/Fisioterapia_TFG/bootstrap/src/main/resources/.env
