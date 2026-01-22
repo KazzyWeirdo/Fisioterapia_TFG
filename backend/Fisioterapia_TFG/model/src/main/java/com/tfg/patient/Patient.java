@@ -1,17 +1,20 @@
 package com.tfg.patient;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.experimental.Accessors;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@Accessors(fluent = true)
+import java.util.Date;
+
 @AllArgsConstructor
+@Setter
+@Getter
 public class Patient {
-    private PatientId id;
+    private final PatientId id;
+    private final String email;
     private String name;
     private String surname;
     private String secondSurname;
-    private String email;
+    private Date dateOfBirth;
     private int phoneNumber;
 }

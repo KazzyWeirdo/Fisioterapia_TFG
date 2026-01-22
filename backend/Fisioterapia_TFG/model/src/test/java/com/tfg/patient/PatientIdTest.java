@@ -10,7 +10,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 public class PatientIdTest {
     @ParameterizedTest
     @ValueSource(ints = {-100, -1, 0})
-    void givenValidValue_newPatientId_succeeds(int value) {
+    void givenInvalidValue_newPatientId_throwsException(int value) {
         ThrowableAssert.ThrowingCallable invocation = () -> new PatientId(value);
 
         assertThatIllegalArgumentException().isThrownBy(invocation);
@@ -18,7 +18,7 @@ public class PatientIdTest {
 
     @ParameterizedTest
     @ValueSource(ints = {1, 8_765, 2_000_000_000})
-    void givenInvalidValue_newPatientId_throwsException(int value) {
+    void givenValidValue_newPatientId_succeeds(int value) {
         PatientId customerId = new PatientId(value);
 
         assertThat(customerId.value()).isEqualTo(value);
