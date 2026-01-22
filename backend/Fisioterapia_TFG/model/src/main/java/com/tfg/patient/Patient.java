@@ -8,7 +8,7 @@ import lombok.experimental.Accessors;
 @Accessors(fluent = true)
 @AllArgsConstructor
 public class Patient {
-    private final PatientId id;
+    private PatientId id;
     private String name;
     private String surname;
     private String secondSurname;
