@@ -4,8 +4,8 @@ target/
 !**/src/test/**/target/
 
 ### IntelliJ IDEA ###
-.idea/modules.xml
-.idea/jarRepositories.xml
+../../.idea/modules.xml
+backend/Fisioterapia_TFG/.idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
 *.iws

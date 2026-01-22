@@ -1,0 +1,11 @@
+include:
+  - docker-compose-deploy.yml
+
+services:
+  postgres-db:
+    ports:
+      - "5432:5432"
+
+  mongo-db:
+    ports:
+      - "27017:27017"
