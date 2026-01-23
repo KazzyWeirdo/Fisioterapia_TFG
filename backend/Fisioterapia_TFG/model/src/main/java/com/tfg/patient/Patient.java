@@ -11,7 +11,9 @@ import java.util.Date;
 @Getter
 public class Patient {
     private final PatientId id;
-    private final String email;
+    private final PatientEmail email;
+    private final PatientDNI dni;
+    private PatientGender gender;
     private String name;
     private String surname;
     private String secondSurname;
