@@ -1,5 +1,6 @@
-package com.tfg.patient;
+package com.tfg.model.patient;
 
+import com.tfg.patient.PatientDNI;
 import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;

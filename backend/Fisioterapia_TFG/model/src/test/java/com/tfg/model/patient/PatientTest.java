@@ -1,5 +1,6 @@
-package com.tfg.patient;
+package com.tfg.model.patient;
 
+import com.tfg.patient.*;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
