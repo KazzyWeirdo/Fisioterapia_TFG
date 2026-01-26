@@ -11,6 +11,8 @@ public interface PatientRepository {
 
     void save(Patient patient);
 
+    void deleteAll();
+
     Optional<Patient> findById(PatientId id);
 
     Optional<Patient> findByEmail(PatientEmail email);

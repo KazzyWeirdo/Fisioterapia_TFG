@@ -1,12 +1,12 @@
-package com.tfg.adapter.out;
+package com.tfg.adapter.out.persistence;
 
-import org.springframework.test.context.ActiveProfiles;
-import org.testcontainers.junit.jupiter.Testcontainers;
+import org.springframework.context.annotation.Profile;
 import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
-@ActiveProfiles("test-mongo")
+@Profile("test")
 @Testcontainers
-public class MongoTestContainerConfig {
+public class MongoTestContainersConfig {
     static final MongoDBContainer mongo = new MongoDBContainer("mongo:6.0");
 
     static {
