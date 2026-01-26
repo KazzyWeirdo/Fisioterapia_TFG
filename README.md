@@ -36,6 +36,28 @@ A més de la funcionalitat en salut, aquest TFG es basa en l’ús d’un conjun
 
 ## Getting started
 
+<h3> Clonar el repositori </h3>
+
+```
+git clone https://github.com/KazzyWeirdo/Fisioterapia_TFG.git
+```
+
+<h3> Obrir el projecte en IntelliJ IDEA </h3>
+
+1. Obre IntelliJ IDEA.
+2. Selecciona "Open" i navega fins a la carpeta on has clonat el repositori.
+3. Selecciona el arxiu `pom.xml` del projecte i fes clic a "Open as Project".
+4. IntelliJ carregarà el projecte i baixarà totes les dependències necessàries.
+
+<h3> Configurar les variables d'entorn </h3>
+
+Posa aquesta commanda en una terminal Linux dintre de l'entorn IntelliJ.
+
+```
+cp ./backend/Fisioterapia_TFG/bootstrap/src/main/resources/.env.example ./backend/Fisioterapia_TFG/bootstrap/src/main/resources/.env
+```
+<h3> WORK IN PROGRESS </h3>
+
 ## API Keys Configuration
 
 ## Application Calls
