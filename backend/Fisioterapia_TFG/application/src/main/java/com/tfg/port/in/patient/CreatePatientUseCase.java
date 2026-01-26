@@ -2,7 +2,7 @@ package com.tfg.port.in.patient;
 
 import com.tfg.patient.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public interface CreatePatientUseCase {
     void createPatient(String email,
@@ -11,7 +11,7 @@ public interface CreatePatientUseCase {
                        String name,
                        String surname,
                        String secondSurname,
-                       Date dateOfBirth,
+                       LocalDate dateOfBirth,
                        int phoneNumber
                        );
 }

@@ -1,5 +1,6 @@
 package com.tfg.service.patient;
 
+import com.tfg.exceptions.InvalidIdException;
 import com.tfg.patient.Patient;
 import com.tfg.port.in.patient.GetPatientUseCase;
 import com.tfg.port.out.persistence.PatientRepository;
@@ -16,6 +17,6 @@ public class GetPatientService implements GetPatientUseCase {
     @Override
     public Patient getPatient(PatientId id) {
         return patientRepository.findById(id)
-                .orElseThrow(() -> new NullPointerException("Patient not found"));
+                .orElseThrow(InvalidIdException::new);
     }
 }

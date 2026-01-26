@@ -2,7 +2,7 @@ package com.tfg.model.patient;
 
 import com.tfg.patient.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class PatientFactory {
@@ -12,7 +12,7 @@ public class PatientFactory {
     public static String NAME = "Eduardo";
     public static String SURNAME = "Garcia";
     public static String SECOND_SURNAME = "Lopez";
-    public static Date DATE_OF_BIRTH = new Date(2000, 5, 15);
+    public static LocalDate DATE_OF_BIRTH = LocalDate.of(1990, 5, 20);
     public static int PHONE_NUMBER = 123456789;
 
     public static Patient createTestPatient(String email, String dni) {

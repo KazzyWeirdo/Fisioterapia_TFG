@@ -4,7 +4,7 @@ import com.tfg.patient.*;
 import com.tfg.port.in.patient.CreatePatientUseCase;
 import com.tfg.port.out.persistence.PatientRepository;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class CreatePatientService implements CreatePatientUseCase {
@@ -16,7 +16,7 @@ public class CreatePatientService implements CreatePatientUseCase {
     }
 
     @Override
-    public void createPatient(String email, String dni, PatientGender gender, String name, String surname, String secondSurname, Date dateOfBirth, int phoneNumber) {
+    public void createPatient(String email, String dni, PatientGender gender, String name, String surname, String secondSurname, LocalDate dateOfBirth, int phoneNumber) {
         patientRepository.findByEmail(new PatientEmail(email)).ifPresent(p -> {
             throw new IllegalArgumentException("Patient with email " + email + " already exists");
         });

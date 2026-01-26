@@ -4,6 +4,7 @@ import com.tfg.patient.*;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -16,7 +17,7 @@ public class PatientTest {
     private static String NAME = "Eduardo";
     private static String SURNAME = "Garcia";
     private static String SECOND_SURNAME = "Lopez";
-    private static Date DATE_OF_BIRTH = new Date(2000, 5, 15);
+    private static LocalDate DATE_OF_BIRTH = LocalDate.of(1990, 5, 20);
     private static int PHONE_NUMBER = 123456789;
 
     @Test
