@@ -20,8 +20,8 @@ public class PatientIdTest {
     @ParameterizedTest
     @ValueSource(ints = {1, 8_765, 2_000_000_000})
     void givenValidValue_newPatientId_succeeds(int value) {
-        PatientId customerId = new PatientId(value);
+        PatientId patientId = new PatientId(value);
 
-        assertThat(customerId.value()).isEqualTo(value);
+        assertThat(patientId.value()).isEqualTo(value);
     }
 }
