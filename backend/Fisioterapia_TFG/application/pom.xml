@@ -24,6 +24,14 @@
             <artifactId>model</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>laboratory</groupId>
+            <artifactId>model</artifactId>
+            <version>${project.version}</version>
+            <classifier>tests</classifier>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
 
         <!-- External -->
     </dependencies>
