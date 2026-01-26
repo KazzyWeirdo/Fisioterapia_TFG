@@ -1,5 +1,6 @@
 package application.patient;
 
+import com.tfg.exceptions.InvalidIdException;
 import com.tfg.model.patient.PatientFactory;
 import com.tfg.patient.Patient;
 import com.tfg.patient.PatientId;
@@ -39,7 +40,7 @@ public class GetPatientServiceTest {
         when(patientRepository.findById(NON_EXISTING_ID))
                 .thenReturn(Optional.empty());
 
-        assertThrows(NullPointerException.class, () -> {
+        assertThrows(InvalidIdException.class, () -> {
             patientService.getPatient(NON_EXISTING_ID);
         });
     }
