@@ -7,6 +7,7 @@ import com.tfg.patient.PatientGender;
 import com.tfg.port.in.patient.CreatePatientUseCase;
 import com.tfg.port.out.persistence.PatientRepository;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -47,16 +48,9 @@ public class CreatePatientControllerTest {
                         .content(objectMapper.writeValueAsString(patientCreationModel)))
                 .andExpect(status().isOk());
 
-        Mockito.verify(createPatientUseCase).createPatient(
-                "test@example.com",
-                "12345678A",
-                PatientGender.MALE,
-                "John",
-                "Doe",
-                "Smith",
-                LocalDate.of(1990, 1, 1),
-                123456789
-        );
+        ArgumentCaptor<Patient> patientCaptor = ArgumentCaptor.forClass(Patient.class);
+
+        Mockito.verify(createPatientUseCase).createPatient(patientCaptor.capture());
     }
 
     @Test

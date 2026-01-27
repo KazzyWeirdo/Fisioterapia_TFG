@@ -16,25 +16,15 @@ public class CreatePatientService implements CreatePatientUseCase {
     }
 
     @Override
-    public void createPatient(String email, String dni, PatientGender gender, String name, String surname, String secondSurname, LocalDate dateOfBirth, int phoneNumber) {
-        patientRepository.findByEmail(new PatientEmail(email)).ifPresent(p -> {
-            throw new IllegalArgumentException("Patient with email " + email + " already exists");
+    public void createPatient(Patient patient) {
+        patientRepository.findByEmail(patient.getEmail()).ifPresent(p -> {
+            throw new IllegalArgumentException("Patient with email " + patient.getEmail().value() + " already exists");
         });
 
-        patientRepository.findByDni(new PatientDNI(dni)).ifPresent(p -> {
-            throw new IllegalArgumentException("Patient with DNI " + dni + " already exists");
+        patientRepository.findByDni(patient.getDni()).ifPresent(p -> {
+            throw new IllegalArgumentException("Patient with DNI " + patient.getDni().value() + " already exists");
         });
 
-        Patient patient = new Patient(new PatientId(ThreadLocalRandom.current().nextInt(1_000_000)),
-                new PatientEmail(email),
-                new PatientDNI(dni),
-                gender,
-                name,
-                surname,
-                secondSurname,
-                dateOfBirth,
-                phoneNumber
-                );
         patientRepository.save(patient);
     }
 }
