@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class IndibaSessionTest {
 
-    public static final IndibaSession INDIBA_SESSION = IndibaSessionFactory.createTestIndibaSession(ThreadLocalRandom.current().nextInt(1_000_000),
+    public static final IndibaSession INDIBA_SESSION = IndibaSessionFactory.createTestIndibaSession(
             ThreadLocalRandom.current().nextInt(1_000_000),
             new Date("2023/01/01"),
             new Date("2023/01/02"));

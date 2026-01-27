@@ -4,6 +4,7 @@ import com.tfg.indiba.IndibaSession;
 import com.tfg.indiba.IndibaSessionId;
 import com.tfg.model.indiba.IndibaSessionFactory;
 import com.tfg.port.out.persistence.IndibaSessionRepository;
+import com.tfg.service.indiba.GetIndibaSessionService;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
@@ -15,18 +16,18 @@ import static org.mockito.Mockito.*;
 public class GetIndibaSessionServiceTest {
 
     private final IndibaSessionRepository indibaSessionRepository = mock(IndibaSessionRepository.class);
-    // GetIndibaSessionService should go in here
+    private final GetIndibaSessionService indibaSessionService = new GetIndibaSessionService(indibaSessionRepository);
 
-    private static final IndibaSessionId EXISTING_ID = new IndibaSessionId(1);
+    private static final IndibaSession TEST_INDIBA_SESSION = new IndibaSessionFactory().createTestIndibaSession(2, new Date(2023, 11, 30), new Date(2023, 12, 15));
+    private static final IndibaSessionId EXISTING_ID = TEST_INDIBA_SESSION.getId();
     private static final IndibaSessionId NON_EXISTING_ID = new IndibaSessionId(99);
-    private static final IndibaSession TEST_INDIBA_SESSION = new IndibaSessionFactory().createTestIndibaSession(EXISTING_ID.value(), 1,new Date(2023, 11, 30), new Date(2023, 12, 15));
 
     @Test
     public void givenIndibaSessionId_whenIndibaSessionExists_returnIndibaSession(){
         when(indibaSessionRepository.findById(EXISTING_ID))
                 .thenReturn(Optional.of(TEST_INDIBA_SESSION));
 
-        IndibaSession result = null; // Replace with service logic here
+        IndibaSession result = indibaSessionService.getIndibaSession(EXISTING_ID);
 
         assertNotNull(result);
         assertEquals(result.getId(), result.getId());
@@ -40,7 +41,7 @@ public class GetIndibaSessionServiceTest {
                 .thenReturn(Optional.empty());
 
         assertThrows(Exception.class, () -> {
-            // Replace with service logic here
+            indibaSessionService.getIndibaSession(NON_EXISTING_ID);
         });
     }
 }

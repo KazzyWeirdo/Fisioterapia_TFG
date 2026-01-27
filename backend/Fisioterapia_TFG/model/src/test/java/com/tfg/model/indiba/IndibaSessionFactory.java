@@ -20,10 +20,9 @@ public class IndibaSessionFactory {
     public static String PHYSIOTHERAPIST = "Dr. Smith";
     public static String OBSERVATIONS = "Patient responded well to treatment.";
 
-    public static IndibaSession createTestIndibaSession(int sessionId, int patientId, Date beginSession, Date endSession) {
+    public static IndibaSession createTestIndibaSession(int patientId, Date beginSession, Date endSession) {
         return new IndibaSession(
-                new IndibaSessionId(sessionId),
-                new PatientId(patientId),
+                patientId,
                 beginSession,
                 endSession,
                 TREATED_AREA,

@@ -1,10 +1,7 @@
 package com.tfg.port.in.indiba;
 
+import com.tfg.indiba.IndibaSession;
+
 public interface CreateIndibaSessionUseCase {
-    void createIndibaSession(String patientDni,
-                             String physiotherapistDni,
-                             String sessionDate,
-                             String sessionTime,
-                             String sessionNotes
-    ); // TODO: Consider using a DTO for better parameter management
+    void createIndibaSession(IndibaSession indibaSession);
 }
