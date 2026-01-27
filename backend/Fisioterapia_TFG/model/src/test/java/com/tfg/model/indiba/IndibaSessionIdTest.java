@@ -1,7 +1,6 @@
 package com.tfg.model.indiba;
 
 import com.tfg.indiba.IndibaSessionId;
-import com.tfg.patient.PatientId;
 import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;

@@ -14,4 +14,4 @@ public interface CreatePatientUseCase {
                        LocalDate dateOfBirth,
                        int phoneNumber
                        );
-}
+} // TODO: Consider using a DTO for better parameter management

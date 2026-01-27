@@ -4,7 +4,6 @@ import com.tfg.patient.*;
 import com.tfg.port.out.persistence.PatientRepository;
 import com.tfg.service.patient.CreatePatientService;
 import com.tfg.model.patient.PatientFactory;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
