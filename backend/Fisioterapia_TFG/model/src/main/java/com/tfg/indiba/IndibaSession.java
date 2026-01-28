@@ -1,7 +1,6 @@
 package com.tfg.indiba;
 
 import com.tfg.patient.Patient;
-import com.tfg.patient.PatientId;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +13,7 @@ import java.util.concurrent.ThreadLocalRandom;
 @Setter
 public class IndibaSession {
     private final IndibaSessionId id;
-    private final PatientId patientId;
+    private final Patient patient;
     private Date beginSession;
     private Date endSession;
     private String treatedArea;
@@ -24,9 +23,9 @@ public class IndibaSession {
     private String physiotherapist; // TODO: Change to PhysiotherapistId when the class is created
     private String observations;
 
-    public IndibaSession(int patientId, Date beginSession, Date endSession, String treatedArea, IndibaSessionModes mode, float intensity, String objective, String physiotherapist, String observations) {
+    public IndibaSession(Patient patient, Date beginSession, Date endSession, String treatedArea, IndibaSessionModes mode, float intensity, String objective, String physiotherapist, String observations) {
         this.id = new IndibaSessionId(ThreadLocalRandom.current().nextInt(1_000_000));
-        this.patientId = new PatientId(patientId);
+        this.patient = patient;
         this.beginSession = beginSession;
         this.endSession = endSession;
         this.treatedArea = treatedArea;

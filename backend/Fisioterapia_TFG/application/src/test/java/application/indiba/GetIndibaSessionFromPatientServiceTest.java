@@ -24,9 +24,9 @@ public class GetIndibaSessionFromPatientServiceTest {
     private final PatientRepository patientRepository = mock(PatientRepository.class);
     private final GetIndibaSessionFromPatientService indibaSessionService = new GetIndibaSessionFromPatientService(indibaSessionRepository, patientRepository);
 
-    private static final IndibaSession TEST_INDIBA_SESSION_1 = new IndibaSessionFactory().createTestIndibaSession(1, new Date(2023, 11, 30), new Date(2023, 12, 15));
-    private static final IndibaSession TEST_INDIBA_SESSION_2 = new IndibaSessionFactory().createTestIndibaSession(1, new Date(2023, 11, 10), new Date(2023, 11, 20));
     private static final Patient TEST_PATIENT = PatientFactory.createTestPatient("hola@gmail.com", "85729487J");
+    private static final IndibaSession TEST_INDIBA_SESSION_1 = new IndibaSessionFactory().createTestIndibaSession(TEST_PATIENT, new Date(2023, 11, 30), new Date(2023, 12, 15));
+    private static final IndibaSession TEST_INDIBA_SESSION_2 = new IndibaSessionFactory().createTestIndibaSession(TEST_PATIENT, new Date(2023, 11, 10), new Date(2023, 11, 20));
 
     @Test
     public void givenPatientId_whenIndibaSessionsExists_returnIndibaSessions(){

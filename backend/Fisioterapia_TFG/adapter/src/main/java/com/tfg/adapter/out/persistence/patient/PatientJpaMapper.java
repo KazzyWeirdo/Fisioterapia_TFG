@@ -10,7 +10,7 @@ public class PatientJpaMapper {
         entity.setName(patient.getName());
         entity.setSurname(patient.getSurname());
         entity.setSecondSurname(patient.getSecondSurname());
-        entity.setGender(patient.getGender().toString());
+        entity.setGender(patient.getGender());
         entity.setDni(patient.getDni().value());
         entity.setEmail(patient.getEmail().value());
         entity.setPhoneNumber(patient.getPhoneNumber());
@@ -23,7 +23,7 @@ public class PatientJpaMapper {
                 new com.tfg.patient.PatientId(entity.getId()),
                 new com.tfg.patient.PatientEmail(entity.getEmail()),
                 new com.tfg.patient.PatientDNI(entity.getDni()),
-                com.tfg.patient.PatientGender.valueOf(entity.getGender()),
+                entity.getGender(),
                 entity.getName(),
                 entity.getSurname(),
                 entity.getSecondSurname(),

@@ -1,5 +1,6 @@
 package com.tfg.adapter.out.persistence.patient;
 
+import com.tfg.patient.PatientGender;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +20,8 @@ public class PatientJpaEntity {
     private String surname;
     private String secondSurname;
     @Column(nullable = false)
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private PatientGender gender;
     @Column(nullable = false)
     private String dni;
     @Column(nullable = false)
