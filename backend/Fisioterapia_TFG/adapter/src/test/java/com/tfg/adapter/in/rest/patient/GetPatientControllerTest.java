@@ -13,7 +13,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -42,7 +41,7 @@ public class GetPatientControllerTest {
     }
 
     @Test
-    public void givenValidId_whenGetPatient_thenReturnsPatient() throws Exception {
+    public void givenValidId_whenGetPatient_thenReturnsPatient() {
         given(getPatientUseCase.getPatient(new PatientId(TEST_PATIENT.getId().value())))
                 .willReturn(TEST_PATIENT);
 
@@ -57,7 +56,7 @@ public class GetPatientControllerTest {
     }
 
     @Test
-    public void givenInvalidId_whenGetPatient_thenReturnsNotFound() throws Exception {
+    public void givenInvalidId_whenGetPatient_thenReturnsNotFound() {
         PatientId invalidId = new PatientId(9999);
         given(getPatientUseCase.getPatient(invalidId))
                 .willThrow(new InvalidIdException());
