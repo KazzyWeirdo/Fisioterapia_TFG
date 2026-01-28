@@ -7,7 +7,6 @@ import com.tfg.indiba.IndibaSessionId;
 import com.tfg.model.indiba.IndibaSessionFactory;
 import com.tfg.model.patient.PatientFactory;
 import com.tfg.patient.Patient;
-import com.tfg.patient.PatientId;
 import com.tfg.port.in.indiba.GetIndibaSessionUseCase;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;

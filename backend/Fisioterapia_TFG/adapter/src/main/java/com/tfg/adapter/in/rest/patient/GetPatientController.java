@@ -26,8 +26,8 @@ public class GetPatientController {
             @ApiResponse(responseCode = "200", description = "Patient found successfully"),
             @ApiResponse(responseCode = "404", description = "Patient not found")
         })
-    public ResponseEntity<PatientWebModel> getPatient(@PathVariable("patientId") String customerIdString) {
-        PatientId patientId = PatientIdParser.parsePatientId(customerIdString);
+    public ResponseEntity<PatientWebModel> getPatient(@PathVariable("patientId") String grabbedPatientId) {
+        PatientId patientId = PatientIdParser.parsePatientId(grabbedPatientId);
         Patient patient = patientUseCase.getPatient(patientId);
         return ResponseEntity.ok(PatientWebModel.fromDomainModel(patient));
     }
