@@ -67,4 +67,4 @@ cp ./backend/Fisioterapia_TFG/bootstrap/src/main/resources/.env.example ./backen
 ## Domain Concepts
 
 ## Test Coverage
-![Coverage](https://github.com/KazzyWeirdo/Fisioterapia_TFG/blob/main/jacoco.svg)
+![Coverage](jacoco.svg)
