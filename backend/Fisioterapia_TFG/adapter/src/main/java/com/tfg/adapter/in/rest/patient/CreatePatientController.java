@@ -23,16 +23,7 @@ public class CreatePatientController {
             @ApiResponse(responseCode = "400", description = "Invalid input data")
         })
     public ResponseEntity<Void> createPatient(@RequestBody @Valid PatientCreationModel patientCreationModel) {
-        patientUseCase.createPatient(
-                patientCreationModel.email(),
-                patientCreationModel.dni(),
-                PatientGender.valueOf(patientCreationModel.gender().toUpperCase()),
-                patientCreationModel.name(),
-                patientCreationModel.surname(),
-                patientCreationModel.secondSurname(),
-                patientCreationModel.dateOfBirth(),
-                patientCreationModel.phoneNumber()
-        );
+        patientUseCase.createPatient(patientCreationModel.toDomainModel());
         return ResponseEntity.ok().build();
     }
 }

@@ -1,5 +1,6 @@
 package com.tfg.adapter.in.rest.patient;
 
+import com.tfg.patient.Patient;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -26,4 +27,14 @@ public record PatientCreationModel(
         @Past(message = "Date of birth must be in the past")
         LocalDate dateOfBirth
 ) {
+        public Patient toDomainModel(){
+                return new Patient(email,
+                        dni,
+                        gender,
+                        name,
+                        surname,
+                        secondSurname,
+                        dateOfBirth,
+                        phoneNumber);
+        }
 }

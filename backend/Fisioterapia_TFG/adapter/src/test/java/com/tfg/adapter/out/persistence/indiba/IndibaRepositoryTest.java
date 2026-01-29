@@ -1,4 +1,4 @@
-package com.tfg.adapter.out.persistence.patient;
+package com.tfg.adapter.out.persistence.indiba;
 
 import com.tfg.adapter.out.persistence.JpaTestContainerConfig;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,7 +8,7 @@ import org.springframework.test.context.DynamicPropertySource;
 
 @SpringBootTest
 @ActiveProfiles("test")
-public class PatientRepositoryTest extends AbstractPatientRepositoryTest {
+public class IndibaRepositoryTest extends AbstractIndibaRepositoryTest {
     @DynamicPropertySource
     static void databaseProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", () -> JpaTestContainerConfig.getInstance().getJdbcUrl());

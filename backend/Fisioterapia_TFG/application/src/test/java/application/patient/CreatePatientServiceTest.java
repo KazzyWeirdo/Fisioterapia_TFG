@@ -4,7 +4,6 @@ import com.tfg.patient.*;
 import com.tfg.port.out.persistence.PatientRepository;
 import com.tfg.service.patient.CreatePatientService;
 import com.tfg.model.patient.PatientFactory;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -25,7 +24,7 @@ public class CreatePatientServiceTest {
         when(patientRepository.findByDni(any(PatientDNI.class)))
                 .thenReturn(java.util.Optional.empty());
 
-        patientService.createPatient(TEST_PATIENT.getEmail().value(), TEST_PATIENT.getDni().value(), TEST_PATIENT.getGender(), TEST_PATIENT.getName(), TEST_PATIENT.getSurname(), TEST_PATIENT.getSecondSurname(), TEST_PATIENT.getDateOfBirth(), TEST_PATIENT.getPhoneNumber());
+        patientService.createPatient(TEST_PATIENT);
 
         verify(patientRepository).save(argThat(patient ->
                 patient.getEmail().value().equals("hola@gmail.com") &&
@@ -39,7 +38,7 @@ public class CreatePatientServiceTest {
                 .thenReturn(java.util.Optional.of(TEST_PATIENT));
 
         assertThrows(IllegalArgumentException.class, () -> {
-            patientService.createPatient(TEST_PATIENT.getEmail().value(), "12345678H", TEST_PATIENT.getGender(), TEST_PATIENT.getName(), TEST_PATIENT.getSurname(), TEST_PATIENT.getSecondSurname(), TEST_PATIENT.getDateOfBirth(), TEST_PATIENT.getPhoneNumber());
+            patientService.createPatient(TEST_PATIENT);
         });
         verify(patientRepository, never()).save(any());
     }
@@ -53,7 +52,7 @@ public class CreatePatientServiceTest {
                 .thenReturn(java.util.Optional.of(TEST_PATIENT));
 
         assertThrows(IllegalArgumentException.class, () -> {
-            patientService.createPatient("examplemail@gmail.com", TEST_PATIENT.getDni().value(), TEST_PATIENT.getGender(), TEST_PATIENT.getName(), TEST_PATIENT.getSurname(), TEST_PATIENT.getSecondSurname(), TEST_PATIENT.getDateOfBirth(), TEST_PATIENT.getPhoneNumber());
+            patientService.createPatient(TEST_PATIENT);
         });
         verify(patientRepository, never()).save(any());
     }

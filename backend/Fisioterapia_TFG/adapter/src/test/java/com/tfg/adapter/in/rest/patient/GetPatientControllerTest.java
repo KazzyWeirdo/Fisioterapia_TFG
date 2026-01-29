@@ -1,53 +1,70 @@
 package com.tfg.adapter.in.rest.patient;
 
+import com.tfg.adapter.in.rest.common.GlobalExceptionHandler;
 import com.tfg.exceptions.InvalidIdException;
 import com.tfg.model.patient.PatientFactory;
 import com.tfg.patient.Patient;
 import com.tfg.patient.PatientId;
 import com.tfg.port.in.patient.GetPatientUseCase;
-import com.tfg.port.out.persistence.PatientRepository;
+import io.restassured.module.mockmvc.RestAssuredMockMvc;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.OK;
 
-@WebMvcTest(GetPatientController.class)
+@ExtendWith(MockitoExtension.class)
 public class GetPatientControllerTest {
 
-    @MockBean GetPatientUseCase getPatientUseCase;
-    @Autowired private MockMvc mockMvc;
-    @MockBean PatientRepository patientRepository;
+    @Mock
+    private GetPatientUseCase getPatientUseCase;
+
+    @InjectMocks
+    private GetPatientController getPatientController;
 
     private static final Patient TEST_PATIENT = PatientFactory.createTestPatient("hola@gmail.com", "85729487J");
 
-    @Test
-    public void givenValidId_whenGetPatient_thenReturnsPatient() throws Exception {
-        given(getPatientUseCase.getPatient(new PatientId(TEST_PATIENT.getId().value())))
-                .willReturn(TEST_PATIENT);
-
-        mockMvc.perform(get("/patients/{patientId}", TEST_PATIENT.getId().value())
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk()) // Esperamos HTTP 200
-                .andExpect(jsonPath("$.id").value(TEST_PATIENT.getId().value()))
-                .andExpect(jsonPath("$.name").value(TEST_PATIENT.getName()))
-                .andExpect(jsonPath("$.email").value(TEST_PATIENT.getEmail().value()));
+    @BeforeEach
+    void setUp() {
+        RestAssuredMockMvc.standaloneSetup(
+                MockMvcBuilders.standaloneSetup(getPatientController)
+                        .setControllerAdvice(new GlobalExceptionHandler())
+        );
     }
 
     @Test
-    public void givenInvalidId_whenGetPatient_thenReturnsNotFound() throws Exception {
+    public void givenValidId_whenGetPatient_thenReturnsPatient() {
+        given(getPatientUseCase.getPatient(new PatientId(TEST_PATIENT.getId().value())))
+                .willReturn(TEST_PATIENT);
+
+        given()
+                .when()
+                .get("/patients/{patientId}", String.valueOf(TEST_PATIENT.getId().value()))
+                .then()
+                .status(OK)
+                .body("id", equalTo(TEST_PATIENT.getId().value()))
+                .body("name", equalTo(TEST_PATIENT.getName()))
+                .body("email", equalTo(TEST_PATIENT.getEmail().value()));
+    }
+
+    @Test
+    public void givenInvalidId_whenGetPatient_thenReturnsNotFound() {
         PatientId invalidId = new PatientId(9999);
         given(getPatientUseCase.getPatient(invalidId))
                 .willThrow(new InvalidIdException());
 
-        mockMvc.perform(get("/patients/{patientId}", invalidId.value())
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
+        given()
+                .when()
+                .get("/patients/{patientId}", String.valueOf(invalidId.value()))
+                .then()
+                .status(NOT_FOUND);
     }
 }

@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-jdk-jammy
+FROM amazoncorretto:21-alpine-jdk
 
 RUN groupadd -r spring && useradd -r -g spring spring
 USER spring:spring

@@ -1,9 +1,18 @@
 package com.tfg;
 
+import com.tfg.port.in.indiba.CreateIndibaSessionUseCase;
+import com.tfg.port.in.indiba.GetIndibaSessionFromPatientUseCase;
+import com.tfg.port.in.indiba.GetIndibaSessionUseCase;
 import com.tfg.port.in.patient.CreatePatientUseCase;
 import com.tfg.port.in.patient.GetPatientUseCase;
+import com.tfg.port.in.patient.UpdatePatientUseCase;
+import com.tfg.port.out.persistence.IndibaSessionRepository;
 import com.tfg.port.out.persistence.PatientRepository;
+import com.tfg.service.indiba.CreateIndibaSessionService;
+import com.tfg.service.indiba.GetIndibaSessionFromPatientService;
+import com.tfg.service.indiba.GetIndibaSessionService;
 import com.tfg.service.patient.CreatePatientService;
+import com.tfg.service.patient.UpdatePatientService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
@@ -23,6 +32,9 @@ public class SpringAppConfig {
     @Autowired
     PatientRepository patientRepository;
 
+    @Autowired
+    IndibaSessionRepository indibaSessionRepository;
+
     @Bean
     GetPatientUseCase getPatientUseCase() {
         return new GetPatientService(patientRepository);
@@ -31,5 +43,25 @@ public class SpringAppConfig {
     @Bean
     CreatePatientUseCase createPatientUseCase() {
         return new CreatePatientService(patientRepository);
+    }
+
+    @Bean
+    UpdatePatientUseCase updatePatientUseCase() {
+        return new UpdatePatientService(patientRepository);
+    }
+
+    @Bean
+    CreateIndibaSessionUseCase createIndibaSessionUseCase() {
+        return new CreateIndibaSessionService(indibaSessionRepository);
+    }
+
+    @Bean
+    GetIndibaSessionUseCase getIndibaSessionUseCase() {
+        return new GetIndibaSessionService(indibaSessionRepository);
+    }
+
+    @Bean
+    GetIndibaSessionFromPatientUseCase getIndibaSessionFromPatientUseCase() {
+        return new GetIndibaSessionFromPatientService(indibaSessionRepository, patientRepository);
     }
 }

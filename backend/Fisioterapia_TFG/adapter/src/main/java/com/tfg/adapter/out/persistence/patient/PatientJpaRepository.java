@@ -30,6 +30,22 @@ public class PatientJpaRepository implements PatientRepository {
     }
 
     @Override
+    @org.springframework.transaction.annotation.Transactional
+    public void update(PatientId patientId, Patient patient) {
+        patientJpaDataRepository.updatePatientById(
+                patientId.value(),
+                patient.getEmail().value(),
+                patient.getDni().value(),
+                patient.getGender(),
+                patient.getName(),
+                patient.getSurname(),
+                patient.getSecondSurname(),
+                patient.getDateOfBirth(),
+                patient.getPhoneNumber()
+        );
+    }
+
+    @Override
     public Optional<Patient> findById(PatientId id) {
         Optional<PatientJpaEntity> patientJpaEntity = patientJpaDataRepository.findById(id.value());
         return patientJpaEntity.map(PatientJpaMapper::toModelEntity);
