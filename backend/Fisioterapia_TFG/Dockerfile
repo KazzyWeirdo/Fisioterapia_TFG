@@ -1,6 +1,7 @@
 FROM amazoncorretto:21-alpine-jdk
 
-RUN groupadd -r spring && useradd -r -g spring spring
+RUN addgroup -S spring && adduser -S spring -G spring
+
 USER spring:spring
 
 ARG JAR_FILE=backend/Fisioterapia_TFG/bootstrap/target/fisioterapia-app.jar
