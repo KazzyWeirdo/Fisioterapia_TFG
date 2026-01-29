@@ -67,4 +67,3 @@ cp ./backend/Fisioterapia_TFG/bootstrap/src/main/resources/.env.example ./backen
 ## Domain Concepts
 
 ## Test Coverage
-![Coverage](jacoco.svg)
