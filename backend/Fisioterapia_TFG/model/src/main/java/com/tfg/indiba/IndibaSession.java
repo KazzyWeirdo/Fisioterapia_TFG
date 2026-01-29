@@ -24,6 +24,8 @@ public class IndibaSession {
     private String observations;
 
     public IndibaSession(Patient patient, Date beginSession, Date endSession, String treatedArea, IndibaSessionModes mode, float intensity, String objective, String physiotherapist, String observations) {
+        checkDates(beginSession, endSession);
+        checkIntensity(intensity);
         this.id = new IndibaSessionId(ThreadLocalRandom.current().nextInt(1_000_000));
         this.patient = patient;
         this.beginSession = beginSession;
@@ -35,4 +37,17 @@ public class IndibaSession {
         this.physiotherapist = physiotherapist;
         this.observations = observations;
     }
+
+    private void checkDates(Date begin, Date end) {
+        if (begin.after(end)) {
+            throw new IllegalArgumentException("Begin date cannot be after end date");
+        }
+    }
+
+    private void checkIntensity(float intensity) {
+        if (intensity < 0) {
+            throw new IllegalArgumentException("Intensity must be greater than 0");
+        }
+    }
+
 }
