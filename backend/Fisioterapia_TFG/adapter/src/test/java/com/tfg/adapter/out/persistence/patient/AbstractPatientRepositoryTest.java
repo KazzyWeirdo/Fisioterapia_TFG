@@ -110,4 +110,27 @@ public abstract class AbstractPatientRepositoryTest {
         assertThat(optionalPatient.get().getDateOfBirth()).isEqualTo(TEST_PATIENT.getDateOfBirth());
 
     }
+    @Test
+    public void givenExistingPatient_whenUpdate_thenPatientIsUpdated() {
+        patientRepository.save(TEST_PATIENT);
+
+        Patient updatedPatient = PatientFactory.createTestPatient("updated@gmail.com", "85729487J");
+        updatedPatient.setName("UpdatedName");
+        updatedPatient.setSurname("UpdatedSurname");
+        updatedPatient.setSecondSurname("UpdatedSecondSurname");
+        updatedPatient.setPhoneNumber(123456789);
+        updatedPatient.setGender(TEST_PATIENT.getGender());
+        updatedPatient.setDateOfBirth(TEST_PATIENT.getDateOfBirth());
+
+        patientRepository.update(TEST_PATIENT.getId(), updatedPatient);
+
+        Optional<Patient> optionalPatient = patientRepository.findById(TEST_PATIENT.getId());
+
+        assertThat(optionalPatient).isPresent();
+        assertThat(optionalPatient.get().getEmail()).isEqualTo(updatedPatient.getEmail());
+        assertThat(optionalPatient.get().getName()).isEqualTo(updatedPatient.getName());
+        assertThat(optionalPatient.get().getSurname()).isEqualTo(updatedPatient.getSurname());
+        assertThat(optionalPatient.get().getSecondSurname()).isEqualTo(updatedPatient.getSecondSurname());
+        assertThat(optionalPatient.get().getPhoneNumber()).isEqualTo(updatedPatient.getPhoneNumber());
+    }
 }

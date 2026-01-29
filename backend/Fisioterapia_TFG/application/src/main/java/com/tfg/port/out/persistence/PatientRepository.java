@@ -13,6 +13,8 @@ public interface PatientRepository {
 
     void deleteAll();
 
+    void update(PatientId patientId, Patient patient);
+
     Optional<Patient> findById(PatientId id);
 
     Optional<Patient> findByEmail(PatientEmail email);

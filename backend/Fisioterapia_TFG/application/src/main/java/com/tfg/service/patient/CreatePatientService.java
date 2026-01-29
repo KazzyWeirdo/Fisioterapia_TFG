@@ -4,9 +4,6 @@ import com.tfg.patient.*;
 import com.tfg.port.in.patient.CreatePatientUseCase;
 import com.tfg.port.out.persistence.PatientRepository;
 
-import java.time.LocalDate;
-import java.util.concurrent.ThreadLocalRandom;
-
 public class CreatePatientService implements CreatePatientUseCase {
 
     private final PatientRepository patientRepository;
