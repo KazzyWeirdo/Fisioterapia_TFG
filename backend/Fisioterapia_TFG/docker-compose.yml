@@ -1,0 +1,37 @@
+services:
+  backend:
+    image: ghcr.io/kazzyweirdo/fisioterapia-backend:latest
+    ports:
+      - "8080:8080"
+    env_file:
+      - ./bootstrap/src/main/resources/.env
+    environment:
+    - SPRING_PROFILES_ACTIVE=prod
+    - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/$${POSTGRES_DB}
+    - SPRING_DATASOURCE_USERNAME=$${POSTGRES_USER}
+    - SPRING_DATASOURCE_PASSWORD=$${POSTGRES_PASSWORD}
+    - SPRING_DATA_MONGODB_URI=mongodb://$${MONGO_INITDB_ROOT_USERNAME}:$${MONGO_INITDB_ROOT_PASSWORD}@mongo-db:27017/fisio_logs?authSource=admin
+    depends_on:
+      - postgres-db
+      - mongo-db
+    networks:
+      - fisio-network
+
+  postgres-db:
+    image: postgres:15-alpine
+    env_file:
+      - ./bootstrap/src/main/resources/.env
+    networks:
+      - fisio-network
+
+  mongo-db:
+    image: mongo:6.0
+    env_file:
+      - ./bootstrap/src/main/resources/.env
+    networks:
+      - fisio-network
+
+networks:
+  fisio-network:
+    driver: bridge

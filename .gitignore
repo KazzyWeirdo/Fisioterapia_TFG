@@ -40,3 +40,4 @@ build/
 /backend/Fisioterapia_TFG/.idea
 /backend/Fisioterapia_TFG/compose.yml
 backend/Fisioterapia_TFG/bootstrap/src/main/resources/.env
+backend/Fisioterapia_TFG/docker-compose-override.yml

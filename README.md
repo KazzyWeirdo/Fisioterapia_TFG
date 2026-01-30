@@ -32,7 +32,95 @@ A més de la funcionalitat en salut, aquest TFG es basa en l’ús d’un conjun
 
 ## Project structure
 
+```
+├── backend
+│   └── Fisioterapia_TFG
+│       ├── adapter
+│       │   └── src
+│       │       ├── main
+│       │       │   └── java
+│       │       │       └── com
+│       │       │           └── tfg
+│       │       │               └── adapter
+│       │       │                   ├── in
+│       │       │                   │   └── rest
+│       │       │                   │       ├── common
+│       │       │                   │       ├── indiba
+│       │       │                   │       └── patient
+│       │       │                   └── out
+│       │       │                       └── persistence
+│       │       │                           ├── indiba
+│       │       │                           └── patient
+│       │       └── test
+│       │           └── java
+│       │               └── com
+│       │                   └── tfg
+│       │                       └── adapter
+│       │                           ├── in
+│       │                           │   └── rest
+│       │                           │       ├── indiba
+│       │                           │       └── patient
+│       │                           └── out
+│       │                               └── persistence
+│       │                                   ├── indiba
+│       │                                   └── patient
+│       ├── application
+│       │   └── src
+│       │       ├── main
+│       │       │   └── java
+│       │       │       └── com
+│       │       │           └── tfg
+│       │       │               ├── exceptions
+│       │       │               ├── port
+│       │       │               │   ├── in
+│       │       │               │   │   ├── indiba
+│       │       │               │   │   └── patient
+│       │       │               │   └── out
+│       │       │               │       └── persistence
+│       │       │               └── service
+│       │       │                   ├── indiba
+│       │       │                   └── patient
+│       │       └── test
+│       │           └── java
+│       │               └── application
+│       │                   ├── indiba
+│       │                   └── patient
+│       ├── bootstrap
+│       │   └── src
+│       │       ├── main
+│       │       │   ├── java
+│       │       │   │   └── com
+│       │       │   │       └── tfg
+│       │       │   │           └── bootstrap
+│       │       │   └── resources
+│       │       └── test
+│       │           └── resources
+│       └── model
+│           └── src
+│               ├── main
+│               │   └── java
+│               │       └── com
+│               │           └── tfg
+│               │               ├── indiba
+│               │               └── patient
+│               └── test
+│                   └── java
+│                       └── com
+│                           └── tfg
+│                               └── model
+│                                   ├── indiba
+│                                   └── patient
+└── frontend
+
+```
+
 ## Prerequisites
+
+- IntelliJ Idea Ultimate
+- Java Development Kit 21 o superior
+- Docker Desktop
+- Git CLI o Github Desktop
+- Maven 3.8.7 o superior
 
 ## Getting started
 
@@ -56,7 +144,40 @@ Posa aquesta commanda en una terminal Linux dintre de l'entorn IntelliJ.
 ```
 cp ./backend/Fisioterapia_TFG/bootstrap/src/main/resources/.env.example ./backend/Fisioterapia_TFG/bootstrap/src/main/resources/.env
 ```
-<h3> WORK IN PROGRESS </h3>
+<h3> Configurar la base de dades </h3>
+
+Entra dintre de la carpeta del backend del projecte en una terminal Linux de IntelliJ.
+
+```
+cd ./backend/Fisioterapia_TFG
+```
+
+Si vols obrir els ports de les bases de dades, pots fer un arxiu `docker-compose-override.yml` amb el següent contingut:
+
+```
+services:
+  postgres-db:
+    ports:
+      - "5432:5432"
+
+  mongo-db:
+    ports:
+      - "27017:27017"
+```
+
+Pots iniciar els contenidors de la base de dades a docker amb la següent comanda:
+
+```
+docker-compose -f ./backend/Fisioterapia_TFG/docker-compose.yml up -d
+```
+
+<h3> Executar els tests </h3>
+
+Pots executar els tests utilitzant Maven amb la següent comanda:
+
+``` 
+mvn clean test
+```
 
 ## API Keys Configuration
 
