@@ -183,6 +183,12 @@ mvn clean test
 
 ## Application Calls
 
+Once you have the docker containers running, you can access the application endpoints using the following base URL:
+
+``` 
+http://localhost:8080/swagger-ui/index.html
+```
+
 ## Arquitecture Calls
 
 ## Domain Concepts
