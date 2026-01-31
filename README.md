@@ -183,7 +183,7 @@ mvn clean test
 
 ## Application Calls
 
-Un cop hàgiu executat els contenidors de Docker, podeu accedir als punts finals de l'aplicació mitjançant la següent URL base:
+Un cop hàgiu executat els contenidors de Docker, podeu accedir als endpoints de l'aplicació mitjançant la següent URL base:
 
 ``` 
 http://localhost:8080/swagger-ui/index.html
