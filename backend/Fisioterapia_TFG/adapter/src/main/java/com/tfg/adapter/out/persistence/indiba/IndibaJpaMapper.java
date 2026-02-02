@@ -35,12 +35,4 @@ public class IndibaJpaMapper {
                 entity.getObservations()
         );
     }
-
-    public static java.util.List<IndibaSession> toModelEntities(java.util.List<IndibaJpaEntity> entities) {
-        java.util.List<IndibaSession> sessions = new java.util.ArrayList<>();
-        for (IndibaJpaEntity entity : entities) {
-            sessions.add(toModelEntity(entity));
-        }
-        return sessions;
-    }
 }

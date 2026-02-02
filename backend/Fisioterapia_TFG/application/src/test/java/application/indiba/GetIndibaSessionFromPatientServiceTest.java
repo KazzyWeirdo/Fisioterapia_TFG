@@ -34,14 +34,14 @@ public class GetIndibaSessionFromPatientServiceTest {
                 .thenReturn(Optional.of(TEST_PATIENT));
 
         when(indibaSessionRepository.findAllByPatientId(new PatientId(1)))
-                .thenReturn(List.of(TEST_INDIBA_SESSION_1, TEST_INDIBA_SESSION_2));
+                .thenReturn(List.of(TEST_INDIBA_SESSION_1.getBeginSession(), TEST_INDIBA_SESSION_2.getBeginSession()));
 
-        List<IndibaSession> result = indibaSessionService.getIndibaSessionsFromPatient(new PatientId(1));
+        List<Date> result = indibaSessionService.getIndibaSessionsFromPatient(new PatientId(1));
 
         assertNotNull(result);
         assertEquals(2, result.size());
-        assertEquals(TEST_INDIBA_SESSION_1.getBeginSession(), result.get(0).getBeginSession());
-        assertEquals(TEST_INDIBA_SESSION_2.getBeginSession(), result.get(1).getBeginSession());
+        assertEquals(TEST_INDIBA_SESSION_1.getBeginSession(), result.get(0));
+        assertEquals(TEST_INDIBA_SESSION_2.getBeginSession(), result.get(1));
 
         verify(indibaSessionRepository).findAllByPatientId(new PatientId(1));
     }
@@ -53,7 +53,7 @@ public class GetIndibaSessionFromPatientServiceTest {
 
         when(indibaSessionRepository.findAllByPatientId(new PatientId(1))).thenReturn(List.of());
 
-        List<IndibaSession> result = indibaSessionService.getIndibaSessionsFromPatient(new PatientId(1));
+        List<Date> result = indibaSessionService.getIndibaSessionsFromPatient(new PatientId(1));
 
         assertNotNull(result);
         assertEquals(0, result.size());

@@ -47,7 +47,7 @@ public class GetIndibaSessionFromPatientControllerTest {
     @Test
     public void givenValidPatientId_whenGetIndibaSessionsFromPatient_thenReturnsSessions() {
         given(getIndibaSessionFromPatientUseCase.getIndibaSessionsFromPatient(TEST_PATIENT.getId()))
-                .willReturn(List.of(TEST_INDIBA_SESSION_1, TEST_INDIBA_SESSION_2));
+                .willReturn(List.of(TEST_INDIBA_SESSION_1.getBeginSession(), TEST_INDIBA_SESSION_2.getBeginSession()));
 
         RestAssuredMockMvc.given()
                 .when()
