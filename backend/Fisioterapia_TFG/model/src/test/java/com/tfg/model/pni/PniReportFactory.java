@@ -8,10 +8,9 @@ public class PniReportFactory {
     public static Double HRV = 65.0;
     public static int STRESS = 3;
 
-    public static PniReport createTestPniReport(com.tfg.patient.Patient patient, java.time.LocalDate reportDate, int NTRS) {
+    public static PniReport createTestPniReport(com.tfg.patient.Patient patient, int NTRS) {
         return new PniReport(
                 patient,
-                reportDate,
                 HOURS_ASLEEP,
                 HRV,
                 STRESS,

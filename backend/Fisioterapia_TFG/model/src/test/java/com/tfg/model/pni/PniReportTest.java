@@ -14,7 +14,6 @@ public class PniReportTest {
     private static final Patient TEST_PATIENT = PatientFactory.createTestPatient("hola@gmail.com", "85729487J");
     private static final PniReport TEST_PNI_REPORT = PniReportFactory.createTestPniReport(
             TEST_PATIENT,
-            LocalDate.of(2026, 5, 20),
             5
     );
 
@@ -36,7 +35,6 @@ public class PniReportTest {
         try {
             new PniReport(
                     TEST_PATIENT,
-                    LocalDate.of(2026, 5, 20),
                     -5.0,
                     65.0,
                     3,
@@ -49,7 +47,6 @@ public class PniReportTest {
         try {
             new PniReport(
                     TEST_PATIENT,
-                    LocalDate.of(2026, 5, 20),
                     7.5,
                     -10.0,
                     3,
@@ -62,7 +59,6 @@ public class PniReportTest {
         try {
             new PniReport(
                     TEST_PATIENT,
-                    LocalDate.of(2026, 5, 20),
                     7.5,
                     65.0,
                     -1,
@@ -75,7 +71,6 @@ public class PniReportTest {
         try {
             new PniReport(
                     TEST_PATIENT,
-                    LocalDate.of(2026, 5, 20),
                     7.5,
                     65.0,
                     3,

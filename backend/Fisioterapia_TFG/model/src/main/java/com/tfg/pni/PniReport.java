@@ -23,11 +23,11 @@ public class PniReport {
     private int ntrs;
     private List<String> trainingLoads; // TODO: Change to TrainingLoad class when created
 
-    public PniReport(Patient patient, LocalDate reportDate, Double hours_asleep, Double hrv, int stress, int ntrs) {
+    public PniReport(Patient patient, Double hours_asleep, Double hrv, int stress, int ntrs) {
         checkDomain(ntrs, hours_asleep, hrv, stress);
         this.id = new PniReportId(ThreadLocalRandom.current().nextInt(1_000_000));
         this.patient = patient;
-        this.reportDate = reportDate;
+        this.reportDate = LocalDate.now();
         this.hours_asleep = hours_asleep;
         this.hrv = hrv;
         this.stress = stress;

@@ -23,7 +23,6 @@ public class GetPniReportServiceTest {
     private static final Patient TEST_PATIENT = PatientFactory.createTestPatient("hola@gmail.com", "85729487J");
     private static final PniReport TEST_PNI_REPORT = PniReportFactory.createTestPniReport(
             TEST_PATIENT,
-            LocalDate.of(2026, 5, 20),
             5
     );
     private static final PniReportId INVALID_ID = new PniReportId(99);
