@@ -143,10 +143,14 @@ Posa aquesta commanda en una terminal Linux dintre de l'entorn IntelliJ.
 
 ```
 cp ./backend/Fisioterapia_TFG/bootstrap/src/main/resources/.env.example ./backend/Fisioterapia_TFG/bootstrap/src/main/resources/.env
+
+o
+
+cp ./bootstrap/src/main/resources/.env.example ./bootstrap/src/main/resources/.env
 ```
 <h3> Configurar la base de dades </h3>
 
-Entra dintre de la carpeta del backend del projecte en una terminal Linux de IntelliJ.
+En cas de que estiguis en una altre carpeta, entra dintre de la carpeta del backend del projecte en una terminal Linux de IntelliJ.
 
 ```
 cd ./backend/Fisioterapia_TFG
@@ -183,7 +187,7 @@ mvn clean test
 
 ## Application Calls
 
-Un cop hàgiu executat els contenidors de Docker, podeu accedir als endpoints de l'aplicació mitjançant la següent URL base:
+Un cop has executat els contenidors de Docker, pots accedir als endpoints de l'aplicació mitjançant la següent URL:
 
 ``` 
 http://localhost:8080/swagger-ui/index.html
