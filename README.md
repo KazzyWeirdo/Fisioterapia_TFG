@@ -143,9 +143,9 @@ Posa aquesta commanda en una terminal Linux dintre de l'entorn IntelliJ.
 
 ```
 cp ./backend/Fisioterapia_TFG/bootstrap/src/main/resources/.env.example ./backend/Fisioterapia_TFG/bootstrap/src/main/resources/.env
-
+```
 o
-
+```
 cp ./bootstrap/src/main/resources/.env.example ./bootstrap/src/main/resources/.env
 ```
 <h3> Configurar la base de dades </h3>
