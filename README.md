@@ -198,8 +198,6 @@ http://localhost:8080/swagger-ui/index.html
 ## Domain Concepts
 
 ## Test Coverage
-<img width="1430" height="282" alt="image" src="https://github.com/user-attachments/assets/1b7c9250-e205-4517-b1ed-9a4ac90dda34" />
-
-<img width="1290" height="150" alt="image" src="https://github.com/user-attachments/assets/c43514c8-7e5e-49af-8c1c-af0a863dd939" />
-
-<img width="1211" height="172" alt="image" src="https://github.com/user-attachments/assets/93335d58-8fab-4ec1-bd68-5206b1c3abad" />
+<img width="1402" height="330" alt="image" src="https://github.com/user-attachments/assets/6ba512b7-1d17-4f52-ba37-59bcf838a8a2" />
+<img width="1335" height="230" alt="image" src="https://github.com/user-attachments/assets/d3558c9f-082a-4634-9ce4-63027ba6556d" />
+<img width="1232" height="207" alt="image" src="https://github.com/user-attachments/assets/6efb298a-002a-4a5c-9f3a-2b769934e67d" />
