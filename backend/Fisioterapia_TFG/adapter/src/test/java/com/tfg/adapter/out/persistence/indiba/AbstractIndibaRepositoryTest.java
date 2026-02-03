@@ -34,13 +34,13 @@ public abstract class AbstractIndibaRepositoryTest {
         patientRepository.save(testPatient);
 
         testIndibaSession = new IndibaSessionFactory().createTestIndibaSession(
-                testPatient, // Usamos el paciente guardado
+                testPatient,
                 new Date(2023, 11, 30),
                 new Date(2023, 12, 15)
         );
 
         testIndibaSession2 = new IndibaSessionFactory().createTestIndibaSession(
-                testPatient, // Usamos el paciente guardado
+                testPatient,
                 new Date(2023, 10, 30),
                 new Date(2023, 11, 15)
         );
