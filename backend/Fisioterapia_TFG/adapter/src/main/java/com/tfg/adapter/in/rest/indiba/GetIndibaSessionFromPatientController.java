@@ -25,7 +25,7 @@ public class GetIndibaSessionFromPatientController {
 
     @GetMapping("/{patientId}")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Patient found successfully"),
+            @ApiResponse(responseCode = "200", description = "Indiba sessions found successfully"),
             @ApiResponse(responseCode = "204", description = "No Indiba sessions found for the patient"),
             @ApiResponse(responseCode = "404", description = "Patient not found")
     })
