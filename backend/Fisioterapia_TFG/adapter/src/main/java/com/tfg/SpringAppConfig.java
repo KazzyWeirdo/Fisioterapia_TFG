@@ -6,13 +6,20 @@ import com.tfg.port.in.indiba.GetIndibaSessionUseCase;
 import com.tfg.port.in.patient.CreatePatientUseCase;
 import com.tfg.port.in.patient.GetPatientUseCase;
 import com.tfg.port.in.patient.UpdatePatientUseCase;
+import com.tfg.port.in.pni.CreatePniReportUseCase;
+import com.tfg.port.in.pni.GetPniReportUseCase;
+import com.tfg.port.in.pni.GetPniReportsFromPatientUseCase;
 import com.tfg.port.out.persistence.IndibaSessionRepository;
 import com.tfg.port.out.persistence.PatientRepository;
+import com.tfg.port.out.persistence.PniReportRepository;
 import com.tfg.service.indiba.CreateIndibaSessionService;
 import com.tfg.service.indiba.GetIndibaSessionFromPatientService;
 import com.tfg.service.indiba.GetIndibaSessionService;
 import com.tfg.service.patient.CreatePatientService;
 import com.tfg.service.patient.UpdatePatientService;
+import com.tfg.service.pni.CreatePniReportService;
+import com.tfg.service.pni.GetPniReportService;
+import com.tfg.service.pni.GetPniReportsFromPatientService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
@@ -34,6 +41,9 @@ public class SpringAppConfig {
 
     @Autowired
     IndibaSessionRepository indibaSessionRepository;
+
+    @Autowired
+    PniReportRepository pniReportRepository;
 
     @Bean
     GetPatientUseCase getPatientUseCase() {
@@ -63,5 +73,20 @@ public class SpringAppConfig {
     @Bean
     GetIndibaSessionFromPatientUseCase getIndibaSessionFromPatientUseCase() {
         return new GetIndibaSessionFromPatientService(indibaSessionRepository, patientRepository);
+    }
+
+    @Bean
+    GetPniReportUseCase getPniReportUseCase() {
+        return new GetPniReportService(pniReportRepository);
+    }
+
+    @Bean
+    GetPniReportsFromPatientUseCase getPniReportsFromPatientUseCase() {
+        return new GetPniReportsFromPatientService(pniReportRepository, patientRepository);
+    }
+
+    @Bean
+    CreatePniReportUseCase createPniReportUseCase() {
+        return new CreatePniReportService(pniReportRepository);
     }
 }
