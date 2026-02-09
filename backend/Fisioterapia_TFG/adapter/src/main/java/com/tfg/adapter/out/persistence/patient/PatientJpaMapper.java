@@ -15,6 +15,8 @@ public class PatientJpaMapper {
         entity.setEmail(patient.getEmail().value());
         entity.setPhoneNumber(patient.getPhoneNumber());
         entity.setDateOfBirth(patient.getDateOfBirth());
+        entity.setPolarAccessToken(patient.getPolarAccessToken());
+        entity.setPolarUserId(patient.getPolarUserId());
         return entity;
     }
 
@@ -28,7 +30,9 @@ public class PatientJpaMapper {
                 entity.getSurname(),
                 entity.getSecondSurname(),
                 entity.getDateOfBirth(),
-                entity.getPhoneNumber()
+                entity.getPhoneNumber(),
+                entity.getPolarAccessToken(),
+                entity.getPolarUserId()
         );
     }
 }
