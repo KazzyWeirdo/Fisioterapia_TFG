@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Component
 public class PolarRepositoryAdapter implements PolarRepository {
@@ -33,12 +34,14 @@ public class PolarRepositoryAdapter implements PolarRepository {
 
     @Override
     public String generateAuthUrl(String state) {
-        return authUri +
-                "?response_type=code" +
-                "&client_id=" + clientId +
-                "&redirect_uri=" + redirectUri +
-                "&scope=accesslink.read_daily_activity%20accesslink.read_exercises%20accesslink.read_physical_info" +
-                "&state=" + state;
+        return UriComponentsBuilder.fromHttpUrl(authUri)
+                .queryParam("response_type", "code")
+                .queryParam("client_id", clientId)
+                .queryParam("redirect_uri", redirectUri)
+                .queryParam("scope", "accesslink.read_all")
+                .queryParam("state", state)
+                .build()
+                .toUriString();
     }
 
     @Override

@@ -39,6 +39,8 @@ public class PolarRepositoryAdapterTest {
         ReflectionTestUtils.setField(polarRepositoryAdapter, "clientId", "mi-fake-id");
         ReflectionTestUtils.setField(polarRepositoryAdapter, "clientSecret", "mi-fake-secret");
         ReflectionTestUtils.setField(polarRepositoryAdapter, "tokenUri", "https://token.polar.com");
+        ReflectionTestUtils.setField(polarRepositoryAdapter, "authUri", "https://token.polar.com");
+        ReflectionTestUtils.setField(polarRepositoryAdapter, "redirectUri", "https://token.polar.com");
         ReflectionTestUtils.setField(polarRepositoryAdapter, "restTemplate", restTemplate);
     }
 
@@ -51,7 +53,7 @@ public class PolarRepositoryAdapterTest {
         assert authUrl.contains("response_type=code");
         assert authUrl.contains("client_id=");
         assert authUrl.contains("redirect_uri=");
-        assert authUrl.contains("scope=accesslink.read_daily_activity%20accesslink.read_exercises%20accesslink.read_physical_info");
+        assert authUrl.contains("scope=accesslink.read_all");
         assert authUrl.contains("state=" + state);
     }
 

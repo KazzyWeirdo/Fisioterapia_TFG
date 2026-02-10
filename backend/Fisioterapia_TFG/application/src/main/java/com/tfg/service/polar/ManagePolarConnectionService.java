@@ -20,7 +20,7 @@ public class ManagePolarConnectionService implements ManagePolarConnectionUseCas
 
     @Override
     public String initiateConnection(PatientId patientId) {
-        return polarRepository.generateAuthUrl(patientId.toString());
+        return polarRepository.generateAuthUrl(String.valueOf(patientId.value()));
     }
 
     @Override

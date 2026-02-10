@@ -26,7 +26,7 @@ public class ManagePolarConnectionServiceTest {
     public void givenPatientId_initiateConnection() {
         managePolarConnectionService.initiateConnection(TEST_PATIENT.getId());
 
-        verify(polarRepository).generateAuthUrl(TEST_PATIENT.getId().toString());
+        verify(polarRepository).generateAuthUrl(String.valueOf(TEST_PATIENT.getId().value()));
     }
 
     @Test
