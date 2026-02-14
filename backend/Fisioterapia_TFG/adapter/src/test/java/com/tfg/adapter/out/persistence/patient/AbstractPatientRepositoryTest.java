@@ -7,9 +7,11 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 public abstract class AbstractPatientRepositoryTest {
 
@@ -132,5 +134,25 @@ public abstract class AbstractPatientRepositoryTest {
         assertThat(optionalPatient.get().getSurname()).isEqualTo(updatedPatient.getSurname());
         assertThat(optionalPatient.get().getSecondSurname()).isEqualTo(updatedPatient.getSecondSurname());
         assertThat(optionalPatient.get().getPhoneNumber()).isEqualTo(updatedPatient.getPhoneNumber());
+    }
+
+    @Test
+    public void whenSearchingForPatientsWithTokens_thenGiveListOfPatients() {
+        TEST_PATIENT.setPolarUserId(1L);
+        TEST_PATIENT.setPolarAccessToken("token1");
+        TEST_PATIENT2.setPolarAccessToken("token2");
+        TEST_PATIENT2.setPolarUserId(2L);
+        patientRepository.save(TEST_PATIENT);
+        patientRepository.save(TEST_PATIENT2);
+
+        List<Patient> patients = patientRepository.findAllWithPolarToken();
+
+        assertThat(patients).hasSize(2);
+        assertThat(patients.get(0).getId().value()).isEqualTo(TEST_PATIENT.getId().value());
+        assertThat(patients.get(0).getPolarAccessToken()).isEqualTo(TEST_PATIENT.getPolarAccessToken());
+        assertThat(patients.get(0).getPolarUserId()).isEqualTo(TEST_PATIENT.getPolarUserId());
+        assertThat(patients.get(1).getId().value()).isEqualTo(TEST_PATIENT2.getId().value());
+        assertThat(patients.get(1).getPolarAccessToken()).isEqualTo(TEST_PATIENT2.getPolarAccessToken());
+        assertThat(patients.get(1).getPolarUserId()).isEqualTo(TEST_PATIENT2.getPolarUserId());
     }
 }

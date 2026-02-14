@@ -39,7 +39,7 @@ public class PniReportJpaRepository implements PniReportRepository {
     public Optional<PniReport> findById(PniReportId id) {
         Optional<PniReport> pniReport = pniReportJpaDataRepository.findById(id.value())
                 .map(PniReportJpaMapper::toModelEntity);
-        return pniReport; // TODO: Change for Model.
+        return pniReport;
     }
 
     @Override

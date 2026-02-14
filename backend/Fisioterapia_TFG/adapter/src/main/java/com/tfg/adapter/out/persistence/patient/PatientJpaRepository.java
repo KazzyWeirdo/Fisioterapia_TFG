@@ -6,6 +6,7 @@ import com.tfg.port.out.persistence.PatientRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -61,5 +62,11 @@ public class PatientJpaRepository implements PatientRepository {
     public Optional<Patient> findByDni(com.tfg.patient.PatientDNI dni) {
         Optional<PatientJpaEntity> patientJpaEntity = patientJpaDataRepository.findByDni(dni.value());
         return patientJpaEntity.map(PatientJpaMapper::toModelEntity);
+    }
+
+    @Override
+    public List<Patient> findAllWithPolarToken() {
+        List<PatientJpaEntity> patientJpaEntities = patientJpaDataRepository.findAllWithPolarToken();
+        return patientJpaEntities.stream().map(PatientJpaMapper::toModelEntity).toList();
     }
 }

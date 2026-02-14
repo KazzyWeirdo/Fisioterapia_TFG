@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -28,4 +29,7 @@ public interface PatientJpaDataRepository extends JpaRepository<PatientJpaEntity
             @Param("dateOfBirth") LocalDate dateOfBirth,
             @Param("phoneNumber") int phoneNumber
     );
+
+    @Query("SELECT p FROM PatientJpaEntity p WHERE p.polarAccessToken IS NOT NULL")
+    List<PatientJpaEntity> findAllWithPolarToken();
 }
