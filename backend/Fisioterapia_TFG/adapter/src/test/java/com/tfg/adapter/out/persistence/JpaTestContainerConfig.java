@@ -7,6 +7,9 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @Profile("test")
 @Testcontainers
 public class JpaTestContainerConfig {
+    static {
+        System.setProperty("testcontainers.ryuk.disabled", "true");
+    }
     static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15-alpine");
 
     static {
