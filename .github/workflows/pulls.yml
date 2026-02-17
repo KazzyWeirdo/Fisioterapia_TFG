@@ -16,6 +16,8 @@ jobs:
       DOCKER_HOST: tcp://localhost:2375
       DOCKER_TLS_VERIFY: 0
       TESTCONTAINERS_HOST_OVERRIDE: localhost
+      TESTCONTAINERS_RYUK_DISABLED: "true"
+      TESTCONTAINERS_CHECKS_DISABLE: "true"
 
     steps:
       - name: Checkout
@@ -27,6 +29,9 @@ jobs:
           java-version: '21'
           distribution: 'corretto'
           cache: maven
+
+      - name: Check Docker Version from Container
+        run: docker -H tcp://localhost:2375 version
 
       - name: Run Tests
         run: mvn -f backend/Fisioterapia_TFG/pom.xml clean verify
