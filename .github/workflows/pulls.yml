@@ -27,11 +27,25 @@ jobs:
           sudo dockerd > /dev/null 2>&1 &
             sleep 10
 
+      - name: Wait for Docker to be up
+        run: |
+          retries=10
+          until docker info > /dev/null 2>&1; do
+            sleep 2
+            retries=$((retries - 1))
+            if [ $retries -le 0 ]; then
+              echo "Docker not available"
+              exit 1
+            fi
+          done
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
       - name: Run Tests
         run: mvn -f backend/Fisioterapia_TFG/pom.xml clean verify
+        env:
+          DOCKER_HOST: tcp://localhost:2375
 
       - name: Upload Test Reports
         if: always()
