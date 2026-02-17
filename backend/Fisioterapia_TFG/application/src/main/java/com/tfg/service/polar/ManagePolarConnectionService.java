@@ -20,6 +20,9 @@ public class ManagePolarConnectionService implements ManagePolarConnectionUseCas
 
     @Override
     public String initiateConnection(PatientId patientId) {
+        patientRepository.findById(patientId)
+                .orElseThrow(InvalidIdException::new);
+
         return polarRepository.generateAuthUrl(String.valueOf(patientId.value()));
     }
 

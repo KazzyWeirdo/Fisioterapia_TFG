@@ -19,7 +19,6 @@ import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Consumer;
 
 @Component
 public class PolarRepositoryAdapter implements PolarRepository {
@@ -169,45 +168,4 @@ public class PolarRepositoryAdapter implements PolarRepository {
             return Optional.empty();
         }
     }
-
-    protected void processTransactionRaw(String txUrl, HttpEntity<?> entity, Consumer<JsonNode> dataExtractor) {
-        try {
-            ResponseEntity<JsonNode> txResponse = restTemplate.postForEntity(txUrl, entity, JsonNode.class);
-
-            if (txResponse.getStatusCode() == HttpStatus.NO_CONTENT || txResponse.getBody() == null) {
-                return;
-            }
-
-            JsonNode txJson = txResponse.getBody();
-            String transactionId = txJson.get("transaction-id").asText();
-            String resourceUrl = txJson.get("resource-uri").asText();
-
-            ResponseEntity<JsonNode> listResponse = restTemplate.exchange(
-                    resourceUrl, HttpMethod.GET, entity, JsonNode.class);
-
-            JsonNode listJson = listResponse.getBody();
-
-            listJson.fields().forEachRemaining(entry -> {
-                JsonNode urlArray = entry.getValue();
-                if (urlArray.isArray()) {
-                    for (JsonNode urlNode : urlArray) {
-                        String dataUrl = urlNode.asText();
-
-                        ResponseEntity<JsonNode> dataResponse = restTemplate.exchange(
-                                dataUrl, HttpMethod.GET, entity, JsonNode.class);
-
-                        if (dataResponse.getBody() != null) {
-                            dataExtractor.accept(dataResponse.getBody());
-                        }
-                    }
-                }
-            });
-
-            String commitUrl = txUrl + "/" + transactionId;
-            restTemplate.exchange(commitUrl, HttpMethod.PUT, entity, Void.class);
-
-        } catch (Exception e) {
-            // Ignore no content responses, just means no data for that transaction
-        }
-        }
 }
