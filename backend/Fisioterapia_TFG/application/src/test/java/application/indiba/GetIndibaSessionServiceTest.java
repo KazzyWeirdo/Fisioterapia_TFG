@@ -33,7 +33,7 @@ public class GetIndibaSessionServiceTest {
         IndibaSession result = indibaSessionService.getIndibaSession(EXISTING_ID);
 
         assertNotNull(result);
-        assertEquals(result.getId(), result.getId());
+        assertEquals(result.getId(), TEST_INDIBA_SESSION.getId());
 
         verify(indibaSessionRepository).findById(EXISTING_ID);
     }

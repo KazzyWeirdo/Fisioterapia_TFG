@@ -144,9 +144,13 @@ Posa aquesta commanda en una terminal Linux dintre de l'entorn IntelliJ.
 ```
 cp ./backend/Fisioterapia_TFG/bootstrap/src/main/resources/.env.example ./backend/Fisioterapia_TFG/bootstrap/src/main/resources/.env
 ```
+o
+```
+cp ./bootstrap/src/main/resources/.env.example ./bootstrap/src/main/resources/.env
+```
 <h3> Configurar la base de dades </h3>
 
-Entra dintre de la carpeta del backend del projecte en una terminal Linux de IntelliJ.
+En cas de que estiguis en una altre carpeta, entra dintre de la carpeta del backend del projecte en una terminal Linux de IntelliJ.
 
 ```
 cd ./backend/Fisioterapia_TFG
@@ -183,7 +187,7 @@ mvn clean test
 
 ## Application Calls
 
-Un cop hàgiu executat els contenidors de Docker, podeu accedir als endpoints de l'aplicació mitjançant la següent URL base:
+Un cop has executat els contenidors de Docker, pots accedir als endpoints de l'aplicació mitjançant la següent URL:
 
 ``` 
 http://localhost:8080/swagger-ui/index.html
@@ -194,8 +198,6 @@ http://localhost:8080/swagger-ui/index.html
 ## Domain Concepts
 
 ## Test Coverage
-<img width="1430" height="282" alt="image" src="https://github.com/user-attachments/assets/1b7c9250-e205-4517-b1ed-9a4ac90dda34" />
-
-<img width="1290" height="150" alt="image" src="https://github.com/user-attachments/assets/c43514c8-7e5e-49af-8c1c-af0a863dd939" />
-
-<img width="1211" height="172" alt="image" src="https://github.com/user-attachments/assets/93335d58-8fab-4ec1-bd68-5206b1c3abad" />
+<img width="1402" height="330" alt="image" src="https://github.com/user-attachments/assets/6ba512b7-1d17-4f52-ba37-59bcf838a8a2" />
+<img width="1335" height="230" alt="image" src="https://github.com/user-attachments/assets/d3558c9f-082a-4634-9ce4-63027ba6556d" />
+<img width="1232" height="207" alt="image" src="https://github.com/user-attachments/assets/6efb298a-002a-4a5c-9f3a-2b769934e67d" />

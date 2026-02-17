@@ -9,6 +9,7 @@ import com.tfg.port.out.persistence.IndibaSessionRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,8 +43,7 @@ public class IndibaJpaRepository implements IndibaSessionRepository {
     }
 
     @Override
-    public List<IndibaSession> findAllByPatientId(PatientId patientId) {
-        List<IndibaJpaEntity> indibaJpaEntities = indibaJpaDataRepository.findAllByPatientId(patientId.value());
-        return IndibaJpaMapper.toModelEntities(indibaJpaEntities);
+    public List<Date> findAllByPatientId(PatientId patientId) {
+        return indibaJpaDataRepository.findAllByPatientId(patientId.value());
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -29,11 +30,10 @@ public class GetIndibaSessionFromPatientController {
             @ApiResponse(responseCode = "204", description = "No Indiba sessions found for the patient"),
             @ApiResponse(responseCode = "404", description = "Patient not found")
     })
-    public ResponseEntity<List<IndibaWebModel>> getIndibaSessionsFromPatient(@PathVariable("patientId") String grabbedPatientId) {
+    public ResponseEntity<List<Date>> getIndibaSessionsFromPatient(@PathVariable("patientId") String grabbedPatientId) {
         PatientId patientId = PatientIdParser.parsePatientId(grabbedPatientId);
-        List<IndibaWebModel> indibaSessions = getIndibaSessionFromPatientUseCase.getIndibaSessionsFromPatient(patientId)
+        List<Date> indibaSessions = getIndibaSessionFromPatientUseCase.getIndibaSessionsFromPatient(patientId)
                 .stream()
-                .map(IndibaWebModel::fromDomainModel)
                 .toList();
         if (indibaSessions.isEmpty()) {
             return ResponseEntity.noContent().build();

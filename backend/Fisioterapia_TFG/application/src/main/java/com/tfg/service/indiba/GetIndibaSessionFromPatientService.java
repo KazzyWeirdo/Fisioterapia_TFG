@@ -7,6 +7,7 @@ import com.tfg.port.in.indiba.GetIndibaSessionFromPatientUseCase;
 import com.tfg.port.out.persistence.IndibaSessionRepository;
 import com.tfg.port.out.persistence.PatientRepository;
 
+import java.util.Date;
 import java.util.List;
 
 public class GetIndibaSessionFromPatientService implements GetIndibaSessionFromPatientUseCase {
@@ -20,7 +21,7 @@ public class GetIndibaSessionFromPatientService implements GetIndibaSessionFromP
     }
 
     @Override
-    public List<IndibaSession> getIndibaSessionsFromPatient(PatientId patientId) {
+    public List<Date> getIndibaSessionsFromPatient(PatientId patientId) {
         patientRepository.findById(patientId)
                 .orElseThrow(InvalidIdException::new);
 
