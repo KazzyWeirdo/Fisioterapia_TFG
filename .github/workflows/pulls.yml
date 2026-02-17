@@ -5,7 +5,7 @@ on:
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
@@ -17,6 +17,9 @@ jobs:
           java-version: '21'
           distribution: 'corretto'
           cache: maven
+
+      - name: Fix Docker Socket Permissions
+        run: sudo chmod 666 /var/run/docker.sock
 
       - name: Run Tests
         run: mvn -f backend/Fisioterapia_TFG/pom.xml clean verify
