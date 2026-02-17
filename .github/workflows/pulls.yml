@@ -10,11 +10,12 @@ jobs:
       docker:
         image: docker:24.0-dind
         options: --privileged
+        DOCKER_TLS_CERTDIR: ""
         ports:
           - 2375:2375
     env:
       DOCKER_HOST: tcp://localhost:2375
-      DOCKER_TLS_VERIFY: 0
+      DOCKER_TLS_VERIFY: ""
       TESTCONTAINERS_HOST_OVERRIDE: localhost
       TESTCONTAINERS_RYUK_DISABLED: "true"
       TESTCONTAINERS_CHECKS_DISABLE: "true"
@@ -30,8 +31,8 @@ jobs:
           distribution: 'corretto'
           cache: maven
 
-      - name: Check Docker Version from Container
-        run: docker -H tcp://localhost:2375 version
+      - name: Check Docker Version
+        run: docker version
 
       - name: Run Tests
         run: mvn -f backend/Fisioterapia_TFG/pom.xml clean verify
