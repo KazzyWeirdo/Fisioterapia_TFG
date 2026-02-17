@@ -194,9 +194,9 @@ http://localhost:8080/swagger-ui/index.html
 ```
 
 ## Arquitecture Calls
-
+.
 ## Domain Concepts
-
+.
 ## Test Coverage
 <img width="1402" height="330" alt="image" src="https://github.com/user-attachments/assets/6ba512b7-1d17-4f52-ba37-59bcf838a8a2" />
 <img width="1335" height="230" alt="image" src="https://github.com/user-attachments/assets/d3558c9f-082a-4634-9ce4-63027ba6556d" />
