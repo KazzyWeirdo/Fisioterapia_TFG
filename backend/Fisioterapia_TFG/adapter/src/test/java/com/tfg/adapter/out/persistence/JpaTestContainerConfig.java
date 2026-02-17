@@ -4,17 +4,16 @@ import org.springframework.context.annotation.Profile;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+@Profile("test")
 @Testcontainers
 public class JpaTestContainerConfig {
-    private static PostgreSQLContainer<?> container;
+    static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15-alpine");
 
-    public static synchronized PostgreSQLContainer<?> getInstance() {
-        if (container == null) {
-            container = new PostgreSQLContainer<>("postgres:15-alpine")
-                    .withReuse(true);
+    static {
+        postgres.start();
+    }
 
-            container.start();
-        }
-        return container;
+    public static PostgreSQLContainer<?> getInstance() {
+        return postgres;
     }
 }
