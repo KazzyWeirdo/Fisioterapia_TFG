@@ -9,9 +9,12 @@ import com.tfg.port.in.patient.UpdatePatientUseCase;
 import com.tfg.port.in.pni.CreatePniReportUseCase;
 import com.tfg.port.in.pni.GetPniReportUseCase;
 import com.tfg.port.in.pni.GetPniReportsFromPatientUseCase;
+import com.tfg.port.in.polar.ManagePolarConnectionUseCase;
+import com.tfg.port.in.polar.SyncPolarDataUseCase;
 import com.tfg.port.out.persistence.IndibaSessionRepository;
 import com.tfg.port.out.persistence.PatientRepository;
 import com.tfg.port.out.persistence.PniReportRepository;
+import com.tfg.port.out.polar.PolarRepository;
 import com.tfg.service.indiba.CreateIndibaSessionService;
 import com.tfg.service.indiba.GetIndibaSessionFromPatientService;
 import com.tfg.service.indiba.GetIndibaSessionService;
@@ -20,6 +23,8 @@ import com.tfg.service.patient.UpdatePatientService;
 import com.tfg.service.pni.CreatePniReportService;
 import com.tfg.service.pni.GetPniReportService;
 import com.tfg.service.pni.GetPniReportsFromPatientService;
+import com.tfg.service.polar.ManagePolarConnectionService;
+import com.tfg.service.polar.SyncPolarDataService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
@@ -44,6 +49,9 @@ public class SpringAppConfig {
 
     @Autowired
     PniReportRepository pniReportRepository;
+
+    @Autowired
+    PolarRepository polarRepository;
 
     @Bean
     GetPatientUseCase getPatientUseCase() {
@@ -89,4 +97,10 @@ public class SpringAppConfig {
     CreatePniReportUseCase createPniReportUseCase() {
         return new CreatePniReportService(pniReportRepository);
     }
+
+    @Bean
+    ManagePolarConnectionUseCase managePolarConnectionUseCase() { return new ManagePolarConnectionService(polarRepository, patientRepository);}
+
+    @Bean
+    SyncPolarDataUseCase syncPolarDataUseCase() { return new SyncPolarDataService(patientRepository, pniReportRepository, polarRepository);}
 }
