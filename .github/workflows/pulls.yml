@@ -19,7 +19,7 @@ jobs:
           cache: maven
 
       - name: Run Tests
-        run: mvn -f backend/Fisioterapia_TFG/pom.xml clean verify
+        run: mvn -f backend/Fisioterapia_TFG/pom.xml clean verify -e -Dsurefire.useFile=false
 
       - name: Upload Test Reports
         if: always()
