@@ -6,10 +6,16 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-22.04
+    services:
+      docker:
+        image: docker:24.0-dind
+        options: --privileged
+        ports:
+          - 2375:2375
     env:
-      TESTCONTAINERS_RYUK_DISABLED: "true"
-      TESTCONTAINERS_CHECKS_DISABLE: "true"
-      DOCKER_HOST: "unix:///var/run/docker.sock"
+      DOCKER_HOST: tcp://localhost:2375
+      DOCKER_TLS_VERIFY: 0
+      TESTCONTAINERS_HOST_OVERRIDE: localhost
 
     steps:
       - name: Checkout
