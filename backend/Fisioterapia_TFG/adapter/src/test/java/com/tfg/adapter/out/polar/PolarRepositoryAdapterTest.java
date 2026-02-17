@@ -1,6 +1,7 @@
 package com.tfg.adapter.out.polar;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.tfg.model.patient.PatientFactory;
 import com.tfg.patient.Patient;
@@ -12,11 +13,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.JsonNode;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -95,77 +99,42 @@ public class PolarRepositoryAdapterTest {
 
     @Test
     void testFetchDailyData_Success() {
-        String accessToken = "fake-token";
-        Long userId = 12345L;
+        String polarAccessToken = "testToken";
+        Long polarUserId = 123L;
+        String dateStr = LocalDate.now().minusDays(1).toString();
 
-        doNothing().when(polarRepositoryAdapter).processTransactionRaw(anyString(), any(HttpEntity.class), any());
+        JsonNodeFactory factory = JsonNodeFactory.instance;
 
-        Optional<PniReport> resultOpt = polarRepositoryAdapter.fetchDailyData(accessToken, userId);
+        ObjectNode mockSleep = factory.objectNode();
+        mockSleep.put("sleep_start_time", "2023-10-27T22:00:00+00:00");
+        mockSleep.put("sleep_end_time", "2023-10-28T06:00:00+00:00");
 
-        verify(polarRepositoryAdapter, times(2)).processTransactionRaw(urlCaptor.capture(), any(), callbackCaptor.capture());
+        ObjectNode mockRecharge = factory.objectNode();
+        ObjectNode ansNode = mockRecharge.putObject("ans_charge_status");
+        ansNode.put("heart_rate_variability_rmssd", 55.5);
+        ansNode.put("ans_charge", -2.0);
 
-        List<String> urls = urlCaptor.getAllValues();
-        List<Consumer<JsonNode>> callbacks = callbackCaptor.getAllValues();
+        String expectedSleepUrl = "https://www.polaraccesslink.com/v3/users/" + polarUserId + "/sleep/" + dateStr;
+        when(restTemplate.exchange(
+                eq(expectedSleepUrl),
+                eq(HttpMethod.GET),
+                any(HttpEntity.class),
+                eq(JsonNode.class))
+        ).thenReturn(new ResponseEntity<JsonNode>(mockSleep, HttpStatus.OK));
 
-        int sleepIndex = urls.get(0).contains("/sleep") ? 0 : 1;
+        String expectedRechargeUrl = "https://www.polaraccesslink.com/v3/users/" + polarUserId + "/nightly-recharge/" + dateStr;
+        when(restTemplate.exchange(
+                eq(expectedRechargeUrl),
+                eq(HttpMethod.GET),
+                any(HttpEntity.class),
+                eq(JsonNode.class))
+        ).thenReturn(new ResponseEntity<JsonNode>(mockRecharge, HttpStatus.OK));
 
-        ObjectNode sleepJson = objectMapper.createObjectNode();
-        sleepJson.put("sleep_start_time", "2023-10-27T22:00:00Z");
-        sleepJson.put("sleep_end_time", "2023-10-28T06:00:00Z");
+        Optional<PniReport> result = polarRepositoryAdapter.fetchDailyData(polarAccessToken, polarUserId);
 
-        callbacks.get(sleepIndex).accept(sleepJson);
-
-        int rechargeIndex = urls.get(0).contains("/nightly-recharge") ? 0 : 1;
-
-        ObjectNode rechargeJson = objectMapper.createObjectNode();
-        ObjectNode ansStatus = rechargeJson.putObject("ans_charge_status");
-        ansStatus.put("heart_rate_variability_rmssd", 55.5);
-        ansStatus.put("ans_charge", 10);
-
-        callbacks.get(rechargeIndex).accept(rechargeJson);
-    }
-
-
-    @Test
-    void testFetchDailyData_WithDoAnswer_Success() {
-        String accessToken = "fake-token";
-        Long userId = 12345L;
-        doAnswer(invocation -> {
-            String url = invocation.getArgument(0);
-            Consumer<JsonNode> callback = invocation.getArgument(2);
-
-            if (url.endsWith("/sleep")) {
-                ObjectNode sleepJson = objectMapper.createObjectNode();
-                sleepJson.put("sleep_start_time", "2023-10-27T22:00:00.000Z");
-                sleepJson.put("sleep_end_time", "2023-10-28T06:30:00.000Z");
-                callback.accept(sleepJson);
-            } else if (url.endsWith("/nightly-recharge")) {
-                ObjectNode rechargeJson = objectMapper.createObjectNode();
-                ObjectNode ansStatus = rechargeJson.putObject("ans_charge_status");
-                ansStatus.put("heart_rate_variability_rmssd", 60.0);
-                ansStatus.put("ans_charge", 5);
-                callback.accept(rechargeJson);
-            }
-            return null;
-        }).when(polarRepositoryAdapter).processTransactionRaw(anyString(), any(HttpEntity.class), any());
-
-        Optional<PniReport> resultOpt = polarRepositoryAdapter.fetchDailyData(accessToken, userId);
-
-        assertTrue(resultOpt.isPresent());
-        PniReport report = resultOpt.get();
-
-        assertEquals(8.5, report.getHours_asleep(), 0.01);
-        assertEquals(60.0, report.getHrv(), 0.01);
-        assertEquals(5, report.getStress());
-    }
-
-    @Test
-    void testFetchDailyData_ExceptionHandled() {
-        doThrow(new RuntimeException("API Error"))
-                .when(polarRepositoryAdapter).processTransactionRaw(anyString(), any(), any());
-
-        Optional<PniReport> result = polarRepositoryAdapter.fetchDailyData("token", 1L);
-
-        assertFalse(result.isPresent());
+        assertThat(result).isPresent();
+        assertThat(result.get().getHours_asleep()).isEqualTo(8.0);
+        assertThat(result.get().getHrv()).isEqualTo(55.5);
+        assertThat(result.get().getStress()).isEqualTo(-2);
     }
 }

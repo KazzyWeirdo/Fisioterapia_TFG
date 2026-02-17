@@ -7,11 +7,13 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -71,36 +73,50 @@ public class PolarRepositoryAdapter implements PolarRepository {
 
     @Override
     public Optional<PniReport> fetchDailyData(String polarAccessToken, Long polarUserId) {
-        boolean dataFound = false;
-        PniReport result = new PniReport(null, 1.0, 1.0, 1, 1);
+        LocalDate targetDate = LocalDate.now().minusDays(1);
+
+        String dateStr = targetDate.toString();
+
+        PniReport result = new PniReport(null, 0.0, 0.0, 0, 0);
+        boolean hasSleep = false;
+        boolean hasRecharge = false;
 
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(polarAccessToken);
         headers.set("Accept", "application/json");
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
-        // Obtain Sleep
         try {
-            String sleepTxUrl = "https://www.polaraccesslink.com/v3/users/" + polarUserId + "/sleep";
-            processTransactionRaw(sleepTxUrl, entity, (jsonRoot) -> {
-                String startStr = jsonRoot.get("sleep_start_time").asText();
-                String endStr = jsonRoot.get("sleep_end_time").asText();
+            String sleepUrl = "https://www.polaraccesslink.com/v3/users/sleep/" + dateStr;
+            ResponseEntity<JsonNode> response = restTemplate.exchange(sleepUrl, HttpMethod.GET, entity, JsonNode.class);
+
+            if (response.getBody() != null) {
+                JsonNode sleepJson = response.getBody();
+
+                String startStr = sleepJson.get("sleep_start_time").asText();
+                String endStr = sleepJson.get("sleep_end_time").asText();
+
                 ZonedDateTime startTime = ZonedDateTime.parse(startStr);
                 ZonedDateTime endTime = ZonedDateTime.parse(endStr);
-
                 Duration duration = Duration.between(startTime, endTime);
 
-                double hours = duration.toMinutes() / 60.0;
-                result.setHours_asleep(hours);
-            });
+                result.setHours_asleep(duration.toMinutes() / 60.0);
+                hasSleep = true;
+            }
+        } catch (HttpClientErrorException.NotFound e) {
+            // No hay datos de sueño para hoy, seguimos
+        } catch (Exception e) {
+            System.err.println("Error fetching Sleep: " + e.getMessage());
+        }
 
-            if (result.getHours_asleep() != null) dataFound = true;
+        try {
+            String rechargeUrl = "https://www.polaraccesslink.com/v3/users/nightly-recharge/" + dateStr;
+            ResponseEntity<JsonNode> response = restTemplate.exchange(rechargeUrl, HttpMethod.GET, entity, JsonNode.class);
 
-            String rechargeTxUrl = "https://www.polaraccesslink.com/v3/users/" + polarUserId + "/nightly-recharge";
+            if (response.getBody() != null) {
+                JsonNode rechargeJson = response.getBody();
 
-            processTransactionRaw(rechargeTxUrl, entity, (jsonRoot) -> {
-                JsonNode ansStatus = jsonRoot.path("ans_charge_status");
-
+                JsonNode ansStatus = rechargeJson.path("ans_charge_status");
                 if (!ansStatus.isMissingNode()) {
                     if (ansStatus.has("heart_rate_variability_rmssd")) {
                         result.setHrv(ansStatus.get("heart_rate_variability_rmssd").asDouble());
@@ -108,15 +124,20 @@ public class PolarRepositoryAdapter implements PolarRepository {
                     if (ansStatus.has("ans_charge")) {
                         result.setStress(ansStatus.get("ans_charge").asInt());
                     }
+                    hasRecharge = true;
                 }
-            });
-
-            if (result.getHrv() != null) dataFound = true;
-
+            }
+        } catch (HttpClientErrorException.NotFound e) {
+            // No hay recharge data
         } catch (Exception e) {
-            // Ignore exceptions, just means no sleep data for that day
+            System.err.println("Error fetching Recharge: " + e.getMessage());
         }
-        return dataFound ? Optional.of(result) : Optional.empty();
+
+        if (hasSleep || hasRecharge) {
+            return Optional.of(result);
+        } else {
+            return Optional.empty();
+        }
     }
 
     protected void processTransactionRaw(String txUrl, HttpEntity<?> entity, Consumer<JsonNode> dataExtractor) {
