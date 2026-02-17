@@ -11,6 +11,7 @@ import org.springframework.test.context.DynamicPropertySource;
 public class IndibaRepositoryTest extends AbstractIndibaRepositoryTest {
     @DynamicPropertySource
     static void databaseProperties(DynamicPropertyRegistry registry) {
+        var container = JpaTestContainerConfig.getInstance();
         registry.add("spring.datasource.url", () -> JpaTestContainerConfig.getInstance().getJdbcUrl());
         registry.add("spring.datasource.username", () -> JpaTestContainerConfig.getInstance().getUsername());
         registry.add("spring.datasource.password", () -> JpaTestContainerConfig.getInstance().getPassword());

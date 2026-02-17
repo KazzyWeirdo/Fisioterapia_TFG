@@ -6,16 +6,15 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 @Testcontainers
 public class JpaTestContainerConfig {
-    static {
-        System.setProperty("testcontainers.ryuk.disabled", "true");
-    }
-    static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15-alpine");
+    private static PostgreSQLContainer<?> container;
 
-    static {
-        postgres.start();
-    }
+    public static synchronized PostgreSQLContainer<?> getInstance() {
+        if (container == null) {
+            container = new PostgreSQLContainer<>("postgres:15-alpine")
+                    .withReuse(true);
 
-    public static PostgreSQLContainer<?> getInstance() {
-        return postgres;
+            container.start();
+        }
+        return container;
     }
 }
