@@ -8,7 +8,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class PatientFactory {
 
     public static final PatientId PATIENT_ID = new PatientId(ThreadLocalRandom.current().nextInt(1_000_000));
-    public static PatientGender PATIENT_GENDER = PatientGender.OTHER;
+    public static String PATIENT_GENDER = "OTHER";
     public static String NAME = "Eduardo";
     public static String SURNAME = "Garcia";
     public static String SECOND_SURNAME = "Lopez";
@@ -17,9 +17,8 @@ public class PatientFactory {
 
     public static Patient createTestPatient(String email, String dni) {
         Patient patient = new Patient(
-                PATIENT_ID,
-                new PatientEmail(email),
-                new PatientDNI(dni),
+                email,
+                dni,
                 PATIENT_GENDER,
                 NAME,
                 SURNAME,

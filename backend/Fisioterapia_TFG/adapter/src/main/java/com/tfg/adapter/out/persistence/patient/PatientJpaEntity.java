@@ -30,4 +30,6 @@ public class PatientJpaEntity {
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     private LocalDate dateOfBirth;
+    private String polarAccessToken;
+    private Long polarUserId;
 }

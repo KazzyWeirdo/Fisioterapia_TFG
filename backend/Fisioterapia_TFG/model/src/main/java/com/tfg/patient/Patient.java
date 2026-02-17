@@ -20,6 +20,8 @@ public class Patient {
     private String secondSurname;
     private LocalDate dateOfBirth;
     private int phoneNumber;
+    private String polarAccessToken;
+    private Long polarUserId;
 
     public Patient(String email, String dni, String gender, String name, String surname, String secondSurname, LocalDate dateOfBirth, int phoneNumber){
         this.id = new PatientId(ThreadLocalRandom.current().nextInt(1_000_000));
@@ -31,5 +33,7 @@ public class Patient {
         this.secondSurname = secondSurname;
         this.dateOfBirth = dateOfBirth;
         this.phoneNumber = phoneNumber;
+        this.polarAccessToken = null;
+        this.polarUserId = null;
     }
 }
