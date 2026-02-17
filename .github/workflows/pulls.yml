@@ -6,10 +6,6 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-    services:
-      docker:
-        image: docker:dind
-        options: --privileged
 
     steps:
       - name: Checkout
@@ -23,7 +19,7 @@ jobs:
           cache: maven
 
       - name: Run Tests
-        run: mvn -f backend/Fisioterapia_TFG/pom.xml clean verify -e -Dsurefire.useFile=false
+        run: mvn -f backend/Fisioterapia_TFG/pom.xml clean verify
 
       - name: Upload Test Reports
         if: always()
