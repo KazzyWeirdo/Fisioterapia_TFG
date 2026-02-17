@@ -98,9 +98,28 @@ public class PolarRepositoryAdapterTest {
     }
 
     @Test
-    void testFetchDailyData_Success() {
+    void testRegistreUserInPolar_Success() {
         String polarAccessToken = "testToken";
         Long polarUserId = 123L;
+        String expectedUrl = "https://www.polaraccesslink.com/v3/users";
+
+        when(restTemplate.postForEntity(
+                eq("https://www.polaraccesslink.com/v3/users"),
+                any(HttpEntity.class),
+                eq(String.class))
+        ).thenReturn(new ResponseEntity<>("{ \"member-id\": \"123\" }", HttpStatus.OK));
+
+        polarRepositoryAdapter.registerUserInPolar(polarAccessToken, polarUserId);
+
+        verify(restTemplate, times(1)).postForEntity(
+                eq("https://www.polaraccesslink.com/v3/users"),
+                any(HttpEntity.class),
+                eq(String.class)
+        );
+    }
+
+    @Test
+    void testFetchDailyData_Success() {
         String dateStr = LocalDate.now().minusDays(1).toString();
 
         JsonNodeFactory factory = JsonNodeFactory.instance;
@@ -114,7 +133,7 @@ public class PolarRepositoryAdapterTest {
         ansNode.put("heart_rate_variability_rmssd", 55.5);
         ansNode.put("ans_charge", -2.0);
 
-        String expectedSleepUrl = "https://www.polaraccesslink.com/v3/users/" + polarUserId + "/sleep/" + dateStr;
+        String expectedSleepUrl = "https://www.polaraccesslink.com/v3/users/sleep/" + dateStr;
         when(restTemplate.exchange(
                 eq(expectedSleepUrl),
                 eq(HttpMethod.GET),
@@ -122,7 +141,7 @@ public class PolarRepositoryAdapterTest {
                 eq(JsonNode.class))
         ).thenReturn(new ResponseEntity<JsonNode>(mockSleep, HttpStatus.OK));
 
-        String expectedRechargeUrl = "https://www.polaraccesslink.com/v3/users/" + polarUserId + "/nightly-recharge/" + dateStr;
+        String expectedRechargeUrl = "https://www.polaraccesslink.com/v3/users/nightly-recharge/" + dateStr;
         when(restTemplate.exchange(
                 eq(expectedRechargeUrl),
                 eq(HttpMethod.GET),
@@ -130,7 +149,7 @@ public class PolarRepositoryAdapterTest {
                 eq(JsonNode.class))
         ).thenReturn(new ResponseEntity<JsonNode>(mockRecharge, HttpStatus.OK));
 
-        Optional<PniReport> result = polarRepositoryAdapter.fetchDailyData(polarAccessToken, polarUserId);
+        Optional<PniReport> result = polarRepositoryAdapter.fetchDailyData(TEST_PATIENT);
 
         assertThat(result).isPresent();
         assertThat(result.get().getHours_asleep()).isEqualTo(8.0);

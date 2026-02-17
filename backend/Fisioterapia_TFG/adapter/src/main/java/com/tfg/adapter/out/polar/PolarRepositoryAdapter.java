@@ -1,5 +1,6 @@
 package com.tfg.adapter.out.polar;
 
+import com.tfg.patient.Patient;
 import com.tfg.pni.PniReport;
 import com.tfg.port.out.polar.PolarRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +16,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.Collections;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -72,17 +75,44 @@ public class PolarRepositoryAdapter implements PolarRepository {
     }
 
     @Override
-    public Optional<PniReport> fetchDailyData(String polarAccessToken, Long polarUserId) {
+    public void registerUserInPolar(String accessToken, Long polarMemberId) {
+        String url = "https://www.polaraccesslink.com/v3/users";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Accept", "application/json");
+        headers.setBearerAuth(accessToken);
+
+        Map<String, String> body = Collections.singletonMap("member-id", String.valueOf(polarMemberId));
+
+        HttpEntity<Map<String, String>> request = new HttpEntity<>(body, headers);
+
+        try {
+            restTemplate.postForEntity(url, request, String.class);
+
+            System.out.println("ÉXITO: Usuario Polar " + polarMemberId + " registrado correctamente.");
+
+        } catch (HttpClientErrorException.Conflict e) {
+            System.out.println("INFO: El usuario " + polarMemberId + " ya estaba registrado. Continuamos.");
+
+        } catch (HttpClientErrorException e) {
+            System.err.println("ERROR: Fallo al registrar usuario en Polar: " + e.getResponseBodyAsString());
+            throw e;
+        }
+    }
+
+    @Override
+    public Optional<PniReport> fetchDailyData(Patient patient) {
         LocalDate targetDate = LocalDate.now().minusDays(1);
 
         String dateStr = targetDate.toString();
 
-        PniReport result = new PniReport(null, 0.0, 0.0, 0, 0);
+        PniReport result = new PniReport(patient, 0.0, 0.0, 0, 0);
         boolean hasSleep = false;
         boolean hasRecharge = false;
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(polarAccessToken);
+        headers.setBearerAuth(patient.getPolarAccessToken());
         headers.set("Accept", "application/json");
         HttpEntity<String> entity = new HttpEntity<>(headers);
 

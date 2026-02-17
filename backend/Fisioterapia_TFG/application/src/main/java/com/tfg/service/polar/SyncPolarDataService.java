@@ -28,7 +28,7 @@ public class SyncPolarDataService implements SyncPolarDataUseCase {
 
         for (Patient patient : patients) {
             try {
-                polarRepository.fetchDailyData(patient.getPolarAccessToken(), patient.getPolarUserId())
+                polarRepository.fetchDailyData(patient)
                         .ifPresent(data -> {
                             pniReportRepository.save(data);
                         });

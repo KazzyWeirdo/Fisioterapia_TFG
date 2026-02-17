@@ -34,5 +34,7 @@ public class ManagePolarConnectionService implements ManagePolarConnectionUseCas
         patient.setPolarUserId(result.polarUserId());
 
         patientRepository.save(patient);
+
+        polarRepository.registerUserInPolar(result.accessToken(), result.polarUserId());
     }
 }

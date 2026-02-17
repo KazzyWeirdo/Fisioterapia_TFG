@@ -29,12 +29,12 @@ public class SyncPolarDataServiceTest {
         TEST_PATIENT.setPolarAccessToken("valid_token");
         TEST_PATIENT.setPolarUserId(1L);
         when(patientRepository.findAllWithPolarToken()).thenReturn(List.of(TEST_PATIENT));
-        when(polarRepository.fetchDailyData(anyString(), anyLong()))
+        when(polarRepository.fetchDailyData(TEST_PATIENT))
                 .thenReturn(Optional.of(PNI_REPORT_DUMMY));
 
         syncPolarDataService.executeDailySync();
 
-        verify(polarRepository, times(1)).fetchDailyData(TEST_PATIENT.getPolarAccessToken(), TEST_PATIENT.getPolarUserId());
+        verify(polarRepository, times(1)).fetchDailyData(TEST_PATIENT);
         verify(pniReportRepository, times(1)).save(any());
     }
 
@@ -43,12 +43,12 @@ public class SyncPolarDataServiceTest {
         TEST_PATIENT.setPolarAccessToken("invalid_token");
         TEST_PATIENT.setPolarUserId(1L);
         when(patientRepository.findAllWithPolarToken()).thenReturn(List.of(TEST_PATIENT));
-        when(polarRepository.fetchDailyData(anyString(), anyLong()))
+        when(polarRepository.fetchDailyData(TEST_PATIENT))
                 .thenThrow(new RuntimeException("Invalid token"));
 
         syncPolarDataService.executeDailySync();
 
-        verify(polarRepository, times(1)).fetchDailyData(TEST_PATIENT.getPolarAccessToken(), TEST_PATIENT.getPolarUserId());
+        verify(polarRepository, times(1)).fetchDailyData(TEST_PATIENT);
         verify(pniReportRepository, times(0)).save(any());
     }
 }
