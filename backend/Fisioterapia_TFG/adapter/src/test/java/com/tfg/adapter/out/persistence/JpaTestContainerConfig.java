@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Profile;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-@Profile("test")
 @Testcontainers
 public class JpaTestContainerConfig {
     static {
