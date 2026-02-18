@@ -20,24 +20,24 @@ public class PniReport {
     private Double hours_asleep;
     private Double hrv;
     private int stress;
-    private int ntrs;
+    private int sleep_score;
     private List<String> trainingLoads; // TODO: Change to TrainingLoad class when created
 
-    public PniReport(Patient patient, Double hours_asleep, Double hrv, int stress, int ntrs) {
-        checkDomain(ntrs, hours_asleep, hrv, stress);
+    public PniReport(Patient patient, Double hours_asleep, Double hrv, int stress, int sleep_score) {
+        checkDomain(sleep_score, hours_asleep, hrv, stress);
         this.id = new PniReportId(ThreadLocalRandom.current().nextInt(1_000_000));
         this.patient = patient;
         this.reportDate = LocalDate.now();
         this.hours_asleep = hours_asleep;
         this.hrv = hrv;
         this.stress = stress;
-        this.ntrs = ntrs;
+        this.sleep_score = sleep_score;
         this.trainingLoads = new ArrayList<>();
     }
 
-    private void checkDomain(int ntrs, Double hours_asleep, Double hrv, int stress) {
-        if (ntrs < 0 || ntrs > 10) {
-            throw new IllegalArgumentException("NTRS must be between 0 and 10");
+    private void checkDomain(int sleep_score, Double hours_asleep, Double hrv, int stress) {
+        if (sleep_score < 0 || sleep_score > 100) {
+            throw new IllegalArgumentException("Sleep score must be between 0 and 100");
         }
 
         if (hours_asleep < 0) {
