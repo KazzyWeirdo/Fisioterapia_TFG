@@ -8,13 +8,13 @@ public class PniReportFactory {
     public static Double HRV = 65.0;
     public static int STRESS = 3;
 
-    public static PniReport createTestPniReport(com.tfg.patient.Patient patient, int NTRS) {
+    public static PniReport createTestPniReport(com.tfg.patient.Patient patient, int sleep_score) {
         return new PniReport(
                 patient,
                 HOURS_ASLEEP,
                 HRV,
                 STRESS,
-                NTRS
+                sleep_score
         );
     }
 }

@@ -19,7 +19,7 @@ public record PniReportWebModel(
                 pniReport.getHours_asleep(),
                 pniReport.getHrv(),
                 pniReport.getStress(),
-                pniReport.getNtrs()
+                pniReport.getSleep_score()
         );
     }
 }

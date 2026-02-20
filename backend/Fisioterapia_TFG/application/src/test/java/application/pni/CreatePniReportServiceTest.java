@@ -29,7 +29,7 @@ public class CreatePniReportServiceTest {
 
         verify(pniReportRepository).save(argThat(pniReport ->
                 pniReport.getPatient().equals(TEST_PATIENT) &&
-                pniReport.getNtrs() == 5
+                pniReport.getSleep_score() == 5
         ));
     }
 }

@@ -26,7 +26,7 @@ public class PniReportTest {
         assertThat(pniReport.getReportDate()).isEqualTo(TEST_PNI_REPORT.getReportDate());
         assertThat(pniReport.getHours_asleep()).isEqualTo(TEST_PNI_REPORT.getHours_asleep());
         assertThat(pniReport.getHrv()).isEqualTo(TEST_PNI_REPORT.getHrv());
-        assertThat(pniReport.getNtrs()).isEqualTo(TEST_PNI_REPORT.getNtrs());
+        assertThat(pniReport.getSleep_score()).isEqualTo(TEST_PNI_REPORT.getSleep_score());
         assertThat(pniReport.getStress()).isEqualTo(TEST_PNI_REPORT.getStress());
     }
 
@@ -77,7 +77,7 @@ public class PniReportTest {
                     -2
             );
         } catch (IllegalArgumentException e) {
-            assertThat(e.getMessage()).isEqualTo("NTRS must be between 0 and 10");
+            assertThat(e.getMessage()).isEqualTo("Sleep score must be between 0 and 100");
         }
     }
 }

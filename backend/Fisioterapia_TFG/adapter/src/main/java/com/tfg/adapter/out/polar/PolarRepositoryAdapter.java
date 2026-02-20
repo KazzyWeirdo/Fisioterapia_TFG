@@ -130,6 +130,7 @@ public class PolarRepositoryAdapter implements PolarRepository {
                 Duration duration = Duration.between(startTime, endTime);
 
                 result.setHours_asleep(duration.toMinutes() / 60.0);
+                result.setSleep_score(sleepJson.get("sleep_score").asInt());
                 hasSleep = true;
             }
         } catch (HttpClientErrorException.NotFound e) {
