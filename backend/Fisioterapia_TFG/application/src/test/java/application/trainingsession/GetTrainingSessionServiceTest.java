@@ -4,6 +4,7 @@ import com.tfg.model.patient.PatientFactory;
 import com.tfg.model.trainingsession.TrainingSessionFactory;
 import com.tfg.patient.Patient;
 import com.tfg.port.out.persistence.TrainingSessionRepository;
+import com.tfg.service.trainingsession.GetTrainingSessionService;
 import com.tfg.trainingsession.TrainingSession;
 import org.junit.jupiter.api.Test;
 

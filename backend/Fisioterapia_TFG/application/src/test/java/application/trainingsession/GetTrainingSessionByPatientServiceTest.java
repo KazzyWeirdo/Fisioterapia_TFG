@@ -7,6 +7,7 @@ import com.tfg.patient.Patient;
 import com.tfg.patient.PatientId;
 import com.tfg.port.out.persistence.PatientRepository;
 import com.tfg.port.out.persistence.TrainingSessionRepository;
+import com.tfg.service.trainingsession.GetTrainingSessionByPatientService;
 import com.tfg.trainingsession.TrainingSession;
 import org.junit.jupiter.api.Test;
 
@@ -36,7 +37,7 @@ public class GetTrainingSessionByPatientServiceTest {
         when(trainingSessionRepository.findAllByPatientId(new PatientId(1)))
                 .thenReturn(java.util.List.of(TEST_TRAINING_SESSION.getDate(), TEST_TRAINING_SESSION_2.getDate()));
 
-        List<LocalDate> result = getTrainingSessionByPatientService.getTrainingSessionsFromPatient(new PatientId(1));
+        List<LocalDate> result = getTrainingSessionByPatientService.getTrainingSessionFromPatient(new PatientId(1));
 
         assertNotNull(result);
         assertEquals(2, result.size());
@@ -54,7 +55,7 @@ public class GetTrainingSessionByPatientServiceTest {
         when(trainingSessionRepository.findAllByPatientId(new PatientId(1)))
                 .thenReturn(List.of());
 
-        List<LocalDate> result = getTrainingSessionByPatientService.getTrainingSessionsFromPatient(new PatientId(1));
+        List<LocalDate> result = getTrainingSessionByPatientService.getTrainingSessionFromPatient(new PatientId(1));
 
         assertNotNull(result);
         assertEquals(0, result.size());
@@ -68,7 +69,7 @@ public class GetTrainingSessionByPatientServiceTest {
                 .thenReturn(Optional.empty());
 
         try {
-            getTrainingSessionByPatientService.getTrainingSessionsFromPatient(new PatientId(1));
+            getTrainingSessionByPatientService.getTrainingSessionFromPatient(new PatientId(1));
         } catch (InvalidIdException e) {
             assertEquals("The provided ID is invalid.", e.getMessage());
         }
