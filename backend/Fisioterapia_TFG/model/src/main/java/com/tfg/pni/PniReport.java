@@ -21,7 +21,6 @@ public class PniReport {
     private Double hrv;
     private int stress;
     private int sleep_score;
-    private List<String> trainingLoads; // TODO: Change to TrainingLoad class when created
 
     public PniReport(Patient patient, Double hours_asleep, Double hrv, int stress, int sleep_score) {
         checkDomain(sleep_score, hours_asleep, hrv, stress);
@@ -32,7 +31,6 @@ public class PniReport {
         this.hrv = hrv;
         this.stress = stress;
         this.sleep_score = sleep_score;
-        this.trainingLoads = new ArrayList<>();
     }
 
     private void checkDomain(int sleep_score, Double hours_asleep, Double hrv, int stress) {

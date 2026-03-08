@@ -11,9 +11,13 @@ import com.tfg.port.in.pni.GetPniReportUseCase;
 import com.tfg.port.in.pni.GetPniReportsFromPatientUseCase;
 import com.tfg.port.in.polar.ManagePolarConnectionUseCase;
 import com.tfg.port.in.polar.SyncPolarDataUseCase;
+import com.tfg.port.in.trainingsession.CreateTrainingSessionUseCase;
+import com.tfg.port.in.trainingsession.GetTrainingSessionByPatientUseCase;
+import com.tfg.port.in.trainingsession.GetTrainingSessionUseCase;
 import com.tfg.port.out.persistence.IndibaSessionRepository;
 import com.tfg.port.out.persistence.PatientRepository;
 import com.tfg.port.out.persistence.PniReportRepository;
+import com.tfg.port.out.persistence.TrainingSessionRepository;
 import com.tfg.port.out.polar.PolarRepository;
 import com.tfg.service.indiba.CreateIndibaSessionService;
 import com.tfg.service.indiba.GetIndibaSessionFromPatientService;
@@ -52,6 +56,9 @@ public class SpringAppConfig {
 
     @Autowired
     PolarRepository polarRepository;
+
+    @Autowired
+    TrainingSessionRepository trainingSessionRepository;
 
     @Bean
     GetPatientUseCase getPatientUseCase() {
@@ -103,4 +110,19 @@ public class SpringAppConfig {
 
     @Bean
     SyncPolarDataUseCase syncPolarDataUseCase() { return new SyncPolarDataService(patientRepository, pniReportRepository, polarRepository);}
+
+    @Bean
+    CreateTrainingSessionUseCase createTrainingSessionUseCase() {
+        return new com.tfg.service.trainingsession.CreateTrainingSessionService(trainingSessionRepository);
+    }
+
+    @Bean
+    GetTrainingSessionUseCase getTrainingSessionUseCase() {
+        return new com.tfg.service.trainingsession.GetTrainingSessionService(trainingSessionRepository);
+    }
+
+    @Bean
+    GetTrainingSessionByPatientUseCase getTrainingSessionByPatientUseCase() {
+        return new com.tfg.service.trainingsession.GetTrainingSessionByPatientService(trainingSessionRepository, patientRepository);
+    }
 }

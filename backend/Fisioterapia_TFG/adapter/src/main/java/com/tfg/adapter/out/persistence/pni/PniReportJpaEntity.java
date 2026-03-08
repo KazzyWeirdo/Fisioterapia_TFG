@@ -25,6 +25,4 @@ public class PniReportJpaEntity {
     private int stress;
     @Column(nullable = false)
     private int sleepScore;
-    //@OneToMany(mappedBy = "pni_reports")
-    //private List<String> trainingLoads; TODO: Change to TrainingLoad class when created
 }
