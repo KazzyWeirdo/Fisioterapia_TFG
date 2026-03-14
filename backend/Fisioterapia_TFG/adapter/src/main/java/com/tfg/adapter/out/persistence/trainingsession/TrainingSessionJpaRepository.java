@@ -31,16 +31,6 @@ public class TrainingSessionJpaRepository implements TrainingSessionRepository {
     }
 
     @Override
-    public void saveExercise(Exercise exercise) {
-        // Implementation not yet done
-    }
-
-    @Override
-    public void saveExerciseSet(ExerciseSet exerciseSet) {
-        // Implementation not yet done
-    }
-
-    @Override
     public void deleteAll() {
         trainingSessionJpaDataRepository.deleteAll();
     }
@@ -55,5 +45,10 @@ public class TrainingSessionJpaRepository implements TrainingSessionRepository {
     @Override
     public List<LocalDate> findAllByPatientId(PatientId patientId) {
         return trainingSessionJpaDataRepository.findAllByPatientId(patientId.value());
+    }
+
+    @Override
+    public List<TrainingSession> countSessionByMonth(PatientId patientId) {
+        return List.of();
     }
 }
