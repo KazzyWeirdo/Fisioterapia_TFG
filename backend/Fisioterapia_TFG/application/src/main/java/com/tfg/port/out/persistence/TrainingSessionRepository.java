@@ -18,5 +18,5 @@ public interface TrainingSessionRepository {
 
     List<LocalDate> findAllByPatientId (PatientId patientId);
 
-    List<TrainingSession> countSessionByMonth (PatientId patientId);
+    List<Object[]> countSessionByMonth (PatientId patientId, Integer year);
 }

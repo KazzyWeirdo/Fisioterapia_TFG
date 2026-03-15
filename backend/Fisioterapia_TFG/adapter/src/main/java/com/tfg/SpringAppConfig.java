@@ -11,6 +11,7 @@ import com.tfg.port.in.pni.GetPniReportUseCase;
 import com.tfg.port.in.pni.GetPniReportsFromPatientUseCase;
 import com.tfg.port.in.polar.ManagePolarConnectionUseCase;
 import com.tfg.port.in.polar.SyncPolarDataUseCase;
+import com.tfg.port.in.statistics.GetPatientTransitionRatioUseCase;
 import com.tfg.port.in.trainingsession.CreateTrainingSessionUseCase;
 import com.tfg.port.in.trainingsession.GetTrainingSessionByPatientUseCase;
 import com.tfg.port.in.trainingsession.GetTrainingSessionUseCase;
@@ -29,6 +30,7 @@ import com.tfg.service.pni.GetPniReportService;
 import com.tfg.service.pni.GetPniReportsFromPatientService;
 import com.tfg.service.polar.ManagePolarConnectionService;
 import com.tfg.service.polar.SyncPolarDataService;
+import com.tfg.service.statistics.GetPatientTransitionRatioService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
@@ -124,5 +126,10 @@ public class SpringAppConfig {
     @Bean
     GetTrainingSessionByPatientUseCase getTrainingSessionByPatientUseCase() {
         return new com.tfg.service.trainingsession.GetTrainingSessionByPatientService(trainingSessionRepository, patientRepository);
+    }
+
+    @Bean
+    GetPatientTransitionRatioUseCase getPatientTransitionRatioUseCase() {
+        return new GetPatientTransitionRatioService(patientRepository, indibaSessionRepository, trainingSessionRepository);
     }
 }

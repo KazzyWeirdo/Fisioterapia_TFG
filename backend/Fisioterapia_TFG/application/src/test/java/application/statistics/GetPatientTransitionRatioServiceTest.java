@@ -32,30 +32,32 @@ public class GetPatientTransitionRatioServiceTest {
 
     private static final Patient TEST_PATIENT = PatientFactory.createTestPatient("hola@gmail.com", "85729487J");
     private static final IndibaSession TEST_INDIBA_SESSION_1 = new IndibaSessionFactory().createTestIndibaSession(TEST_PATIENT, new Date(2024, 7, 15), new Date(2024, 7, 15));
-    private static final IndibaSession TEST_INDIBA_SESSION_2 = new IndibaSessionFactory().createTestIndibaSession(TEST_PATIENT, new Date(2024, 7, 10), new Date(2024, 7, 10));
     private static final TrainingSession TEST_TRAINING_SESSION = TrainingSessionFactory.createTestTrainingSession(TEST_PATIENT, LocalDate.of(2024, 7, 2));
-    private static final TrainingSession TEST_TRAINING_SESSION_2 = TrainingSessionFactory.createTestTrainingSession(TEST_PATIENT, LocalDate.of(2024, 7, 1));
 
     @Test
     public void givenPatientId_whenSessionsExists_giveStatistics() {
+        List<Object[]> sessionCounts = List.of(
+                new Object[]{1, 2},
+                new Object[]{2, 2});
+
         when(patientRepository.findById(new PatientId(1)))
                 .thenReturn(Optional.of(TEST_PATIENT));
 
-        when(trainingSessionRepository.countSessionByMonth(new PatientId(1)))
-                .thenReturn(java.util.List.of(TEST_TRAINING_SESSION, TEST_TRAINING_SESSION_2));
+        when(trainingSessionRepository.countSessionByMonth(new PatientId(1), TEST_TRAINING_SESSION.getDate().getYear()))
+                .thenReturn(sessionCounts);
 
-        when(indibaSessionRepository.countSessionGroupedByMonth(new PatientId(1)))
-                .thenReturn(java.util.List.of(TEST_INDIBA_SESSION_1, TEST_INDIBA_SESSION_2));
+        when(indibaSessionRepository.countSessionGroupedByMonth(new PatientId(1), TEST_INDIBA_SESSION_1.getBeginSession().getYear()))
+                .thenReturn(sessionCounts);
 
-        List<PatientMonthTransitionRatio> result = getPatientTransitionRatioService.getTransitionRatio(new PatientId(1));
+        List<PatientMonthTransitionRatio> result = getPatientTransitionRatioService.getTransitionRatio(new PatientId(1), TEST_TRAINING_SESSION.getDate().getYear());
 
         assertNotNull(result);
-        assertEquals(1, result.size());
+        assertEquals(12, result.size());
         assertEquals(2, result.get(0).trainingSessions());
         assertEquals(2, result.get(0).indibaSessions());
 
-        verify(trainingSessionRepository).countSessionByMonth(new PatientId(1));
-        verify(indibaSessionRepository).countSessionGroupedByMonth(new PatientId(1));
+        verify(trainingSessionRepository).countSessionByMonth(new PatientId(1), TEST_TRAINING_SESSION.getDate().getYear());
+        verify(indibaSessionRepository).countSessionGroupedByMonth(new PatientId(1), TEST_INDIBA_SESSION_1.getBeginSession().getYear());
     }
 
     @Test
@@ -63,19 +65,19 @@ public class GetPatientTransitionRatioServiceTest {
         when(patientRepository.findById(new PatientId(1)))
                 .thenReturn(Optional.of(TEST_PATIENT));
 
-        when(trainingSessionRepository.countSessionByMonth(new PatientId(1)))
+        when(trainingSessionRepository.countSessionByMonth(new PatientId(1), TEST_TRAINING_SESSION.getDate().getYear()))
                 .thenReturn(List.of());
 
-        when(indibaSessionRepository.countSessionGroupedByMonth(new PatientId(1)))
+        when(indibaSessionRepository.countSessionGroupedByMonth(new PatientId(1), TEST_INDIBA_SESSION_1.getBeginSession().getYear()))
                 .thenReturn(List.of());
 
-        List<PatientMonthTransitionRatio> result = getPatientTransitionRatioService.getTransitionRatio(new PatientId(1));
+        List<PatientMonthTransitionRatio> result = getPatientTransitionRatioService.getTransitionRatio(new PatientId(1), TEST_TRAINING_SESSION.getDate().getYear());
 
         assertNotNull(result);
         assertEquals(0, result.size());
 
-        verify(trainingSessionRepository).countSessionByMonth(new PatientId(1));
-        verify(indibaSessionRepository).countSessionGroupedByMonth(new PatientId(1));
+        verify(trainingSessionRepository).countSessionByMonth(new PatientId(1), TEST_TRAINING_SESSION.getDate().getYear());
+        verify(indibaSessionRepository).countSessionGroupedByMonth(new PatientId(1), TEST_INDIBA_SESSION_1.getBeginSession().getYear());
     }
 
     @Test
@@ -84,7 +86,7 @@ public class GetPatientTransitionRatioServiceTest {
                 .thenReturn(Optional.empty());
 
         try {
-            getPatientTransitionRatioService.getTransitionRatio(new PatientId(1));
+            getPatientTransitionRatioService.getTransitionRatio(new PatientId(1), TEST_TRAINING_SESSION.getDate().getYear());
         } catch (RuntimeException e) {
             assertEquals("The provided ID is invalid.", e.getMessage());
         }

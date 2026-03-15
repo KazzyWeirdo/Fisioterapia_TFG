@@ -35,7 +35,7 @@ public abstract class AbstractTrainingSessionRepositoryTest {
         patientRepository.save(testPatient);
 
         testTrainingSession1 = TrainingSessionFactory.createTestTrainingSession(testPatient, LocalDate.of(2024, 6, 1));
-        testTrainingSession2 = TrainingSessionFactory.createTestTrainingSession(testPatient, LocalDate.of(2024, 6, 2));
+        testTrainingSession2 = TrainingSessionFactory.createTestTrainingSession(testPatient, LocalDate.of(2024, 7, 2));
     }
 
     @AfterEach
@@ -98,5 +98,23 @@ public abstract class AbstractTrainingSessionRepositoryTest {
 
         assertThat(retrievedTrainingSession).isPresent();
         assertThat(retrievedTrainingSession.get().getDate()).isEqualTo(testTrainingSession1.getDate());
+    }
+
+    @Test
+    public void givenExistingTrainingSession_whenFindByYear_returnList() {
+        trainingSessionRepository.save(testTrainingSession1);
+        trainingSessionRepository.save(testTrainingSession2);
+
+        List<Object[]> trainingSessions = trainingSessionRepository.countSessionByMonth(testPatient.getId(), testTrainingSession1.getDate().getYear());
+
+        assertThat(trainingSessions).isNotEmpty();
+        assertThat(trainingSessions.size()).isEqualTo(2);
+    }
+
+    @Test
+    public void givenNoTrainingSessions_whenFindByYear_returnEmptyList() {
+        List<Object[]> trainingSessions = trainingSessionRepository.countSessionByMonth(testPatient.getId(), testTrainingSession1.getDate().getYear());
+
+        assertThat(trainingSessions).isEmpty();
     }
 }

@@ -18,5 +18,5 @@ public interface IndibaSessionRepository {
 
     List<Date> findAllByPatientId (PatientId patientId);
 
-    List<IndibaSession> countSessionGroupedByMonth(PatientId patientId);
+    List<Object[]> countSessionGroupedByMonth(PatientId patientId, Integer year);
 }

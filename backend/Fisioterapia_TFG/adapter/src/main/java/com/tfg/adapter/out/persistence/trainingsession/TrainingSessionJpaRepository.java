@@ -48,7 +48,7 @@ public class TrainingSessionJpaRepository implements TrainingSessionRepository {
     }
 
     @Override
-    public List<TrainingSession> countSessionByMonth(PatientId patientId) {
-        return List.of();
+    public List<Object[]> countSessionByMonth(PatientId patientId, Integer year) {
+        return trainingSessionJpaDataRepository.countSessionsByMonthForYear(patientId.value(), year);
     }
 }

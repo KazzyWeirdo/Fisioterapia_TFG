@@ -12,7 +12,9 @@ import com.tfg.trainingsession.TrainingSession;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Dictionary;
 import java.util.List;
+import java.util.Map;
 
 public class GetPatientTransitionRatioService implements GetPatientTransitionRatioUseCase {
 
@@ -28,34 +30,37 @@ public class GetPatientTransitionRatioService implements GetPatientTransitionRat
         this.trainingSessionRepository = trainingSessionRepository;
     }
     @Override
-    public List<PatientMonthTransitionRatio> getTransitionRatio(PatientId id) {
+    public List<PatientMonthTransitionRatio> getTransitionRatio(PatientId id, Integer year) {
         patientRepository.findById(id)
                 .orElseThrow(InvalidIdException::new);
 
-        List<IndibaSession> indibaSessions = indibaSessionRepository.countSessionGroupedByMonth(id);
-        List<TrainingSession> trainingSessions = trainingSessionRepository.countSessionByMonth(id);
-
         List<PatientMonthTransitionRatio> ratios = new ArrayList<>();
 
-        for (int i = 2010; i <= LocalDate.now().getYear(); i++) {
-            int finalI = i;
-            for (int j = 1; j <= 12; j++) {
-                if (j > LocalDate.now().getMonthValue() && i == LocalDate.now().getYear()) break;
-                int finalJ = j;
-                long indibaCount = indibaSessions.stream()
-                        .filter(s -> s.getBeginSession().getYear() == finalI && s.getBeginSession().getMonth() == finalJ)
-                        .count();
+        List<Object[]> indibaSessionsCount = indibaSessionRepository.countSessionGroupedByMonth(id, year);
+        List<Object[]> trainingSessionsCount = trainingSessionRepository.countSessionByMonth(id, year);
+        if(indibaSessionsCount.isEmpty() && trainingSessionsCount.isEmpty()) return List.of(); // Si no hay sesiones, se devuelve una lista vacía
 
-                long trainingCount = trainingSessions.stream()
-                        .filter(s -> s.getDate().getYear() == finalI && s.getDate().getMonthValue() == finalJ)
-                        .count();
+        Map<Integer, Integer> indibaSessionsMap = parseToMap(indibaSessionsCount);
+        Map<Integer, Integer> trainingSessionsMap = parseToMap(trainingSessionsCount);
 
-                if(indibaCount == 0 && trainingCount == 0) continue;
+        for (int month = 1; month <= 12; month++) {
+            if (month > LocalDate.now().getMonthValue() && year == LocalDate.now().getYear()) break;
+            int indibaCount = indibaSessionsMap.getOrDefault(month, 0);
+            int trainingCount = trainingSessionsMap.getOrDefault(month, 0);
 
-                ratios.add(new PatientMonthTransitionRatio(j, i, indibaCount, trainingCount));
-            }
+            ratios.add(new PatientMonthTransitionRatio(month, year, indibaCount, trainingCount));
         }
 
         return ratios;
+    }
+
+    private Map<Integer, Integer> parseToMap(List<Object[]> sessions) {
+        return sessions.stream()
+                .collect(
+                        java.util.stream.Collectors.toMap(
+                                session -> (Integer) session[0], // month
+                                session -> (Integer) session[1]  // count
+                        )
+                );
     }
 }
