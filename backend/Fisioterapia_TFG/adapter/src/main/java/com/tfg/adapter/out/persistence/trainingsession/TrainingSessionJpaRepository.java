@@ -4,8 +4,6 @@ import com.tfg.adapter.out.persistence.patient.PatientJpaEntity;
 import com.tfg.adapter.out.persistence.patient.PatientJpaMapper;
 import com.tfg.patient.PatientId;
 import com.tfg.port.out.persistence.TrainingSessionRepository;
-import com.tfg.trainingsession.Exercise;
-import com.tfg.trainingsession.ExerciseSet;
 import com.tfg.trainingsession.TrainingSession;
 import com.tfg.trainingsession.TrainingSessionId;
 import org.springframework.stereotype.Repository;
@@ -50,5 +48,10 @@ public class TrainingSessionJpaRepository implements TrainingSessionRepository {
     @Override
     public List<Object[]> countSessionByMonth(PatientId patientId, Integer year) {
         return trainingSessionJpaDataRepository.countSessionsByMonthForYear(patientId.value(), year);
+    }
+
+    @Override
+    public List<Object[]> calculateVolumeProgression(PatientId patientId, String exerciseName) {
+        return trainingSessionJpaDataRepository.calculateVolumeProgression(patientId.value(), exerciseName);
     }
 }
