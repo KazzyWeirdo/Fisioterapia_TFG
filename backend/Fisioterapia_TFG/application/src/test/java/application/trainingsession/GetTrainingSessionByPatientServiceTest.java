@@ -35,14 +35,14 @@ public class GetTrainingSessionByPatientServiceTest {
                 .thenReturn(Optional.of(TEST_PATIENT));
 
         when(trainingSessionRepository.findAllByPatientId(new PatientId(1)))
-                .thenReturn(java.util.List.of(TEST_TRAINING_SESSION.getDate(), TEST_TRAINING_SESSION_2.getDate()));
+                .thenReturn(java.util.List.of(TEST_TRAINING_SESSION, TEST_TRAINING_SESSION_2));
 
-        List<LocalDate> result = getTrainingSessionByPatientService.getTrainingSessionFromPatient(new PatientId(1));
+        List<TrainingSession> result = getTrainingSessionByPatientService.getTrainingSessionFromPatient(new PatientId(1));
 
         assertNotNull(result);
         assertEquals(2, result.size());
-        assertEquals(TEST_TRAINING_SESSION.getDate(), result.get(0));
-        assertEquals(TEST_TRAINING_SESSION_2.getDate(), result.get(1));
+        assertEquals(TEST_TRAINING_SESSION, result.get(0));
+        assertEquals(TEST_TRAINING_SESSION_2, result.get(1));
 
         verify(trainingSessionRepository).findAllByPatientId(new PatientId(1));
     }
@@ -55,7 +55,7 @@ public class GetTrainingSessionByPatientServiceTest {
         when(trainingSessionRepository.findAllByPatientId(new PatientId(1)))
                 .thenReturn(List.of());
 
-        List<LocalDate> result = getTrainingSessionByPatientService.getTrainingSessionFromPatient(new PatientId(1));
+        List<TrainingSession> result = getTrainingSessionByPatientService.getTrainingSessionFromPatient(new PatientId(1));
 
         assertNotNull(result);
         assertEquals(0, result.size());

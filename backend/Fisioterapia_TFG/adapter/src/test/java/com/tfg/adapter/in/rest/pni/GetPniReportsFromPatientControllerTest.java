@@ -42,7 +42,7 @@ public class GetPniReportsFromPatientControllerTest {
     @Test
     public void givenValidPatientId_whenGetPniReportsFromPatient_thenReturnsReports() {
         given(getPniReportsFromPatientUseCase.getPniReportsFromPatient(TEST_PATIENT.getId()))
-                .willReturn(java.util.List.of(TEST_PNI_REPORT.getReportDate(), TEST_PNI_REPORT_2.getReportDate()));
+                .willReturn(java.util.List.of(TEST_PNI_REPORT, TEST_PNI_REPORT_2));
 
         RestAssuredMockMvc.given()
                 .when()

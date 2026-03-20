@@ -43,8 +43,10 @@ public class IndibaJpaRepository implements IndibaSessionRepository {
     }
 
     @Override
-    public List<Date> findAllByPatientId(PatientId patientId) {
-        return indibaJpaDataRepository.findAllByPatientId(patientId.value());
+    public List<IndibaSession> findAllByPatientId(PatientId patientId) {
+        return indibaJpaDataRepository.findAllByPatientId(patientId.value()).stream()
+                .map(IndibaJpaMapper::toModelEntity)
+                .toList();
     }
 
     @Override

@@ -16,5 +16,5 @@ public interface PniReportRepository {
 
     Optional<PniReport> findById (PniReportId id);
 
-    List<LocalDate> findAllReportsByPatiendId (PatientId patientId);
+    List<PniReport> findAllReportsByPatiendId (PatientId patientId);
 }

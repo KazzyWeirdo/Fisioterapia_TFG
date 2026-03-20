@@ -30,10 +30,10 @@ public class GetIndibaSessionFromPatientController {
             @ApiResponse(responseCode = "204", description = "No Indiba sessions found for the patient"),
             @ApiResponse(responseCode = "404", description = "Patient not found")
     })
-    public ResponseEntity<List<Date>> getIndibaSessionsFromPatient(@PathVariable("patientId") String grabbedPatientId) {
+    public ResponseEntity<List<IndibaListWebModel>> getIndibaSessionsFromPatient(@PathVariable("patientId") String grabbedPatientId) {
         PatientId patientId = PatientIdParser.parsePatientId(grabbedPatientId);
-        List<Date> indibaSessions = getIndibaSessionFromPatientUseCase.getIndibaSessionsFromPatient(patientId)
-                .stream()
+        List<IndibaListWebModel> indibaSessions = getIndibaSessionFromPatientUseCase.getIndibaSessionsFromPatient(patientId).stream()
+                .map(IndibaListWebModel::fromDomainModel)
                 .toList();
         if (indibaSessions.isEmpty()) {
             return ResponseEntity.noContent().build();

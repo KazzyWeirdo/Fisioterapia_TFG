@@ -94,7 +94,7 @@ public abstract class AbstractTrainingSessionRepositoryTest {
 
         trainingSessionRepository.deleteAll();
 
-        List<LocalDate> trainingSession = trainingSessionRepository.findAllByPatientId(testPatient.getId());
+        List<TrainingSession> trainingSession = trainingSessionRepository.findAllByPatientId(testPatient.getId());
 
         assertThat(trainingSession).isEmpty();
     }

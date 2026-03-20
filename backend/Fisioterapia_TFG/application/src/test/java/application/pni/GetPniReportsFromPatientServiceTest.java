@@ -41,14 +41,14 @@ public class GetPniReportsFromPatientServiceTest {
                 .thenReturn(Optional.of(TEST_PATIENT));
 
         when(pniReportRepository.findAllReportsByPatiendId(new PatientId(1)))
-                .thenReturn(List.of(TEST_PNI_REPORT.getReportDate(), TEST_PNI_REPORT_2.getReportDate()));
+                .thenReturn(List.of(TEST_PNI_REPORT, TEST_PNI_REPORT_2));
 
-        List<LocalDate> result = pniReportService.getPniReportsFromPatient(new PatientId(1));
+        List<PniReport> result = pniReportService.getPniReportsFromPatient(new PatientId(1));
 
         assertNotNull(result);
         assertEquals(2, result.size());
-        assertEquals(TEST_PNI_REPORT.getReportDate(), result.get(0));
-        assertEquals(TEST_PNI_REPORT_2.getReportDate(), result.get(1));
+        assertEquals(TEST_PNI_REPORT, result.get(0));
+        assertEquals(TEST_PNI_REPORT_2, result.get(1));
 
         verify(pniReportRepository).findAllReportsByPatiendId(new PatientId(1));
     }
@@ -61,7 +61,7 @@ public class GetPniReportsFromPatientServiceTest {
         when(pniReportRepository.findAllReportsByPatiendId(new PatientId(1)))
                 .thenReturn(java.util.List.of());
 
-        List<LocalDate> result = pniReportService.getPniReportsFromPatient(new PatientId(1));
+        List<PniReport> result = pniReportService.getPniReportsFromPatient(new PatientId(1));
 
         assertNotNull(result);
         assertEquals(0, result.size());

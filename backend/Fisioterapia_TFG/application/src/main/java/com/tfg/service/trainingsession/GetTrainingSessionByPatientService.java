@@ -5,8 +5,8 @@ import com.tfg.patient.PatientId;
 import com.tfg.port.in.trainingsession.GetTrainingSessionByPatientUseCase;
 import com.tfg.port.out.persistence.PatientRepository;
 import com.tfg.port.out.persistence.TrainingSessionRepository;
+import com.tfg.trainingsession.TrainingSession;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public class GetTrainingSessionByPatientService implements GetTrainingSessionByPatientUseCase {
@@ -20,7 +20,7 @@ public class GetTrainingSessionByPatientService implements GetTrainingSessionByP
     }
 
     @Override
-    public List<LocalDate> getTrainingSessionFromPatient(PatientId patientId) {
+    public List<TrainingSession> getTrainingSessionFromPatient(PatientId patientId) {
         patientRepository.findById(patientId)
                 .orElseThrow(InvalidIdException::new);
 

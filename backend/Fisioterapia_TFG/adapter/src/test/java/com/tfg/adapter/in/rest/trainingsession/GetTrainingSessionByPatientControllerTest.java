@@ -46,7 +46,7 @@ public class GetTrainingSessionByPatientControllerTest {
     @Test
     public void givenValidPatientId_whenGetTrainingSessionsFromPatient_thenReturnsSessions() {
         given(getTrainingSessionByPatientUseCase.getTrainingSessionFromPatient(TEST_PATIENT.getId()))
-                .willReturn(List.of(TEST_TRAINING_SESSION_1.getDate(), TEST_TRAINING_SESSION_2.getDate()));
+                .willReturn(List.of(TEST_TRAINING_SESSION_1, TEST_TRAINING_SESSION_2));
 
         RestAssuredMockMvc.given()
                 .when()

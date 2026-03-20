@@ -43,8 +43,11 @@ public class PniReportJpaRepository implements PniReportRepository {
     }
 
     @Override
-    public List<LocalDate> findAllReportsByPatiendId(PatientId patientId) {
-        List<LocalDate> pniReportsName = pniReportJpaDataRepository.findAllReportDatesByPatientId(patientId.value());
+    public List<PniReport> findAllReportsByPatiendId(PatientId patientId) {
+        List<PniReport> pniReportsName = pniReportJpaDataRepository.findAllReportDatesByPatientId(patientId.value())
+                .stream()
+                .map(PniReportJpaMapper::toModelEntity)
+                .toList();
         return pniReportsName;
     }
 }

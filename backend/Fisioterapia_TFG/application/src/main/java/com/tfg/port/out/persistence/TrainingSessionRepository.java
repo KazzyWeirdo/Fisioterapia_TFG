@@ -4,7 +4,6 @@ import com.tfg.patient.PatientId;
 import com.tfg.trainingsession.TrainingSession;
 import com.tfg.trainingsession.TrainingSessionId;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +15,7 @@ public interface TrainingSessionRepository {
 
     Optional<TrainingSession> findById (TrainingSessionId id);
 
-    List<LocalDate> findAllByPatientId (PatientId patientId);
+    List<TrainingSession> findAllByPatientId (PatientId patientId);
 
     List<Object[]> countSessionByMonth (PatientId patientId, Integer year);
 
