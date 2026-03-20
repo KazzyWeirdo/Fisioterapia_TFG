@@ -40,9 +40,13 @@ public class TrainingSessionJpaRepository implements TrainingSessionRepository {
                 .map(TrainingSessionJpaMapper::toModelEntity);
     }
 
+    @Transactional(readOnly = true)
     @Override
-    public List<LocalDate> findAllByPatientId(PatientId patientId) {
-        return trainingSessionJpaDataRepository.findAllByPatientId(patientId.value());
+    public List<TrainingSession> findAllByPatientId(PatientId patientId) {
+        return trainingSessionJpaDataRepository.findAllByPatientId(patientId.value())
+                .stream()
+                .map(TrainingSessionJpaMapper::toModelEntity)
+                .toList();
     }
 
     @Override

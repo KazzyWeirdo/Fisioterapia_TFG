@@ -30,10 +30,11 @@ public class GetTrainingSessionByPatientController {
             @ApiResponse(responseCode = "204", description = "No training sessions found for the patient"),
             @ApiResponse(responseCode = "404", description = "Patient not found")
     })
-    public ResponseEntity<List<LocalDate>> getTrainingSessionsByPatient(@PathVariable("patientId") String grabbedPatientId) {
+    public ResponseEntity<List<TrainingSessionListWebModel>> getTrainingSessionsByPatient(@PathVariable("patientId") String grabbedPatientId) {
         PatientId patientId = PatientIdParser.parsePatientId(grabbedPatientId);
-        List<LocalDate> trainingSessions = getTrainingSessionByPatientUseCase.getTrainingSessionFromPatient(patientId)
+        List<TrainingSessionListWebModel> trainingSessions = getTrainingSessionByPatientUseCase.getTrainingSessionFromPatient(patientId)
                 .stream()
+                .map(TrainingSessionListWebModel::fromDomainModel)
                 .toList();
         if (trainingSessions.isEmpty()) {
             return ResponseEntity.noContent().build();
