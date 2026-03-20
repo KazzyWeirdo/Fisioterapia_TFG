@@ -31,9 +31,11 @@ public class GetPniReportsFromPatientController {
             @ApiResponse(responseCode = "204", description = "No Pni reports found for the patient"),
             @ApiResponse(responseCode = "404", description = "Patient not found")
     })
-    public ResponseEntity<List<LocalDate>> getPniReportsFromPatient(@PathVariable("patientId") String grabbedPatientId) {
+    public ResponseEntity<List<PniReportListWebModel>> getPniReportsFromPatient(@PathVariable("patientId") String grabbedPatientId) {
         PatientId patientId = PatientIdParser.parsePatientId(grabbedPatientId);
-        List<LocalDate> pniReports = getPniReportsFromPatientUseCase.getPniReportsFromPatient(patientId);
+        List<PniReportListWebModel> pniReports = getPniReportsFromPatientUseCase.getPniReportsFromPatient(patientId).stream()
+                .map(PniReportListWebModel::fromDomainModel)
+                .toList();
         if (pniReports.isEmpty()) {
             return ResponseEntity.noContent().build();
         }

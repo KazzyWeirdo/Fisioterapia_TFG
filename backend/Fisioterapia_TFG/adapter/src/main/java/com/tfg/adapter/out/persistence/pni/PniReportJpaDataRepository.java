@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface PniReportJpaDataRepository extends JpaRepository <PniReportJpaEntity, Integer> {
 
-    @Query("SELECT p.reportDate FROM PniReportJpaEntity p WHERE p.patient.id = ?1")
-    List<LocalDate> findAllReportDatesByPatientId(Integer patientId);
+    @Query("SELECT p FROM PniReportJpaEntity p WHERE p.patient.id = ?1")
+    List<PniReportJpaEntity> findAllReportDatesByPatientId(Integer patientId);
 }
