@@ -4,8 +4,6 @@ import com.tfg.adapter.out.persistence.patient.PatientJpaEntity;
 import com.tfg.adapter.out.persistence.patient.PatientJpaMapper;
 import com.tfg.patient.PatientId;
 import com.tfg.port.out.persistence.TrainingSessionRepository;
-import com.tfg.trainingsession.Exercise;
-import com.tfg.trainingsession.ExerciseSet;
 import com.tfg.trainingsession.TrainingSession;
 import com.tfg.trainingsession.TrainingSessionId;
 import org.springframework.stereotype.Repository;
@@ -31,16 +29,6 @@ public class TrainingSessionJpaRepository implements TrainingSessionRepository {
     }
 
     @Override
-    public void saveExercise(Exercise exercise) {
-        // Implementation not yet done
-    }
-
-    @Override
-    public void saveExerciseSet(ExerciseSet exerciseSet) {
-        // Implementation not yet done
-    }
-
-    @Override
     public void deleteAll() {
         trainingSessionJpaDataRepository.deleteAll();
     }
@@ -55,5 +43,15 @@ public class TrainingSessionJpaRepository implements TrainingSessionRepository {
     @Override
     public List<LocalDate> findAllByPatientId(PatientId patientId) {
         return trainingSessionJpaDataRepository.findAllByPatientId(patientId.value());
+    }
+
+    @Override
+    public List<Object[]> countSessionByMonth(PatientId patientId, Integer year) {
+        return trainingSessionJpaDataRepository.countSessionsByMonthForYear(patientId.value(), year);
+    }
+
+    @Override
+    public List<Object[]> calculateVolumeProgression(PatientId patientId, String exerciseName) {
+        return trainingSessionJpaDataRepository.calculateVolumeProgression(patientId.value(), exerciseName);
     }
 }

@@ -46,4 +46,9 @@ public class IndibaJpaRepository implements IndibaSessionRepository {
     public List<Date> findAllByPatientId(PatientId patientId) {
         return indibaJpaDataRepository.findAllByPatientId(patientId.value());
     }
+
+    @Override
+    public List<Object[]> countSessionGroupedByMonth(PatientId patientId, Integer year) {
+        return indibaJpaDataRepository.countSessionByMonthForYear(patientId.value(), year);
+    }
 }

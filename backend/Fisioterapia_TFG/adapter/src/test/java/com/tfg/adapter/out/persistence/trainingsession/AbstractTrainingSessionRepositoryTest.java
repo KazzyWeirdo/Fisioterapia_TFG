@@ -1,10 +1,14 @@
 package com.tfg.adapter.out.persistence.trainingsession;
 
 import com.tfg.model.patient.PatientFactory;
+import com.tfg.model.trainingsession.ExerciseFactory;
+import com.tfg.model.trainingsession.ExerciseSetFactory;
 import com.tfg.model.trainingsession.TrainingSessionFactory;
 import com.tfg.patient.Patient;
 import com.tfg.port.out.persistence.PatientRepository;
 import com.tfg.port.out.persistence.TrainingSessionRepository;
+import com.tfg.trainingsession.Exercise;
+import com.tfg.trainingsession.ExerciseSet;
 import com.tfg.trainingsession.TrainingSession;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,6 +25,9 @@ public abstract class AbstractTrainingSessionRepositoryTest {
     private Patient testPatient;
     private TrainingSession testTrainingSession1;
     private TrainingSession testTrainingSession2;
+    private Exercise exercise1;
+    private ExerciseSet exerciseSet1;
+    private ExerciseSet exerciseSet2;
 
     @Autowired
     public TrainingSessionRepository trainingSessionRepository;
@@ -30,12 +37,14 @@ public abstract class AbstractTrainingSessionRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        testPatient = PatientFactory.createTestPatient("hola@gmail.com", "85729487J");;
+        testPatient = PatientFactory.createTestPatient("hola@gmail.com", "85729487J");
 
         patientRepository.save(testPatient);
 
-        testTrainingSession1 = TrainingSessionFactory.createTestTrainingSession(testPatient, LocalDate.of(2024, 6, 1));
-        testTrainingSession2 = TrainingSessionFactory.createTestTrainingSession(testPatient, LocalDate.of(2024, 6, 2));
+        exerciseSet1 = ExerciseSetFactory.createTestExerciseSet(5);
+        exercise1 = ExerciseFactory.createTestExerciseWithExerciseSets("Test Exercise", exerciseSet1);
+        testTrainingSession1 = TrainingSessionFactory.createTestTrainingSessionWithExercises(testPatient, LocalDate.of(2024, 6, 1), exercise1);
+        testTrainingSession2 = TrainingSessionFactory.createTestTrainingSessionWithExercises(testPatient, LocalDate.of(2024, 7, 2), exercise1);
     }
 
     @AfterEach
@@ -98,5 +107,41 @@ public abstract class AbstractTrainingSessionRepositoryTest {
 
         assertThat(retrievedTrainingSession).isPresent();
         assertThat(retrievedTrainingSession.get().getDate()).isEqualTo(testTrainingSession1.getDate());
+    }
+
+    @Test
+    public void givenExistingTrainingSession_whenFindByYear_returnList() {
+        trainingSessionRepository.save(testTrainingSession1);
+        trainingSessionRepository.save(testTrainingSession2);
+
+        List<Object[]> trainingSessions = trainingSessionRepository.countSessionByMonth(testPatient.getId(), testTrainingSession1.getDate().getYear());
+
+        assertThat(trainingSessions).isNotEmpty();
+        assertThat(trainingSessions.size()).isEqualTo(2);
+    }
+
+    @Test
+    public void givenNoTrainingSessions_whenFindByYear_returnEmptyList() {
+        List<Object[]> trainingSessions = trainingSessionRepository.countSessionByMonth(testPatient.getId(), testTrainingSession1.getDate().getYear());
+
+        assertThat(trainingSessions).isEmpty();
+    }
+
+    @Test
+    public void givenExistingTrainingSession_whenCalculateVolumeProgression_thenReturnList() {
+        trainingSessionRepository.save(testTrainingSession1);
+        trainingSessionRepository.save(testTrainingSession2);
+
+        List<Object[]> progression = trainingSessionRepository.calculateVolumeProgression(testPatient.getId(), "Test Exercise");
+
+        assertThat(progression).isNotEmpty();
+        assertThat(progression.size()).isEqualTo(1);
+    }
+
+    @Test
+    public void givenNoTrainingSessions_whenCalculateVolumeProgression_thenReturnEmptyList() {
+        List<Object[]> progression = trainingSessionRepository.calculateVolumeProgression(testPatient.getId(), "Test Exercise");
+
+        assertThat(progression).isEmpty();
     }
 }

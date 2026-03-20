@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -104,6 +105,24 @@ public abstract class AbstractIndibaRepositoryTest {
         indibaSessionRepository.deleteAll();
 
         var indibaSessions = indibaSessionRepository.findAllByPatientId(testPatient.getId());
+        assertThat(indibaSessions).isEmpty();
+    }
+
+    @Test
+    public void givenExistingIndibaSession_whenFindByYear_returnList() {
+        indibaSessionRepository.save(testIndibaSession);
+        indibaSessionRepository.save(testIndibaSession2);
+
+        List<Object[]> indibaSessions = indibaSessionRepository.countSessionGroupedByMonth(testPatient.getId(), testIndibaSession.getBeginSession().getYear() + 1900);
+
+        assertThat(indibaSessions).isNotEmpty();
+        assertThat(indibaSessions.size()).isEqualTo(2);
+    }
+
+    @Test
+    public void givenNoIndibaSessions_whenFindByYear_returnEmptyList() {
+        List<Object[]> indibaSessions = indibaSessionRepository.countSessionGroupedByMonth(testPatient.getId(), testIndibaSession.getEndSession().getYear() + 1900);
+
         assertThat(indibaSessions).isEmpty();
     }
 }
