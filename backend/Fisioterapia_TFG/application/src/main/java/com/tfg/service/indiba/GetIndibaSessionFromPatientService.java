@@ -21,7 +21,7 @@ public class GetIndibaSessionFromPatientService implements GetIndibaSessionFromP
     }
 
     @Override
-    public List<Date> getIndibaSessionsFromPatient(PatientId patientId) {
+    public List<IndibaSession> getIndibaSessionsFromPatient(PatientId patientId) {
         patientRepository.findById(patientId)
                 .orElseThrow(InvalidIdException::new);
 
