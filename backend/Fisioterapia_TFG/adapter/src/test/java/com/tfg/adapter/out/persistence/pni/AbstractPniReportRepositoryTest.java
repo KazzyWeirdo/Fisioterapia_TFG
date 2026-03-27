@@ -1,6 +1,5 @@
 package com.tfg.adapter.out.persistence.pni;
 
-import com.tfg.indiba.IndibaSession;
 import com.tfg.model.patient.PatientFactory;
 import com.tfg.model.pni.PniReportFactory;
 import com.tfg.patient.Patient;

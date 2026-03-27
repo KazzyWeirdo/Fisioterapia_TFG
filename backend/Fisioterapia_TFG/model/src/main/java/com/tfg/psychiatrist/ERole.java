@@ -1,6 +1,6 @@
 package com.tfg.psychiatrist;
 
-public enum Roles {
+public enum ERole {
     ADMIN,
     USER,
     AUDITOR

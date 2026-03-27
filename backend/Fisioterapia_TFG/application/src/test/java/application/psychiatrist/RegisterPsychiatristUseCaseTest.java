@@ -18,7 +18,6 @@ public class RegisterPsychiatristUseCaseTest {
     private final RegisterPsychiatristService registerPsychiatristService = new RegisterPsychiatristService(psychiatristRepository);
 
     private static final Psychiatrist TEST_PSYCHIATRIST = PsychiatristFactory.createTestPsychiatrist("hola@gmail.com", "ValidPass123!");
-    private static final Psychiatrist TEST_INCORRECT_PSYCHIATRIST = PsychiatristFactory.createTestPsychiatrist("hola@gmail.com", "123invalid");
 
     @Test
     public void givenNewPsychiatrist_whenPsychiatristNotExists_registerPsychiatrist(){
