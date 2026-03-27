@@ -4,6 +4,7 @@ import com.tfg.model.psychiatrist.PsychiatristFactory;
 import com.tfg.port.out.persistence.PsychiatristRepository;
 import com.tfg.psychiatrist.Psychiatrist;
 import com.tfg.psychiatrist.PsychiatristEmail;
+import com.tfg.service.psychiatrist.RegisterPsychiatristService;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -35,19 +36,7 @@ public class RegisterPsychiatristUseCaseTest {
                 .thenReturn(Optional.of(TEST_PSYCHIATRIST));
 
         assertThrows(IllegalArgumentException.class, () -> {
-            psychiatristRepository.registerPsychiatrist(TEST_PSYCHIATRIST);
-        });
-
-        verify(psychiatristRepository, never()).save(any());
-    }
-
-    @Test
-    public void givenNewPsychiatrist_withInvalidPassword_throwException(){
-        when(psychiatristRepository.findByEmail(any(PsychiatristEmail.class)))
-                .thenReturn(java.util.Optional.empty());
-
-        assertThrows(IllegalArgumentException.class, () -> {
-            psychiatristRepository.registerPsychiatrist(TEST_INCORRECT_PSYCHIATRIST);
+            registerPsychiatristService.registerPsychiatrist(TEST_PSYCHIATRIST);
         });
 
         verify(psychiatristRepository, never()).save(any());

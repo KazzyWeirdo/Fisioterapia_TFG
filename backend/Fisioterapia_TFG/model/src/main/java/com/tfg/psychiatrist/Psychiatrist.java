@@ -15,7 +15,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Psychiatrist {
     private final PsychiatristId id;
     private final PsychiatristEmail email;
-    private final String password;
+    private String password;
     private String name;
     private String surname;
     private Set<Roles> roles;
