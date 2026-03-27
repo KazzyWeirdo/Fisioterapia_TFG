@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 @AllArgsConstructor
@@ -16,13 +18,14 @@ public class Psychiatrist {
     private final PsychiatristPassword password;
     private String name;
     private String surname;
+    private Set<Roles> roles = new HashSet<>();
 
-    public Psychiatrist(String email, String password, String name, String surname){
+    public Psychiatrist(String email, String password, String name, String surname, Set<Roles> roles){
         this.id = new PsychiatristId(ThreadLocalRandom.current().nextInt(1_000_000));
         this.email = new PsychiatristEmail(email);
         this.password = new PsychiatristPassword(password);
         this.name = name;
         this.surname = surname;
-
+        this.roles = roles;
     }
 }
