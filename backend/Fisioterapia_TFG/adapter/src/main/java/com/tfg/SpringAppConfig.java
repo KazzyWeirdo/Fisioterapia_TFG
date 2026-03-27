@@ -11,15 +11,13 @@ import com.tfg.port.in.pni.GetPniReportUseCase;
 import com.tfg.port.in.pni.GetPniReportsFromPatientUseCase;
 import com.tfg.port.in.polar.ManagePolarConnectionUseCase;
 import com.tfg.port.in.polar.SyncPolarDataUseCase;
+import com.tfg.port.in.psychiatrist.RegisterPsychiatristUseCase;
 import com.tfg.port.in.statistics.GetPatientTransitionRatioUseCase;
 import com.tfg.port.in.statistics.GetWorkloadProgressionUseCase;
 import com.tfg.port.in.trainingsession.CreateTrainingSessionUseCase;
 import com.tfg.port.in.trainingsession.GetTrainingSessionByPatientUseCase;
 import com.tfg.port.in.trainingsession.GetTrainingSessionUseCase;
-import com.tfg.port.out.persistence.IndibaSessionRepository;
-import com.tfg.port.out.persistence.PatientRepository;
-import com.tfg.port.out.persistence.PniReportRepository;
-import com.tfg.port.out.persistence.TrainingSessionRepository;
+import com.tfg.port.out.persistence.*;
 import com.tfg.port.out.polar.PolarRepository;
 import com.tfg.service.indiba.CreateIndibaSessionService;
 import com.tfg.service.indiba.GetIndibaSessionFromPatientService;
@@ -31,6 +29,7 @@ import com.tfg.service.pni.GetPniReportService;
 import com.tfg.service.pni.GetPniReportsFromPatientService;
 import com.tfg.service.polar.ManagePolarConnectionService;
 import com.tfg.service.polar.SyncPolarDataService;
+import com.tfg.service.psychiatrist.RegisterPsychiatristService;
 import com.tfg.service.statistics.GetPatientTransitionRatioService;
 import com.tfg.service.statistics.GetWorkloadProgressionService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -63,6 +62,9 @@ public class SpringAppConfig {
 
     @Autowired
     TrainingSessionRepository trainingSessionRepository;
+
+    @Autowired
+    PsychiatristRepository psychiatristRepository;
 
     @Bean
     GetPatientUseCase getPatientUseCase() {
@@ -138,5 +140,10 @@ public class SpringAppConfig {
     @Bean
     GetWorkloadProgressionUseCase getWorkloadProgressionUseCase() {
         return new GetWorkloadProgressionService(trainingSessionRepository, patientRepository);
+    }
+
+    @Bean
+    RegisterPsychiatristUseCase registerPsychiatristUseCase() {
+        return new RegisterPsychiatristService(psychiatristRepository);
     }
 }

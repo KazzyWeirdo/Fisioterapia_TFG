@@ -19,4 +19,3 @@ public class PsychiatristRepositoryTest extends AbstractPsychiatristRepositoryTe
         registry.add("spring.jpa.hibernate.ddl-auto", () -> "create-drop");
     }
 }
-}

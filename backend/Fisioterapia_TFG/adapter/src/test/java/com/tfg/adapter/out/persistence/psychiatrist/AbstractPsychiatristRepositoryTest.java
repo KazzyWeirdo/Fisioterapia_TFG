@@ -5,6 +5,8 @@ import com.tfg.model.psychiatrist.PsychiatristFactory;
 import com.tfg.patient.Patient;
 import com.tfg.port.out.persistence.PsychiatristRepository;
 import com.tfg.psychiatrist.Psychiatrist;
+import com.tfg.psychiatrist.PsychiatristEmail;
+import com.tfg.psychiatrist.PsychiatristId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,9 +44,10 @@ public class AbstractPsychiatristRepositoryTest {
 
     @Test
     public void givenAnUnexistingEmail_whenFindByEmail_returnEmptyOptional() {
-        Optional<Psychiatrist> optionalPatient = psychiatristRepository.findByEmail(testPsychiatrist.getEmail());
+        PsychiatristEmail unexistingEmail = new PsychiatristEmail("invalid@gmail.com");
+        Optional<Psychiatrist> optionalPsychiatrist = psychiatristRepository.findByEmail(unexistingEmail);
 
-        assertThat(optionalPatient).isNotPresent();
+        assertThat(optionalPsychiatrist).isNotPresent();
     }
 
     @Test
@@ -57,9 +60,10 @@ public class AbstractPsychiatristRepositoryTest {
 
     @Test
     public void givenAnUnexistingId_whenFindById_returnEmptyOptional() {
-        Optional<Psychiatrist> optionalPatient = psychiatristRepository.findById(testPsychiatrist.getId());
+        PsychiatristId unexistingId = new PsychiatristId(999);
+        Optional<Psychiatrist> optionalPsychiatrist = psychiatristRepository.findById(unexistingId);
 
-        assertThat(optionalPatient).isNotPresent();
+        assertThat(optionalPsychiatrist).isNotPresent();
     }
 
     @Test

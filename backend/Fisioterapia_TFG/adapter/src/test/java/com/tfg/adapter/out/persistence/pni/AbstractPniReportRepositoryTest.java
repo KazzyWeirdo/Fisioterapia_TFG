@@ -30,12 +30,12 @@ public abstract class AbstractPniReportRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        testPatient = PatientFactory.createTestPatient("hola@gmail.com", "85729487J");;
+        testPatient = PatientFactory.createTestPatient("hola@gmail.com", "85729487J");
 
         patientRepository.save(testPatient);
 
-        testPniReport1 = PniReportFactory.createTestPniReport(testPatient, 6);;
-        testPniReport2 = PniReportFactory.createTestPniReport(testPatient, 6);;
+        testPniReport1 = PniReportFactory.createTestPniReport(testPatient, 6);
+        testPniReport2 = PniReportFactory.createTestPniReport(testPatient, 6);
     }
 
     @AfterEach
