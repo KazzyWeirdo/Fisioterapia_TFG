@@ -15,17 +15,26 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Psychiatrist {
     private final PsychiatristId id;
     private final PsychiatristEmail email;
-    private final PsychiatristPassword password;
+    private final String password;
     private String name;
     private String surname;
-    private Set<Roles> roles = new HashSet<>();
+    private Set<Roles> roles;
 
     public Psychiatrist(String email, String password, String name, String surname, Set<Roles> roles){
         this.id = new PsychiatristId(ThreadLocalRandom.current().nextInt(1_000_000));
         this.email = new PsychiatristEmail(email);
-        this.password = new PsychiatristPassword(password);
+        this.password = password;
         this.name = name;
         this.surname = surname;
         this.roles = roles;
+    }
+
+    public boolean passwordIsCorrect(String password) {
+        try {
+            PsychiatristPassword psychiatristPassword = new PsychiatristPassword(this.password);
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+        return true;
     }
 }
