@@ -1,6 +1,7 @@
-package com.tfg.adapter.in.rest.patient;
+package com.tfg.adapter.in.rest.psychiatrist;
 
 import com.tfg.port.in.patient.CreatePatientUseCase;
+import com.tfg.port.in.psychiatrist.RegisterPsychiatristUseCase;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,60 +11,63 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 
 @ExtendWith(MockitoExtension.class)
-public class CreatePatientControllerTest {
+public class RegisterPsychiatristControllerTest {
 
     @Mock
-    private CreatePatientUseCase createPatientUseCase;
+    private RegisterPsychiatristUseCase registerPsychiatristUseCase;
 
     @InjectMocks
-    private CreatePatientController createPatientController;
+    private RegisterPsychiatristController registerPsychiatristController;
 
     @BeforeEach
     void setUp() {
-        RestAssuredMockMvc.standaloneSetup(createPatientController);
+        RestAssuredMockMvc.standaloneSetup(registerPsychiatristController);
     }
 
     @Test
     void createPatient_ShouldReturnOk_WhenInputIsValid() throws Exception {
-        PatientCreationModel patientCreationModel = new PatientCreationModel(
+        List<String> roles = List.of("ADMIN");
+        RegisterPsychiatristModel registerPsychiatristModel = new RegisterPsychiatristModel(
                 "test@example.com",
                 "12345678A",
-                "MALE",
                 "John",
                 "Doe",
-                "Smith",
-                123456789,
-                LocalDate.of(1990, 1, 1)
+                roles
 
         );
 
         given()
                 .contentType("application/json")
-                .body(patientCreationModel)
+                .body(registerPsychiatristModel)
                 .when()
-                .post("/patients/create")
+                .post("/psychiatrist/register")
                 .then()
                 .status(HttpStatus.OK);
     }
 
     @Test
     void createPatient_ShouldReturnBadRequest_WhenInputIsInvalid() {
-        PatientCreationModel invalidPatientCreationModel = new PatientCreationModel(
-                "",
-                "12345678A", "MALE", "John", "Doe", "Smith", 123456789,
-                LocalDate.of(1990, 1, 1)
+        List<String> roles = new ArrayList<>();
+        RegisterPsychiatristModel registerPsychiatristModel = new RegisterPsychiatristModel(
+                "test@example.com",
+                "12345678A",
+                "John",
+                "Doe",
+                roles
+
         );
 
         given()
                 .contentType("application/json")
-                .body(invalidPatientCreationModel)
+                .body(registerPsychiatristModel)
                 .when()
-                .post("/patients/create")
+                .post("/psychiatrist/register")
                 .then()
                 .status(HttpStatus.BAD_REQUEST);
     }
