@@ -4,6 +4,7 @@ import com.tfg.port.out.persistence.PsychiatristRepository;
 import com.tfg.psychiatrist.Psychiatrist;
 import com.tfg.psychiatrist.PsychiatristEmail;
 import com.tfg.psychiatrist.PsychiatristId;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -18,6 +19,7 @@ public class PsychiatristJpaRepository implements PsychiatristRepository {
     }
 
     @Override
+    @Transactional
     public void save(Psychiatrist psychiatrist) {
         PsychiatristJpaEntity psychiatristJpaEntity = PsychiatristJpaMapper.toJpaEntity(psychiatrist);
         psychiatristJpaDataRepository.save(psychiatristJpaEntity);

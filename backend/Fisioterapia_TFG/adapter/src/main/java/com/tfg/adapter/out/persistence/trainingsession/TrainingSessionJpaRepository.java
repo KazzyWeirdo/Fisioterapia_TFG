@@ -21,6 +21,7 @@ public class TrainingSessionJpaRepository implements TrainingSessionRepository {
     }
 
     @Override
+    @Transactional
     public void save(TrainingSession trainingSession) {
         PatientJpaEntity patientJpaEntity = PatientJpaMapper.toJpaEntity(trainingSession.getPatient());
         TrainingSessionJpaEntity trainingSessionJpaEntity = TrainingSessionJpaMapper.toJpaEntity(trainingSession, patientJpaEntity);

@@ -6,6 +6,7 @@ import com.tfg.patient.PatientId;
 import com.tfg.pni.PniReport;
 import com.tfg.pni.PniReportId;
 import com.tfg.port.out.persistence.PniReportRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 
@@ -24,6 +25,7 @@ public class PniReportJpaRepository implements PniReportRepository {
 
 
     @Override
+    @Transactional
     public void save(PniReport pniReport) {
         PatientJpaEntity patientJpaEntity = PatientJpaMapper.toJpaEntity(pniReport.getPatient());
         PniReportJpaEntity pniReportJpaEntity = PniReportJpaMapper.toJpaEntity(pniReport, patientJpaEntity);

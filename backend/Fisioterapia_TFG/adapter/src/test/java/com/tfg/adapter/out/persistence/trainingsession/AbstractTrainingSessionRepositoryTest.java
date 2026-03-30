@@ -27,7 +27,6 @@ public abstract class AbstractTrainingSessionRepositoryTest {
     private TrainingSession testTrainingSession2;
     private Exercise exercise1;
     private ExerciseSet exerciseSet1;
-    private ExerciseSet exerciseSet2;
 
     @Autowired
     public TrainingSessionRepository trainingSessionRepository;

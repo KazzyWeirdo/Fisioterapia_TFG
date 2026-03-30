@@ -16,7 +16,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class AbstractPsychiatristRepositoryTest {
+public abstract class AbstractPsychiatristRepositoryTest {
 
     private Psychiatrist testPsychiatrist;
 
