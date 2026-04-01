@@ -26,13 +26,4 @@ public class Psychiatrist {
         this.surname = surname;
         this.roles = roles;
     }
-
-    public boolean passwordIsCorrect(String password) {
-        try {
-            PsychiatristPassword psychiatristPassword = new PsychiatristPassword(this.password);
-        } catch (IllegalArgumentException e) {
-            return false;
-        }
-        return true;
-    }
 }

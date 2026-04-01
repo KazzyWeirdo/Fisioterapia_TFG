@@ -35,7 +35,7 @@ public class RegisterPsychiatristControllerTest {
         List<String> roles = List.of("ADMIN");
         RegisterPsychiatristModel registerPsychiatristModel = new RegisterPsychiatristModel(
                 "test@example.com",
-                "12345678A",
+                "ValidPass123!",
                 "John",
                 "Doe",
                 roles
