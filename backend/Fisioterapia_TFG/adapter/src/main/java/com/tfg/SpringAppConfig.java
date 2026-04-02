@@ -40,8 +40,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import com.tfg.service.patient.GetPatientService;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @SpringBootApplication
+@EnableAspectJAutoProxy
 @OpenAPIDefinition(info = @Info(title= "fisioterapia API",
 version = "1.0",
 license = @License(name = "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International Public License", url = "https://creativecommons.org/licenses/by-nc-sa/4.0/")))
@@ -65,6 +67,9 @@ public class SpringAppConfig {
 
     @Autowired
     PsychiatristRepository psychiatristRepository;
+
+    @Autowired
+    AuditLogRepository auditLogRepository;
 
     @Bean
     GetPatientUseCase getPatientUseCase() {

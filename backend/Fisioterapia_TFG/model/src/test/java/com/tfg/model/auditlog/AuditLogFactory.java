@@ -12,13 +12,14 @@ public class AuditLogFactory {
     public static String TIMESTAMP = "1-1-1";
     public static String DETAILS = "Hola";
 
-    public static AuditLog createTestAuditLog() {
+    public static AuditLog createTestAuditLog(String user) {
         AuditLog auditLog = new AuditLog(
                 AUDIT_LOG_ID,
                 ENTITY_NAME,
                 ACTION,
                 TIMESTAMP,
-                DETAILS
+                DETAILS,
+                user
         );
         return auditLog;
     }

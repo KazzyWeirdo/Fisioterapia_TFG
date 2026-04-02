@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 public class AuditLogTest {
 
-    private static final AuditLog TEST_AUDIT_LOG = AuditLogFactory.createTestAuditLog();
+    private static final AuditLog TEST_AUDIT_LOG = AuditLogFactory.createTestAuditLog("testUser");
 
     @Test
     public void givenValidValues_newAuditLog_succeeds() {
@@ -16,5 +16,6 @@ public class AuditLogTest {
         assert auditLog.getAction().equals(TEST_AUDIT_LOG.getAction());
         assert auditLog.getTimestamp().equals(TEST_AUDIT_LOG.getTimestamp());
         assert auditLog.getDetails().equals(TEST_AUDIT_LOG.getDetails());
+        assert auditLog.getUser().equals(TEST_AUDIT_LOG.getUser());
     }
 }

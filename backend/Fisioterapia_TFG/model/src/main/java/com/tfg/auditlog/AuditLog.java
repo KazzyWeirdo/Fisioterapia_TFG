@@ -13,4 +13,5 @@ public class AuditLog {
     private String action;
     private String timestamp;
     private String details;
+    private String user;
 }
