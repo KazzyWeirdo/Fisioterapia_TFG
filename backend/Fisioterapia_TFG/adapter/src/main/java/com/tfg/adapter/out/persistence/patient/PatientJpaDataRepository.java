@@ -1,6 +1,7 @@
 package com.tfg.adapter.out.persistence.patient;
 
 import com.tfg.patient.PatientGender;
+import com.tfg.patient.PatientSex;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -17,15 +18,18 @@ public interface PatientJpaDataRepository extends JpaRepository<PatientJpaEntity
     Optional<PatientJpaEntity> findByDni(String dni);
 
     @Modifying
-    @Query("UPDATE PatientJpaEntity p SET p.id = :id, p.email = :email, p.dni = :dni, p.gender = :gender, p.name = :name, p.surname = :surname, p.secondSurname = :secondSurname, p.dateOfBirth = :dateOfBirth, p.phoneNumber = :phoneNumber WHERE p.id = :id")
+    @Query("UPDATE PatientJpaEntity p SET p.id = :id, p.email = :email, p.dni = :dni, p.genderIdentity = :gender, p.administrativeSex = :administrativeSex, p.legalName = :legalName, p.nameToUse = :nameToUse, p.surname = :surname, p.secondSurname = :secondSurname, p.pronouns = :pronouns, p.dateOfBirth = :dateOfBirth, p.phoneNumber = :phoneNumber WHERE p.id = :id")
     void updatePatientById(
             @Param("id") Integer id,
             @Param("email") String email,
             @Param("dni") String dni,
-            @Param("gender") PatientGender gender,
-            @Param("name") String name,
+            @Param("gender") PatientGender genderIdentity,
+            @Param("administrativeSex") PatientSex administrativeSex,
+            @Param("legalName") String legalName,
+            @Param("nameToUse") String nameToUse,
             @Param("surname") String surname,
             @Param("secondSurname") String secondSurname,
+            @Param("pronouns") String pronouns,
             @Param("dateOfBirth") LocalDate dateOfBirth,
             @Param("phoneNumber") int phoneNumber
     );
