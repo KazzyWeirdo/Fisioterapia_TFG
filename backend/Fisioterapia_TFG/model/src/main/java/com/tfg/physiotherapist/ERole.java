@@ -1,4 +1,4 @@
-package com.tfg.psychiatrist;
+package com.tfg.physiotherapist;
 
 public enum ERole {
     ADMIN,

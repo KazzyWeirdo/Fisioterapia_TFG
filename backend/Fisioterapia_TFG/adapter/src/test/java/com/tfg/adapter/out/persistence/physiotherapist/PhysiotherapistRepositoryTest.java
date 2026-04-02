@@ -1,4 +1,4 @@
-package com.tfg.adapter.out.persistence.psychiatrist;
+package com.tfg.adapter.out.persistence.physiotherapist;
 
 
 import com.tfg.adapter.out.persistence.JpaTestContainerConfig;
@@ -9,7 +9,7 @@ import org.springframework.test.context.DynamicPropertySource;
 
 @SpringBootTest
 @ActiveProfiles("test")
-public class PsychiatristRepositoryTest extends AbstractPsychiatristRepositoryTest {
+public class PhysiotherapistRepositoryTest extends AbstractPhysiotherapistRepositoryTest {
     @DynamicPropertySource
     static void databaseProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", () -> JpaTestContainerConfig.getInstance().getJdbcUrl());

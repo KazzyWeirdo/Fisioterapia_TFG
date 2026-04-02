@@ -1,13 +1,14 @@
-package com.tfg.adapter.out.persistence.psychiatrist;
+package com.tfg.adapter.out.persistence.physiotherapist;
 
-import com.tfg.psychiatrist.ERole;
+import com.tfg.physiotherapist.ERole;
+import com.tfg.physiotherapist.Physiotherapist;
 
 import java.util.Set;
 
-public class PsychiatristJpaMapper {
+public class PhysiotherapistJpaMapper {
 
-    public static PsychiatristJpaEntity toJpaEntity(com.tfg.psychiatrist.Psychiatrist psychiatrist) {
-        PsychiatristJpaEntity entity = new PsychiatristJpaEntity();
+    public static PhysiotherapistJpaEntity toJpaEntity(Physiotherapist psychiatrist) {
+        PhysiotherapistJpaEntity entity = new PhysiotherapistJpaEntity();
         entity.setId(psychiatrist.getId().value());
         entity.setName(psychiatrist.getName());
         entity.setSurname(psychiatrist.getSurname());
@@ -16,11 +17,11 @@ public class PsychiatristJpaMapper {
         return entity;
     }
 
-    public static com.tfg.psychiatrist.Psychiatrist toModelEntity(PsychiatristJpaEntity entity) {
+    public static Physiotherapist toModelEntity(PhysiotherapistJpaEntity entity) {
         Set<ERole> roles = entity.getRoles().stream()
                 .map(RoleJpaEntity::getName)
                 .collect(java.util.stream.Collectors.toSet());
-        return new com.tfg.psychiatrist.Psychiatrist(
+        return new Physiotherapist(
                 entity.getEmail(),
                 entity.getPassword(),
                 entity.getName(),

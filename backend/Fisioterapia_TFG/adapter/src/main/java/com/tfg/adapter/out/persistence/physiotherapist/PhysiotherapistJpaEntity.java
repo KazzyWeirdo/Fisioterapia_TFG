@@ -1,4 +1,4 @@
-package com.tfg.adapter.out.persistence.psychiatrist;
+package com.tfg.adapter.out.persistence.physiotherapist;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -11,7 +11,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name = "psychiatrists")
-public class PsychiatristJpaEntity {
+public class PhysiotherapistJpaEntity {
     @Id
     private int id;
     @Column(nullable = false)

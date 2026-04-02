@@ -1,18 +1,18 @@
-package com.tfg.model.psychiatrist;
+package com.tfg.model.physiotherapist;
 
-import com.tfg.psychiatrist.Psychiatrist;
+import com.tfg.physiotherapist.Physiotherapist;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class PsyhiatristTest {
+public class PhysiotherapistTest {
 
-    private static final Psychiatrist TEST_PSYCHIATRIST = PsychiatristFactory.createTestPsychiatrist("hola@gmail.com", "ValidPass123!");
+    private static final Physiotherapist TEST_PSYCHIATRIST = PhysiotherapistFactory.createTestPsychiatrist("hola@gmail.com", "ValidPass123!");
 
     @Test
     public void givenValidValues_newPsychiatrist_succeeds() {
 
-        Psychiatrist psychiatrist = TEST_PSYCHIATRIST;
+        Physiotherapist psychiatrist = TEST_PSYCHIATRIST;
 
         assertThat(psychiatrist.getEmail()).isEqualTo(TEST_PSYCHIATRIST.getEmail());
         assertThat(psychiatrist.getPassword()).isEqualTo(TEST_PSYCHIATRIST.getPassword());

@@ -1,7 +1,6 @@
-package com.tfg.adapter.in.rest.psychiatrist;
+package com.tfg.adapter.in.rest.physiotherapist;
 
-import com.tfg.adapter.in.rest.patient.PatientCreationModel;
-import com.tfg.port.in.psychiatrist.RegisterPsychiatristUseCase;
+import com.tfg.port.in.physiotherapist.RegisterPhysiotherapistUseCase;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
@@ -13,10 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/psychiatrist")
-public class RegisterPsychiatristController {
-    private final RegisterPsychiatristUseCase registerPsychiatristUseCase;
+public class RegisterPhysiotherapistController {
+    private final RegisterPhysiotherapistUseCase registerPsychiatristUseCase;
 
-    public RegisterPsychiatristController(RegisterPsychiatristUseCase registerPsychiatristUseCase) {
+    public RegisterPhysiotherapistController(RegisterPhysiotherapistUseCase registerPsychiatristUseCase) {
         this.registerPsychiatristUseCase = registerPsychiatristUseCase;
     }
 
@@ -25,7 +24,7 @@ public class RegisterPsychiatristController {
             @ApiResponse(responseCode = "200", description = "Psychiatrist registrated successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid input data")
     })
-    public ResponseEntity<Void> createPatient(@RequestBody @Valid RegisterPsychiatristModel registerPsychiatristModel) {
+    public ResponseEntity<Void> createPatient(@RequestBody @Valid RegisterPhysiotherapistModel registerPsychiatristModel) {
         registerPsychiatristUseCase.registerPsychiatrist(registerPsychiatristModel.toDomainModel());
         return ResponseEntity.ok().build();
     }

@@ -3,7 +3,7 @@ package com.tfg.adapter.in.auditaspect;
 import com.tfg.auditlog.AuditLog;
 import com.tfg.auditlog.AuditLogId;
 import com.tfg.port.out.persistence.AuditLogRepository;
-import com.tfg.psychiatrist.Psychiatrist;
+import com.tfg.physiotherapist.Physiotherapist;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -34,7 +34,7 @@ public class AuditAspect {
         String entityType = entity.getClass().getSimpleName();
         String details = "Entity Saved";
 
-        if (entity instanceof Psychiatrist p) {
+        if (entity instanceof Physiotherapist p) {
             details = p.getEmail().value();
         }
         AuditLog log = new AuditLog(

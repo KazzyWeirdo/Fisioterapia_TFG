@@ -1,12 +1,11 @@
-package com.tfg.adapter.out.persistence.psychiatrist;
+package com.tfg.adapter.out.persistence.physiotherapist;
 
 
-import com.tfg.model.psychiatrist.PsychiatristFactory;
-import com.tfg.patient.Patient;
-import com.tfg.port.out.persistence.PsychiatristRepository;
-import com.tfg.psychiatrist.Psychiatrist;
-import com.tfg.psychiatrist.PsychiatristEmail;
-import com.tfg.psychiatrist.PsychiatristId;
+import com.tfg.model.physiotherapist.PhysiotherapistFactory;
+import com.tfg.port.out.persistence.PhysiotherapistRepository;
+import com.tfg.physiotherapist.Physiotherapist;
+import com.tfg.physiotherapist.PhysiotherapistEmail;
+import com.tfg.physiotherapist.PhysiotherapistId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,16 +15,16 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public abstract class AbstractPsychiatristRepositoryTest {
+public abstract class AbstractPhysiotherapistRepositoryTest {
 
-    private Psychiatrist testPsychiatrist;
+    private Physiotherapist testPsychiatrist;
 
     @Autowired
-    public PsychiatristRepository psychiatristRepository;
+    public PhysiotherapistRepository psychiatristRepository;
 
     @BeforeEach
     void setUp() {
-        testPsychiatrist = PsychiatristFactory.createTestPsychiatrist("hola@gmail.com", "validPassword123!");
+        testPsychiatrist = PhysiotherapistFactory.createTestPsychiatrist("hola@gmail.com", "validPassword123!");
         psychiatristRepository.save(testPsychiatrist);
     }
 
@@ -44,8 +43,8 @@ public abstract class AbstractPsychiatristRepositoryTest {
 
     @Test
     public void givenAnUnexistingEmail_whenFindByEmail_returnEmptyOptional() {
-        PsychiatristEmail unexistingEmail = new PsychiatristEmail("invalid@gmail.com");
-        Optional<Psychiatrist> optionalPsychiatrist = psychiatristRepository.findByEmail(unexistingEmail);
+        PhysiotherapistEmail unexistingEmail = new PhysiotherapistEmail("invalid@gmail.com");
+        Optional<Physiotherapist> optionalPsychiatrist = psychiatristRepository.findByEmail(unexistingEmail);
 
         assertThat(optionalPsychiatrist).isNotPresent();
     }
@@ -60,8 +59,8 @@ public abstract class AbstractPsychiatristRepositoryTest {
 
     @Test
     public void givenAnUnexistingId_whenFindById_returnEmptyOptional() {
-        PsychiatristId unexistingId = new PsychiatristId(999);
-        Optional<Psychiatrist> optionalPsychiatrist = psychiatristRepository.findById(unexistingId);
+        PhysiotherapistId unexistingId = new PhysiotherapistId(999);
+        Optional<Physiotherapist> optionalPsychiatrist = psychiatristRepository.findById(unexistingId);
 
         assertThat(optionalPsychiatrist).isNotPresent();
     }

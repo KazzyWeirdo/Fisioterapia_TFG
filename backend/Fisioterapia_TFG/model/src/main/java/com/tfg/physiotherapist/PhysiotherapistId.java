@@ -1,7 +1,7 @@
-package com.tfg.psychiatrist;
+package com.tfg.physiotherapist;
 
-public record PsychiatristId(int value) {
-        public PsychiatristId {
+public record PhysiotherapistId(int value) {
+        public PhysiotherapistId {
             if (value <= 0) {
                 throw new IllegalArgumentException("Psychiatrist ID must be a positive integer.");
             }

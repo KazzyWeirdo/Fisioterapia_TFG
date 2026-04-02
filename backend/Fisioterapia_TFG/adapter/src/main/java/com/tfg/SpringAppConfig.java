@@ -11,7 +11,7 @@ import com.tfg.port.in.pni.GetPniReportUseCase;
 import com.tfg.port.in.pni.GetPniReportsFromPatientUseCase;
 import com.tfg.port.in.polar.ManagePolarConnectionUseCase;
 import com.tfg.port.in.polar.SyncPolarDataUseCase;
-import com.tfg.port.in.psychiatrist.RegisterPsychiatristUseCase;
+import com.tfg.port.in.physiotherapist.RegisterPhysiotherapistUseCase;
 import com.tfg.port.in.statistics.GetPatientTransitionRatioUseCase;
 import com.tfg.port.in.statistics.GetWorkloadProgressionUseCase;
 import com.tfg.port.in.trainingsession.CreateTrainingSessionUseCase;
@@ -29,7 +29,7 @@ import com.tfg.service.pni.GetPniReportService;
 import com.tfg.service.pni.GetPniReportsFromPatientService;
 import com.tfg.service.polar.ManagePolarConnectionService;
 import com.tfg.service.polar.SyncPolarDataService;
-import com.tfg.service.psychiatrist.RegisterPsychiatristService;
+import com.tfg.service.physiotherapist.RegisterPhysiotherapistService;
 import com.tfg.service.statistics.GetPatientTransitionRatioService;
 import com.tfg.service.statistics.GetWorkloadProgressionService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -66,7 +66,7 @@ public class SpringAppConfig {
     TrainingSessionRepository trainingSessionRepository;
 
     @Autowired
-    PsychiatristRepository psychiatristRepository;
+    PhysiotherapistRepository psychiatristRepository;
 
     @Autowired
     AuditLogRepository auditLogRepository;
@@ -148,7 +148,7 @@ public class SpringAppConfig {
     }
 
     @Bean
-    RegisterPsychiatristUseCase registerPsychiatristUseCase() {
-        return new RegisterPsychiatristService(psychiatristRepository);
+    RegisterPhysiotherapistUseCase registerPsychiatristUseCase() {
+        return new RegisterPhysiotherapistService(psychiatristRepository);
     }
 }

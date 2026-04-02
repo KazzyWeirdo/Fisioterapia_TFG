@@ -1,7 +1,7 @@
-package com.tfg.psychiatrist;
+package com.tfg.physiotherapist;
 
-public record PsychiatristEmail(String value) {
-     public PsychiatristEmail {
+public record PhysiotherapistEmail(String value) {
+     public PhysiotherapistEmail {
         if (value == null || value.isBlank()) {
             throw new IllegalArgumentException("Email cannot be null or blank");
         }

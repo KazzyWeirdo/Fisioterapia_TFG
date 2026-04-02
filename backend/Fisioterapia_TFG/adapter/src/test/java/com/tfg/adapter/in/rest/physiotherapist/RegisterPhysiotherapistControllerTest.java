@@ -1,7 +1,6 @@
-package com.tfg.adapter.in.rest.psychiatrist;
+package com.tfg.adapter.in.rest.physiotherapist;
 
-import com.tfg.port.in.patient.CreatePatientUseCase;
-import com.tfg.port.in.psychiatrist.RegisterPsychiatristUseCase;
+import com.tfg.port.in.physiotherapist.RegisterPhysiotherapistUseCase;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,13 +16,13 @@ import java.util.List;
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 
 @ExtendWith(MockitoExtension.class)
-public class RegisterPsychiatristControllerTest {
+public class RegisterPhysiotherapistControllerTest {
 
     @Mock
-    private RegisterPsychiatristUseCase registerPsychiatristUseCase;
+    private RegisterPhysiotherapistUseCase registerPsychiatristUseCase;
 
     @InjectMocks
-    private RegisterPsychiatristController registerPsychiatristController;
+    private RegisterPhysiotherapistController registerPsychiatristController;
 
     @BeforeEach
     void setUp() {
@@ -33,7 +32,7 @@ public class RegisterPsychiatristControllerTest {
     @Test
     void createPatient_ShouldReturnOk_WhenInputIsValid() throws Exception {
         List<String> roles = List.of("ADMIN");
-        RegisterPsychiatristModel registerPsychiatristModel = new RegisterPsychiatristModel(
+        RegisterPhysiotherapistModel registerPsychiatristModel = new RegisterPhysiotherapistModel(
                 "test@example.com",
                 "ValidPass123!",
                 "John",
@@ -54,7 +53,7 @@ public class RegisterPsychiatristControllerTest {
     @Test
     void createPatient_ShouldReturnBadRequest_WhenInputIsInvalid() {
         List<String> roles = new ArrayList<>();
-        RegisterPsychiatristModel registerPsychiatristModel = new RegisterPsychiatristModel(
+        RegisterPhysiotherapistModel registerPsychiatristModel = new RegisterPhysiotherapistModel(
                 "test@example.com",
                 "12345678A",
                 "John",
