@@ -11,6 +11,7 @@ public class AuditLogMongoMapper {
         auditLogMongoEntity.setEntityName(auditLog.getEntityName());
         auditLogMongoEntity.setAction(auditLog.getAction());
         auditLogMongoEntity.setTimestamp(auditLog.getTimestamp());
+        auditLogMongoEntity.setUserName(auditLog.getUser());
         return auditLogMongoEntity;
     }
 
@@ -20,7 +21,8 @@ public class AuditLogMongoMapper {
             auditLogMongoEntity.getEntityName(),
             auditLogMongoEntity.getAction(),
             auditLogMongoEntity.getTimestamp(),
-                auditLogMongoEntity.getDetails()
+                auditLogMongoEntity.getDetails(),
+                auditLogMongoEntity.getUserName()
         );
         return auditLog;
     }

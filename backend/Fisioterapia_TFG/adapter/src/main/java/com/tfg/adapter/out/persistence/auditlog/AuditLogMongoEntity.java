@@ -15,4 +15,5 @@ public class AuditLogMongoEntity {
     private String action;
     private String timestamp;
     private String details;
+    private String userName;
 }
