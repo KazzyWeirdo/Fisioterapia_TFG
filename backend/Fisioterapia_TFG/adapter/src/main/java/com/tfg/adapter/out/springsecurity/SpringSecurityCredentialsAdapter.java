@@ -1,7 +1,7 @@
 package com.tfg.adapter.out.springsecurity;
 
-import com.tfg.port.out.JWT.AuthenticatedUser;
-import com.tfg.port.out.JWT.CredentialsValidatorPort;
+import com.tfg.pojos.springsecurity.AuthenticatedUser;
+import com.tfg.port.out.springsecurity.CredentialsValidatorPort;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

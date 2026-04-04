@@ -1,4 +1,4 @@
-package com.tfg.port.out.JWT;
+package com.tfg.pojos.springsecurity;
 
 import java.util.List;
 

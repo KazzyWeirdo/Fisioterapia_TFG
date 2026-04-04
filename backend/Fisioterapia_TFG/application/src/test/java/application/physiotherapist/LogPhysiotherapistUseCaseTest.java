@@ -1,9 +1,9 @@
 package application.physiotherapist;
 
 import com.tfg.exceptions.BadCredentialsException;
-import com.tfg.port.out.JWT.AuthenticatedUser;
-import com.tfg.port.out.JWT.CredentialsValidatorPort;
-import com.tfg.port.out.JWT.TokenGeneratorPort;
+import com.tfg.pojos.springsecurity.AuthenticatedUser;
+import com.tfg.port.out.springsecurity.CredentialsValidatorPort;
+import com.tfg.port.out.springsecurity.TokenGeneratorPort;
 import com.tfg.service.physiotherapist.LogPhysiotherapistService;
 import org.junit.jupiter.api.Test;
 

@@ -1,7 +1,7 @@
 package com.tfg.adapter.out.springsecurity;
 
-import com.tfg.port.out.JWT.AuthenticatedUser;
-import com.tfg.port.out.JWT.TokenGeneratorPort;
+import com.tfg.pojos.springsecurity.AuthenticatedUser;
+import com.tfg.port.out.springsecurity.TokenGeneratorPort;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.JwsHeader;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;

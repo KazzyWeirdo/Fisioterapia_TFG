@@ -1,5 +1,6 @@
 package com.tfg;
 
+import com.tfg.port.in.auditlog.GetAllAuditLogsUseCase;
 import com.tfg.port.in.indiba.CreateIndibaSessionUseCase;
 import com.tfg.port.in.indiba.GetIndibaSessionFromPatientUseCase;
 import com.tfg.port.in.indiba.GetIndibaSessionUseCase;
@@ -18,10 +19,11 @@ import com.tfg.port.in.statistics.GetWorkloadProgressionUseCase;
 import com.tfg.port.in.trainingsession.CreateTrainingSessionUseCase;
 import com.tfg.port.in.trainingsession.GetTrainingSessionByPatientUseCase;
 import com.tfg.port.in.trainingsession.GetTrainingSessionUseCase;
-import com.tfg.port.out.JWT.CredentialsValidatorPort;
-import com.tfg.port.out.JWT.TokenGeneratorPort;
+import com.tfg.port.out.springsecurity.CredentialsValidatorPort;
+import com.tfg.port.out.springsecurity.TokenGeneratorPort;
 import com.tfg.port.out.persistence.*;
 import com.tfg.port.out.polar.PolarRepository;
+import com.tfg.service.auditlog.GetAllAuditLogsService;
 import com.tfg.service.indiba.CreateIndibaSessionService;
 import com.tfg.service.indiba.GetIndibaSessionFromPatientService;
 import com.tfg.service.indiba.GetIndibaSessionService;
@@ -154,6 +156,11 @@ public class SpringAppConfig {
     @Bean
     GetWorkloadProgressionUseCase getWorkloadProgressionUseCase() {
         return new GetWorkloadProgressionService(trainingSessionRepository, patientRepository);
+    }
+
+    @Bean
+    GetAllAuditLogsUseCase getAllAuditLogsUseCase() {
+        return new GetAllAuditLogsService(auditLogRepository);
     }
 
     @Bean

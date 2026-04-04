@@ -1,7 +1,7 @@
 package com.tfg.adapter.out.springsecurity;
 
 import com.tfg.exceptions.BadCredentialsException;
-import com.tfg.port.out.JWT.AuthenticatedUser;
+import com.tfg.pojos.springsecurity.AuthenticatedUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

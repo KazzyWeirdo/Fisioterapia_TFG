@@ -1,9 +1,9 @@
 package com.tfg.service.physiotherapist;
 
 import com.tfg.port.in.physiotherapist.LogPhysiotherapistUseCase;
-import com.tfg.port.out.JWT.AuthenticatedUser;
-import com.tfg.port.out.JWT.CredentialsValidatorPort;
-import com.tfg.port.out.JWT.TokenGeneratorPort;
+import com.tfg.pojos.springsecurity.AuthenticatedUser;
+import com.tfg.port.out.springsecurity.CredentialsValidatorPort;
+import com.tfg.port.out.springsecurity.TokenGeneratorPort;
 
 public class LogPhysiotherapistService implements LogPhysiotherapistUseCase {
     private final TokenGeneratorPort tokenGeneratorPort;
