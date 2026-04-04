@@ -2,11 +2,13 @@ package com.tfg.adapter.out.persistence.indiba;
 
 import com.tfg.adapter.out.persistence.patient.PatientJpaEntity;
 import com.tfg.adapter.out.persistence.patient.PatientJpaMapper;
+import com.tfg.adapter.out.persistence.physiotherapist.PhysiotherapistJpaEntity;
+import com.tfg.adapter.out.persistence.physiotherapist.PhysiotherapistJpaMapper;
 import com.tfg.indiba.IndibaSession;
 
 public class IndibaJpaMapper {
 
-    public static IndibaJpaEntity toJpaEntity(PatientJpaEntity patientJpaEntity, IndibaSession indibaSession) {
+    public static IndibaJpaEntity toJpaEntity(PatientJpaEntity patientJpaEntity, PhysiotherapistJpaEntity physiotherapistJpaEntity, IndibaSession indibaSession) {
         IndibaJpaEntity entity = new IndibaJpaEntity();
         entity.setId(indibaSession.getId().value());
         entity.setPatient(patientJpaEntity);
@@ -16,7 +18,7 @@ public class IndibaJpaMapper {
         entity.setMode(indibaSession.getMode());
         entity.setIntensity(indibaSession.getIntensity());
         entity.setObjective(indibaSession.getObjective());
-        entity.setPhysiotherapist(indibaSession.getPhysiotherapist());
+        entity.setPhysiotherapist(physiotherapistJpaEntity);
         entity.setObservations(indibaSession.getObservations());
         return entity;
     }
@@ -31,7 +33,7 @@ public class IndibaJpaMapper {
                 entity.getMode(),
                 entity.getIntensity(),
                 entity.getObjective(),
-                entity.getPhysiotherapist(),
+                PhysiotherapistJpaMapper.toModelEntity(entity.getPhysiotherapist()),
                 entity.getObservations()
         );
     }

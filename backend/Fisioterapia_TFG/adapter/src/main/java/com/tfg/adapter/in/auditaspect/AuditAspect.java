@@ -7,6 +7,7 @@ import com.tfg.physiotherapist.Physiotherapist;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -43,7 +44,7 @@ public class AuditAspect {
                 entityType,
                 LocalDateTime.now().toString(),
                 details,
-                "SYSTEM" // TODO: Extraer de SecurityContextHolder.getContext().getAuthentication().getName()
+                SecurityContextHolder.getContext().getAuthentication().getName()
         );
 
         auditLogRepository.save(log);

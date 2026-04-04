@@ -3,9 +3,12 @@ package com.tfg.adapter.out.persistence.indiba;
 import com.tfg.indiba.IndibaSession;
 import com.tfg.model.indiba.IndibaSessionFactory;
 import com.tfg.model.patient.PatientFactory;
+import com.tfg.model.physiotherapist.PhysiotherapistFactory;
 import com.tfg.patient.Patient;
+import com.tfg.physiotherapist.Physiotherapist;
 import com.tfg.port.out.persistence.IndibaSessionRepository;
 import com.tfg.port.out.persistence.PatientRepository;
+import com.tfg.port.out.persistence.PhysiotherapistRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,6 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public abstract class AbstractIndibaRepositoryTest {
 
     private Patient testPatient;
+    private Physiotherapist testPhysiotherapist;
     private IndibaSession testIndibaSession;
     private IndibaSession testIndibaSession2;
 
@@ -28,20 +32,29 @@ public abstract class AbstractIndibaRepositoryTest {
     @Autowired
     public PatientRepository patientRepository;
 
+    @Autowired
+    public PhysiotherapistRepository physiotherapistRepository;
+
     @BeforeEach
     void setUp() {
         testPatient = PatientFactory.createTestPatient("hola@gmail.com", "85729487J");
 
+        testPhysiotherapist = PhysiotherapistFactory.createTestPsychiatrist("hola@gmail.com", "ValidPassword123!");
+
         patientRepository.save(testPatient);
+
+        physiotherapistRepository.save(testPhysiotherapist);
 
         testIndibaSession = new IndibaSessionFactory().createTestIndibaSession(
                 testPatient,
+                testPhysiotherapist,
                 new Date(2023, 11, 30),
                 new Date(2023, 12, 15)
         );
 
         testIndibaSession2 = new IndibaSessionFactory().createTestIndibaSession(
                 testPatient,
+                testPhysiotherapist,
                 new Date(2023, 10, 30),
                 new Date(2023, 11, 15)
         );
