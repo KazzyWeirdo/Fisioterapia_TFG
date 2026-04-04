@@ -36,7 +36,7 @@ public class SecurityConfiguration {
 
         return http
                 .cors(cors -> cors.disable())
-                .csrf(csrf -> csrf.disable()) //This is to disable the csrf protection. It is not needed for this project since the application is stateless (and we are using JWT)
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers(WHITE_LIST_URL).permitAll();
                     auth.requestMatchers("/indiba/**").access(hasScope("USER"));
