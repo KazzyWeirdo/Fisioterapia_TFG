@@ -45,7 +45,7 @@ public class RegisterPhysiotherapistControllerTest {
                 .contentType("application/json")
                 .body(registerPsychiatristModel)
                 .when()
-                .post("/psychiatrist/register")
+                .post("/physiotherapist/register")
                 .then()
                 .status(HttpStatus.OK);
     }
@@ -66,7 +66,7 @@ public class RegisterPhysiotherapistControllerTest {
                 .contentType("application/json")
                 .body(registerPsychiatristModel)
                 .when()
-                .post("/psychiatrist/register")
+                .post("/physiotherapist/register")
                 .then()
                 .status(HttpStatus.BAD_REQUEST);
     }

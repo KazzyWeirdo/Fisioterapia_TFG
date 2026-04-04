@@ -48,7 +48,7 @@ public class GetIndibaSessionControllerTest {
 
         RestAssuredMockMvc.given()
                 .when()
-                .get("/indiba/{sessionId}", String.valueOf(TEST_INDIBA_SESSION_1.getId().value()))
+                .get("/indiba/session/{sessionId}", String.valueOf(TEST_INDIBA_SESSION_1.getId().value()))
                 .then()
                 .statusCode(200);
     }
@@ -61,7 +61,7 @@ public class GetIndibaSessionControllerTest {
 
         RestAssuredMockMvc.given()
                 .when()
-                .get("/indiba/{sessionId}", String.valueOf(indibaSessionId.value()))
+                .get("/indiba/session/{sessionId}", String.valueOf(indibaSessionId.value()))
                 .then()
                 .statusCode(404);
     }

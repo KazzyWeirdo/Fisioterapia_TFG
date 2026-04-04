@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/psychiatrist")
+@RequestMapping("/physiotherapist")
 public class RegisterPhysiotherapistController {
     private final RegisterPhysiotherapistUseCase registerPsychiatristUseCase;
 

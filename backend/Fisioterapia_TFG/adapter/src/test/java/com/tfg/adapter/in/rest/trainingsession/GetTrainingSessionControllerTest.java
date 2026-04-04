@@ -47,7 +47,7 @@ public class GetTrainingSessionControllerTest {
 
         RestAssuredMockMvc.given()
                 .when()
-                .get("/training-session/{sessionId}", String.valueOf(TEST_TRAINING_SESSION_1.getId().value()))
+                .get("/training-session/session/{sessionId}", String.valueOf(TEST_TRAINING_SESSION_1.getId().value()))
                 .then()
                 .statusCode(200);
     }
@@ -60,7 +60,7 @@ public class GetTrainingSessionControllerTest {
 
         RestAssuredMockMvc.given()
                 .when()
-                .get("/training-session/{sessionId}", String.valueOf(invalidSessionId.value()))
+                .get("/training-session/session/{sessionId}", String.valueOf(invalidSessionId.value()))
                 .then()
                 .statusCode(404);
     }

@@ -22,7 +22,7 @@ public class GetIndibaSessionController {
         this.getIndibaSessionUseCase = getIndibaSessionUseCase;
     }
 
-    @GetMapping("/{sessionId}")
+    @GetMapping("/session/{sessionId}")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Indiba session found successfully"),
             @ApiResponse(responseCode = "404", description = "Indiba session not found")

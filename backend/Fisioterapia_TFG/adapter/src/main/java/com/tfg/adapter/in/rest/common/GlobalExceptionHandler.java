@@ -1,5 +1,6 @@
 package com.tfg.adapter.in.rest.common;
 
+import com.tfg.exceptions.BadCredentialsException;
 import com.tfg.exceptions.InvalidIdException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
@@ -22,6 +23,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleInvalidIdException(InvalidIdException ex, HttpServletRequest request) {
         log.warn("Invalid ID exception at {}: {}", request.getRequestURI(), ex.getMessage());
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<String> handleBadCredentialsException(BadCredentialsException ex, HttpServletRequest request) {
+        log.warn("Authentication failed at {}: {}", request.getRequestURI(), ex.getMessage());
+        return new ResponseEntity<>("Invalid credentials", HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(Exception.class)
