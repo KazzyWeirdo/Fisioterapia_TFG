@@ -1,6 +1,7 @@
 package com.tfg.adapter.out.persistence.indiba;
 
 import com.tfg.adapter.out.persistence.patient.PatientJpaEntity;
+import com.tfg.adapter.out.persistence.physiotherapist.PhysiotherapistJpaEntity;
 import com.tfg.indiba.IndibaSessionModes;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -30,6 +31,8 @@ public class IndibaJpaEntity {
     @Column(nullable = false)
     private float intensity;
     private String objective;
-    private String physiotherapist; // TODO: Change to PhysiotherapistId when the class is created
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "physiotherapist_id", nullable = false)
+    private PhysiotherapistJpaEntity physiotherapist;
     private String observations;
 }

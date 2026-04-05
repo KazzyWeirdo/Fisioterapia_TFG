@@ -2,7 +2,9 @@ package com.tfg.adapter.in.rest.indiba;
 
 import com.tfg.indiba.IndibaSession;
 import com.tfg.patient.Patient;
+import com.tfg.physiotherapist.Physiotherapist;
 import com.tfg.port.out.persistence.PatientRepository;
+import com.tfg.port.out.persistence.PhysiotherapistRepository;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 
@@ -24,12 +26,14 @@ public record IndibaCreationModel(
         float intensity,
         String objective,
         @NotNull(message = "Physiotherapist is required")
-        String physiotherapist, // TODO: Change to PhysiotherapistId when the class is created
+        int physiotherapistId,
         String observations
 ) {
-        public com.tfg.indiba.IndibaSession toDomainModel(PatientRepository patientRepository){
+        public com.tfg.indiba.IndibaSession toDomainModel(PatientRepository patientRepository, PhysiotherapistRepository physiotherapistRepository){
                 Patient patient = patientRepository.findById(new com.tfg.patient.PatientId(patientId))
                         .orElseThrow(() -> new IllegalArgumentException("Patient with id " + patientId + " not found"));
+                Physiotherapist physiotherapist = physiotherapistRepository.findById(new com.tfg.physiotherapist.PhysiotherapistId(physiotherapistId))
+                        .orElseThrow(() -> new IllegalArgumentException("Physiotherapist with id " + physiotherapistId + " not found"));
                 return new IndibaSession(
                         patient,
                         beginSession,

@@ -11,7 +11,7 @@ public record IndibaWebModel(
         String mode,
         float intensity,
         String objective,
-        String physiotherapist,
+        int physiotherapistId,
         String observations
 ) {
     static IndibaWebModel fromDomainModel(com.tfg.indiba.IndibaSession indibaSession) {
@@ -24,7 +24,7 @@ public record IndibaWebModel(
                 indibaSession.getMode().toString(),
                 indibaSession.getIntensity(),
                 indibaSession.getObjective(),
-                indibaSession.getPhysiotherapist(),
+                indibaSession.getPhysiotherapist().getId().value(),
                 indibaSession.getObservations()
         );
     }

@@ -6,7 +6,9 @@ import com.tfg.indiba.IndibaSession;
 import com.tfg.indiba.IndibaSessionId;
 import com.tfg.model.indiba.IndibaSessionFactory;
 import com.tfg.model.patient.PatientFactory;
+import com.tfg.model.physiotherapist.PhysiotherapistFactory;
 import com.tfg.patient.Patient;
+import com.tfg.physiotherapist.Physiotherapist;
 import com.tfg.port.in.indiba.GetIndibaSessionUseCase;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,7 +33,8 @@ public class GetIndibaSessionControllerTest {
     private GetIndibaSessionController getIndibaSessionController;
 
     private static final Patient TEST_PATIENT = PatientFactory.createTestPatient("hola@gmail.com", "85729487J");
-    private static final IndibaSession TEST_INDIBA_SESSION_1 = IndibaSessionFactory.createTestIndibaSession(TEST_PATIENT, new Date(2023, 11, 30), new Date(2023, 12, 15));
+    private static final Physiotherapist TEST_PHYSIOTHERAPIST = PhysiotherapistFactory.createTestPsychiatrist("hola@gmail.com", "ValidPassword1!");
+    private static final IndibaSession TEST_INDIBA_SESSION_1 = IndibaSessionFactory.createTestIndibaSession(TEST_PATIENT, TEST_PHYSIOTHERAPIST, new Date(2023, 11, 30), new Date(2023, 12, 15));
 
     @BeforeEach
     void setUp() {
@@ -48,7 +51,7 @@ public class GetIndibaSessionControllerTest {
 
         RestAssuredMockMvc.given()
                 .when()
-                .get("/indiba/{sessionId}", String.valueOf(TEST_INDIBA_SESSION_1.getId().value()))
+                .get("/indiba/session/{sessionId}", String.valueOf(TEST_INDIBA_SESSION_1.getId().value()))
                 .then()
                 .statusCode(200);
     }
@@ -61,7 +64,7 @@ public class GetIndibaSessionControllerTest {
 
         RestAssuredMockMvc.given()
                 .when()
-                .get("/indiba/{sessionId}", String.valueOf(indibaSessionId.value()))
+                .get("/indiba/session/{sessionId}", String.valueOf(indibaSessionId.value()))
                 .then()
                 .statusCode(404);
     }

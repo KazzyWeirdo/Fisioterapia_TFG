@@ -9,7 +9,6 @@ import com.tfg.trainingsession.TrainingSessionId;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +21,7 @@ public class TrainingSessionJpaRepository implements TrainingSessionRepository {
     }
 
     @Override
+    @Transactional
     public void save(TrainingSession trainingSession) {
         PatientJpaEntity patientJpaEntity = PatientJpaMapper.toJpaEntity(trainingSession.getPatient());
         TrainingSessionJpaEntity trainingSessionJpaEntity = TrainingSessionJpaMapper.toJpaEntity(trainingSession, patientJpaEntity);

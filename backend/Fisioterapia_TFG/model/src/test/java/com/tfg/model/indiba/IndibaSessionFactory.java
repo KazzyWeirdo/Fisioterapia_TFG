@@ -5,6 +5,7 @@ import com.tfg.indiba.IndibaSessionId;
 import com.tfg.indiba.IndibaSessionModes;
 import com.tfg.patient.Patient;
 import com.tfg.patient.PatientId;
+import com.tfg.physiotherapist.Physiotherapist;
 
 import java.util.Date;
 
@@ -14,10 +15,9 @@ public class IndibaSessionFactory {
     public static IndibaSessionModes MODE = IndibaSessionModes.CAPACITIVE;
     public static float INTENSITY = 5.0f;
     public static String OBJECTIVE = "Pain Relief";
-    public static String PHYSIOTHERAPIST = "Dr. Smith";
     public static String OBSERVATIONS = "Patient responded well to treatment.";
 
-    public static IndibaSession createTestIndibaSession(Patient patient, Date beginSession, Date endSession) {
+    public static IndibaSession createTestIndibaSession(Patient patient, Physiotherapist physiotherapist, Date beginSession, Date endSession) {
         return new IndibaSession(
                 patient,
                 beginSession,
@@ -26,7 +26,7 @@ public class IndibaSessionFactory {
                 MODE,
                 INTENSITY,
                 OBJECTIVE,
-                PHYSIOTHERAPIST,
+                physiotherapist,
                 OBSERVATIONS
         );
     }

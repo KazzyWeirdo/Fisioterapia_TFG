@@ -45,7 +45,7 @@ public class GetPniReportControllerTest {
 
         RestAssuredMockMvc.given()
                 .when()
-                .get("/pni/{reportId}", String.valueOf(TEST_PNI_REPORT.getId().value()))
+                .get("/pni/report/{reportId}", String.valueOf(TEST_PNI_REPORT.getId().value()))
                 .then()
                 .statusCode(200);
     }
@@ -58,7 +58,7 @@ public class GetPniReportControllerTest {
 
         RestAssuredMockMvc.given()
                 .when()
-                .get("/pni/{reportId}", String.valueOf(invalidPniReportId.value()))
+                .get("/pni/report/{reportId}", String.valueOf(invalidPniReportId.value()))
                 .then()
                 .statusCode(404);
     }

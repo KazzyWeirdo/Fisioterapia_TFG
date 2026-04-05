@@ -22,7 +22,7 @@ public class GetTrainingSessionController {
         this.getTrainingSessionUseCase = getTrainingSessionUseCase;
     }
 
-    @GetMapping("/{sessionId}")
+    @GetMapping("/session/{sessionId}")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Training session found successfully"),
             @ApiResponse(responseCode = "404", description = "Training session not found")

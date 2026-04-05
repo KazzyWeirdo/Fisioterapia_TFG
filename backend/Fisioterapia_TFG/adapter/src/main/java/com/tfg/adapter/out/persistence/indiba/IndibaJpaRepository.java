@@ -2,6 +2,8 @@ package com.tfg.adapter.out.persistence.indiba;
 
 import com.tfg.adapter.out.persistence.patient.PatientJpaEntity;
 import com.tfg.adapter.out.persistence.patient.PatientJpaMapper;
+import com.tfg.adapter.out.persistence.physiotherapist.PhysiotherapistJpaEntity;
+import com.tfg.adapter.out.persistence.physiotherapist.PhysiotherapistJpaMapper;
 import com.tfg.indiba.IndibaSession;
 import com.tfg.indiba.IndibaSessionId;
 import com.tfg.patient.PatientId;
@@ -27,7 +29,8 @@ public class IndibaJpaRepository implements IndibaSessionRepository {
     @Transactional
     public void save(IndibaSession indibaSession) {
         PatientJpaEntity patientJpaEntity = PatientJpaMapper.toJpaEntity(indibaSession.getPatient());
-        indibaJpaDataRepository.save(IndibaJpaMapper.toJpaEntity(patientJpaEntity, indibaSession));
+        PhysiotherapistJpaEntity physiotherapistJpaEntity = PhysiotherapistJpaMapper.toJpaEntity(indibaSession.getPhysiotherapist());
+        indibaJpaDataRepository.save(IndibaJpaMapper.toJpaEntity(patientJpaEntity, physiotherapistJpaEntity, indibaSession));
     }
 
     @Override

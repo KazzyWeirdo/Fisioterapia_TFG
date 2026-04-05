@@ -3,9 +3,11 @@ package application.statistics;
 import com.tfg.indiba.IndibaSession;
 import com.tfg.model.indiba.IndibaSessionFactory;
 import com.tfg.model.patient.PatientFactory;
+import com.tfg.model.physiotherapist.PhysiotherapistFactory;
 import com.tfg.model.trainingsession.TrainingSessionFactory;
 import com.tfg.patient.Patient;
 import com.tfg.patient.PatientId;
+import com.tfg.physiotherapist.Physiotherapist;
 import com.tfg.port.out.persistence.IndibaSessionRepository;
 import com.tfg.port.out.persistence.PatientRepository;
 import com.tfg.port.out.persistence.TrainingSessionRepository;
@@ -31,7 +33,8 @@ public class GetPatientTransitionRatioServiceTest {
     private final GetPatientTransitionRatioService getPatientTransitionRatioService = new GetPatientTransitionRatioService(patientRepository, indibaSessionRepository, trainingSessionRepository);
 
     private static final Patient TEST_PATIENT = PatientFactory.createTestPatient("hola@gmail.com", "85729487J");
-    private static final IndibaSession TEST_INDIBA_SESSION_1 = new IndibaSessionFactory().createTestIndibaSession(TEST_PATIENT, new Date(2024, 7, 15), new Date(2024, 7, 15));
+    private static final Physiotherapist TEST_PHYSIOTHERAPIST = PhysiotherapistFactory.createTestPsychiatrist("hola@gmail.com", "ValidPassword123!");
+    private static final IndibaSession TEST_INDIBA_SESSION_1 = new IndibaSessionFactory().createTestIndibaSession(TEST_PATIENT, TEST_PHYSIOTHERAPIST, new Date(2024, 7, 15), new Date(2024, 7, 15));
     private static final TrainingSession TEST_TRAINING_SESSION = TrainingSessionFactory.createTestTrainingSession(TEST_PATIENT, LocalDate.of(2024, 7, 2));
 
     @Test
