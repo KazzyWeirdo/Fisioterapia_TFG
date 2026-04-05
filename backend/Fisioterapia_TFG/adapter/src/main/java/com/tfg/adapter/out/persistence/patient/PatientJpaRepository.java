@@ -37,10 +37,13 @@ public class PatientJpaRepository implements PatientRepository {
                 patientId.value(),
                 patient.getEmail().value(),
                 patient.getDni().value(),
-                patient.getGender(),
-                patient.getName(),
+                patient.getGenderIdentity(),
+                patient.getAdministrativeSex(),
+                patient.getLegalName(),
+                patient.getNameToUse(),
                 patient.getSurname(),
                 patient.getSecondSurname(),
+                patient.getPronouns(),
                 patient.getDateOfBirth(),
                 patient.getPhoneNumber()
         );
