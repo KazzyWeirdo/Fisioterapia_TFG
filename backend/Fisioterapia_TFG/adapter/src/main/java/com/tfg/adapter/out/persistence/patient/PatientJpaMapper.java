@@ -15,6 +15,7 @@ public class PatientJpaMapper {
         entity.setSurname(patient.getSurname());
         entity.setSecondSurname(patient.getSecondSurname());
         entity.setGenderIdentity(patient.getGenderIdentity());
+        entity.setClinicalUseSex(patient.getClinicalUseSex());
         entity.setAdministrativeSex(patient.getAdministrativeSex());
         entity.setDni(patient.getDni().value());
         entity.setEmail(patient.getEmail().value());
@@ -32,6 +33,7 @@ public class PatientJpaMapper {
                 new PatientEmail(entity.getEmail()),
                 new PatientDNI(entity.getDni()),
                 entity.getGenderIdentity(),
+                entity.getClinicalUseSex(),
                 entity.getAdministrativeSex(),
                 entity.getLegalName(),
                 entity.getNameToUse(),

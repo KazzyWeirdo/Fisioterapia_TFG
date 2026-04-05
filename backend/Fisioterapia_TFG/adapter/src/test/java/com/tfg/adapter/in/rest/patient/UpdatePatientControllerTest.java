@@ -43,6 +43,7 @@ public class UpdatePatientControllerTest {
                 "12345678A",
                 "FEMALE",
                 "FEMALE",
+                "FEMALE",
                 "Jane",
                 "Jane",
                 "Doe",
@@ -68,6 +69,7 @@ public class UpdatePatientControllerTest {
                 "12345678A",
                 "FEMALE",
                 "FEMALE",
+                "FEMALE",
                 "Jane",
                 "Jane",
                 "Doe",
@@ -91,6 +93,7 @@ public class UpdatePatientControllerTest {
         PatientCreationModel patientCreationModel = new PatientCreationModel(
                 "updated@example.com",
                 "12345678A",
+                "FEMALE",
                 "FEMALE",
                 "FEMALE",
                 "Jane",

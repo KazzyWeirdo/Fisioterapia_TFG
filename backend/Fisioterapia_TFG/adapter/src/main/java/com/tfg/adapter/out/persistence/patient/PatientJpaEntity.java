@@ -29,6 +29,9 @@ public class PatientJpaEntity {
     @Enumerated(EnumType.STRING)
     private PatientSex administrativeSex;
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private PatientSex clinicalUseSex;
+    @Column(nullable = false)
     private String dni;
     @Column(nullable = false)
     private String pronouns;

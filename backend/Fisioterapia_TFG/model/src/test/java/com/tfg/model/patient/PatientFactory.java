@@ -10,7 +10,8 @@ public class PatientFactory {
 
     public static final PatientId PATIENT_ID = new PatientId(ThreadLocalRandom.current().nextInt(1_000_000));
     public static String PATIENT_GENDER = "OTHER";
-    public static String PATIENT_SEX = "UNKNOWN";
+    public static String PATIENT_ADMIN_SEX = "UNKNOWN";
+    public static String PATIENT_CLINICAL_SEX = "UNKNOWN";
     public static String LEGAL_NAME = "Eduardo";
     public static String NAME_TO_USE = "Barna";
     public static String SURNAME = "Garcia";
@@ -24,7 +25,8 @@ public class PatientFactory {
                 email,
                 dni,
                 PATIENT_GENDER,
-                PATIENT_SEX,
+                PATIENT_CLINICAL_SEX,
+                PATIENT_ADMIN_SEX,
                 LEGAL_NAME,
                 NAME_TO_USE,
                 SURNAME,

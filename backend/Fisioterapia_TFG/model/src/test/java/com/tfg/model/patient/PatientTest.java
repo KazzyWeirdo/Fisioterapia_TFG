@@ -22,6 +22,7 @@ public class PatientTest {
         assertThat(patient.getDni()).isEqualTo(TEST_PATIENT.getDni());
         assertThat(patient.getGenderIdentity()).isEqualTo(TEST_PATIENT.getGenderIdentity());
         assertThat(patient.getAdministrativeSex()).isEqualTo(TEST_PATIENT.getAdministrativeSex());
+        assertThat(patient.getClinicalUseSex()).isEqualTo(TEST_PATIENT.getClinicalUseSex());
         assertThat(patient.getLegalName()).isEqualTo(TEST_PATIENT.getLegalName());
         assertThat(patient.getNameToUse()).isEqualTo(TEST_PATIENT.getNameToUse());
         assertThat(patient.getSurname()).isEqualTo(TEST_PATIENT.getSurname());

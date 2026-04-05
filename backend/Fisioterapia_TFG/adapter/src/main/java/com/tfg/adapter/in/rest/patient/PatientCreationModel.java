@@ -17,6 +17,8 @@ public record PatientCreationModel(
         String dni,
         @NotBlank(message = "Gender identity is required")
         String genderIdentity,
+        @NotBlank(message = "A sex for clinical use is required")
+        String clinicalUseSex,
         @NotBlank(message = "Administrative sex is required")
         String administrativeSex,
         @NotBlank(message = "Legal Name is required")
@@ -37,6 +39,7 @@ public record PatientCreationModel(
                 return new Patient(email,
                         dni,
                         genderIdentity,
+                        clinicalUseSex,
                         administrativeSex,
                         legalName,
                         nameToUse,

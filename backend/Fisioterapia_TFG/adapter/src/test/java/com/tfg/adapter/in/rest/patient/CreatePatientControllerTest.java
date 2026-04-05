@@ -35,6 +35,7 @@ public class CreatePatientControllerTest {
                 "12345678A",
                 "FEMALE",
                 "FEMALE",
+                "FEMALE",
                 "Jane",
                 "Jane",
                 "Doe",
@@ -59,6 +60,7 @@ public class CreatePatientControllerTest {
         PatientCreationModel invalidPatientCreationModel = new PatientCreationModel(
                 "", // Invalid email
                 "12345678A",
+                "FEMALE",
                 "FEMALE",
                 "FEMALE",
                 "Jane",
