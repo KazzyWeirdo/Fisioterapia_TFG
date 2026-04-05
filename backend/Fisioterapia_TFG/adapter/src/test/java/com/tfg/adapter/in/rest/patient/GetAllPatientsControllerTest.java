@@ -1,11 +1,13 @@
-package com.tfg.adapter.in.rest.auditlog;
+package com.tfg.adapter.in.rest.patient;
 
 import com.tfg.adapter.in.rest.common.GlobalExceptionHandler;
 import com.tfg.auditlog.AuditLog;
-import com.tfg.model.auditlog.AuditLogFactory;
+import com.tfg.model.patient.PatientFactory;
+import com.tfg.patient.Patient;
 import com.tfg.pojos.pagedpojos.PageQuery;
 import com.tfg.pojos.pagedpojos.PagedResponse;
-import com.tfg.port.in.auditlog.GetAllAuditLogsUseCase;
+import com.tfg.pojos.query.PatientSummaryElement;
+import com.tfg.port.in.patient.GetAllPatientsUseCase;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,46 +28,46 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class GetAllAuditLogsControllerTest {
+public class GetAllPatientsControllerTest {
     @Mock
-    private GetAllAuditLogsUseCase getAllAuditLogsUseCase;
+    private GetAllPatientsUseCase getAllPatientsUseCase;
 
     @InjectMocks
-    private GetAllAuditLogsController getAllAuditLogsController;
+    private GetAllPatientsController getAllPatientsController;
 
-    private final AuditLog testAuditLog = AuditLogFactory.createTestAuditLog("Uno");
+    private final PatientSummaryElement TEST_PATIENT = new PatientSummaryElement(1, "Jane Doe");
 
     @BeforeEach
     void setUp() {
         RestAssuredMockMvc.standaloneSetup(
-                MockMvcBuilders.standaloneSetup(getAllAuditLogsController)
+                MockMvcBuilders.standaloneSetup(getAllPatientsController)
                         .setControllerAdvice(new GlobalExceptionHandler())
         );
     }
 
     @Test
-    void givenAuditLogs_whenGetLogs_thenReturnOk() {
-        PagedResponse<AuditLog> pagedResponse = new PagedResponse<>(
-                List.of(testAuditLog), 1, 1, 0, true
+    void givenPatients_whenGetPatients_thenReturnOk() {
+        PagedResponse<PatientSummaryElement> pagedResponse = new PagedResponse<>(
+                List.of(TEST_PATIENT), 1, 1, 0, true
         );
-        when(getAllAuditLogsUseCase.getAllAuditLogs(any(PageQuery.class))).thenReturn(pagedResponse);
+        when(getAllPatientsUseCase.getAllPatients(any(PageQuery.class))).thenReturn(pagedResponse);
 
         Pageable springPageable = PageRequest.of(0, 10);
 
-        ResponseEntity<?> response = getAllAuditLogsController.getLogs(springPageable);
+        ResponseEntity<?> response = getAllPatientsController.getAllPatients(springPageable);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(1, ((PagedResponse<?>) response.getBody()).content().size());
     }
 
     @Test
-    void givenNoAuditLogs_whenGetLogs_thenReturnNoContent() {
-        PagedResponse<AuditLog> pagedResponse = new PagedResponse<>(List.of(), 0, 0, 0, true);
-        when(getAllAuditLogsUseCase.getAllAuditLogs(any(PageQuery.class))).thenReturn(pagedResponse);
+    void givenNoPatients_whenGetPatients_thenReturnNoContent() {
+        PagedResponse<PatientSummaryElement> pagedResponse = new PagedResponse<>(List.of(), 0, 0, 0, true);
+        when(getAllPatientsUseCase.getAllPatients(any(PageQuery.class))).thenReturn(pagedResponse);
 
         Pageable springPageable = PageRequest.of(0, 10);
 
-        ResponseEntity<?> response = getAllAuditLogsController.getLogs(springPageable);
+        ResponseEntity<?> response = getAllPatientsController.getAllPatients(springPageable);
 
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
     }

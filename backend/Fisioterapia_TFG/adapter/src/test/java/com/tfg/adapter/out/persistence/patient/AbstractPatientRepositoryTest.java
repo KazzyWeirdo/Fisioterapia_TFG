@@ -2,6 +2,9 @@ package com.tfg.adapter.out.persistence.patient;
 
 import com.tfg.patient.Patient;
 import com.tfg.model.patient.PatientFactory;
+import com.tfg.pojos.pagedpojos.PageQuery;
+import com.tfg.pojos.pagedpojos.PagedResponse;
+import com.tfg.pojos.query.PatientSummaryElement;
 import com.tfg.port.out.persistence.PatientRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -153,11 +156,34 @@ public abstract class AbstractPatientRepositoryTest {
         List<Patient> patients = patientRepository.findAllWithPolarToken();
 
         assertThat(patients).hasSize(2);
-        assertThat(patients.get(0).getId().value()).isEqualTo(TEST_PATIENT.getId().value());
+        assertThat(patients.getFirst().getId().value()).isEqualTo(TEST_PATIENT.getId().value());
         assertThat(patients.get(0).getPolarAccessToken()).isEqualTo(TEST_PATIENT.getPolarAccessToken());
         assertThat(patients.get(0).getPolarUserId()).isEqualTo(TEST_PATIENT.getPolarUserId());
         assertThat(patients.get(1).getId().value()).isEqualTo(TEST_PATIENT2.getId().value());
         assertThat(patients.get(1).getPolarAccessToken()).isEqualTo(TEST_PATIENT2.getPolarAccessToken());
         assertThat(patients.get(1).getPolarUserId()).isEqualTo(TEST_PATIENT2.getPolarUserId());
+    }
+
+    @Test
+    public void givenPageQuery_whenFindAll_thenReturnPaginatedAuditLogs() {
+        patientRepository.save(TEST_PATIENT);
+        patientRepository.save(TEST_PATIENT2);
+
+        PageQuery query = new PageQuery(0, 10);
+
+        PagedResponse<PatientSummaryElement> response = patientRepository.findAllSummaries(query);
+
+        List<PatientSummaryElement> patients = response.content();
+
+        assertThat(response.totalElements()).isEqualTo(2);
+        assertThat(response.totalPages()).isEqualTo(1);
+        assertThat(response.pageNumber()).isEqualTo(0);
+        assertThat(response.isLast()).isTrue();
+
+        assertThat(patients).hasSize(2);
+        assertThat(patients.get(0).id()).isEqualTo(TEST_PATIENT.getId().value());
+        assertThat(patients.get(0).name()).isEqualTo(TEST_PATIENT.getNameToUse());
+        assertThat(patients.get(1).id()).isEqualTo(TEST_PATIENT2.getId().value());
+        assertThat(patients.get(1).name()).isEqualTo(TEST_PATIENT2.getNameToUse());
     }
 }

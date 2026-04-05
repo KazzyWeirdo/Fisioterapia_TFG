@@ -1,4 +1,4 @@
-package com.tfg.pojos.auditlog;
+package com.tfg.pojos.pagedpojos;
 
 import java.util.List;
 

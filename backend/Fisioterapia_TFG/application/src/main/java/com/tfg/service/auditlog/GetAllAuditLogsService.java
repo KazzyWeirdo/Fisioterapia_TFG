@@ -2,8 +2,8 @@ package com.tfg.service.auditlog;
 
 import com.tfg.auditlog.AuditLog;
 import com.tfg.exceptions.InvalidPageOrSizeException;
-import com.tfg.pojos.auditlog.PageQuery;
-import com.tfg.pojos.auditlog.PagedResponse;
+import com.tfg.pojos.pagedpojos.PageQuery;
+import com.tfg.pojos.pagedpojos.PagedResponse;
 import com.tfg.port.in.auditlog.GetAllAuditLogsUseCase;
 import com.tfg.port.out.persistence.AuditLogRepository;
 

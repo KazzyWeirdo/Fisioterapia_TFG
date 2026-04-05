@@ -2,8 +2,8 @@ package application.auditlog;
 
 import com.tfg.auditlog.AuditLog;
 import com.tfg.model.auditlog.AuditLogFactory;
-import com.tfg.pojos.auditlog.PageQuery;
-import com.tfg.pojos.auditlog.PagedResponse;
+import com.tfg.pojos.pagedpojos.PageQuery;
+import com.tfg.pojos.pagedpojos.PagedResponse;
 import com.tfg.port.out.persistence.AuditLogRepository;
 import com.tfg.service.auditlog.GetAllAuditLogsService;
 import org.junit.jupiter.api.Test;

@@ -2,8 +2,14 @@ package com.tfg.adapter.out.persistence.patient;
 
 import com.tfg.patient.Patient;
 import com.tfg.patient.PatientId;
+import com.tfg.pojos.pagedpojos.PageQuery;
+import com.tfg.pojos.pagedpojos.PagedResponse;
+import com.tfg.pojos.query.PatientSummaryElement;
 import com.tfg.port.out.persistence.PatientRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -65,6 +71,25 @@ public class PatientJpaRepository implements PatientRepository {
     public Optional<Patient> findByDni(com.tfg.patient.PatientDNI dni) {
         Optional<PatientJpaEntity> patientJpaEntity = patientJpaDataRepository.findByDni(dni.value());
         return patientJpaEntity.map(PatientJpaMapper::toModelEntity);
+    }
+
+    @Override
+    public PagedResponse<PatientSummaryElement> findAllSummaries(PageQuery query) {
+        Pageable pageable = PageRequest.of(query.page(), query.size());
+
+        Page<PatientSummaryJpaProjection> page = patientJpaDataRepository.findSummaries(pageable);
+
+        List<PatientSummaryElement> content = page.getContent().stream()
+                .map(proj -> new PatientSummaryElement(proj.id(), proj.name()))
+                .toList();
+
+        return new PagedResponse<>(
+                content,
+                page.getTotalElements(),
+                page.getTotalPages(),
+                page.getNumber(),
+                page.isLast()
+        );
     }
 
     @Override

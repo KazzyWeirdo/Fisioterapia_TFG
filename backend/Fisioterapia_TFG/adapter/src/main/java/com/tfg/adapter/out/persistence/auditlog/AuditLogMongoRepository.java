@@ -1,8 +1,8 @@
 package com.tfg.adapter.out.persistence.auditlog;
 
 import com.tfg.auditlog.AuditLog;
-import com.tfg.pojos.auditlog.PageQuery;
-import com.tfg.pojos.auditlog.PagedResponse;
+import com.tfg.pojos.pagedpojos.PageQuery;
+import com.tfg.pojos.pagedpojos.PagedResponse;
 import com.tfg.port.out.persistence.AuditLogRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,8 +11,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 @Repository
 public class AuditLogMongoRepository implements AuditLogRepository {

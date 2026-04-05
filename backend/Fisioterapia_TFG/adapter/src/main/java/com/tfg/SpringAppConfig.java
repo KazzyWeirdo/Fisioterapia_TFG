@@ -5,6 +5,7 @@ import com.tfg.port.in.indiba.CreateIndibaSessionUseCase;
 import com.tfg.port.in.indiba.GetIndibaSessionFromPatientUseCase;
 import com.tfg.port.in.indiba.GetIndibaSessionUseCase;
 import com.tfg.port.in.patient.CreatePatientUseCase;
+import com.tfg.port.in.patient.GetAllPatientsUseCase;
 import com.tfg.port.in.patient.GetPatientUseCase;
 import com.tfg.port.in.patient.UpdatePatientUseCase;
 import com.tfg.port.in.physiotherapist.LogPhysiotherapistUseCase;
@@ -28,6 +29,7 @@ import com.tfg.service.indiba.CreateIndibaSessionService;
 import com.tfg.service.indiba.GetIndibaSessionFromPatientService;
 import com.tfg.service.indiba.GetIndibaSessionService;
 import com.tfg.service.patient.CreatePatientService;
+import com.tfg.service.patient.GetAllPatientsService;
 import com.tfg.service.patient.UpdatePatientService;
 import com.tfg.service.pni.CreatePniReportService;
 import com.tfg.service.pni.GetPniReportService;
@@ -96,6 +98,9 @@ public class SpringAppConfig {
     UpdatePatientUseCase updatePatientUseCase() {
         return new UpdatePatientService(patientRepository);
     }
+
+    @Bean
+    GetAllPatientsUseCase getAllPatientsUseCase() {return new GetAllPatientsService(patientRepository);}
 
     @Bean
     CreateIndibaSessionUseCase createIndibaSessionUseCase() {
@@ -172,4 +177,5 @@ public class SpringAppConfig {
     LogPhysiotherapistUseCase logPhysiotherapistUseCase() {
         return new com.tfg.service.physiotherapist.LogPhysiotherapistService(tokenGeneratorPort, credentialsValidatorPort);
     }
+
 }

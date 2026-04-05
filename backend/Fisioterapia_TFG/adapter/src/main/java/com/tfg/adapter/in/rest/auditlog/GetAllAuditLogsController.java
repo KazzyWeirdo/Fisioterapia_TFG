@@ -1,18 +1,14 @@
 package com.tfg.adapter.in.rest.auditlog;
 
-import com.tfg.adapter.in.rest.common.PatientIdParser;
-import com.tfg.adapter.in.rest.indiba.IndibaListWebModel;
 import com.tfg.auditlog.AuditLog;
-import com.tfg.patient.PatientId;
-import com.tfg.pojos.auditlog.PageQuery;
-import com.tfg.pojos.auditlog.PagedResponse;
+import com.tfg.pojos.pagedpojos.PageQuery;
+import com.tfg.pojos.pagedpojos.PagedResponse;
 import com.tfg.port.in.auditlog.GetAllAuditLogsUseCase;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
