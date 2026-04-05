@@ -20,10 +20,13 @@ public class PatientTest {
         assertThat(patient.getId()).isEqualTo(TEST_PATIENT.getId());
         assertThat(patient.getEmail()).isEqualTo(TEST_PATIENT.getEmail());
         assertThat(patient.getDni()).isEqualTo(TEST_PATIENT.getDni());
-        assertThat(patient.getGender()).isEqualTo(TEST_PATIENT.getGender());
-        assertThat(patient.getName()).isEqualTo(TEST_PATIENT.getName());
+        assertThat(patient.getGenderIdentity()).isEqualTo(TEST_PATIENT.getGenderIdentity());
+        assertThat(patient.getAdministrativeSex()).isEqualTo(TEST_PATIENT.getAdministrativeSex());
+        assertThat(patient.getLegalName()).isEqualTo(TEST_PATIENT.getLegalName());
+        assertThat(patient.getNameToUse()).isEqualTo(TEST_PATIENT.getNameToUse());
         assertThat(patient.getSurname()).isEqualTo(TEST_PATIENT.getSurname());
         assertThat(patient.getSecondSurname()).isEqualTo(TEST_PATIENT.getSecondSurname());
+        assertThat(patient.getPronouns()).isEqualTo(TEST_PATIENT.getPronouns());
         assertThat(patient.getDateOfBirth()).isEqualTo(TEST_PATIENT.getDateOfBirth());
         assertThat(patient.getPhoneNumber()).isEqualTo(TEST_PATIENT.getPhoneNumber());
         assertThat(patient.getPolarAccessToken()).isEqualTo(TEST_PATIENT.getPolarAccessToken());

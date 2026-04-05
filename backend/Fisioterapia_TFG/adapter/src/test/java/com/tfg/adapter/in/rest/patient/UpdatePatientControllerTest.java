@@ -42,9 +42,12 @@ public class UpdatePatientControllerTest {
                 "updated@example.com",
                 "12345678A",
                 "FEMALE",
+                "FEMALE",
+                "Jane",
                 "Jane",
                 "Doe",
                 "Smith",
+                "She/Her",
                 987654321,
                 LocalDate.of(1985, 5, 15)
         );
@@ -64,9 +67,12 @@ public class UpdatePatientControllerTest {
                 "", // Invalid email
                 "12345678A",
                 "FEMALE",
+                "FEMALE",
+                "Jane",
                 "Jane",
                 "Doe",
                 "Smith",
+                "She/Her",
                 987654321,
                 LocalDate.of(1985, 5, 15)
         );
@@ -86,9 +92,12 @@ public class UpdatePatientControllerTest {
                 "updated@example.com",
                 "12345678A",
                 "FEMALE",
+                "FEMALE",
+                "Jane",
                 "Jane",
                 "Doe",
                 "Smith",
+                "She/Her",
                 987654321,
                 LocalDate.of(1985, 5, 15)
         );

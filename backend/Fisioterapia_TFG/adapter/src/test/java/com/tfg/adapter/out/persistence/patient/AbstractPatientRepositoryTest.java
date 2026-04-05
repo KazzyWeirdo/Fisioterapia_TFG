@@ -103,11 +103,14 @@ public abstract class AbstractPatientRepositoryTest {
         assertThat(optionalPatient.get().getId()).isEqualTo(TEST_PATIENT.getId());
         assertThat(optionalPatient.get().getEmail()).isEqualTo(TEST_PATIENT.getEmail());
         assertThat(optionalPatient.get().getDni()).isEqualTo(TEST_PATIENT.getDni());
-        assertThat(optionalPatient.get().getName()).isEqualTo(TEST_PATIENT.getName());
+        assertThat(optionalPatient.get().getLegalName()).isEqualTo(TEST_PATIENT.getLegalName());
+        assertThat(optionalPatient.get().getNameToUse()).isEqualTo(TEST_PATIENT.getNameToUse());
         assertThat(optionalPatient.get().getSurname()).isEqualTo(TEST_PATIENT.getSurname());
         assertThat(optionalPatient.get().getSecondSurname()).isEqualTo(TEST_PATIENT.getSecondSurname());
         assertThat(optionalPatient.get().getPhoneNumber()).isEqualTo(TEST_PATIENT.getPhoneNumber());
-        assertThat(optionalPatient.get().getGender()).isEqualTo(TEST_PATIENT.getGender());
+        assertThat(optionalPatient.get().getGenderIdentity()).isEqualTo(TEST_PATIENT.getGenderIdentity());
+        assertThat(optionalPatient.get().getAdministrativeSex()).isEqualTo(TEST_PATIENT.getAdministrativeSex());
+        assertThat(optionalPatient.get().getPronouns()).isEqualTo(TEST_PATIENT.getPronouns());
         assertThat(optionalPatient.get().getDateOfBirth()).isEqualTo(TEST_PATIENT.getDateOfBirth());
 
     }
@@ -116,11 +119,14 @@ public abstract class AbstractPatientRepositoryTest {
         patientRepository.save(TEST_PATIENT);
 
         Patient updatedPatient = PatientFactory.createTestPatient("updated@gmail.com", "85729487J");
-        updatedPatient.setName("UpdatedName");
+        updatedPatient.setLegalName("UpdatedName");
+        updatedPatient.setNameToUse("UpdatedNameToUse");
         updatedPatient.setSurname("UpdatedSurname");
         updatedPatient.setSecondSurname("UpdatedSecondSurname");
         updatedPatient.setPhoneNumber(123456789);
-        updatedPatient.setGender(TEST_PATIENT.getGender());
+        updatedPatient.setGenderIdentity(TEST_PATIENT.getGenderIdentity());
+        updatedPatient.setAdministrativeSex(TEST_PATIENT.getAdministrativeSex());
+        updatedPatient.setPronouns(TEST_PATIENT.getPronouns());
         updatedPatient.setDateOfBirth(TEST_PATIENT.getDateOfBirth());
 
         patientRepository.update(TEST_PATIENT.getId(), updatedPatient);
@@ -129,7 +135,7 @@ public abstract class AbstractPatientRepositoryTest {
 
         assertThat(optionalPatient).isPresent();
         assertThat(optionalPatient.get().getEmail()).isEqualTo(updatedPatient.getEmail());
-        assertThat(optionalPatient.get().getName()).isEqualTo(updatedPatient.getName());
+        assertThat(optionalPatient.get().getLegalName()).isEqualTo(updatedPatient.getLegalName());
         assertThat(optionalPatient.get().getSurname()).isEqualTo(updatedPatient.getSurname());
         assertThat(optionalPatient.get().getSecondSurname()).isEqualTo(updatedPatient.getSecondSurname());
         assertThat(optionalPatient.get().getPhoneNumber()).isEqualTo(updatedPatient.getPhoneNumber());
