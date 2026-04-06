@@ -7,8 +7,14 @@ import com.tfg.adapter.out.persistence.physiotherapist.PhysiotherapistJpaMapper;
 import com.tfg.indiba.IndibaSession;
 import com.tfg.indiba.IndibaSessionId;
 import com.tfg.patient.PatientId;
+import com.tfg.pojos.pagedpojos.PageQuery;
+import com.tfg.pojos.pagedpojos.PagedResponse;
+import com.tfg.pojos.query.IndibaSummaryElement;
 import com.tfg.port.out.persistence.IndibaSessionRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -46,10 +52,21 @@ public class IndibaJpaRepository implements IndibaSessionRepository {
     }
 
     @Override
-    public List<IndibaSession> findAllByPatientId(PatientId patientId) {
-        return indibaJpaDataRepository.findAllByPatientId(patientId.value()).stream()
-                .map(IndibaJpaMapper::toModelEntity)
+    public PagedResponse<IndibaSummaryElement> findAllByPatientId(PageQuery query, PatientId patientId) {
+        Pageable pageable = PageRequest.of(query.page(), query.size());
+        Page<IndibaSummaryJpaProjection> page = indibaJpaDataRepository.findAllByPatientId(patientId.value(), pageable);
+
+        List<IndibaSummaryElement> content = page.getContent().stream()
+                .map(proj -> new IndibaSummaryElement(proj.id(), proj.beginSession()))
                 .toList();
+
+        return new PagedResponse<>(
+                content,
+                page.getTotalElements(),
+                page.getTotalPages(),
+                page.getNumber(),
+                page.isLast()
+        );
     }
 
     @Override

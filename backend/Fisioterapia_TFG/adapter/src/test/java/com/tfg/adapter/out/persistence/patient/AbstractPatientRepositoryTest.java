@@ -165,7 +165,7 @@ public abstract class AbstractPatientRepositoryTest {
     }
 
     @Test
-    public void givenPageQuery_whenFindAll_thenReturnPaginatedAuditLogs() {
+    public void givenPageQuery_whenFindAll_thenReturnAllPatients() {
         patientRepository.save(TEST_PATIENT);
         patientRepository.save(TEST_PATIENT2);
 

@@ -5,12 +5,12 @@ import com.tfg.indiba.IndibaSession;
 import java.util.Date;
 
 public record IndibaListWebModel(
-        String patientId,
+        int id,
         Date date
 ) {
     static IndibaListWebModel fromDomainModel(IndibaSession indibaSession) {
        return new IndibaListWebModel(
-               String.valueOf(indibaSession.getPatient().getId()),
+               indibaSession.getId().value(),
                indibaSession.getBeginSession()
        );
     }

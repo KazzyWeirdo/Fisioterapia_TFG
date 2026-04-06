@@ -1,17 +1,17 @@
 package application.indiba;
 
-import com.tfg.indiba.IndibaSession;
-import com.tfg.model.indiba.IndibaSessionFactory;
 import com.tfg.model.patient.PatientFactory;
-import com.tfg.model.physiotherapist.PhysiotherapistFactory;
 import com.tfg.patient.Patient;
 import com.tfg.patient.PatientId;
-import com.tfg.physiotherapist.Physiotherapist;
+import com.tfg.pojos.pagedpojos.PageQuery;
+import com.tfg.pojos.pagedpojos.PagedResponse;
+import com.tfg.pojos.query.IndibaSummaryElement;
 import com.tfg.port.out.persistence.IndibaSessionRepository;
 import com.tfg.port.out.persistence.PatientRepository;
 import com.tfg.service.indiba.GetIndibaSessionFromPatientService;
 import org.junit.jupiter.api.Test;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -27,26 +27,36 @@ public class GetIndibaSessionFromPatientServiceTest {
     private final GetIndibaSessionFromPatientService indibaSessionService = new GetIndibaSessionFromPatientService(indibaSessionRepository, patientRepository);
 
     private static final Patient TEST_PATIENT = PatientFactory.createTestPatient("hola@gmail.com", "85729487J");
-    private static final Physiotherapist TEST_PHYSIOTHERAPIST = PhysiotherapistFactory.createTestPsychiatrist("hola@gmail.com", "ValidPassword123!");
-    private static final IndibaSession TEST_INDIBA_SESSION_1 = new IndibaSessionFactory().createTestIndibaSession(TEST_PATIENT, TEST_PHYSIOTHERAPIST, new Date(2023, 11, 30), new Date(2023, 12, 15));
-    private static final IndibaSession TEST_INDIBA_SESSION_2 = new IndibaSessionFactory().createTestIndibaSession(TEST_PATIENT, TEST_PHYSIOTHERAPIST, new Date(2023, 11, 10), new Date(2023, 11, 20));
+    private static final IndibaSummaryElement TEST_INDIBA_SESSION_1 = new IndibaSummaryElement(1, new Date(2023, Calendar.DECEMBER, 15));
+    private static final IndibaSummaryElement TEST_INDIBA_SESSION_2 = new IndibaSummaryElement(2, new Date(2023, Calendar.DECEMBER, 16));
 
     @Test
     public void givenPatientId_whenIndibaSessionsExists_returnIndibaSessions(){
         when(patientRepository.findById(new PatientId(1)))
                 .thenReturn(Optional.of(TEST_PATIENT));
 
-        when(indibaSessionRepository.findAllByPatientId(new PatientId(1)))
-                .thenReturn(List.of(TEST_INDIBA_SESSION_1, TEST_INDIBA_SESSION_2));
+        PageQuery query = new PageQuery(0, 2);
 
-        List<IndibaSession> result = indibaSessionService.getIndibaSessionsFromPatient(new PatientId(1));
+        PagedResponse<IndibaSummaryElement> mockedResponse = new PagedResponse<>(
+                List.of(TEST_INDIBA_SESSION_1, TEST_INDIBA_SESSION_2), // content
+                2L,                                          // totalElements
+                1,                                           // totalPages
+                0,                                           // pageNumber
+                true                                         // isLast
+        );
 
-        assertNotNull(result);
-        assertEquals(2, result.size());
-        assertEquals(TEST_INDIBA_SESSION_1, result.get(0));
-        assertEquals(TEST_INDIBA_SESSION_2, result.get(1));
+        when(indibaSessionRepository.findAllByPatientId(query, new PatientId(1)))
+                .thenReturn(mockedResponse);
 
-        verify(indibaSessionRepository).findAllByPatientId(new PatientId(1));
+        PagedResponse<IndibaSummaryElement> result = indibaSessionService.getIndibaSessionsFromPatient(query, new PatientId(1));
+
+        assertEquals(2, result.totalElements());
+        assertEquals(1, result.totalPages());
+        assertEquals(2, result.content().size());
+        assertEquals(TEST_INDIBA_SESSION_1, result.content().get(0));
+        assertEquals(TEST_INDIBA_SESSION_2, result.content().get(1));
+
+        verify(indibaSessionRepository).findAllByPatientId(query, new PatientId(1));
     }
 
     @Test
@@ -54,14 +64,25 @@ public class GetIndibaSessionFromPatientServiceTest {
         when(patientRepository.findById(new PatientId(1)))
                 .thenReturn(Optional.of(TEST_PATIENT));
 
-        when(indibaSessionRepository.findAllByPatientId(new PatientId(1))).thenReturn(List.of());
+        PageQuery query = new PageQuery(0, 2);
 
-        List<IndibaSession> result = indibaSessionService.getIndibaSessionsFromPatient(new PatientId(1));
+        PagedResponse<IndibaSummaryElement> mockedResponse = new PagedResponse<>(
+                List.of(), // content empty
+                0L,        // totalElements
+                0,         // totalPages
+                0,         // pageNumber
+                true       // isLast
+        );
 
-        assertNotNull(result);
-        assertEquals(0, result.size());
+        when(indibaSessionRepository.findAllByPatientId(query, new PatientId(1))).thenReturn(mockedResponse);
 
-        verify(indibaSessionRepository).findAllByPatientId(new PatientId(1));
+        PagedResponse<IndibaSummaryElement> result = indibaSessionService.getIndibaSessionsFromPatient(query, new PatientId(1));
+
+        assertEquals(0, result.totalElements());
+        assertEquals(0, result.totalPages());
+        assertEquals(0, result.content().size());
+
+        verify(indibaSessionRepository).findAllByPatientId(query, new PatientId(1));
     }
 
     @Test
@@ -69,8 +90,10 @@ public class GetIndibaSessionFromPatientServiceTest {
         when(patientRepository.findById(new PatientId(99)))
                 .thenReturn(Optional.empty());
 
+        PageQuery query = new PageQuery(0, 2);
+
         try {
-            indibaSessionService.getIndibaSessionsFromPatient(new PatientId(99));
+            indibaSessionService.getIndibaSessionsFromPatient(query, new PatientId(99));
         } catch (Exception e) {
             assertEquals("The provided ID is invalid.", e.getMessage());
         }

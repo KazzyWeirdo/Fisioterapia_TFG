@@ -1,10 +1,10 @@
 package com.tfg.port.in.indiba;
 
-import com.tfg.indiba.IndibaSession;
 import com.tfg.patient.PatientId;
-
-import java.util.List;
+import com.tfg.pojos.pagedpojos.PageQuery;
+import com.tfg.pojos.pagedpojos.PagedResponse;
+import com.tfg.pojos.query.IndibaSummaryElement;
 
 public interface GetIndibaSessionFromPatientUseCase {
-    List<IndibaSession> getIndibaSessionsFromPatient(PatientId patientId);
+    PagedResponse<IndibaSummaryElement> getIndibaSessionsFromPatient(PageQuery query, PatientId patientId);
 }
