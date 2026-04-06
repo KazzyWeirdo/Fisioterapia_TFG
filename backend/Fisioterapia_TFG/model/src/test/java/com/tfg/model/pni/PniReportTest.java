@@ -27,7 +27,7 @@ public class PniReportTest {
         assertThat(pniReport.getHours_asleep()).isEqualTo(TEST_PNI_REPORT.getHours_asleep());
         assertThat(pniReport.getHrv()).isEqualTo(TEST_PNI_REPORT.getHrv());
         assertThat(pniReport.getSleep_score()).isEqualTo(TEST_PNI_REPORT.getSleep_score());
-        assertThat(pniReport.getStress()).isEqualTo(TEST_PNI_REPORT.getStress());
+        assertThat(pniReport.getAns_charge()).isEqualTo(TEST_PNI_REPORT.getAns_charge());
     }
 
     @Test
@@ -65,7 +65,7 @@ public class PniReportTest {
                     5
             );
         } catch (IllegalArgumentException e) {
-            assertThat(e.getMessage()).isEqualTo("Stress level must be between 0 and 100");
+            assertThat(e.getMessage()).isEqualTo("Ans Charge must be between 0 and 100");
         }
 
         try {

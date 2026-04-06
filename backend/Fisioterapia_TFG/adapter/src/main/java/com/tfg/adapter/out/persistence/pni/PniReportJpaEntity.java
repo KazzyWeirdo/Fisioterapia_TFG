@@ -22,7 +22,7 @@ public class PniReportJpaEntity {
     @Column(nullable = false)
     private Double hoursAsleep;
     private Double hrv;
-    private int stress;
+    private int ansCharge;
     @Column(nullable = false)
     private int sleepScore;
 }

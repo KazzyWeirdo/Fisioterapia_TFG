@@ -152,7 +152,7 @@ public class PolarRepositoryAdapter implements PolarRepository {
                         result.setHrv(ansStatus.get("heart_rate_variability_rmssd").asDouble());
                     }
                     if (ansStatus.has("ans_charge")) {
-                        result.setStress(ansStatus.get("ans_charge").asInt());
+                        result.setAns_charge(ansStatus.get("ans_charge").asInt());
                     }
                     hasRecharge = true;
                 }

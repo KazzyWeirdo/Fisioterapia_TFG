@@ -18,7 +18,7 @@ public record PniReportWebModel(
                 pniReport.getReportDate(),
                 pniReport.getHours_asleep(),
                 pniReport.getHrv(),
-                pniReport.getStress(),
+                pniReport.getAns_charge(),
                 pniReport.getSleep_score()
         );
     }
