@@ -1,36 +1,42 @@
 package com.tfg;
 
+import com.tfg.port.in.auditlog.GetAllAuditLogsUseCase;
 import com.tfg.port.in.indiba.CreateIndibaSessionUseCase;
 import com.tfg.port.in.indiba.GetIndibaSessionFromPatientUseCase;
 import com.tfg.port.in.indiba.GetIndibaSessionUseCase;
 import com.tfg.port.in.patient.CreatePatientUseCase;
+import com.tfg.port.in.patient.GetAllPatientsUseCase;
 import com.tfg.port.in.patient.GetPatientUseCase;
 import com.tfg.port.in.patient.UpdatePatientUseCase;
+import com.tfg.port.in.physiotherapist.LogPhysiotherapistUseCase;
 import com.tfg.port.in.pni.CreatePniReportUseCase;
 import com.tfg.port.in.pni.GetPniReportUseCase;
 import com.tfg.port.in.pni.GetPniReportsFromPatientUseCase;
 import com.tfg.port.in.polar.ManagePolarConnectionUseCase;
 import com.tfg.port.in.polar.SyncPolarDataUseCase;
+import com.tfg.port.in.physiotherapist.RegisterPhysiotherapistUseCase;
 import com.tfg.port.in.statistics.GetPatientTransitionRatioUseCase;
 import com.tfg.port.in.statistics.GetWorkloadProgressionUseCase;
 import com.tfg.port.in.trainingsession.CreateTrainingSessionUseCase;
 import com.tfg.port.in.trainingsession.GetTrainingSessionByPatientUseCase;
 import com.tfg.port.in.trainingsession.GetTrainingSessionUseCase;
-import com.tfg.port.out.persistence.IndibaSessionRepository;
-import com.tfg.port.out.persistence.PatientRepository;
-import com.tfg.port.out.persistence.PniReportRepository;
-import com.tfg.port.out.persistence.TrainingSessionRepository;
+import com.tfg.port.out.springsecurity.CredentialsValidatorPort;
+import com.tfg.port.out.springsecurity.TokenGeneratorPort;
+import com.tfg.port.out.persistence.*;
 import com.tfg.port.out.polar.PolarRepository;
+import com.tfg.service.auditlog.GetAllAuditLogsService;
 import com.tfg.service.indiba.CreateIndibaSessionService;
 import com.tfg.service.indiba.GetIndibaSessionFromPatientService;
 import com.tfg.service.indiba.GetIndibaSessionService;
 import com.tfg.service.patient.CreatePatientService;
+import com.tfg.service.patient.GetAllPatientsService;
 import com.tfg.service.patient.UpdatePatientService;
 import com.tfg.service.pni.CreatePniReportService;
 import com.tfg.service.pni.GetPniReportService;
 import com.tfg.service.pni.GetPniReportsFromPatientService;
 import com.tfg.service.polar.ManagePolarConnectionService;
 import com.tfg.service.polar.SyncPolarDataService;
+import com.tfg.service.physiotherapist.RegisterPhysiotherapistService;
 import com.tfg.service.statistics.GetPatientTransitionRatioService;
 import com.tfg.service.statistics.GetWorkloadProgressionService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -41,8 +47,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import com.tfg.service.patient.GetPatientService;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @SpringBootApplication
+@EnableAspectJAutoProxy
 @OpenAPIDefinition(info = @Info(title= "fisioterapia API",
 version = "1.0",
 license = @License(name = "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International Public License", url = "https://creativecommons.org/licenses/by-nc-sa/4.0/")))
@@ -64,6 +72,18 @@ public class SpringAppConfig {
     @Autowired
     TrainingSessionRepository trainingSessionRepository;
 
+    @Autowired
+    PhysiotherapistRepository psychiatristRepository;
+
+    @Autowired
+    AuditLogRepository auditLogRepository;
+
+    @Autowired
+    TokenGeneratorPort tokenGeneratorPort;
+
+    @Autowired
+    CredentialsValidatorPort credentialsValidatorPort;
+
     @Bean
     GetPatientUseCase getPatientUseCase() {
         return new GetPatientService(patientRepository);
@@ -78,6 +98,9 @@ public class SpringAppConfig {
     UpdatePatientUseCase updatePatientUseCase() {
         return new UpdatePatientService(patientRepository);
     }
+
+    @Bean
+    GetAllPatientsUseCase getAllPatientsUseCase() {return new GetAllPatientsService(patientRepository);}
 
     @Bean
     CreateIndibaSessionUseCase createIndibaSessionUseCase() {
@@ -139,4 +162,20 @@ public class SpringAppConfig {
     GetWorkloadProgressionUseCase getWorkloadProgressionUseCase() {
         return new GetWorkloadProgressionService(trainingSessionRepository, patientRepository);
     }
+
+    @Bean
+    GetAllAuditLogsUseCase getAllAuditLogsUseCase() {
+        return new GetAllAuditLogsService(auditLogRepository);
+    }
+
+    @Bean
+    RegisterPhysiotherapistUseCase registerPsychiatristUseCase() {
+        return new RegisterPhysiotherapistService(psychiatristRepository);
+    }
+
+    @Bean
+    LogPhysiotherapistUseCase logPhysiotherapistUseCase() {
+        return new com.tfg.service.physiotherapist.LogPhysiotherapistService(tokenGeneratorPort, credentialsValidatorPort);
+    }
+
 }

@@ -22,7 +22,7 @@ public class GetPniReportController {
         this.getPniReportUseCase = getPniReportUseCase;
     }
 
-    @GetMapping("/{reportId}")
+    @GetMapping("/report/{reportId}")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Pni report found successfully"),
             @ApiResponse(responseCode = "404", description = "Pni report not found")

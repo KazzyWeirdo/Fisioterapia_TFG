@@ -2,6 +2,9 @@ package com.tfg.adapter.out.persistence.patient;
 
 import com.tfg.patient.Patient;
 import com.tfg.model.patient.PatientFactory;
+import com.tfg.pojos.pagedpojos.PageQuery;
+import com.tfg.pojos.pagedpojos.PagedResponse;
+import com.tfg.pojos.query.PatientSummaryElement;
 import com.tfg.port.out.persistence.PatientRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -11,7 +14,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
 
 public abstract class AbstractPatientRepositoryTest {
 
@@ -104,11 +106,14 @@ public abstract class AbstractPatientRepositoryTest {
         assertThat(optionalPatient.get().getId()).isEqualTo(TEST_PATIENT.getId());
         assertThat(optionalPatient.get().getEmail()).isEqualTo(TEST_PATIENT.getEmail());
         assertThat(optionalPatient.get().getDni()).isEqualTo(TEST_PATIENT.getDni());
-        assertThat(optionalPatient.get().getName()).isEqualTo(TEST_PATIENT.getName());
+        assertThat(optionalPatient.get().getLegalName()).isEqualTo(TEST_PATIENT.getLegalName());
+        assertThat(optionalPatient.get().getNameToUse()).isEqualTo(TEST_PATIENT.getNameToUse());
         assertThat(optionalPatient.get().getSurname()).isEqualTo(TEST_PATIENT.getSurname());
         assertThat(optionalPatient.get().getSecondSurname()).isEqualTo(TEST_PATIENT.getSecondSurname());
         assertThat(optionalPatient.get().getPhoneNumber()).isEqualTo(TEST_PATIENT.getPhoneNumber());
-        assertThat(optionalPatient.get().getGender()).isEqualTo(TEST_PATIENT.getGender());
+        assertThat(optionalPatient.get().getGenderIdentity()).isEqualTo(TEST_PATIENT.getGenderIdentity());
+        assertThat(optionalPatient.get().getAdministrativeSex()).isEqualTo(TEST_PATIENT.getAdministrativeSex());
+        assertThat(optionalPatient.get().getPronouns()).isEqualTo(TEST_PATIENT.getPronouns());
         assertThat(optionalPatient.get().getDateOfBirth()).isEqualTo(TEST_PATIENT.getDateOfBirth());
 
     }
@@ -117,11 +122,14 @@ public abstract class AbstractPatientRepositoryTest {
         patientRepository.save(TEST_PATIENT);
 
         Patient updatedPatient = PatientFactory.createTestPatient("updated@gmail.com", "85729487J");
-        updatedPatient.setName("UpdatedName");
+        updatedPatient.setLegalName("UpdatedName");
+        updatedPatient.setNameToUse("UpdatedNameToUse");
         updatedPatient.setSurname("UpdatedSurname");
         updatedPatient.setSecondSurname("UpdatedSecondSurname");
         updatedPatient.setPhoneNumber(123456789);
-        updatedPatient.setGender(TEST_PATIENT.getGender());
+        updatedPatient.setGenderIdentity(TEST_PATIENT.getGenderIdentity());
+        updatedPatient.setAdministrativeSex(TEST_PATIENT.getAdministrativeSex());
+        updatedPatient.setPronouns(TEST_PATIENT.getPronouns());
         updatedPatient.setDateOfBirth(TEST_PATIENT.getDateOfBirth());
 
         patientRepository.update(TEST_PATIENT.getId(), updatedPatient);
@@ -130,7 +138,7 @@ public abstract class AbstractPatientRepositoryTest {
 
         assertThat(optionalPatient).isPresent();
         assertThat(optionalPatient.get().getEmail()).isEqualTo(updatedPatient.getEmail());
-        assertThat(optionalPatient.get().getName()).isEqualTo(updatedPatient.getName());
+        assertThat(optionalPatient.get().getLegalName()).isEqualTo(updatedPatient.getLegalName());
         assertThat(optionalPatient.get().getSurname()).isEqualTo(updatedPatient.getSurname());
         assertThat(optionalPatient.get().getSecondSurname()).isEqualTo(updatedPatient.getSecondSurname());
         assertThat(optionalPatient.get().getPhoneNumber()).isEqualTo(updatedPatient.getPhoneNumber());
@@ -148,11 +156,34 @@ public abstract class AbstractPatientRepositoryTest {
         List<Patient> patients = patientRepository.findAllWithPolarToken();
 
         assertThat(patients).hasSize(2);
-        assertThat(patients.get(0).getId().value()).isEqualTo(TEST_PATIENT.getId().value());
+        assertThat(patients.getFirst().getId().value()).isEqualTo(TEST_PATIENT.getId().value());
         assertThat(patients.get(0).getPolarAccessToken()).isEqualTo(TEST_PATIENT.getPolarAccessToken());
         assertThat(patients.get(0).getPolarUserId()).isEqualTo(TEST_PATIENT.getPolarUserId());
         assertThat(patients.get(1).getId().value()).isEqualTo(TEST_PATIENT2.getId().value());
         assertThat(patients.get(1).getPolarAccessToken()).isEqualTo(TEST_PATIENT2.getPolarAccessToken());
         assertThat(patients.get(1).getPolarUserId()).isEqualTo(TEST_PATIENT2.getPolarUserId());
+    }
+
+    @Test
+    public void givenPageQuery_whenFindAll_thenReturnAllPatients() {
+        patientRepository.save(TEST_PATIENT);
+        patientRepository.save(TEST_PATIENT2);
+
+        PageQuery query = new PageQuery(0, 10);
+
+        PagedResponse<PatientSummaryElement> response = patientRepository.findAllSummaries(query);
+
+        List<PatientSummaryElement> patients = response.content();
+
+        assertThat(response.totalElements()).isEqualTo(2);
+        assertThat(response.totalPages()).isEqualTo(1);
+        assertThat(response.pageNumber()).isEqualTo(0);
+        assertThat(response.isLast()).isTrue();
+
+        assertThat(patients).hasSize(2);
+        assertThat(patients.get(0).id()).isEqualTo(TEST_PATIENT.getId().value());
+        assertThat(patients.get(0).name()).isEqualTo(TEST_PATIENT.getNameToUse());
+        assertThat(patients.get(1).id()).isEqualTo(TEST_PATIENT2.getId().value());
+        assertThat(patients.get(1).name()).isEqualTo(TEST_PATIENT2.getNameToUse());
     }
 }

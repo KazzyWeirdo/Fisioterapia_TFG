@@ -4,6 +4,9 @@ import com.tfg.patient.Patient;
 import com.tfg.patient.PatientDNI;
 import com.tfg.patient.PatientEmail;
 import com.tfg.patient.PatientId;
+import com.tfg.pojos.pagedpojos.PageQuery;
+import com.tfg.pojos.pagedpojos.PagedResponse;
+import com.tfg.pojos.query.PatientSummaryElement;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +24,8 @@ public interface PatientRepository {
     Optional<Patient> findByEmail(PatientEmail email);
 
     Optional<Patient> findByDni(PatientDNI dni);
+
+    PagedResponse<PatientSummaryElement> findAllSummaries(PageQuery query);
 
     List<Patient> findAllWithPolarToken();
 }

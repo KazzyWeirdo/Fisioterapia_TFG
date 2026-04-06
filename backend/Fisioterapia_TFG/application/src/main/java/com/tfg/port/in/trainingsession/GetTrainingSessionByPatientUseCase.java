@@ -1,11 +1,11 @@
 package com.tfg.port.in.trainingsession;
 
 import com.tfg.patient.PatientId;
-import com.tfg.trainingsession.TrainingSession;
-
-import java.util.List;
+import com.tfg.pojos.pagedpojos.PageQuery;
+import com.tfg.pojos.pagedpojos.PagedResponse;
+import com.tfg.pojos.query.TrainingSessionSummaryElement;
 
 public interface GetTrainingSessionByPatientUseCase {
 
-    List<TrainingSession> getTrainingSessionFromPatient(PatientId patientId);
+    PagedResponse<TrainingSessionSummaryElement> getTrainingSessionFromPatient(PageQuery query, PatientId patientId);
 }

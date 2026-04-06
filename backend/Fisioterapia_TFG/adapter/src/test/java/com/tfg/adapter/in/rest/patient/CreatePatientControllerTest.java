@@ -31,14 +31,18 @@ public class CreatePatientControllerTest {
     @Test
     void createPatient_ShouldReturnOk_WhenInputIsValid() throws Exception {
         PatientCreationModel patientCreationModel = new PatientCreationModel(
-                "test@example.com",
+                "updated@example.com",
                 "12345678A",
-                "MALE",
-                "John",
+                "FEMALE",
+                "FEMALE",
+                "FEMALE",
+                "Jane",
+                "Jane",
                 "Doe",
                 "Smith",
-                123456789,
-                LocalDate.of(1990, 1, 1)
+                "She/Her",
+                987654321,
+                LocalDate.of(1985, 5, 15)
 
         );
 
@@ -54,9 +58,18 @@ public class CreatePatientControllerTest {
     @Test
     void createPatient_ShouldReturnBadRequest_WhenInputIsInvalid() {
         PatientCreationModel invalidPatientCreationModel = new PatientCreationModel(
-                "", // Email inválido
-                "12345678A", "MALE", "John", "Doe", "Smith", 123456789,
-                LocalDate.of(1990, 1, 1)
+                "", // Invalid email
+                "12345678A",
+                "FEMALE",
+                "FEMALE",
+                "FEMALE",
+                "Jane",
+                "Jane",
+                "Doe",
+                "Smith",
+                "She/Her",
+                987654321,
+                LocalDate.of(1985, 5, 15)
         );
 
         given()

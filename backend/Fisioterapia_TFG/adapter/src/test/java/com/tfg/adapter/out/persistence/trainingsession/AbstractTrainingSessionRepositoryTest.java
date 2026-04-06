@@ -5,6 +5,9 @@ import com.tfg.model.trainingsession.ExerciseFactory;
 import com.tfg.model.trainingsession.ExerciseSetFactory;
 import com.tfg.model.trainingsession.TrainingSessionFactory;
 import com.tfg.patient.Patient;
+import com.tfg.pojos.pagedpojos.PageQuery;
+import com.tfg.pojos.pagedpojos.PagedResponse;
+import com.tfg.pojos.query.TrainingSessionSummaryElement;
 import com.tfg.port.out.persistence.PatientRepository;
 import com.tfg.port.out.persistence.TrainingSessionRepository;
 import com.tfg.trainingsession.Exercise;
@@ -27,7 +30,6 @@ public abstract class AbstractTrainingSessionRepositoryTest {
     private TrainingSession testTrainingSession2;
     private Exercise exercise1;
     private ExerciseSet exerciseSet1;
-    private ExerciseSet exerciseSet2;
 
     @Autowired
     public TrainingSessionRepository trainingSessionRepository;
@@ -57,15 +59,31 @@ public abstract class AbstractTrainingSessionRepositoryTest {
         trainingSessionRepository.save(testTrainingSession1);
         trainingSessionRepository.save(testTrainingSession2);
 
-        var trainingSessions = trainingSessionRepository.findAllByPatientId(testPatient.getId());
+        PageQuery query = new PageQuery(0, 10);
 
-        assertThat(trainingSessions).isNotEmpty();
-        assertThat(trainingSessions.size()).isEqualTo(2);
+        PagedResponse<TrainingSessionSummaryElement> response = trainingSessionRepository.findAllByPatientId(query, testPatient.getId());
+
+        List<TrainingSessionSummaryElement> trainingSessions = response.content();
+
+        assertThat(response.totalElements()).isEqualTo(2);
+        assertThat(response.totalPages()).isEqualTo(1);
+        assertThat(response.pageNumber()).isEqualTo(0);
+        assertThat(response.isLast()).isTrue();
+
+        assertThat(trainingSessions).hasSize(2);
+        assertThat(trainingSessions.get(0).id()).isEqualTo(testTrainingSession1.getId().value());
+        assertThat(trainingSessions.get(0).date()).isEqualTo(testTrainingSession1.getDate());
+        assertThat(trainingSessions.get(1).id()).isEqualTo(testTrainingSession2.getId().value());
+        assertThat(trainingSessions.get(1).date()).isEqualTo(testTrainingSession2.getDate());
     }
 
     @Test
     public void givenNoExistingPatient_whenFindByPatient_thenReturnEmptyList() {
-        var trainingSessions = trainingSessionRepository.findAllByPatientId(testPatient.getId());
+        PageQuery query = new PageQuery(0, 10);
+
+        PagedResponse<TrainingSessionSummaryElement> response = trainingSessionRepository.findAllByPatientId(query, testPatient.getId());
+
+        List<TrainingSessionSummaryElement> trainingSessions = response.content();
 
         assertThat(trainingSessions).isEmpty();
     }
@@ -94,9 +112,13 @@ public abstract class AbstractTrainingSessionRepositoryTest {
 
         trainingSessionRepository.deleteAll();
 
-        List<TrainingSession> trainingSession = trainingSessionRepository.findAllByPatientId(testPatient.getId());
+        PageQuery query = new PageQuery(0, 10);
 
-        assertThat(trainingSession).isEmpty();
+        PagedResponse<TrainingSessionSummaryElement> response = trainingSessionRepository.findAllByPatientId(query, testPatient.getId());
+
+        List<TrainingSessionSummaryElement> trainingSessions = response.content();
+
+        assertThat(trainingSessions).isEmpty();
     }
 
     @Test

@@ -51,7 +51,7 @@ public class GetPatientControllerTest {
                 .then()
                 .status(OK)
                 .body("id", equalTo(TEST_PATIENT.getId().value()))
-                .body("name", equalTo(TEST_PATIENT.getName()))
+                .body("nameToUse", equalTo(TEST_PATIENT.getNameToUse()))
                 .body("email", equalTo(TEST_PATIENT.getEmail().value()));
     }
 

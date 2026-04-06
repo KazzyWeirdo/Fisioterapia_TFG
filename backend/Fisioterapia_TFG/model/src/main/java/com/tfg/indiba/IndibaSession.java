@@ -1,6 +1,7 @@
 package com.tfg.indiba;
 
 import com.tfg.patient.Patient;
+import com.tfg.physiotherapist.Physiotherapist;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,10 +21,10 @@ public class IndibaSession {
     private IndibaSessionModes mode;
     private float intensity;
     private String objective;
-    private String physiotherapist; // TODO: Change to PhysiotherapistId when the class is created
+    private Physiotherapist physiotherapist;
     private String observations;
 
-    public IndibaSession(Patient patient, Date beginSession, Date endSession, String treatedArea, IndibaSessionModes mode, float intensity, String objective, String physiotherapist, String observations) {
+    public IndibaSession(Patient patient, Date beginSession, Date endSession, String treatedArea, IndibaSessionModes mode, float intensity, String objective, Physiotherapist physiotherapist, String observations) {
         checkDates(beginSession, endSession);
         checkIntensity(intensity);
         this.id = new IndibaSessionId(ThreadLocalRandom.current().nextInt(1_000_000));

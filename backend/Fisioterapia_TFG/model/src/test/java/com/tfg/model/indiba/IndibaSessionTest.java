@@ -2,7 +2,9 @@ package com.tfg.model.indiba;
 
 import com.tfg.indiba.IndibaSession;
 import com.tfg.model.patient.PatientFactory;
+import com.tfg.model.physiotherapist.PhysiotherapistFactory;
 import com.tfg.patient.Patient;
+import com.tfg.physiotherapist.Physiotherapist;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
@@ -13,8 +15,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class IndibaSessionTest {
 
     private static final Patient TEST_PATIENT = PatientFactory.createTestPatient("hola@gmail.com", "85729487J");
+    private static final Physiotherapist TEST_PHYSIOTHERAPIST = PhysiotherapistFactory.createTestPsychiatrist("hola@gmail.com", "ValidPassword123!");
     private static final IndibaSession INDIBA_SESSION = IndibaSessionFactory.createTestIndibaSession(
             TEST_PATIENT,
+            TEST_PHYSIOTHERAPIST,
             new Date("2023/01/01"),
             new Date("2023/01/02"));
 
