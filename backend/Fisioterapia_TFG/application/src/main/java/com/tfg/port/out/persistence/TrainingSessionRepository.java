@@ -1,6 +1,9 @@
 package com.tfg.port.out.persistence;
 
 import com.tfg.patient.PatientId;
+import com.tfg.pojos.pagedpojos.PageQuery;
+import com.tfg.pojos.pagedpojos.PagedResponse;
+import com.tfg.pojos.query.TrainingSessionSummaryElement;
 import com.tfg.trainingsession.TrainingSession;
 import com.tfg.trainingsession.TrainingSessionId;
 
@@ -15,7 +18,7 @@ public interface TrainingSessionRepository {
 
     Optional<TrainingSession> findById (TrainingSessionId id);
 
-    List<TrainingSession> findAllByPatientId (PatientId patientId);
+    PagedResponse<TrainingSessionSummaryElement> findAllByPatientId (PageQuery query, PatientId patientId);
 
     List<Object[]> countSessionByMonth (PatientId patientId, Integer year);
 

@@ -33,7 +33,7 @@ public class GetPniReportsFromPatientController {
             @ApiResponse(responseCode = "204", description = "No Pni reports found for the patient"),
             @ApiResponse(responseCode = "404", description = "Patient not found")
     })
-    public ResponseEntity<List<PniReportListWebModel>> getPniReportsFromPatient(@PathVariable("patientId") String grabbedPatientId, Pageable springPageable) {
+    public ResponseEntity<PagedResponse<PniReportListWebModel>> getPniReportsFromPatient(@PathVariable("patientId") String grabbedPatientId, Pageable springPageable) {
         PatientId patientId = PatientIdParser.parsePatientId(grabbedPatientId);
         PageQuery query = new PageQuery(springPageable.getPageNumber(), springPageable.getPageSize());
         PagedResponse<PniReportSummaryElement> domainPagedResponse = getPniReportsFromPatientUseCase.getPniReportsFromPatient(query, patientId);
@@ -49,6 +49,14 @@ public class GetPniReportsFromPatientController {
                 ))
                 .toList();
 
-        return ResponseEntity.ok(dtoContent);
+        PagedResponse<PniReportListWebModel> webResponse = new PagedResponse<>(
+                dtoContent,
+                domainPagedResponse.totalElements(),
+                domainPagedResponse.totalPages(),
+                domainPagedResponse.pageNumber(),
+                domainPagedResponse.isLast()
+        );
+
+        return ResponseEntity.ok(webResponse);
     }
 }
