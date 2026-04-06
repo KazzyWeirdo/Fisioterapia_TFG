@@ -2,16 +2,11 @@ package com.tfg.adapter.in.rest.indiba;
 
 import com.tfg.adapter.in.rest.common.GlobalExceptionHandler;
 import com.tfg.exceptions.InvalidIdException;
-import com.tfg.indiba.IndibaSession;
-import com.tfg.model.indiba.IndibaSessionFactory;
 import com.tfg.model.patient.PatientFactory;
-import com.tfg.model.physiotherapist.PhysiotherapistFactory;
 import com.tfg.patient.Patient;
-import com.tfg.physiotherapist.Physiotherapist;
 import com.tfg.pojos.pagedpojos.PageQuery;
 import com.tfg.pojos.pagedpojos.PagedResponse;
 import com.tfg.pojos.query.IndibaSummaryElement;
-import com.tfg.pojos.query.PatientSummaryElement;
 import com.tfg.port.in.indiba.GetIndibaSessionFromPatientUseCase;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,14 +15,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 

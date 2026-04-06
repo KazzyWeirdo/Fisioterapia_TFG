@@ -5,6 +5,10 @@ import com.tfg.model.pni.PniReportFactory;
 import com.tfg.patient.Patient;
 import com.tfg.pni.PniReport;
 import com.tfg.pni.PniReportId;
+import com.tfg.pojos.pagedpojos.PageQuery;
+import com.tfg.pojos.pagedpojos.PagedResponse;
+import com.tfg.pojos.query.IndibaSummaryElement;
+import com.tfg.pojos.query.PniReportSummaryElement;
 import com.tfg.port.out.persistence.PatientRepository;
 import com.tfg.port.out.persistence.PniReportRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -12,6 +16,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -48,15 +53,31 @@ public abstract class AbstractPniReportRepositoryTest {
         pniReportRepository.save(testPniReport1);
         pniReportRepository.save(testPniReport2);
 
-        var pniReports = pniReportRepository.findAllReportsByPatiendId(testPatient.getId());
+        PageQuery query = new PageQuery(0, 10);
 
-        assertThat(pniReports).isNotEmpty();
-        assertThat(pniReports.size()).isEqualTo(2);
+        PagedResponse<PniReportSummaryElement> response = pniReportRepository.findAllReportsByPatiendId(query, testPatient.getId());
+
+        List<PniReportSummaryElement> pniReports = response.content();
+
+        assertThat(response.totalElements()).isEqualTo(2);
+        assertThat(response.totalPages()).isEqualTo(1);
+        assertThat(response.pageNumber()).isEqualTo(0);
+        assertThat(response.isLast()).isTrue();
+
+        assertThat(pniReports).hasSize(2);
+        assertThat(pniReports.get(0).id()).isEqualTo(testPniReport1.getId().value());
+        assertThat(pniReports.get(0).date()).isEqualTo(testPniReport1.getReportDate());
+        assertThat(pniReports.get(1).id()).isEqualTo(testPniReport2.getId().value());
+        assertThat(pniReports.get(1).date()).isEqualTo(testPniReport2.getReportDate());
     }
 
     @Test
     public void givenNoExistingPatient_whenFindByPatient_returnEmptyList(){
-        var pniReports = pniReportRepository.findAllReportsByPatiendId(testPatient.getId());
+        PageQuery query = new PageQuery(0, 10);
+
+        PagedResponse<PniReportSummaryElement> response = pniReportRepository.findAllReportsByPatiendId(query, testPatient.getId());
+
+        List<PniReportSummaryElement> pniReports = response.content();
 
         assertThat(pniReports).isEmpty();
     }
@@ -84,7 +105,12 @@ public abstract class AbstractPniReportRepositoryTest {
 
         pniReportRepository.deleteAll();
 
-        var pniReports = pniReportRepository.findAllReportsByPatiendId(testPatient.getId());
+        PageQuery query = new PageQuery(0, 10);
+
+        PagedResponse<PniReportSummaryElement> response = pniReportRepository.findAllReportsByPatiendId(query, testPatient.getId());
+
+        List<PniReportSummaryElement> pniReports = response.content();
+
         assertThat(pniReports).isEmpty();
     }
 
