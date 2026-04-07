@@ -9,6 +9,8 @@ import com.tfg.port.in.patient.GetAllPatientsUseCase;
 import com.tfg.port.in.patient.GetPatientUseCase;
 import com.tfg.port.in.patient.UpdatePatientUseCase;
 import com.tfg.port.in.physiotherapist.LogPhysiotherapistUseCase;
+import com.tfg.port.in.physiotherapist.RequestPasswordResetUseCase;
+import com.tfg.port.in.physiotherapist.ResetPasswordUseCase;
 import com.tfg.port.in.pni.CreatePniReportUseCase;
 import com.tfg.port.in.pni.GetPniReportUseCase;
 import com.tfg.port.in.pni.GetPniReportsFromPatientUseCase;
@@ -22,6 +24,7 @@ import com.tfg.port.in.trainingsession.GetTrainingSessionByPatientUseCase;
 import com.tfg.port.in.trainingsession.GetTrainingSessionUseCase;
 import com.tfg.port.out.mail.EmailSenderPort;
 import com.tfg.port.out.springsecurity.CredentialsValidatorPort;
+import com.tfg.port.out.springsecurity.PasswordEncoderPort;
 import com.tfg.port.out.springsecurity.TokenGeneratorPort;
 import com.tfg.port.out.persistence.*;
 import com.tfg.port.out.polar.PolarRepository;
@@ -32,6 +35,8 @@ import com.tfg.service.indiba.GetIndibaSessionService;
 import com.tfg.service.patient.CreatePatientService;
 import com.tfg.service.patient.GetAllPatientsService;
 import com.tfg.service.patient.UpdatePatientService;
+import com.tfg.service.physiotherapist.RequestPasswordResetService;
+import com.tfg.service.physiotherapist.ResetPasswordService;
 import com.tfg.service.pni.CreatePniReportService;
 import com.tfg.service.pni.GetPniReportService;
 import com.tfg.service.pni.GetPniReportsFromPatientService;
@@ -49,6 +54,7 @@ import org.springframework.context.annotation.Bean;
 
 import com.tfg.service.patient.GetPatientService;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.mail.javamail.JavaMailSender;
 
 @SpringBootApplication
 @EnableAspectJAutoProxy
@@ -87,6 +93,12 @@ public class SpringAppConfig {
 
     @Autowired
     CredentialsValidatorPort credentialsValidatorPort;
+
+    @Autowired
+    PasswordResetTokenRepository passwordResetTokenRepository;
+
+    @Autowired
+    PasswordEncoderPort passwordEncoderPort;
 
     @Bean
     GetPatientUseCase getPatientUseCase() {
@@ -174,7 +186,7 @@ public class SpringAppConfig {
 
     @Bean
     RegisterPhysiotherapistUseCase registerPsychiatristUseCase() {
-        return new RegisterPhysiotherapistService(psychiatristRepository);
+        return new RegisterPhysiotherapistService(psychiatristRepository, passwordEncoderPort);
     }
 
     @Bean
@@ -182,4 +194,13 @@ public class SpringAppConfig {
         return new com.tfg.service.physiotherapist.LogPhysiotherapistService(tokenGeneratorPort, credentialsValidatorPort);
     }
 
+    @Bean
+    ResetPasswordUseCase resetPasswordUseCase() {
+        return new ResetPasswordService(passwordResetTokenRepository, psychiatristRepository, passwordEncoderPort);
+    }
+
+    @Bean
+    RequestPasswordResetUseCase requestPasswordResetUseCase() {
+        return new RequestPasswordResetService(psychiatristRepository, passwordResetTokenRepository, emailSenderPort);
+    }
 }

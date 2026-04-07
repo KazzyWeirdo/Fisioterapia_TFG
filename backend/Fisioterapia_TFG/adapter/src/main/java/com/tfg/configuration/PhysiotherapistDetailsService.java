@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 public class PhysiotherapistDetailsService implements UserDetailsService {
-    private PhysiotherapistRepository physiotherapistRepository;
+    private final PhysiotherapistRepository physiotherapistRepository;
 
     public PhysiotherapistDetailsService(PhysiotherapistRepository physiotherapistRepository) {
         this.physiotherapistRepository = physiotherapistRepository;

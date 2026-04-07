@@ -10,12 +10,15 @@ import org.springframework.stereotype.Component;
 public class SmtpEmailAdapter implements EmailSenderPort {
 
     private final String formBaseUrl;
+    private final String resetBaseUrl;
     private final JavaMailSender mailSender;
 
     public SmtpEmailAdapter(JavaMailSender mailSender,
-        @Value("${application.form.base-url}") String formBaseUrl){
+        @Value("${application.form.base-url}") String formBaseUrl,
+                            @Value("${application.reset.base-url}") String resetBaseUrl) {
         this.mailSender = mailSender;
         this.formBaseUrl = formBaseUrl;
+        this.resetBaseUrl = resetBaseUrl;
     }
 
     @Override
@@ -25,6 +28,24 @@ public class SmtpEmailAdapter implements EmailSenderPort {
         message.setTo(email);
         message.setSubject("Registro de sesiones de entrenamiento");
         message.setText("%s".formatted(formUrl));
+        mailSender.send(message);
+    }
+
+    @Override
+    public void sendPasswordResetLink(String email, String token) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        String resetUrl = resetBaseUrl + "?token=" + token;
+        message.setTo(email);
+        message.setSubject("Recuperación de contraseña");
+        message.setText("""
+            Has solicitado restablecer tu contraseña.
+            
+            Haz clic en el siguiente enlace (válido durante 1 hora):
+            
+            %s
+            
+            Si no has solicitado este cambio, ignora este mensaje.
+            """.formatted(resetUrl));
         mailSender.send(message);
     }
 }
