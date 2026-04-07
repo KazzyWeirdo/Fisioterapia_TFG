@@ -3,16 +3,12 @@ package com.tfg.service.pni;
 import com.tfg.exceptions.InvalidIdException;
 import com.tfg.exceptions.InvalidPageOrSizeException;
 import com.tfg.patient.PatientId;
-import com.tfg.pni.PniReport;
 import com.tfg.pojos.pagedpojos.PageQuery;
 import com.tfg.pojos.pagedpojos.PagedResponse;
 import com.tfg.pojos.query.PniReportSummaryElement;
 import com.tfg.port.in.pni.GetPniReportsFromPatientUseCase;
 import com.tfg.port.out.persistence.PatientRepository;
 import com.tfg.port.out.persistence.PniReportRepository;
-
-import java.time.LocalDate;
-import java.util.List;
 
 public class GetPniReportsFromPatientService implements GetPniReportsFromPatientUseCase {
 
