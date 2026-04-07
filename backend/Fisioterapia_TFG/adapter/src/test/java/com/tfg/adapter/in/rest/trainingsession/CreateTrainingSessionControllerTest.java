@@ -51,7 +51,6 @@ public class CreateTrainingSessionControllerTest {
         exercises.add(exercise1);
 
         TrainingSessionCreationModel trainingSessionCreationModel = new TrainingSessionCreationModel(
-                TEST_PATIENT.getId().value(),
                 LocalDate.of(2024, 6, 1),
                 exercises
         );
@@ -60,7 +59,7 @@ public class CreateTrainingSessionControllerTest {
                 .contentType("application/json")
                 .body(trainingSessionCreationModel)
                 .when()
-                .post("/training-session/create")
+                .post("/training-session/{patientId}/create", String.valueOf(TEST_PATIENT.getId().value()))
                 .then()
                 .statusCode(200);
     }
@@ -68,7 +67,6 @@ public class CreateTrainingSessionControllerTest {
     @Test
     void createTrainingSession_shouldReturnBadRequest_whenInputIsInvalid() {
         TrainingSessionCreationModel trainingSessionCreationModel = new TrainingSessionCreationModel(
-                TEST_PATIENT.getId().value(),
                 LocalDate.of(2024, 6, 1),
                 new ArrayList<>()
         );
@@ -77,7 +75,7 @@ public class CreateTrainingSessionControllerTest {
                 .contentType("application/json")
                 .body(trainingSessionCreationModel)
                 .when()
-                .post("/training-session/create")
+                .post("/training-session/{patientId}/create", String.valueOf(TEST_PATIENT.getId().value()))
                 .then()
                 .statusCode(400);
     }

@@ -20,6 +20,7 @@ import com.tfg.port.in.statistics.GetWorkloadProgressionUseCase;
 import com.tfg.port.in.trainingsession.CreateTrainingSessionUseCase;
 import com.tfg.port.in.trainingsession.GetTrainingSessionByPatientUseCase;
 import com.tfg.port.in.trainingsession.GetTrainingSessionUseCase;
+import com.tfg.port.out.mail.EmailSenderPort;
 import com.tfg.port.out.springsecurity.CredentialsValidatorPort;
 import com.tfg.port.out.springsecurity.TokenGeneratorPort;
 import com.tfg.port.out.persistence.*;
@@ -82,6 +83,9 @@ public class SpringAppConfig {
     TokenGeneratorPort tokenGeneratorPort;
 
     @Autowired
+    EmailSenderPort emailSenderPort;
+
+    @Autowired
     CredentialsValidatorPort credentialsValidatorPort;
 
     @Bean
@@ -91,7 +95,7 @@ public class SpringAppConfig {
 
     @Bean
     CreatePatientUseCase createPatientUseCase() {
-        return new CreatePatientService(patientRepository);
+        return new CreatePatientService(patientRepository, emailSenderPort);
     }
 
     @Bean

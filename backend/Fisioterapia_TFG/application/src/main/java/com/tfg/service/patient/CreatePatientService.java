@@ -2,14 +2,17 @@ package com.tfg.service.patient;
 
 import com.tfg.patient.*;
 import com.tfg.port.in.patient.CreatePatientUseCase;
+import com.tfg.port.out.mail.EmailSenderPort;
 import com.tfg.port.out.persistence.PatientRepository;
 
 public class CreatePatientService implements CreatePatientUseCase {
 
     private final PatientRepository patientRepository;
+    private final EmailSenderPort emailSenderPort;
 
-    public CreatePatientService(PatientRepository patientRepository) {
+    public CreatePatientService(PatientRepository patientRepository, EmailSenderPort emailSenderPort) {
         this.patientRepository = patientRepository;
+        this.emailSenderPort = emailSenderPort;
     }
 
     @Override
@@ -23,5 +26,6 @@ public class CreatePatientService implements CreatePatientUseCase {
         });
 
         patientRepository.save(patient);
+        emailSenderPort.sendFormLink(patient.getEmail().value(), patient.getId().value());
     }
 }
