@@ -15,11 +15,8 @@ public class LogPhysiotherapistService implements LogPhysiotherapistUseCase {
     }
 
     @Override
-    public String authenticate(int physioId, String password) {
-        AuthenticatedUser user = credentialsValidatorPort.validate(
-                String.valueOf(physioId),
-                password
-        );
+    public String authenticate(String email, String password) {
+        AuthenticatedUser user = credentialsValidatorPort.validate(email, password);
         return tokenGeneratorPort.generateToken(user);
     }
 }

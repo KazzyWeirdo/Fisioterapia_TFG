@@ -35,8 +35,8 @@ public class LogPhysiotherapistControllerTest {
 
     @Test
     void login_shouldReturn200_withTokenInBodyAndHeader() {
-        AuthenticationRequest request = new AuthenticationRequest(1, "password");
-        when(logPhysiotherapistUseCase.authenticate(1, "password")).thenReturn("jwt-token");
+        AuthenticationRequest request = new AuthenticationRequest("physio@example.com", "password");
+        when(logPhysiotherapistUseCase.authenticate("physio@example.com", "password")).thenReturn("jwt-token");
 
         given()
                 .contentType("application/json")
@@ -49,9 +49,26 @@ public class LogPhysiotherapistControllerTest {
     }
 
     @Test
-    void login_shouldReturn400_whenPhysioIdIsNull() {
+    void login_shouldReturn400_whenEmailIsBlank() {
         String body = """
-                { "physioId": null, "password": "password" }
+                { "email": "", "password": "password" }
+                """;
+
+        given()
+                .contentType("application/json")
+                .body(body)
+                .when()
+                .post("/physiotherapist/login")
+                .then()
+                .status(HttpStatus.BAD_REQUEST);
+
+        verifyNoInteractions(logPhysiotherapistUseCase);
+    }
+
+    @Test
+    void login_shouldReturn400_whenEmailIsInvalid() {
+        String body = """
+                { "email": "not-an-email", "password": "password" }
                 """;
 
         given()
@@ -68,7 +85,7 @@ public class LogPhysiotherapistControllerTest {
     @Test
     void login_shouldReturn400_whenPasswordIsBlank() {
         String body = """
-                { "physioId": 1, "password": "" }
+                { "email": "physio@example.com", "password": "" }
                 """;
 
         given()
@@ -84,8 +101,8 @@ public class LogPhysiotherapistControllerTest {
 
     @Test
     void login_shouldReturn401_whenCredentialsAreWrong() {
-        AuthenticationRequest request = new AuthenticationRequest(1, "wrong");
-        when(logPhysiotherapistUseCase.authenticate(1, "wrong"))
+        AuthenticationRequest request = new AuthenticationRequest("physio@example.com", "wrong");
+        when(logPhysiotherapistUseCase.authenticate("physio@example.com", "wrong"))
                 .thenThrow(new BadCredentialsException());
 
         given()
@@ -99,8 +116,8 @@ public class LogPhysiotherapistControllerTest {
 
     @Test
     void login_shouldCallUseCase_withCorrectArguments() {
-        AuthenticationRequest request = new AuthenticationRequest(99, "mypass");
-        when(logPhysiotherapistUseCase.authenticate(99, "mypass")).thenReturn("token");
+        AuthenticationRequest request = new AuthenticationRequest("physio@example.com", "mypass");
+        when(logPhysiotherapistUseCase.authenticate("physio@example.com", "mypass")).thenReturn("token");
 
         given()
                 .contentType("application/json")
@@ -110,6 +127,6 @@ public class LogPhysiotherapistControllerTest {
                 .then()
                 .status(HttpStatus.OK);
 
-        verify(logPhysiotherapistUseCase).authenticate(99, "mypass");
+        verify(logPhysiotherapistUseCase).authenticate("physio@example.com", "mypass");
     }
 }

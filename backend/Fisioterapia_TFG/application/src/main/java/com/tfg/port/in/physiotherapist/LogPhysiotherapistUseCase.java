@@ -1,5 +1,5 @@
 package com.tfg.port.in.physiotherapist;
 
 public interface LogPhysiotherapistUseCase {
-    String authenticate(int physioId, String password);
+    String authenticate(String email, String password);
 }

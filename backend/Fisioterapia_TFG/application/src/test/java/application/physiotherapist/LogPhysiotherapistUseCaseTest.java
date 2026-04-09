@@ -18,19 +18,20 @@ public class LogPhysiotherapistUseCaseTest {
     private final CredentialsValidatorPort credentialsValidatorPort = mock(CredentialsValidatorPort.class);
     private final LogPhysiotherapistService logPhysiotherapistService = new LogPhysiotherapistService(tokenGeneratorPort, credentialsValidatorPort);
 
+    private static final String EMAIL = "physio@example.com";
     private static final AuthenticatedUser AUTHENTICATED_USER =
-            new AuthenticatedUser("123", List.of("USER"));
+            new AuthenticatedUser(EMAIL, List.of("USER"));
 
     private static final String EXPECTED_TOKEN = "eyJhbGciOiJIUzUxMiJ9.test.token";
 
     @Test
     void authenticate_shouldReturnToken_whenCredentialsAreValid() {
-        when(credentialsValidatorPort.validate("123", "password123"))
+        when(credentialsValidatorPort.validate(EMAIL, "password123"))
                 .thenReturn(AUTHENTICATED_USER);
         when(tokenGeneratorPort.generateToken(AUTHENTICATED_USER))
                 .thenReturn(EXPECTED_TOKEN);
 
-        String result = logPhysiotherapistService.authenticate(123, "password123");
+        String result = logPhysiotherapistService.authenticate(EMAIL, "password123");
 
         assertThat(result).isEqualTo(EXPECTED_TOKEN);
     }
@@ -40,9 +41,9 @@ public class LogPhysiotherapistUseCaseTest {
         when(credentialsValidatorPort.validate(any(), any())).thenReturn(AUTHENTICATED_USER);
         when(tokenGeneratorPort.generateToken(any())).thenReturn(EXPECTED_TOKEN);
 
-        logPhysiotherapistService.authenticate(123, "password123");
+        logPhysiotherapistService.authenticate(EMAIL, "password123");
 
-        verify(credentialsValidatorPort).validate("123", "password123");
+        verify(credentialsValidatorPort).validate(EMAIL, "password123");
     }
 
     @Test
@@ -50,7 +51,7 @@ public class LogPhysiotherapistUseCaseTest {
         when(credentialsValidatorPort.validate(any(), any())).thenReturn(AUTHENTICATED_USER);
         when(tokenGeneratorPort.generateToken(any())).thenReturn(EXPECTED_TOKEN);
 
-        logPhysiotherapistService.authenticate(123, "password123");
+        logPhysiotherapistService.authenticate(EMAIL, "password123");
 
         verify(tokenGeneratorPort).generateToken(AUTHENTICATED_USER);
     }
@@ -60,7 +61,7 @@ public class LogPhysiotherapistUseCaseTest {
         when(credentialsValidatorPort.validate(any(), any()))
                 .thenThrow(new BadCredentialsException());
 
-        assertThatThrownBy(() -> logPhysiotherapistService.authenticate(123, "wrongpassword"))
+        assertThatThrownBy(() -> logPhysiotherapistService.authenticate(EMAIL, "wrongpassword"))
                 .isInstanceOf(BadCredentialsException.class);
 
         verifyNoInteractions(tokenGeneratorPort);
@@ -71,7 +72,7 @@ public class LogPhysiotherapistUseCaseTest {
         when(credentialsValidatorPort.validate(any(), any()))
                 .thenThrow(new RuntimeException("Unexpected error"));
 
-        assertThatThrownBy(() -> logPhysiotherapistService.authenticate(123, "password123"))
+        assertThatThrownBy(() -> logPhysiotherapistService.authenticate(EMAIL, "password123"))
                 .isInstanceOf(RuntimeException.class);
 
         verifyNoInteractions(tokenGeneratorPort);

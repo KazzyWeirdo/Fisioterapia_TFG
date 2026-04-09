@@ -31,7 +31,7 @@ public class LogPhysiotherapistController {
     })
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody @Valid AuthenticationRequest request) {
         String token = logPhysiotherapistUseCase.authenticate(
-                request.physioId(),
+                request.email(),
                 request.password()
         );
 
