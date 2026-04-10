@@ -36,8 +36,7 @@ build/
 CLAUDE.md
 features/
 frontend/node_modules/**
-/.claude
-/.claude/settings.local.json
+.claude/**
 bdd_agent.md
 
 ### Mac OS ###
