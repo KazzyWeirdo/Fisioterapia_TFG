@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(npm install:*)",
-      "Read(//usr/local/bin/**)",
-      "Read(//root/.nvm/versions/**)"
-    ]
-  }
-}
