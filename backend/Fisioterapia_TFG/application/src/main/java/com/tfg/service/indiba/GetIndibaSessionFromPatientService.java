@@ -2,7 +2,6 @@ package com.tfg.service.indiba;
 
 import com.tfg.exceptions.InvalidIdException;
 import com.tfg.exceptions.InvalidPageOrSizeException;
-import com.tfg.indiba.IndibaSession;
 import com.tfg.patient.PatientId;
 import com.tfg.pojos.pagedpojos.PageQuery;
 import com.tfg.pojos.pagedpojos.PagedResponse;
@@ -10,9 +9,6 @@ import com.tfg.pojos.query.IndibaSummaryElement;
 import com.tfg.port.in.indiba.GetIndibaSessionFromPatientUseCase;
 import com.tfg.port.out.persistence.IndibaSessionRepository;
 import com.tfg.port.out.persistence.PatientRepository;
-
-import java.util.Date;
-import java.util.List;
 
 public class GetIndibaSessionFromPatientService implements GetIndibaSessionFromPatientUseCase {
 

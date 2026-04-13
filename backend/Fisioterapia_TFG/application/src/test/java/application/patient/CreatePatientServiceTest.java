@@ -1,6 +1,7 @@
 package application.patient;
 
 import com.tfg.patient.*;
+import com.tfg.port.out.mail.EmailSenderPort;
 import com.tfg.port.out.persistence.PatientRepository;
 import com.tfg.service.patient.CreatePatientService;
 import com.tfg.model.patient.PatientFactory;
@@ -12,7 +13,8 @@ import static org.mockito.Mockito.*;
 public class CreatePatientServiceTest {
 
     private final PatientRepository patientRepository = mock(PatientRepository.class);
-    private final CreatePatientService patientService = new CreatePatientService(patientRepository);
+    private final EmailSenderPort emailSenderPort = mock(EmailSenderPort.class);
+    private final CreatePatientService patientService = new CreatePatientService(patientRepository, emailSenderPort);
 
     private static final Patient TEST_PATIENT = PatientFactory.createTestPatient("hola@gmail.com", "85729487J");
 
@@ -30,6 +32,8 @@ public class CreatePatientServiceTest {
                 patient.getEmail().value().equals("hola@gmail.com") &&
                         patient.getDni().value().equals("85729487J")
         ));
+
+        verify(emailSenderPort).sendFormLink(TEST_PATIENT.getEmail().value(), TEST_PATIENT.getId().value());
     }
 
     @Test
@@ -41,6 +45,7 @@ public class CreatePatientServiceTest {
             patientService.createPatient(TEST_PATIENT);
         });
         verify(patientRepository, never()).save(any());
+        verify(emailSenderPort, never()).sendFormLink(anyString(), anyInt());
     }
 
     @Test
@@ -55,5 +60,6 @@ public class CreatePatientServiceTest {
             patientService.createPatient(TEST_PATIENT);
         });
         verify(patientRepository, never()).save(any());
+        verify(emailSenderPort, never()).sendFormLink(anyString(), anyInt());
     }
 }

@@ -1,18 +1,15 @@
 package com.tfg.service.statistics;
 
 import com.tfg.exceptions.InvalidIdException;
-import com.tfg.indiba.IndibaSession;
 import com.tfg.patient.PatientId;
 import com.tfg.port.in.statistics.GetPatientTransitionRatioUseCase;
 import com.tfg.port.out.persistence.IndibaSessionRepository;
 import com.tfg.port.out.persistence.PatientRepository;
 import com.tfg.port.out.persistence.TrainingSessionRepository;
 import com.tfg.statistics.PatientMonthTransitionRatio;
-import com.tfg.trainingsession.TrainingSession;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.List;
 import java.util.Map;
 

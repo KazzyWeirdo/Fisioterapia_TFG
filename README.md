@@ -156,7 +156,7 @@ En cas de que estiguis en una altre carpeta, entra dintre de la carpeta del back
 cd ./backend/Fisioterapia_TFG
 ```
 
-Si vols obrir els ports de les bases de dades, pots fer un arxiu `docker-compose-override.yml` amb el següent contingut:
+Si vols obrir els ports de les bases de dades, pots fer un arxiu `docker-compose.override.yml` amb el següent contingut:
 
 ```
 services:
@@ -173,6 +173,12 @@ Pots iniciar els contenidors de la base de dades a docker amb la següent comand
 
 ```
 docker-compose -f ./backend/Fisioterapia_TFG/docker-compose.yml up -d
+```
+
+Si ho fas amb l'arxiu `docker-compose.override.yml` també, la comanda seria:
+
+``` 
+docker-compose -f ./backend/Fisioterapia_TFG/docker-compose.yml -f ./backend/Fisioterapia_TFG/docker-compose.override.yml up -d
 ```
 
 <h3> Executar els tests </h3>

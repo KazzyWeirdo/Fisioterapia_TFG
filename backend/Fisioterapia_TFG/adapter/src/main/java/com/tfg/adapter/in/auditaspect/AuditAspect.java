@@ -40,8 +40,8 @@ public class AuditAspect {
         }
         AuditLog log = new AuditLog(
                 new AuditLogId(ThreadLocalRandom.current().nextInt(1_000_000)),
-                "CREATE/UPDATE",
                 entityType,
+                "CREATE/UPDATE",
                 LocalDateTime.now().toString(),
                 details,
                 SecurityContextHolder.getContext().getAuthentication().getName()

@@ -2,13 +2,10 @@ package application.pni;
 
 import com.tfg.exceptions.InvalidIdException;
 import com.tfg.model.patient.PatientFactory;
-import com.tfg.model.pni.PniReportFactory;
 import com.tfg.patient.Patient;
 import com.tfg.patient.PatientId;
-import com.tfg.pni.PniReport;
 import com.tfg.pojos.pagedpojos.PageQuery;
 import com.tfg.pojos.pagedpojos.PagedResponse;
-import com.tfg.pojos.query.IndibaSummaryElement;
 import com.tfg.pojos.query.PniReportSummaryElement;
 import com.tfg.port.out.persistence.PatientRepository;
 import com.tfg.port.out.persistence.PniReportRepository;

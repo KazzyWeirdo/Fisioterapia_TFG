@@ -4,6 +4,7 @@ import com.tfg.model.physiotherapist.PhysiotherapistFactory;
 import com.tfg.port.out.persistence.PhysiotherapistRepository;
 import com.tfg.physiotherapist.Physiotherapist;
 import com.tfg.physiotherapist.PhysiotherapistEmail;
+import com.tfg.port.out.springsecurity.PasswordEncoderPort;
 import com.tfg.service.physiotherapist.RegisterPhysiotherapistService;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +16,8 @@ import static org.mockito.Mockito.*;
 
 public class RegisterPhysiotherapistUseCaseTest {
     private final PhysiotherapistRepository psychiatristRepository = mock(PhysiotherapistRepository.class);
-    private final RegisterPhysiotherapistService registerPsychiatristService = new RegisterPhysiotherapistService(psychiatristRepository);
+    private final PasswordEncoderPort passwordEncoderPort = mock(PasswordEncoderPort.class);
+    private final RegisterPhysiotherapistService registerPsychiatristService = new RegisterPhysiotherapistService(psychiatristRepository, passwordEncoderPort);
 
     private static final Physiotherapist TEST_PSYCHIATRIST = PhysiotherapistFactory.createTestPsychiatrist("hola@gmail.com", "ValidPass123!");
 

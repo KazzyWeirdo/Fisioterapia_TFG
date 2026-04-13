@@ -13,7 +13,7 @@ public class PniReportJpaMapper {
         entity.setHrv(pniReport.getHrv());
         entity.setSleepScore(pniReport.getSleep_score());
         entity.setHoursAsleep(pniReport.getHours_asleep());
-        entity.setStress(pniReport.getStress());
+        entity.setAnsCharge(pniReport.getAns_charge());
         return entity;
     }
 
@@ -22,7 +22,7 @@ public class PniReportJpaMapper {
                 PatientJpaMapper.toModelEntity(entity.getPatient()),
                 entity.getHoursAsleep(),
                 entity.getHrv(),
-                entity.getStress(),
+                entity.getAnsCharge(),
                 entity.getSleepScore()
         );
     }

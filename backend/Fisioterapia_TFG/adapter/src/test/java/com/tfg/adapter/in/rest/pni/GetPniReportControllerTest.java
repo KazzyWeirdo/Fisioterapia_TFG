@@ -1,6 +1,7 @@
 package com.tfg.adapter.in.rest.pni;
 
 import com.tfg.adapter.in.rest.common.GlobalExceptionHandler;
+import com.tfg.exceptions.InvalidIdException;
 import com.tfg.model.patient.PatientFactory;
 import com.tfg.model.pni.PniReportFactory;
 import com.tfg.patient.Patient;
@@ -54,7 +55,7 @@ public class GetPniReportControllerTest {
     public void givenInvalidId_whenGetPniReport_thenReturnsNotFound() {
         PniReportId invalidPniReportId = new PniReportId(9999);
         given(getPniReportUseCase.getPniReport(invalidPniReportId))
-                .willThrow(new com.tfg.exceptions.InvalidIdException());
+                .willThrow(new InvalidIdException());
 
         RestAssuredMockMvc.given()
                 .when()

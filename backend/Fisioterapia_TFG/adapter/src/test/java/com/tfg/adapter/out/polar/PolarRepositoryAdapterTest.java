@@ -154,6 +154,6 @@ public class PolarRepositoryAdapterTest {
         assertThat(result).isPresent();
         assertThat(result.get().getHours_asleep()).isEqualTo(8.0);
         assertThat(result.get().getHrv()).isEqualTo(55.5);
-        assertThat(result.get().getStress()).isEqualTo(-2);
+        assertThat(result.get().getAns_charge()).isEqualTo(-2);
     }
 }

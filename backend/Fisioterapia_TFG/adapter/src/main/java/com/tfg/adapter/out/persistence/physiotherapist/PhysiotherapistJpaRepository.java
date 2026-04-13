@@ -41,4 +41,14 @@ public class PhysiotherapistJpaRepository implements PhysiotherapistRepository {
         return psychiatristJpaDataRepository.findByEmail(email.value())
                 .map(PhysiotherapistJpaMapper::toModelEntity);
     }
+
+    @Override
+    public void updatePassword(PhysiotherapistId id, String encodedPassword) {
+        Optional<PhysiotherapistJpaEntity> optionalEntity = psychiatristJpaDataRepository.findById(id.value());
+        if (optionalEntity.isPresent()) {
+            PhysiotherapistJpaEntity entity = optionalEntity.get();
+            entity.setPassword(encodedPassword);
+            psychiatristJpaDataRepository.save(entity);
+        }
+    }
 }

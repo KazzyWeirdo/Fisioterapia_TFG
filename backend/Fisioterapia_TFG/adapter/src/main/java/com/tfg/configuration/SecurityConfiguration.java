@@ -6,6 +6,8 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -20,23 +22,40 @@ public class SecurityConfiguration {
     private final JwtDecoder jwtDecoder;
     private static final String[] WHITE_LIST_URL = {
             "/physiotherapist/login",
+            "/password/forgot",
+            "/password/reset",
             "/h2-console/**",
-            "/webjars/**",
-            "/v3/api-docs/**", //this is for swagger
+            "/api-docs",
+            "/api-docs/**",
+            "/api-docs/swagger-config",
+            "/api-docs.yaml",
             "/swagger-ui/**",
             "/swagger-ui.html",
-            "/training-session/create"};
+            "/webjars/**",
+            "/training-session/create",
+    };
 
     public SecurityConfiguration(JwtDecoder jwtDecoder) {
         this.jwtDecoder = jwtDecoder;
     }
 
     @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return web -> web.ignoring().requestMatchers(
+                "/api-docs/**",
+                "/api-docs/swagger-config",
+                "/swagger-ui/**",
+                "/swagger-ui.html",
+                "/webjars/**"
+        );
+    }
+
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         return http
-                .cors(cors -> cors.disable())
-                .csrf(csrf -> csrf.disable())
+                .cors(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers(WHITE_LIST_URL).permitAll();
                     auth.requestMatchers("/indiba/**").access(hasScope("USER"));

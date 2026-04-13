@@ -15,4 +15,6 @@ public interface PhysiotherapistRepository {
     Optional<Physiotherapist> findById(PhysiotherapistId id);
 
     Optional<Physiotherapist> findByEmail(PhysiotherapistEmail email);
+
+    void updatePassword(PhysiotherapistId id, String encodedPassword);
 }

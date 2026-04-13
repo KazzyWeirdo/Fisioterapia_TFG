@@ -33,6 +33,11 @@ build/
 
 ### VS Code ###
 .vscode/
+CLAUDE.md
+features/
+frontend/node_modules/**
+.claude/**
+bdd_agent.md
 
 ### Mac OS ###
 .DS_Store
@@ -41,3 +46,4 @@ build/
 /backend/Fisioterapia_TFG/compose.yml
 backend/Fisioterapia_TFG/bootstrap/src/main/resources/.env
 backend/Fisioterapia_TFG/docker-compose.override.yml
+.claude/settings.local.json
