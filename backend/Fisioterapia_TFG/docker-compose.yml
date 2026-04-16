@@ -1,6 +1,7 @@
 services:
   backend:
     image: ghcr.io/kazzyweirdo/fisioterapia-backend:latest
+    pull_policy: always
     ports:
       - "8080:8080"
     env_file:

@@ -1,15 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom'
 import { AuthProvider, useAuth } from './contexts/AuthContext'
-
-// TODO: replace placeholders with real page imports as they are created
-// import LoginPage from './pages/LoginPage'
-// import PatientsPage from './pages/PatientsPage'
-// import PatientDetailPage from './pages/PatientDetailPage'
-// import IndibaSessionsPage from './pages/IndibaSessionsPage'
-// import PniReportsPage from './pages/PniReportsPage'
-// import TrainingSessionsPage from './pages/TrainingSessionsPage'
-// import StatisticsPage from './pages/StatisticsPage'
-// import AuditLogPage from './pages/AuditLogPage'
+import LoginPage from './pages/LoginPage'
+import ForgotPasswordPage from './pages/ForgotPasswordPage'
 
 function PrivateRoute() {
   const { token } = useAuth()
@@ -22,7 +14,8 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           {/* Public */}
-          <Route path="/login" element={<div>Login</div>} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
           {/* Protected */}
           <Route element={<PrivateRoute />}>

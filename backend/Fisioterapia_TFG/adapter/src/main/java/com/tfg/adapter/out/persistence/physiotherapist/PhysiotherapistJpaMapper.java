@@ -2,6 +2,8 @@ package com.tfg.adapter.out.persistence.physiotherapist;
 
 import com.tfg.physiotherapist.ERole;
 import com.tfg.physiotherapist.Physiotherapist;
+import com.tfg.physiotherapist.PhysiotherapistEmail;
+import com.tfg.physiotherapist.PhysiotherapistId;
 
 import java.util.Set;
 
@@ -22,7 +24,8 @@ public class PhysiotherapistJpaMapper {
                 .map(RoleJpaEntity::getName)
                 .collect(java.util.stream.Collectors.toSet());
         return new Physiotherapist(
-                entity.getEmail(),
+                new PhysiotherapistId(entity.getId()),
+                new PhysiotherapistEmail(entity.getEmail()),
                 entity.getPassword(),
                 entity.getName(),
                 entity.getSurname(),

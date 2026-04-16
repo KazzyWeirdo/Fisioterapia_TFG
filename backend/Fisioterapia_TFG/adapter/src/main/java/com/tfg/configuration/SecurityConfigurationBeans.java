@@ -3,11 +3,10 @@ package com.tfg.configuration;
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import com.tfg.port.out.persistence.PhysiotherapistRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
@@ -27,13 +26,13 @@ public class SecurityConfigurationBeans {
     private String secretKey;
 
     @Bean
-    public AuthenticationManager authManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    PhysiotherapistDetailsService physiotherapistDetailsService(PhysiotherapistRepository physiotherapistRepository) {
+        return new PhysiotherapistDetailsService(physiotherapistRepository);
     }
 
     @Bean
@@ -41,7 +40,7 @@ public class SecurityConfigurationBeans {
         SecretKey secretKey = new SecretKeySpec(this.secretKey.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
         return NimbusJwtDecoder
                 .withSecretKey(secretKey)
-                .macAlgorithm(MacAlgorithm.HS512)
+                .macAlgorithm(MacAlgorithm.HS256)
                 .build();
     }
 

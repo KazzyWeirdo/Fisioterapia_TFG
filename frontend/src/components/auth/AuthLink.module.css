@@ -1,0 +1,12 @@
+.link {
+  color: #1a3fa8;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  text-align: center;
+  display: block;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
