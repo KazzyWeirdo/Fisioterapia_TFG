@@ -15,6 +15,12 @@ export default function ForgotPasswordPage() {
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
     setError(null)
+
+    if (!email.trim()) {
+      setError('Email is required')
+      return
+    }
+
     setLoading(true)
     try {
       await forgotPassword(email)

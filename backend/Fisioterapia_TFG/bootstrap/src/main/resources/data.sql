@@ -14,7 +14,7 @@ ON CONFLICT (id) DO NOTHING;
 -- Physiotherapists
 -- Password: Admin1234!
 INSERT INTO psychiatrists (id, name, surname, email, password) VALUES
-  (1, 'Laura',  'Martínez',  'lefis67816@spotshops.com',  '$2a$10$0LIhcn5MrhO.XEaLpUeLDeEh0jsVdi.1CsQWxv0NbLL.Sx3bUvz1.'),
+  (1, 'Laura',  'Martínez',  'laura.martinez@fisio.com',  '$2a$10$0LIhcn5MrhO.XEaLpUeLDeEh0jsVdi.1CsQWxv0NbLL.Sx3bUvz1.'),
   (2, 'Carlos', 'López',     'carlos.lopez@fisio.com',    '$2a$10$0LIhcn5MrhO.XEaLpUeLDeEh0jsVdi.1CsQWxv0NbLL.Sx3bUvz1.')
 ON CONFLICT (id) DO NOTHING;
 
