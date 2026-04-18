@@ -18,12 +18,13 @@ export default function PatientsPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [search, setSearch] = useState('')
+  const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc')
 
   useEffect(() => {
     let cancelled = false
     setLoading(true)
     setError(null)
-    getPatients(currentPage, PAGE_SIZE)
+    getPatients(currentPage, PAGE_SIZE, sortDir)
       .then((data) => {
         if (cancelled) return
         setPatients(data.content)
@@ -40,7 +41,7 @@ export default function PatientsPage() {
     return () => {
       cancelled = true
     }
-  }, [currentPage])
+  }, [currentPage, sortDir])
 
   const filteredPatients = useMemo(() => {
     const q = search.trim().toLowerCase()
@@ -56,6 +57,11 @@ export default function PatientsPage() {
     () => Array.from({ length: totalPages }, (_, i) => i),
     [totalPages],
   )
+
+  function toggleSort() {
+    setSortDir((d) => (d === 'asc' ? 'desc' : 'asc'))
+    setCurrentPage(0)
+  }
 
   function goToPage(page: number) {
     if (page < 0 || page >= totalPages) return
@@ -82,15 +88,11 @@ export default function PatientsPage() {
           <input
             type="text"
             className={styles.searchInput}
-            placeholder="Search reports…"
+            placeholder="Search patients..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-        <input type="date" className={styles.dateInput} />
-        <button type="button" className={styles.filterBtn}>
-          ⇅ Filter
-        </button>
         <button type="button" className={styles.downloadBtn}>
           ⬇ Download .csv
         </button>
@@ -100,7 +102,9 @@ export default function PatientsPage() {
         <table className={styles.table}>
           <thead>
             <tr>
-              <th>PATIENT NAME</th>
+              <th onClick={toggleSort} className={styles.sortableHeader}>
+                PATIENT NAME {sortDir === 'asc' ? '↑' : '↓'}
+              </th>
               <th className={styles.actionCol}>ACTION</th>
             </tr>
           </thead>

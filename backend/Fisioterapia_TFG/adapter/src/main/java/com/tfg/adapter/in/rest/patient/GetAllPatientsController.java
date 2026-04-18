@@ -7,6 +7,7 @@ import com.tfg.port.in.patient.GetAllPatientsUseCase;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +30,14 @@ public class GetAllPatientsController {
             @ApiResponse(responseCode = "204", description = "No Patients found")
     })
     public ResponseEntity<PagedResponse<PatientListWebModel>> getAllPatients(Pageable springPageable) {
-        PageQuery query = new PageQuery(springPageable.getPageNumber(), springPageable.getPageSize());
+        Sort.Order order = springPageable.getSort().getOrderFor("nameToUse");
+        String sortDir = (order != null && order.isDescending()) ? "DESC" : "ASC";
+        PageQuery query = new PageQuery(
+                springPageable.getPageNumber(),
+                springPageable.getPageSize(),
+                "nameToUse",
+                sortDir
+        );
 
         PagedResponse<PatientSummaryElement> domainPagedResponse = getAllPatientsUseCase.getAllPatients(query);
 

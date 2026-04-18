@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -75,7 +76,11 @@ public class PatientJpaRepository implements PatientRepository {
 
     @Override
     public PagedResponse<PatientSummaryElement> findAllSummaries(PageQuery query) {
-        Pageable pageable = PageRequest.of(query.page(), query.size());
+        String field = query.sortField() != null ? query.sortField() : "nameToUse";
+        Sort sort = query.sortDir().equalsIgnoreCase("DESC")
+                ? Sort.by(field).descending()
+                : Sort.by(field).ascending();
+        Pageable pageable = PageRequest.of(query.page(), query.size(), sort);
 
         Page<PatientSummaryJpaProjection> page = patientJpaDataRepository.findSummaries(pageable);
 

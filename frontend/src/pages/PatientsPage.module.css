@@ -242,3 +242,12 @@
 .pageBtnActive:hover:not(:disabled) {
   background: #142d54;
 }
+
+.sortableHeader {
+  cursor: pointer;
+  user-select: none;
+}
+
+.sortableHeader:hover {
+  color: #1a3a6b;
+}

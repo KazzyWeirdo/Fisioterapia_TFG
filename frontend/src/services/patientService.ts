@@ -17,9 +17,10 @@ export interface PatientsPage {
 export async function getPatients(
   page: number,
   size = 10,
+  sortDir: 'asc' | 'desc' = 'asc',
 ): Promise<PatientsPage> {
   const response = await apiClient.get<PatientsPage>('/patients/list', {
-    params: { page, size },
+    params: { page, size, sort: `nameToUse,${sortDir}` },
   })
   return response.data
 }
