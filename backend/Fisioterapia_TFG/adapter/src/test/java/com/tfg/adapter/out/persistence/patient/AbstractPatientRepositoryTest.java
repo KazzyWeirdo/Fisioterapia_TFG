@@ -183,7 +183,9 @@ public abstract class AbstractPatientRepositoryTest {
         assertThat(patients).hasSize(2);
         assertThat(patients.get(0).id()).isEqualTo(TEST_PATIENT.getId().value());
         assertThat(patients.get(0).name()).isEqualTo(TEST_PATIENT.getNameToUse());
+        assertThat(patients.get(0).surname()).isEqualTo(TEST_PATIENT.getSurname());
         assertThat(patients.get(1).id()).isEqualTo(TEST_PATIENT2.getId().value());
         assertThat(patients.get(1).name()).isEqualTo(TEST_PATIENT2.getNameToUse());
+        assertThat(patients.get(1).surname()).isEqualTo(TEST_PATIENT2.getSurname());
     }
 }

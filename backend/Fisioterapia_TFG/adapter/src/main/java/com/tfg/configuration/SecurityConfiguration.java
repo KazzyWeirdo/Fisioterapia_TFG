@@ -12,7 +12,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import static org.springframework.security.oauth2.core.authorization.OAuth2AuthorizationManagers.hasAnyScope;
 import static org.springframework.security.oauth2.core.authorization.OAuth2AuthorizationManagers.hasScope;
 
 @Configuration
@@ -63,7 +62,7 @@ public class SecurityConfiguration {
                     auth.requestMatchers("/pni/**").access(hasScope("USER"));
                     auth.requestMatchers("/statistics/**").access(hasScope("USER"));
                     auth.requestMatchers("/training-session/**").access(hasScope("USER"));
-                    auth.requestMatchers("/auditlogs/**").access(hasAnyScope("AUDITOR", "ADMIN"));
+                    auth.requestMatchers("/auditlogs/**").access(hasScope("ADMIN"));
                     auth.requestMatchers("/physiotherapist/**").access(hasScope("ADMIN"));
                     auth.anyRequest().authenticated();
                 })

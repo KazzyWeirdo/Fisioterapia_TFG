@@ -17,6 +17,14 @@ public class PhysiotherapistDetails implements UserDetails {
                 .toList();
     }
 
+    public String getName() {
+        return physiotherapist.getName();
+    }
+
+    public String getSurname() {
+        return physiotherapist.getSurname();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.authorities;

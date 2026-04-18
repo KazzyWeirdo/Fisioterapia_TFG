@@ -80,7 +80,7 @@ public class PatientJpaRepository implements PatientRepository {
         Page<PatientSummaryJpaProjection> page = patientJpaDataRepository.findSummaries(pageable);
 
         List<PatientSummaryElement> content = page.getContent().stream()
-                .map(proj -> new PatientSummaryElement(proj.id(), proj.name()))
+                .map(proj -> new PatientSummaryElement(proj.id(), proj.name(), proj.surname()))
                 .toList();
 
         return new PagedResponse<>(

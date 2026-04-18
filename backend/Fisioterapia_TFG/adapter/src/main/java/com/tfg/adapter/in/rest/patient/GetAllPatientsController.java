@@ -40,7 +40,8 @@ public class GetAllPatientsController {
         List<PatientListWebModel> dtoContent = domainPagedResponse.content().stream()
                 .map(patientSummaryElement -> new PatientListWebModel(
                         patientSummaryElement.id(),
-                        patientSummaryElement.name()
+                        patientSummaryElement.name(),
+                        patientSummaryElement.surname()
                 ))
                 .toList();
 
