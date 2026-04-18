@@ -1,7 +1,7 @@
 package application.physiotherapist;
 
-import com.tfg.exceptions.BadCredentialsException;
 import com.tfg.pojos.springsecurity.AuthenticatedUser;
+import org.springframework.security.authentication.BadCredentialsException;
 import com.tfg.port.out.springsecurity.CredentialsValidatorPort;
 import com.tfg.port.out.springsecurity.TokenGeneratorPort;
 import com.tfg.service.physiotherapist.LogPhysiotherapistService;
@@ -59,7 +59,7 @@ public class LogPhysiotherapistUseCaseTest {
     @Test
     void authenticate_shouldThrowException_whenValidatorFails() {
         when(credentialsValidatorPort.validate(any(), any()))
-                .thenThrow(new BadCredentialsException());
+                .thenThrow(new BadCredentialsException("Invalid credentials provided."));
 
         assertThatThrownBy(() -> logPhysiotherapistService.authenticate(EMAIL, "wrongpassword"))
                 .isInstanceOf(BadCredentialsException.class);

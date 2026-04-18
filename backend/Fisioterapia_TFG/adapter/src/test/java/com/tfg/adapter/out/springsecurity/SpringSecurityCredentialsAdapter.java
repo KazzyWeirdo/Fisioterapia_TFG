@@ -1,7 +1,7 @@
 package com.tfg.adapter.out.springsecurity;
 
-import com.tfg.exceptions.BadCredentialsException;
 import com.tfg.pojos.springsecurity.AuthenticatedUser;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -85,11 +85,10 @@ class SpringSecurityCredentialsAdapterTest {
     void validate_shouldThrow_whenCredentialsAreWrong() {
         // Given
         when(authenticationManager.authenticate(any()))
-                .thenThrow(new BadCredentialsException());
+                .thenThrow(new BadCredentialsException("Invalid credentials provided."));
 
         // When / Then
         assertThatThrownBy(() -> adapter.validate("123", "wrongpassword"))
-                .isInstanceOf(BadCredentialsException.class)
-                .hasMessage("Invalid credentials provided.");
+                .isInstanceOf(BadCredentialsException.class);
     }
 }

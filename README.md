@@ -189,6 +189,58 @@ Pots executar els tests utilitzant Maven amb la següent comanda:
 mvn clean test
 ```
 
+## Dades de prova (Seed Data)
+
+El fitxer `backend/Fisioterapia_TFG/bootstrap/src/main/resources/data.sql` s'executa automàticament en arrencar l'aplicació amb el perfil `dev`. Insereix les següents entitats de prova:
+
+### Fisioterapeutes (`psychiatrists`)
+
+| ID | Nom | Cognoms | Email | Rols | Contrasenya |
+|----|-----|---------|-------|------|-------------|
+| 1 | Laura | Martínez | laura.martinez@fisio.com | ADMIN, USER | `Admin1234!` |
+| 2 | Carlos | López | carlos.lopez@fisio.com | USER | `Admin1234!` |
+
+### Pacients (`patients`)
+
+| ID | Nom legal | Cognoms | DNI | Gènere | Email |
+|----|-----------|---------|-----|--------|-------|
+| 1 | Ana | García Ruiz | 12345678A | FEMALE | ana.garcia@email.com |
+| 2 | Miquel | Puig Torres | 23456789B | MALE | miquel.puig@email.com |
+| 3 | Alex | Fernández | 34567890C | NONBINARY | alex.fernandez@email.com |
+| 4 | Sara | Gómez Molina | 45678901D | FEMALE | sara.gomez@email.com |
+| 5 | David | Navarro Blanco | 56789012E | MALE | david.navarro@email.com |
+
+### Sessions INDIBA (`indiba_sessions`)
+
+| ID | Pacient | Data | Àrea | Mode | Intensitat | Fisioterapeuta |
+|----|---------|------|------|------|-----------|----------------|
+| 1 | Ana García | 2026-01-10 | Lumbar | CAPACITIVE | 3.5 | Laura |
+| 2 | Ana García | 2026-01-17 | Lumbar | RESISTIVE | 4.0 | Laura |
+| 3 | Miquel Puig | 2026-01-12 | Genoll dret | DUAL | 3.0 | Carlos |
+| 4 | Alex Fernández | 2026-02-05 | Espatlla | CAPACITIVE | 2.5 | Laura |
+| 5 | Sara Gómez | 2026-02-18 | Cervical | RESISTIVE | 3.0 | Carlos |
+
+### Informes PNI (`pni_reports`)
+
+| ID | Pacient | Data | Hores de son | HRV | Càrrega ANS | Puntuació son |
+|----|---------|------|-------------|-----|------------|---------------|
+| 1 | Ana García | 2026-01-09 | 7.5 | 58.0 | 72 | 80 |
+| 2 | Ana García | 2026-01-16 | 8.0 | 62.0 | 65 | 85 |
+| 3 | Miquel Puig | 2026-01-11 | 6.0 | 45.0 | 80 | 65 |
+| 4 | Alex Fernández | 2026-02-04 | 7.0 | 55.0 | 70 | 75 |
+| 5 | Sara Gómez | 2026-02-17 | 5.5 | 40.0 | 85 | 60 |
+| 6 | David Navarro | 2026-03-01 | 8.5 | 70.0 | 55 | 90 |
+| 7 | David Navarro | 2026-03-08 | 8.0 | 68.0 | 58 | 88 |
+
+### Sessions d'entrenament (`training_sessions`) i exercicis
+
+| Sessió ID | Pacient | Data | Exercicis |
+|-----------|---------|------|-----------|
+| 1 | Miquel Puig | 2026-01-14 | Sentadilla (3 sèries), Press banca (2 sèries) |
+| 2 | Miquel Puig | 2026-01-21 | Peso muerto (2 sèries) |
+| 3 | David Navarro | 2026-03-03 | Remo amb barra (2 sèries) |
+| 4 | David Navarro | 2026-03-10 | Extensió de quàdriceps (2 sèries) |
+
 ## API Keys Configuration
 
 ## Application Calls
