@@ -19,13 +19,15 @@ public class GetAllPatientsServiceTest {
     private static final PatientSummaryElement TEST_PATIENT_1 = new PatientSummaryElement(
             1,
             "John",
-            "Doe"
+            "Doe",
+            ""
     );
 
     private static final PatientSummaryElement TEST_PATIENT_2 = new PatientSummaryElement(
             2,
             "Jane",
-            "Doe"
+            "Doe",
+            ""
     );
 
     @Test

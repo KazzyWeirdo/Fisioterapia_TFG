@@ -39,6 +39,6 @@ public interface PatientJpaDataRepository extends JpaRepository<PatientJpaEntity
     @Query("SELECT p FROM PatientJpaEntity p WHERE p.polarAccessToken IS NOT NULL")
     List<PatientJpaEntity> findAllWithPolarToken();
 
-    @Query("SELECT new com.tfg.adapter.out.persistence.patient.PatientSummaryJpaProjection(p.id, p.nameToUse, p.surname) FROM PatientJpaEntity p")
+    @Query("SELECT new com.tfg.adapter.out.persistence.patient.PatientSummaryJpaProjection(p.id, p.nameToUse, p.surname, p.secondSurname) FROM PatientJpaEntity p")
     Page<PatientSummaryJpaProjection> findSummaries(Pageable pageable);
 }

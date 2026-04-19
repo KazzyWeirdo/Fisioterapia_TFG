@@ -49,7 +49,8 @@ public class GetAllPatientsController {
                 .map(patientSummaryElement -> new PatientListWebModel(
                         patientSummaryElement.id(),
                         patientSummaryElement.name(),
-                        patientSummaryElement.surname()
+                        patientSummaryElement.surname(),
+                        patientSummaryElement.secondSurname()
                 ))
                 .toList();
 

@@ -134,7 +134,7 @@ export default function PatientsPage() {
               !error &&
               filteredPatients.map((p) => (
                 <tr key={p.id}>
-                  <td className={styles.nameCell}>{p.name} {p.surname}</td>
+                  <td className={styles.nameCell}>{[p.name, p.surname, p.secondSurname].filter(Boolean).join(' ')}</td>
                   <td className={styles.actionCol}>
                     <button
                       type="button"

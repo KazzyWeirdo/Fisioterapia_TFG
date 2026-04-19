@@ -4,6 +4,7 @@ export interface PatientSummary {
   id: number
   name: string
   surname: string
+  secondSurname: string
 }
 
 export interface PatientsPage {
@@ -22,5 +23,26 @@ export async function getPatients(
   const response = await apiClient.get<PatientsPage>('/patients/list', {
     params: { page, size, sort: `nameToUse,${sortDir}` },
   })
+  return response.data
+}
+
+export interface PatientDetail {
+  id: number
+  email: string
+  dni: string
+  genderIdentity: string
+  clinicalUseSex: string
+  administrativeSex: string
+  legalName: string
+  nameToUse: string
+  surname: string
+  secondSurname: string
+  pronouns: string
+  phoneNumber: number
+  dateOfBirth: string
+}
+
+export async function getPatient(id: number): Promise<PatientDetail> {
+  const response = await apiClient.get<PatientDetail>(`/patients/${id}`)
   return response.data
 }
