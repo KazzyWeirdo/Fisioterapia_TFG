@@ -33,6 +33,8 @@ public class JwtTokenAdapter implements TokenGeneratorPort {
                 .expiresAt(now.plus(10, ChronoUnit.HOURS))
                 .subject(user.subject())
                 .claim("scope", scope)
+                .claim("name", user.name())
+                .claim("surname", user.surname())
                 .build();
 
         var encoderParameters = JwtEncoderParameters.from(
