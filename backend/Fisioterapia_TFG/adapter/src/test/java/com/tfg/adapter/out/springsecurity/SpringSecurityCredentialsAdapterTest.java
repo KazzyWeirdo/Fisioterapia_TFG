@@ -1,7 +1,9 @@
 package com.tfg.adapter.out.springsecurity;
 
-import com.tfg.exceptions.BadCredentialsException;
+import com.tfg.configuration.PhysiotherapistDetails;
+import com.tfg.model.physiotherapist.PhysiotherapistFactory;
 import com.tfg.pojos.springsecurity.AuthenticatedUser;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,8 +35,11 @@ class SpringSecurityCredentialsAdapterTest {
 
     @BeforeEach
     void setUp() {
+        PhysiotherapistDetails principal = new PhysiotherapistDetails(
+                PhysiotherapistFactory.createTestPsychiatrist("physio@example.com", "password")
+        );
         mockAuthentication = new UsernamePasswordAuthenticationToken(
-                "123",
+                principal,
                 null,
                 List.of(new SimpleGrantedAuthority("USER"))
         );
@@ -46,14 +51,19 @@ class SpringSecurityCredentialsAdapterTest {
 
         AuthenticatedUser result = adapter.validate("123", "password");
 
-        assertThat(result.subject()).isEqualTo("123");
+        assertThat(result.subject()).isEqualTo(mockAuthentication.getName());
         assertThat(result.roles()).containsExactly("USER");
+        assertThat(result.name()).isEqualTo(PhysiotherapistFactory.NAME);
+        assertThat(result.surname()).isEqualTo(PhysiotherapistFactory.SURNAME);
     }
 
     @Test
     void validate_shouldMapMultipleRoles_whenUserHasSeveralAuthorities() {
+        PhysiotherapistDetails principal = new PhysiotherapistDetails(
+                PhysiotherapistFactory.createTestPsychiatrist("physio@example.com", "password")
+        );
         Authentication multiRoleAuth = new UsernamePasswordAuthenticationToken(
-                "123",
+                principal,
                 null,
                 List.of(
                         new SimpleGrantedAuthority("USER"),
@@ -69,13 +79,10 @@ class SpringSecurityCredentialsAdapterTest {
 
     @Test
     void validate_shouldCallAuthenticationManager_withCorrectToken() {
-        // Given
         when(authenticationManager.authenticate(any())).thenReturn(mockAuthentication);
 
-        // When
         adapter.validate("123", "password");
 
-        // Then
         verify(authenticationManager).authenticate(
                 new UsernamePasswordAuthenticationToken("123", "password")
         );
@@ -83,13 +90,10 @@ class SpringSecurityCredentialsAdapterTest {
 
     @Test
     void validate_shouldThrow_whenCredentialsAreWrong() {
-        // Given
         when(authenticationManager.authenticate(any()))
-                .thenThrow(new BadCredentialsException());
+                .thenThrow(new BadCredentialsException("Invalid credentials provided."));
 
-        // When / Then
         assertThatThrownBy(() -> adapter.validate("123", "wrongpassword"))
-                .isInstanceOf(BadCredentialsException.class)
-                .hasMessage("Invalid credentials provided.");
+                .isInstanceOf(RuntimeException.class);
     }
 }

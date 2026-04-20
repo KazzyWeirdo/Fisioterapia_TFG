@@ -1,15 +1,12 @@
 import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom'
 import { AuthProvider, useAuth } from './contexts/AuthContext'
-
-// TODO: replace placeholders with real page imports as they are created
-// import LoginPage from './pages/LoginPage'
-// import PatientsPage from './pages/PatientsPage'
-// import PatientDetailPage from './pages/PatientDetailPage'
-// import IndibaSessionsPage from './pages/IndibaSessionsPage'
-// import PniReportsPage from './pages/PniReportsPage'
-// import TrainingSessionsPage from './pages/TrainingSessionsPage'
-// import StatisticsPage from './pages/StatisticsPage'
-// import AuditLogPage from './pages/AuditLogPage'
+import LoginPage from './pages/LoginPage'
+import ForgotPasswordPage from './pages/ForgotPasswordPage'
+import ResetPasswordPage from './pages/ResetPasswordPage'
+import DashboardLayout from './components/layout/DashboardLayout'
+import PatientsPage from './pages/PatientsPage'
+import PatientDetailPage from './pages/PatientDetailPage'
+import RegisterPatientPage from './pages/RegisterPatientPage'
 
 function PrivateRoute() {
   const { token } = useAuth()
@@ -22,18 +19,23 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           {/* Public */}
-          <Route path="/login" element={<div>Login</div>} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
 
           {/* Protected */}
           <Route element={<PrivateRoute />}>
-            <Route index element={<Navigate to="/patients" replace />} />
-            <Route path="/patients" element={<div>Patients</div>} />
-            <Route path="/patients/:id" element={<div>Patient Detail</div>} />
-            <Route path="/patients/:id/indiba" element={<div>INDIBA Sessions</div>} />
-            <Route path="/patients/:id/pni" element={<div>PNI Reports</div>} />
-            <Route path="/patients/:id/training" element={<div>Training Sessions</div>} />
-            <Route path="/statistics" element={<div>Statistics</div>} />
-            <Route path="/audit" element={<div>Audit Log</div>} />
+            <Route element={<DashboardLayout />}>
+              <Route index element={<Navigate to="/patients" replace />} />
+              <Route path="/patients" element={<PatientsPage />} />
+              <Route path="/patients/register" element={<RegisterPatientPage />} />
+              <Route path="/patients/:id" element={<PatientDetailPage />} />
+              <Route path="/patients/:id/indiba" element={<div>INDIBA Sessions</div>} />
+              <Route path="/patients/:id/pni" element={<div>PNI Reports</div>} />
+              <Route path="/patients/:id/training" element={<div>Training Sessions</div>} />
+              <Route path="/statistics" element={<div>Statistics</div>} />
+              <Route path="/audit" element={<div>Audit Log</div>} />
+            </Route>
           </Route>
 
           <Route path="*" element={<Navigate to="/" replace />} />

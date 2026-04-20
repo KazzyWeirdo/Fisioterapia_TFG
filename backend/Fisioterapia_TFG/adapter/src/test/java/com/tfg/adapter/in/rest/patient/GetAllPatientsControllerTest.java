@@ -35,7 +35,7 @@ public class GetAllPatientsControllerTest {
     @InjectMocks
     private GetAllPatientsController getAllPatientsController;
 
-    private final PatientSummaryElement TEST_PATIENT = new PatientSummaryElement(1, "Jane Doe");
+    private final PatientSummaryElement TEST_PATIENT = new PatientSummaryElement(1, "Jane", "Doe", "");
 
     @BeforeEach
     void setUp() {

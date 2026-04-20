@@ -1,5 +1,6 @@
 package com.tfg.adapter.out.springsecurity;
 
+import com.tfg.configuration.PhysiotherapistDetails;
 import com.tfg.pojos.springsecurity.AuthenticatedUser;
 import com.tfg.port.out.springsecurity.CredentialsValidatorPort;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,15 +22,20 @@ public class SpringSecurityCredentialsAdapter implements CredentialsValidatorPor
 
     @Override
     public AuthenticatedUser validate(String subject, String password) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(subject, password)
-        );
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(subject, password)
+            );
 
-        List<String> roles = authentication.getAuthorities()
-                .stream()
-                .map(GrantedAuthority::getAuthority)
-                .toList();
+            List<String> roles = authentication.getAuthorities()
+                    .stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .toList();
 
-        return new AuthenticatedUser(authentication.getName(), roles);
+            PhysiotherapistDetails details = (PhysiotherapistDetails) authentication.getPrincipal();
+            return new AuthenticatedUser(authentication.getName(), roles, details.getName(), details.getSurname());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

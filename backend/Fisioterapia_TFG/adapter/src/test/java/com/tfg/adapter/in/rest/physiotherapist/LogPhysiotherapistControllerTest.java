@@ -1,8 +1,8 @@
 package com.tfg.adapter.in.rest.physiotherapist;
 
 import com.tfg.adapter.in.rest.common.GlobalExceptionHandler;
-import com.tfg.exceptions.BadCredentialsException;
 import com.tfg.port.in.physiotherapist.LogPhysiotherapistUseCase;
+import org.springframework.security.authentication.BadCredentialsException;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -103,7 +103,7 @@ public class LogPhysiotherapistControllerTest {
     void login_shouldReturn401_whenCredentialsAreWrong() {
         AuthenticationRequest request = new AuthenticationRequest("physio@example.com", "wrong");
         when(logPhysiotherapistUseCase.authenticate("physio@example.com", "wrong"))
-                .thenThrow(new BadCredentialsException());
+                .thenThrow(new BadCredentialsException("Invalid credentials provided."));
 
         given()
                 .contentType("application/json")

@@ -1,6 +1,6 @@
 package application.physiotherapist;
 
-import com.tfg.exceptions.BadCredentialsException;
+import com.tfg.exceptions.InvalidCredentialsException;
 import com.tfg.pojos.springsecurity.AuthenticatedUser;
 import com.tfg.port.out.springsecurity.CredentialsValidatorPort;
 import com.tfg.port.out.springsecurity.TokenGeneratorPort;
@@ -13,14 +13,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
-public class LogPhysiotherapistUseCaseTest {
+public class LogPhysiotherapistServiceTest {
     private final TokenGeneratorPort tokenGeneratorPort = mock(TokenGeneratorPort.class);
     private final CredentialsValidatorPort credentialsValidatorPort = mock(CredentialsValidatorPort.class);
     private final LogPhysiotherapistService logPhysiotherapistService = new LogPhysiotherapistService(tokenGeneratorPort, credentialsValidatorPort);
 
     private static final String EMAIL = "physio@example.com";
     private static final AuthenticatedUser AUTHENTICATED_USER =
-            new AuthenticatedUser(EMAIL, List.of("USER"));
+            new AuthenticatedUser(EMAIL, List.of("USER"), "John", "Doe");
 
     private static final String EXPECTED_TOKEN = "eyJhbGciOiJIUzUxMiJ9.test.token";
 
@@ -59,10 +59,10 @@ public class LogPhysiotherapistUseCaseTest {
     @Test
     void authenticate_shouldThrowException_whenValidatorFails() {
         when(credentialsValidatorPort.validate(any(), any()))
-                .thenThrow(new BadCredentialsException());
+                .thenThrow(new InvalidCredentialsException("Invalid credentials provided."));
 
         assertThatThrownBy(() -> logPhysiotherapistService.authenticate(EMAIL, "wrongpassword"))
-                .isInstanceOf(BadCredentialsException.class);
+                .isInstanceOf(InvalidCredentialsException.class);
 
         verifyNoInteractions(tokenGeneratorPort);
     }
