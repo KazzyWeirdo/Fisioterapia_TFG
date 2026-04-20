@@ -46,3 +46,22 @@ export async function getPatient(id: number): Promise<PatientDetail> {
   const response = await apiClient.get<PatientDetail>(`/patients/${id}`)
   return response.data
 }
+
+export interface CreatePatientRequest {
+  legalName: string
+  nameToUse: string
+  pronouns: string
+  surname: string
+  secondSurname: string
+  dni: string
+  dateOfBirth: string
+  email: string
+  phoneNumber: number
+  genderIdentity: string
+  clinicalUseSex: string
+  administrativeSex: string
+}
+
+export async function createPatient(data: CreatePatientRequest): Promise<void> {
+  await apiClient.post('/patients/create', data)
+}

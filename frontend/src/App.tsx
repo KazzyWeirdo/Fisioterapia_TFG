@@ -6,6 +6,7 @@ import ResetPasswordPage from './pages/ResetPasswordPage'
 import DashboardLayout from './components/layout/DashboardLayout'
 import PatientsPage from './pages/PatientsPage'
 import PatientDetailPage from './pages/PatientDetailPage'
+import RegisterPatientPage from './pages/RegisterPatientPage'
 
 function PrivateRoute() {
   const { token } = useAuth()
@@ -27,6 +28,7 @@ export default function App() {
             <Route element={<DashboardLayout />}>
               <Route index element={<Navigate to="/patients" replace />} />
               <Route path="/patients" element={<PatientsPage />} />
+              <Route path="/patients/register" element={<RegisterPatientPage />} />
               <Route path="/patients/:id" element={<PatientDetailPage />} />
               <Route path="/patients/:id/indiba" element={<div>INDIBA Sessions</div>} />
               <Route path="/patients/:id/pni" element={<div>PNI Reports</div>} />
