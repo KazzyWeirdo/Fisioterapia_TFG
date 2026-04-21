@@ -39,7 +39,16 @@ export default function AuditLogPage() {
   const [currentPage, setCurrentPage] = useState(0)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [search, setSearch] = useState('')
+
+  const [filtersOpen, setFiltersOpen] = useState(false)
+  const [filterEntity, setFilterEntity] = useState('')
+  const [filterAction, setFilterAction] = useState('')
+  const [filterUser, setFilterUser]     = useState('')
+  const [filterFrom, setFilterFrom]     = useState('')
+  const [filterTo, setFilterTo]         = useState('')
+
+  const activeFilterCount = [filterEntity, filterAction, filterUser, filterFrom, filterTo]
+    .filter(Boolean).length
 
   useEffect(() => {
     let cancelled = false
@@ -65,15 +74,15 @@ export default function AuditLogPage() {
   }, [currentPage])
 
   const filteredLogs = useMemo(() => {
-    const q = search.trim().toLowerCase()
-    if (!q) return logs
-    return logs.filter(
-      (l) =>
-        l.entityName.toLowerCase().includes(q) ||
-        l.action.toLowerCase().includes(q) ||
-        l.user.toLowerCase().includes(q),
-    )
-  }, [logs, search])
+    return logs.filter((l) => {
+      if (filterEntity && l.entityName !== filterEntity) return false
+      if (filterAction && l.action.toUpperCase() !== filterAction) return false
+      if (filterUser && !l.user.toLowerCase().includes(filterUser.toLowerCase())) return false
+      if (filterFrom && l.timestamp.slice(0, 10) < filterFrom) return false
+      if (filterTo   && l.timestamp.slice(0, 10) > filterTo)   return false
+      return true
+    })
+  }, [logs, filterEntity, filterAction, filterUser, filterFrom, filterTo])
 
   const pageNumbers = useMemo(
     () => Array.from({ length: totalPages }, (_, i) => i),
@@ -83,6 +92,14 @@ export default function AuditLogPage() {
   function goToPage(page: number) {
     if (page < 0 || page >= totalPages) return
     setCurrentPage(page)
+  }
+
+  function clearFilters() {
+    setFilterEntity('')
+    setFilterAction('')
+    setFilterUser('')
+    setFilterFrom('')
+    setFilterTo('')
   }
 
   return (
@@ -103,25 +120,100 @@ export default function AuditLogPage() {
       </div>
 
       <div className={styles.controls}>
-        <div className={styles.searchWrap}>
-          <span className={styles.searchIcon}>🔍</span>
-          <input
-            type="text"
-            className={styles.searchInput}
-            placeholder="Search logs by user, action, or entity..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            aria-label="Search audit logs"
-          />
-        </div>
-        <input type="date" className={styles.dateInput} />
-        <button type="button" className={styles.filterBtn}>
-          ≡ Filter
+        <button
+          type="button"
+          className={`${styles.filterBtn} ${filtersOpen ? styles.filterBtnActive : ''}`}
+          onClick={() => setFiltersOpen(o => !o)}
+          aria-expanded={filtersOpen}
+        >
+          ≡ Filters
+          {activeFilterCount > 0 && (
+            <span className={styles.filterBadge}>{activeFilterCount}</span>
+          )}
         </button>
         <button type="button" className={styles.exportBtn}>
           ⬇ Export
         </button>
       </div>
+
+      {filtersOpen && (
+        <div className={styles.filterPanel}>
+          <div className={styles.filterRow}>
+            <label className={styles.filterLabel}>
+              Entity
+              <select
+                className={styles.filterSelect}
+                value={filterEntity}
+                onChange={(e) => setFilterEntity(e.target.value)}
+              >
+                <option value="">All</option>
+                <option value="Patient">Patient</option>
+                <option value="IndibaSession">IndibaSession</option>
+                <option value="PniReport">PniReport</option>
+                <option value="TrainingSession">TrainingSession</option>
+                <option value="Physiotherapist">Physiotherapist</option>
+              </select>
+            </label>
+
+            <label className={styles.filterLabel}>
+              Action
+              <select
+                className={styles.filterSelect}
+                value={filterAction}
+                onChange={(e) => setFilterAction(e.target.value)}
+              >
+                <option value="">All</option>
+                <option value="CREATE">CREATE</option>
+                <option value="UPDATE">UPDATE</option>
+                <option value="FINALIZE">FINALIZE</option>
+                <option value="VIEW">VIEW</option>
+                <option value="OVERRIDE">OVERRIDE</option>
+                <option value="DELETE">DELETE</option>
+                <option value="SYSTEM">SYSTEM</option>
+              </select>
+            </label>
+
+            <label className={styles.filterLabel}>
+              User
+              <input
+                type="text"
+                className={styles.filterInput}
+                placeholder="Any user"
+                value={filterUser}
+                onChange={(e) => setFilterUser(e.target.value)}
+              />
+            </label>
+          </div>
+
+          <div className={styles.filterRow}>
+            <label className={styles.filterLabel}>
+              From
+              <input
+                type="date"
+                className={styles.filterInput}
+                value={filterFrom}
+                onChange={(e) => setFilterFrom(e.target.value)}
+              />
+            </label>
+
+            <label className={styles.filterLabel}>
+              To
+              <input
+                type="date"
+                className={styles.filterInput}
+                value={filterTo}
+                onChange={(e) => setFilterTo(e.target.value)}
+              />
+            </label>
+
+            <div className={styles.filterClearWrap}>
+              <button type="button" className={styles.clearBtn} onClick={clearFilters}>
+                Clear all
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className={styles.tableWrap}>
         <table className={styles.table}>
