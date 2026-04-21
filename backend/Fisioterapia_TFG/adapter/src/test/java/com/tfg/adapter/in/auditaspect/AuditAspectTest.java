@@ -1,8 +1,13 @@
 package com.tfg.adapter.in.auditaspect;
 
 import com.tfg.auditlog.AuditLog;
+import com.tfg.indiba.IndibaSession;
+import com.tfg.patient.Patient;
+import com.tfg.patient.PatientId;
 import com.tfg.physiotherapist.Physiotherapist;
+import com.tfg.pni.PniReport;
 import com.tfg.port.out.persistence.AuditLogRepository;
+import com.tfg.trainingsession.TrainingSession;
 import org.aspectj.lang.JoinPoint;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -51,7 +56,7 @@ class AuditAspectTest {
     }
 
     @Test
-    void givenGenericEntity_whenLogAfterSave_thenSaveGenericAuditLog() {
+    void givenGenericEntity_whenLogAfterSave_thenSaveCreateAuditLog() {
         mockSecurityContext();
         Object genericEntity = "Any Entity";
         when(joinPoint.getArgs()).thenReturn(new Object[]{genericEntity});
@@ -61,9 +66,9 @@ class AuditAspectTest {
         verify(auditLogRepository, times(1)).save(auditLogCaptor.capture());
         AuditLog savedLog = auditLogCaptor.getValue();
 
-        assertEquals("CREATE/UPDATE", savedLog.getAction());
+        assertEquals("CREATE", savedLog.getAction());
         assertEquals("String", savedLog.getEntityName());
-        assertEquals("Entity Saved", savedLog.getDetails());
+        assertEquals("String", savedLog.getDetails());
         assertEquals("admin_user", savedLog.getUser());
         assertNotNull(savedLog.getId());
         assertNotNull(savedLog.getTimestamp());
@@ -82,7 +87,111 @@ class AuditAspectTest {
         verify(auditLogRepository, times(1)).save(auditLogCaptor.capture());
         AuditLog savedLog = auditLogCaptor.getValue();
 
+        assertEquals("CREATE", savedLog.getAction());
         assertEquals("fisio@hospital.com", savedLog.getDetails());
+        assertEquals("admin_user", savedLog.getUser());
+    }
+
+    @Test
+    void givenPatient_whenLogAfterSave_thenSaveNameInDetails() {
+        mockSecurityContext();
+        Patient patient = mock(Patient.class);
+        when(patient.getLegalName()).thenReturn("John");
+        when(patient.getSurname()).thenReturn("Doe");
+
+        when(joinPoint.getArgs()).thenReturn(new Object[]{patient});
+
+        auditAspect.logAfterSave(joinPoint);
+
+        verify(auditLogRepository, times(1)).save(auditLogCaptor.capture());
+        AuditLog savedLog = auditLogCaptor.getValue();
+
+        assertEquals("CREATE", savedLog.getAction());
+        assertEquals("John Doe", savedLog.getDetails());
+        assertEquals("admin_user", savedLog.getUser());
+    }
+
+    @Test
+    void givenIndibaSession_whenLogAfterSave_thenSavePatientAndAreaInDetails() {
+        mockSecurityContext();
+        Patient patient = mock(Patient.class);
+        when(patient.getLegalName()).thenReturn("Jane");
+        when(patient.getSurname()).thenReturn("Smith");
+
+        IndibaSession session = mock(IndibaSession.class);
+        when(session.getPatient()).thenReturn(patient);
+        when(session.getTreatedArea()).thenReturn("Knee");
+
+        when(joinPoint.getArgs()).thenReturn(new Object[]{session});
+
+        auditAspect.logAfterSave(joinPoint);
+
+        verify(auditLogRepository, times(1)).save(auditLogCaptor.capture());
+        AuditLog savedLog = auditLogCaptor.getValue();
+
+        assertEquals("CREATE", savedLog.getAction());
+        assertEquals("Patient: Jane Smith | Area: Knee", savedLog.getDetails());
+    }
+
+    @Test
+    void givenPniReport_whenLogAfterSave_thenSavePatientNameInDetails() {
+        mockSecurityContext();
+        Patient patient = mock(Patient.class);
+        when(patient.getLegalName()).thenReturn("Ana");
+        when(patient.getSurname()).thenReturn("Garcia");
+
+        PniReport report = mock(PniReport.class);
+        when(report.getPatient()).thenReturn(patient);
+
+        when(joinPoint.getArgs()).thenReturn(new Object[]{report});
+
+        auditAspect.logAfterSave(joinPoint);
+
+        verify(auditLogRepository, times(1)).save(auditLogCaptor.capture());
+        AuditLog savedLog = auditLogCaptor.getValue();
+
+        assertEquals("CREATE", savedLog.getAction());
+        assertEquals("Patient: Ana Garcia", savedLog.getDetails());
+    }
+
+    @Test
+    void givenTrainingSession_whenLogAfterSave_thenSavePatientNameInDetails() {
+        mockSecurityContext();
+        Patient patient = mock(Patient.class);
+        when(patient.getLegalName()).thenReturn("Carlos");
+        when(patient.getSurname()).thenReturn("Lopez");
+
+        TrainingSession session = mock(TrainingSession.class);
+        when(session.getPatient()).thenReturn(patient);
+
+        when(joinPoint.getArgs()).thenReturn(new Object[]{session});
+
+        auditAspect.logAfterSave(joinPoint);
+
+        verify(auditLogRepository, times(1)).save(auditLogCaptor.capture());
+        AuditLog savedLog = auditLogCaptor.getValue();
+
+        assertEquals("CREATE", savedLog.getAction());
+        assertEquals("Patient: Carlos Lopez", savedLog.getDetails());
+    }
+
+    @Test
+    void givenPatient_whenLogAfterUpdate_thenSaveUpdateAuditLog() {
+        mockSecurityContext();
+        PatientId patientId = mock(PatientId.class);
+        Patient patient = mock(Patient.class);
+        when(patient.getLegalName()).thenReturn("Maria");
+        when(patient.getSurname()).thenReturn("Torres");
+
+        when(joinPoint.getArgs()).thenReturn(new Object[]{patientId, patient});
+
+        auditAspect.logAfterUpdate(joinPoint);
+
+        verify(auditLogRepository, times(1)).save(auditLogCaptor.capture());
+        AuditLog savedLog = auditLogCaptor.getValue();
+
+        assertEquals("UPDATE", savedLog.getAction());
+        assertEquals("Maria Torres", savedLog.getDetails());
         assertEquals("admin_user", savedLog.getUser());
     }
 
@@ -100,6 +209,15 @@ class AuditAspectTest {
         when(joinPoint.getArgs()).thenReturn(null);
 
         auditAspect.logAfterSave(joinPoint);
+
+        verify(auditLogRepository, never()).save(any());
+    }
+
+    @Test
+    void givenSingleArg_whenLogAfterUpdate_thenReturnEarly() {
+        when(joinPoint.getArgs()).thenReturn(new Object[]{mock(PatientId.class)});
+
+        auditAspect.logAfterUpdate(joinPoint);
 
         verify(auditLogRepository, never()).save(any());
     }
