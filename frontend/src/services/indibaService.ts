@@ -17,6 +17,24 @@ const EMPTY_PAGE: IndibaSessionsPage = {
   content: [], totalElements: 0, totalPages: 0, pageNumber: 0, isLast: true,
 }
 
+export interface IndibaSession {
+  id: number
+  patiendId: number
+  beginSession: string
+  endSession: string
+  treatedArea: string
+  mode: string
+  intensity: number
+  objective: string
+  physiotherapistId: number
+  observations: string
+}
+
+export async function getIndibaSession(sessionId: number): Promise<IndibaSession> {
+  const response = await apiClient.get<IndibaSession>(`/indiba/session/${sessionId}`)
+  return response.data
+}
+
 export async function getIndibaSessionsFromPatient(
   patientId: number,
   page = 0,

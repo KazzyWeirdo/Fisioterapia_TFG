@@ -8,6 +8,7 @@ import com.tfg.port.in.patient.CreatePatientUseCase;
 import com.tfg.port.in.patient.GetAllPatientsUseCase;
 import com.tfg.port.in.patient.GetPatientUseCase;
 import com.tfg.port.in.patient.UpdatePatientUseCase;
+import com.tfg.port.in.physiotherapist.GetPhysiotherapistUseCase;
 import com.tfg.port.in.physiotherapist.LogPhysiotherapistUseCase;
 import com.tfg.port.in.physiotherapist.RequestPasswordResetUseCase;
 import com.tfg.port.in.physiotherapist.ResetPasswordUseCase;
@@ -35,6 +36,7 @@ import com.tfg.service.indiba.GetIndibaSessionService;
 import com.tfg.service.patient.CreatePatientService;
 import com.tfg.service.patient.GetAllPatientsService;
 import com.tfg.service.patient.UpdatePatientService;
+import com.tfg.service.physiotherapist.GetPhysiotherapistService;
 import com.tfg.service.physiotherapist.RequestPasswordResetService;
 import com.tfg.service.physiotherapist.ResetPasswordService;
 import com.tfg.service.pni.CreatePniReportService;
@@ -182,6 +184,11 @@ public class SpringAppConfig {
     @Bean
     GetAllAuditLogsUseCase getAllAuditLogsUseCase() {
         return new GetAllAuditLogsService(auditLogRepository);
+    }
+
+    @Bean
+    GetPhysiotherapistUseCase getPhysiotherapistUseCase() {
+        return new GetPhysiotherapistService(psychiatristRepository);
     }
 
     @Bean
