@@ -129,7 +129,7 @@ export default function IndibaDetailPage() {
           <div className={styles.observations}>
             <span className={styles.fieldLabel}>OBSERVATIONS</span>
             <blockquote className={styles.observationsText}>
-              "{session.observations}"
+              {session.observations ? `"${session.observations}"` : 'No observation noted'}
             </blockquote>
           </div>
         </div>
@@ -183,7 +183,6 @@ export default function IndibaDetailPage() {
       <footer className={styles.footer}>
         <div className={styles.footerLeft}>
         </div>
-        <span className={styles.footerSync}>Last synced: {formatSyncDate(session.beginSession)}</span>
       </footer>
 
     </div>
