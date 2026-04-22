@@ -9,6 +9,8 @@ import PatientDetailPage from './pages/PatientDetailPage'
 import RegisterPatientPage from './pages/RegisterPatientPage'
 import AuditLogPage from './pages/AuditLogPage'
 import RegisterPhysiotherapistPage from './pages/RegisterPhysiotherapistPage'
+import IndibaDetailPage from './pages/IndibaDetailPage'
+import RegisterIndibaSessionPage from './pages/RegisterIndibaSessionPage'
 
 function PrivateRoute() {
   const { token } = useAuth()
@@ -38,6 +40,8 @@ export default function App() {
               <Route path="/statistics" element={<div>Statistics</div>} />
               <Route path="/audit" element={<AuditLogPage />} />
               <Route path="/physiotherapist/register" element={<RegisterPhysiotherapistPage />} />
+              <Route path="/indiba/register" element={<RegisterIndibaSessionPage />} />
+              <Route path="/indiba/:sessionId" element={<IndibaDetailPage />} />
             </Route>
           </Route>
 
