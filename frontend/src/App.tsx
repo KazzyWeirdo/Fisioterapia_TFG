@@ -8,6 +8,7 @@ import PatientsPage from './pages/PatientsPage'
 import PatientDetailPage from './pages/PatientDetailPage'
 import RegisterPatientPage from './pages/RegisterPatientPage'
 import AuditLogPage from './pages/AuditLogPage'
+import RegisterPhysiotherapistPage from './pages/RegisterPhysiotherapistPage'
 
 function PrivateRoute() {
   const { token } = useAuth()
@@ -36,6 +37,7 @@ export default function App() {
               <Route path="/patients/:id/training" element={<div>Training Sessions</div>} />
               <Route path="/statistics" element={<div>Statistics</div>} />
               <Route path="/audit" element={<AuditLogPage />} />
+              <Route path="/physiotherapist/register" element={<RegisterPhysiotherapistPage />} />
             </Route>
           </Route>
 

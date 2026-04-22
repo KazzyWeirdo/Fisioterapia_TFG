@@ -30,20 +30,18 @@ public class RegisterPhysiotherapistControllerTest {
     }
 
     @Test
-    void createPatient_ShouldReturnOk_WhenInputIsValid() throws Exception {
-        List<String> roles = List.of("ADMIN");
-        RegisterPhysiotherapistModel registerPsychiatristModel = new RegisterPhysiotherapistModel(
+    void createPhysiotherapist_ShouldReturnOk_WhenInputIsValid() {
+        RegisterPhysiotherapistModel model = new RegisterPhysiotherapistModel(
                 "test@example.com",
-                "ValidPass123!",
                 "John",
                 "Doe",
-                roles
-
+                null,
+                List.of("ADMIN")
         );
 
         given()
                 .contentType("application/json")
-                .body(registerPsychiatristModel)
+                .body(model)
                 .when()
                 .post("/physiotherapist/register")
                 .then()
@@ -51,20 +49,18 @@ public class RegisterPhysiotherapistControllerTest {
     }
 
     @Test
-    void createPatient_ShouldReturnBadRequest_WhenInputIsInvalid() {
-        List<String> roles = new ArrayList<>();
-        RegisterPhysiotherapistModel registerPsychiatristModel = new RegisterPhysiotherapistModel(
+    void createPhysiotherapist_ShouldReturnBadRequest_WhenRolesIsEmpty() {
+        RegisterPhysiotherapistModel model = new RegisterPhysiotherapistModel(
                 "test@example.com",
-                "12345678A",
                 "John",
                 "Doe",
-                roles
-
+                null,
+                new ArrayList<>()
         );
 
         given()
                 .contentType("application/json")
-                .body(registerPsychiatristModel)
+                .body(model)
                 .when()
                 .post("/physiotherapist/register")
                 .then()

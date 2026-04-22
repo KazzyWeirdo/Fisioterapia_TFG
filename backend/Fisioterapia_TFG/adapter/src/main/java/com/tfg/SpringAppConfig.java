@@ -186,7 +186,7 @@ public class SpringAppConfig {
 
     @Bean
     RegisterPhysiotherapistUseCase registerPsychiatristUseCase() {
-        return new RegisterPhysiotherapistService(psychiatristRepository, passwordEncoderPort);
+        return new RegisterPhysiotherapistService(psychiatristRepository, passwordEncoderPort, requestPasswordResetUseCase());
     }
 
     @Bean
