@@ -135,6 +135,21 @@
   background: #1e40af;
 }
 
+.registerBtn {
+  background: white;
+  color: #1a3a6b;
+  border: 1.5px solid #1a3a6b;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.registerBtn:hover {
+  background: #f0f4ff;
+}
+
 .tableWrap {
   border: 1px solid #e5e7eb;
   border-radius: 12px;

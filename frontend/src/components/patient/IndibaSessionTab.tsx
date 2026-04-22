@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { getIndibaSessionsFromPatient, type IndibaSessionSummary } from '../../services/indibaService'
 import styles from './IndibaSessionTab.module.css'
 
@@ -20,6 +21,7 @@ function formatTime(raw: string): string {
 }
 
 export default function IndibaSessionTab({ patientId, patientName }: IndibaSessionTabProps) {
+  const navigate = useNavigate()
   const [sessions, setSessions] = useState<IndibaSessionSummary[]>([])
   const [totalElements, setTotalElements] = useState(0)
   const [totalPages, setTotalPages] = useState(0)
@@ -83,6 +85,9 @@ export default function IndibaSessionTab({ patientId, patientName }: IndibaSessi
         </label>
         <div className={styles.controlsRight}>
           <button type="button" className={styles.downloadBtn}>⬇ Download .csv</button>
+          <button type="button" className={styles.registerBtn} onClick={() => navigate('/indiba/register')}>
+            + Register New Session
+          </button>
         </div>
       </div>
 

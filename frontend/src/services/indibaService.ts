@@ -35,6 +35,22 @@ export async function getIndibaSession(sessionId: number): Promise<IndibaSession
   return response.data
 }
 
+export interface CreateIndibaSessionRequest {
+  patientId: number
+  beginSession: string
+  endSession: string
+  treatedArea: string
+  mode: string
+  intensity: number
+  objective: string
+  physiotherapistId: number
+  observations: string
+}
+
+export async function createIndibaSession(data: CreateIndibaSessionRequest): Promise<void> {
+  await apiClient.post('/indiba/create', data)
+}
+
 export async function getIndibaSessionsFromPatient(
   patientId: number,
   page = 0,
