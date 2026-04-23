@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { getPatient, type PatientDetail } from '../services/patientService'
 import PatientInfoCard from '../components/patient/PatientInfoCard'
 import IndibaSessionTab from '../components/patient/IndibaSessionTab'
+import PniReportTab from '../components/patient/PniReportTab'
 import styles from './PatientDetailPage.module.css'
 
 type Tab = 'overview' | 'training' | 'indiba' | 'pni' | 'statistics'
@@ -65,7 +66,13 @@ export default function PatientDetailPage() {
             patientName={[patient.nameToUse, patient.surname, patient.secondSurname].filter(Boolean).join(' ')}
           />
         )}
-        {activeTab !== 'overview' && activeTab !== 'indiba' && (
+        {activeTab === 'pni' && (
+          <PniReportTab
+            patientId={Number(id)}
+            patientName={[patient.nameToUse, patient.surname, patient.secondSurname].filter(Boolean).join(' ')}
+          />
+        )}
+        {activeTab !== 'overview' && activeTab !== 'indiba' && activeTab !== 'pni' && (
           <p className={styles.comingSoon}>Coming soon.</p>
         )}
       </div>

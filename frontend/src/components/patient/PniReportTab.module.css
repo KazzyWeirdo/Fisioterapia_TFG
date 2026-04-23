@@ -1,0 +1,222 @@
+.tab {
+  padding: 2rem 0;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  color: #1a3a6b;
+  margin-bottom: 0.25rem;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-bottom: 1.5rem;
+}
+
+.statCard {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #f3f4f6;
+  border-radius: 12px;
+  padding: 1.25rem 2rem;
+  max-width: 280px;
+  margin: 0 auto 1.5rem auto;
+}
+
+.statIcon {
+  font-size: 2rem;
+  background: #dbeafe;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.statLabel {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.statValue {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a3a6b;
+}
+
+.dateLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.controls {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.dateInput {
+  border: 1.5px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  width: 140px;
+}
+
+.dateInput:focus {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+  border-color: transparent;
+}
+
+.controlsRight {
+  margin-left: auto;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.downloadBtn {
+  background: #1a3a6b;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.downloadBtn:hover {
+  background: #1e40af;
+}
+
+.tableWrap {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table thead th {
+  background: #f9fafb;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #9ca3af;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.75rem 1.25rem;
+  text-align: left;
+}
+
+.table thead th:last-child {
+  text-align: right;
+}
+
+.table tbody tr {
+  border-top: 1px solid #e5e7eb;
+}
+
+.table tbody tr:hover {
+  background: #f9fafb;
+}
+
+.table tbody td {
+  padding: 1rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.actionsCell {
+  text-align: right;
+}
+
+.viewLink {
+  color: #1a3a6b;
+  font-weight: 700;
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+
+.viewLink:hover {
+  text-decoration: underline;
+}
+
+.stateCell {
+  padding: 2rem;
+  text-align: center;
+  color: #9ca3af;
+  font-size: 0.875rem;
+}
+
+.errorCell {
+  padding: 2rem;
+  text-align: center;
+  color: #dc2626;
+  font-size: 0.875rem;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.25rem;
+  border-top: 1px solid #e5e7eb;
+  background: white;
+}
+
+.footerText {
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.pagination {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.pageBtn {
+  min-width: 2rem;
+  height: 2rem;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  background: white;
+  font-size: 0.875rem;
+  cursor: pointer;
+  padding: 0 0.25rem;
+}
+
+.pageBtn:hover:not(:disabled) {
+  background: #f3f4f6;
+}
+
+.pageBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pageBtnActive {
+  background: #1a3a6b;
+  color: white;
+  border-color: #1a3a6b;
+}
