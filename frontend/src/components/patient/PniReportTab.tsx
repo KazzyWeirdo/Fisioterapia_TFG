@@ -1,28 +1,20 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { getIndibaSessionsFromPatient, type IndibaSessionSummary } from '../../services/indibaService'
-import styles from './IndibaSessionTab.module.css'
+import { getPniReportsFromPatient, type PniReportSummary } from '../../services/pniReportService'
+import styles from './PniReportTab.module.css'
 
-interface IndibaSessionTabProps {
+interface PniReportTabProps {
   patientId: number
   patientName: string
 }
 
 function formatDate(raw: string): string {
-  return new Date(raw).toLocaleDateString('en-US', {
+  return new Date(raw + 'T00:00:00').toLocaleDateString('en-US', {
     year: 'numeric', month: 'long', day: '2-digit',
   })
 }
 
-function formatTime(raw: string): string {
-  return new Date(raw).toLocaleTimeString('en-US', {
-    hour: '2-digit', minute: '2-digit', hour12: false,
-  })
-}
-
-export default function IndibaSessionTab({ patientId, patientName }: IndibaSessionTabProps) {
-  const navigate = useNavigate()
-  const [sessions, setSessions] = useState<IndibaSessionSummary[]>([])
+export default function PniReportTab({ patientId, patientName }: PniReportTabProps) {
+  const [reports, setReports] = useState<PniReportSummary[]>([])
   const [totalElements, setTotalElements] = useState(0)
   const [totalPages, setTotalPages] = useState(0)
   const [currentPage, setCurrentPage] = useState(0)
@@ -34,22 +26,22 @@ export default function IndibaSessionTab({ patientId, patientName }: IndibaSessi
     let cancelled = false
     setLoading(true)
     setError(null)
-    getIndibaSessionsFromPatient(patientId, currentPage, 10)
+    getPniReportsFromPatient(patientId, currentPage, 10)
       .then(data => {
         if (cancelled) return
-        setSessions(data.content)
+        setReports(data.content)
         setTotalElements(data.totalElements)
         setTotalPages(data.totalPages)
       })
-      .catch(() => { if (!cancelled) setError('Failed to load sessions') })
+      .catch(() => { if (!cancelled) setError('Failed to load reports') })
       .finally(() => { if (!cancelled) setLoading(false) })
     return () => { cancelled = true }
   }, [patientId, currentPage])
 
-  const filtered = useMemo(() => sessions.filter(s => {
-    if (dateFrom && s.date.slice(0, 10) !== dateFrom) return false
+  const filtered = useMemo(() => reports.filter(r => {
+    if (dateFrom && r.reportDate !== dateFrom) return false
     return true
-  }), [sessions, dateFrom])
+  }), [reports, dateFrom])
 
   const pageNumbers = useMemo(() => Array.from({ length: totalPages }, (_, i) => i), [totalPages])
 
@@ -60,15 +52,15 @@ export default function IndibaSessionTab({ patientId, patientName }: IndibaSessi
 
   return (
     <div className={styles.tab}>
-      <h2 className={styles.title}>INDIBA Sessions</h2>
+      <h2 className={styles.title}>PNI Reports</h2>
       <p className={styles.subtitle}>
         Diagnostic history for patient <strong>{patientName}</strong>.
       </p>
 
       <div className={styles.statCard}>
-        <div className={styles.statIcon}>🗓</div>
+        <div className={styles.statIcon}>📋</div>
         <div>
-          <div className={styles.statLabel}>TOTAL SESSIONS</div>
+          <div className={styles.statLabel}>TOTAL REPORTS</div>
           <div className={styles.statValue}>{totalElements}</div>
         </div>
       </div>
@@ -93,26 +85,24 @@ export default function IndibaSessionTab({ patientId, patientName }: IndibaSessi
           <thead>
             <tr>
               <th>ANALYSIS DATE</th>
-              <th>TIME</th>
               <th>ACTIONS</th>
             </tr>
           </thead>
           <tbody>
             {loading && (
-              <tr><td colSpan={3} className={styles.stateCell}>Loading…</td></tr>
+              <tr><td colSpan={2} className={styles.stateCell}>Loading…</td></tr>
             )}
             {!loading && error && (
-              <tr><td colSpan={3} className={styles.errorCell}>{error}</td></tr>
+              <tr><td colSpan={2} className={styles.errorCell}>{error}</td></tr>
             )}
             {!loading && !error && filtered.length === 0 && (
-              <tr><td colSpan={3} className={styles.stateCell}>No sessions found</td></tr>
+              <tr><td colSpan={2} className={styles.stateCell}>No reports found</td></tr>
             )}
-            {!loading && !error && filtered.map(s => (
-              <tr key={s.id}>
-                <td>{formatDate(s.date)}</td>
-                <td>{formatTime(s.date)}</td>
+            {!loading && !error && filtered.map(r => (
+              <tr key={r.id}>
+                <td>{formatDate(r.reportDate)}</td>
                 <td className={styles.actionsCell}>
-                  <a href={`/indiba/${s.id}`} className={styles.viewLink}>View Details ›</a>
+                  <a href={`/pni/${r.id}`} className={styles.viewLink}>View Details ›</a>
                 </td>
               </tr>
             ))}
@@ -121,7 +111,7 @@ export default function IndibaSessionTab({ patientId, patientName }: IndibaSessi
 
         <div className={styles.footer}>
           <span className={styles.footerText}>
-            Showing {filtered.length} of {totalElements} sessions
+            Showing {filtered.length} of {totalElements} reports
           </span>
           <div className={styles.pagination}>
             <button

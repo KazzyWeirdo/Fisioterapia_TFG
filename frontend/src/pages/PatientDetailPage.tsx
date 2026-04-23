@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useLocation } from 'react-router-dom'
 import { getPatient, type PatientDetail } from '../services/patientService'
 import PatientInfoCard from '../components/patient/PatientInfoCard'
 import IndibaSessionTab from '../components/patient/IndibaSessionTab'
+import PniReportTab from '../components/patient/PniReportTab'
 import styles from './PatientDetailPage.module.css'
 
 type Tab = 'overview' | 'training' | 'indiba' | 'pni' | 'statistics'
@@ -17,10 +18,12 @@ const TABS: { id: Tab; label: string }[] = [
 
 export default function PatientDetailPage() {
   const { id } = useParams<{ id: string }>()
+  const location = useLocation()
   const [patient, setPatient] = useState<PatientDetail | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [activeTab, setActiveTab] = useState<Tab>('overview')
+  const initialTab = (location.state as { tab?: Tab } | null)?.tab ?? 'overview'
+  const [activeTab, setActiveTab] = useState<Tab>(initialTab)
 
   useEffect(() => {
     if (!id) return
@@ -65,7 +68,13 @@ export default function PatientDetailPage() {
             patientName={[patient.nameToUse, patient.surname, patient.secondSurname].filter(Boolean).join(' ')}
           />
         )}
-        {activeTab !== 'overview' && activeTab !== 'indiba' && (
+        {activeTab === 'pni' && (
+          <PniReportTab
+            patientId={Number(id)}
+            patientName={[patient.nameToUse, patient.surname, patient.secondSurname].filter(Boolean).join(' ')}
+          />
+        )}
+        {activeTab !== 'overview' && activeTab !== 'indiba' && activeTab !== 'pni' && (
           <p className={styles.comingSoon}>Coming soon.</p>
         )}
       </div>

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { getIndibaSession, type IndibaSession } from '../services/indibaService'
 import { getPhysiotherapist, type PhysiotherapistSummary } from '../services/physiotherapistService'
+import { getPatient, type PatientDetail } from '../services/patientService'
 import styles from './IndibaDetailPage.module.css'
 
 function formatHeaderDate(raw: string): string {
@@ -37,13 +38,20 @@ function formatMode(mode: string): string {
   return mode.charAt(0).toUpperCase() + mode.slice(1).toLowerCase()
 }
 
-const TABS = ['Overview', 'Training Sessions', 'INDIBA Sessions', 'PNI Reports', 'Statistics', 'Audit Logs']
+const TABS: { label: string; tab: string }[] = [
+  { label: 'Overview',          tab: 'overview'  },
+  { label: 'Training Sessions', tab: 'training'  },
+  { label: 'INDIBA Sessions',   tab: 'indiba'    },
+  { label: 'PNI Reports',       tab: 'pni'       },
+  { label: 'Statistics',        tab: 'statistics' },
+]
 
 export default function IndibaDetailPage() {
   const { sessionId } = useParams<{ sessionId: string }>()
   const navigate = useNavigate()
   const [session, setSession] = useState<IndibaSession | null>(null)
   const [physio, setPhysio] = useState<PhysiotherapistSummary | null>(null)
+  const [patient, setPatient] = useState<PatientDetail | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -52,9 +60,12 @@ export default function IndibaDetailPage() {
     getIndibaSession(Number(sessionId))
       .then(s => {
         setSession(s)
-        return getPhysiotherapist(s.physiotherapistId)
+        return Promise.all([
+          getPhysiotherapist(s.physiotherapistId),
+          getPatient(s.patiendId),
+        ])
       })
-      .then(setPhysio)
+      .then(([p, pat]) => { setPhysio(p); setPatient(pat) })
       .catch(() => setError('Failed to load session'))
       .finally(() => setLoading(false))
   }, [sessionId])
@@ -69,8 +80,14 @@ export default function IndibaDetailPage() {
       <div className={styles.header}>
         <div className={styles.headerLeft}>
           <nav className={styles.breadcrumb}>
-            <button type="button" onClick={() => navigate(-1)} className={styles.breadcrumbLink}>
+            <button type="button" className={styles.breadcrumbLink} onClick={() => navigate('/patients')}>
               Patients
+            </button>
+            <span className={styles.breadcrumbSep}>›</span>
+            <button type="button" className={styles.breadcrumbLink} onClick={() => navigate(`/patients/${session.patiendId}`)}>
+              {patient
+                ? [patient.nameToUse, patient.surname, patient.secondSurname].filter(Boolean).join(' ')
+                : `Patient #${session.patiendId}`}
             </button>
             <span className={styles.breadcrumbSep}>›</span>
             <span className={styles.breadcrumbCurrent}>INDIBA Session</span>
@@ -80,15 +97,17 @@ export default function IndibaDetailPage() {
         </div>
       </div>
 
-      {/* Tab bar — visual only */}
+      {/* Tab bar */}
       <nav className={styles.tabBar} aria-label="Patient sections">
-        {TABS.map(tab => (
-          <span
+        {TABS.map(({ label, tab }) => (
+          <button
             key={tab}
-            className={`${styles.tab} ${tab === 'INDIBA Sessions' ? styles.tabActive : ''}`}
+            type="button"
+            className={`${styles.tab} ${label === 'INDIBA Sessions' ? styles.tabActive : ''}`}
+            onClick={() => navigate(`/patients/${session.patiendId}`, { state: { tab } })}
           >
-            {tab}
-          </span>
+            {label}
+          </button>
         ))}
       </nav>
       <div className={styles.tabSeparator} />
