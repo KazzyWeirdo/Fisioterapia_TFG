@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
-import { useParams, useLocation } from 'react-router-dom'
+import { useParams, useLocation, useNavigate } from 'react-router-dom'
 import { getPatient, type PatientDetail } from '../services/patientService'
 import PatientInfoCard from '../components/patient/PatientInfoCard'
 import IndibaSessionTab from '../components/patient/IndibaSessionTab'
 import PniReportTab from '../components/patient/PniReportTab'
+import StatisticsTab from '../components/patient/StatisticsTab'
 import styles from './PatientDetailPage.module.css'
 
 type Tab = 'overview' | 'training' | 'indiba' | 'pni' | 'statistics'
@@ -19,6 +20,7 @@ const TABS: { id: Tab; label: string }[] = [
 export default function PatientDetailPage() {
   const { id } = useParams<{ id: string }>()
   const location = useLocation()
+  const navigate = useNavigate()
   const [patient, setPatient] = useState<PatientDetail | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -41,6 +43,16 @@ export default function PatientDetailPage() {
 
   return (
     <div className={styles.page}>
+      <nav className={styles.breadcrumb}>
+        <button type="button" className={styles.breadcrumbLink} onClick={() => navigate('/patients')}>
+          Patients
+        </button>
+        <span className={styles.breadcrumbSep}>›</span>
+        <span className={styles.breadcrumbCurrent}>
+          {[patient.nameToUse, patient.surname, patient.secondSurname].filter(Boolean).join(' ')}
+        </span>
+      </nav>
+
       <h1 className={styles.heading}>
         {[patient.nameToUse, patient.surname, patient.secondSurname].filter(Boolean).join(' ')}
       </h1>
@@ -74,7 +86,8 @@ export default function PatientDetailPage() {
             patientName={[patient.nameToUse, patient.surname, patient.secondSurname].filter(Boolean).join(' ')}
           />
         )}
-        {activeTab !== 'overview' && activeTab !== 'indiba' && activeTab !== 'pni' && (
+        {activeTab === 'statistics' && <StatisticsTab patientId={Number(id)} />}
+        {activeTab !== 'overview' && activeTab !== 'indiba' && activeTab !== 'pni' && activeTab !== 'statistics' && (
           <p className={styles.comingSoon}>Coming soon.</p>
         )}
       </div>
