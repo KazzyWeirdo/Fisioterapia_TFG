@@ -10,6 +10,7 @@ import RegisterPatientPage from './pages/RegisterPatientPage'
 import AuditLogPage from './pages/AuditLogPage'
 import RegisterPhysiotherapistPage from './pages/RegisterPhysiotherapistPage'
 import IndibaDetailPage from './pages/IndibaDetailPage'
+import PniReportDetailPage from './pages/PniReportDetailPage'
 import RegisterIndibaSessionPage from './pages/RegisterIndibaSessionPage'
 
 function PrivateRoute() {
@@ -42,6 +43,7 @@ export default function App() {
               <Route path="/physiotherapist/register" element={<RegisterPhysiotherapistPage />} />
               <Route path="/indiba/register" element={<RegisterIndibaSessionPage />} />
               <Route path="/indiba/:sessionId" element={<IndibaDetailPage />} />
+              <Route path="/pni/:reportId" element={<PniReportDetailPage />} />
             </Route>
           </Route>
 

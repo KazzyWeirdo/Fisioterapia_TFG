@@ -17,6 +17,21 @@ const EMPTY_PAGE: PniReportsPage = {
   content: [], totalElements: 0, totalPages: 0, pageNumber: 0, isLast: true,
 }
 
+export interface PniReport {
+  id: number
+  patientId: number
+  reportDate: string
+  hours_asleep: number
+  hrv: number
+  stress: number
+  ntrs: number
+}
+
+export async function getPniReport(reportId: number): Promise<PniReport> {
+  const response = await apiClient.get<PniReport>(`/pni/report/${reportId}`)
+  return response.data
+}
+
 export async function getPniReportsFromPatient(
   patientId: number,
   page = 0,
