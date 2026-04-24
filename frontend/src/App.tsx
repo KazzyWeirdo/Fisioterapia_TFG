@@ -13,6 +13,7 @@ import IndibaDetailPage from './pages/IndibaDetailPage'
 import PniReportDetailPage from './pages/PniReportDetailPage'
 import RegisterIndibaSessionPage from './pages/RegisterIndibaSessionPage'
 import TrainingSessionDetailPage from './pages/TrainingSessionDetailPage'
+import RegisterTrainingSessionPage from './pages/RegisterTrainingSessionPage'
 
 function PrivateRoute() {
   const { token } = useAuth()
@@ -26,6 +27,7 @@ export default function App() {
         <Routes>
           {/* Public */}
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/training-session/register" element={<RegisterTrainingSessionPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
 

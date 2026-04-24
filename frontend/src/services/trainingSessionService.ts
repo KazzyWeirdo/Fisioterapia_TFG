@@ -33,6 +33,31 @@ export interface TrainingSessionDetail {
   exercises: Exercise[]
 }
 
+export interface ExerciseSetInput {
+  setNumber: number
+  weightKg: number
+  reps: number
+  restTimeSeconds: number
+  rpe: number
+}
+
+export interface ExerciseInput {
+  name: string
+  exercises: ExerciseSetInput[]
+}
+
+export interface CreateTrainingSessionRequest {
+  date: string
+  exercises: ExerciseInput[]
+}
+
+export async function createTrainingSession(
+  patientId: number,
+  body: CreateTrainingSessionRequest,
+): Promise<void> {
+  await apiClient.post(`/training-session/${patientId}/create`, body)
+}
+
 export async function getTrainingSession(id: number): Promise<TrainingSessionDetail> {
   const response = await apiClient.get<TrainingSessionDetail>(`/training-session/session/${id}`)
   return response.data
