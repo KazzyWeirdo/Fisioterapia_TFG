@@ -37,13 +37,13 @@ public class GetPatientTransitionRatioService implements GetPatientTransitionRat
         List<Object[]> trainingSessionsCount = trainingSessionRepository.countSessionByMonth(id, year);
         if(indibaSessionsCount.isEmpty() && trainingSessionsCount.isEmpty()) return List.of(); // Si no hay sesiones, se devuelve una lista vacía
 
-        Map<Integer, Integer> indibaSessionsMap = parseToMap(indibaSessionsCount);
-        Map<Integer, Integer> trainingSessionsMap = parseToMap(trainingSessionsCount);
+        Map<Integer, Long> indibaSessionsMap = parseToMap(indibaSessionsCount);
+        Map<Integer, Long> trainingSessionsMap = parseToMap(trainingSessionsCount);
 
         for (int month = 1; month <= 12; month++) {
             if (month > LocalDate.now().getMonthValue() && year == LocalDate.now().getYear()) break;
-            int indibaCount = indibaSessionsMap.getOrDefault(month, 0);
-            int trainingCount = trainingSessionsMap.getOrDefault(month, 0);
+            long indibaCount = indibaSessionsMap.getOrDefault(month, 0L);
+            long trainingCount = trainingSessionsMap.getOrDefault(month, 0L);
 
             ratios.add(new PatientMonthTransitionRatio(month, year, indibaCount, trainingCount));
         }
@@ -51,12 +51,12 @@ public class GetPatientTransitionRatioService implements GetPatientTransitionRat
         return ratios;
     }
 
-    private Map<Integer, Integer> parseToMap(List<Object[]> sessions) {
+    private Map<Integer, Long> parseToMap(List<Object[]> sessions) {
         return sessions.stream()
                 .collect(
                         java.util.stream.Collectors.toMap(
-                                session -> (Integer) session[0], // month
-                                session -> (Integer) session[1]  // count
+                                session -> ((Number) session[0]).intValue(),
+                                session -> ((Number) session[1]).longValue()
                         )
                 );
     }

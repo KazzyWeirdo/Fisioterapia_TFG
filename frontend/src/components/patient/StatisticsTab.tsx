@@ -1,8 +1,6 @@
 import { useEffect, useState, useMemo } from 'react'
 import {
-  getTransitionRatio,
   getWorkloadProgression,
-  type TransitionRatioPoint,
   type WorkloadPoint,
 } from '../../services/statisticsService'
 import { getTrainingSessionsFromPatient } from '../../services/trainingSessionService'
@@ -22,17 +20,14 @@ const PAD_B = 30
 const plotW = CHART_W - PAD_L - PAD_R
 const plotH = CHART_H - PAD_T - PAD_B
 
-function yFor(w: number) { return PAD_T + plotH - (w / 100) * plotH }
 function xFor(i: number, total: number) {
   return PAD_L + (total <= 1 ? plotW / 2 : (i / (total - 1)) * plotW)
 }
 
-const ZONES = [
-  { label: 'PEAK INTENSITY', value: 80 },
-  { label: 'HIGH WORKLOAD',  value: 60 },
-  { label: 'BASELINE',       value: 40 },
-  { label: 'RECOVERY',       value: 20 },
-]
+function fmtVolume(v: number): string {
+  if (v >= 1000) return `${(v / 1000).toFixed(1)}k`
+  return v.toFixed(0)
+}
 
 function fmtDate(raw: string): string {
   return new Date(raw + 'T00:00:00')
@@ -41,10 +36,10 @@ function fmtDate(raw: string): string {
 }
 
 export default function StatisticsTab({ patientId }: StatisticsTabProps) {
-  const [ratioPoints, setRatioPoints] = useState<TransitionRatioPoint[]>([])
   const [trainingCount, setTrainingCount] = useState(0)
   const [indibaCount, setIndibaCount] = useState(0)
   const [statsLoading, setStatsLoading] = useState(true)
+  const [statsError, setStatsError] = useState<string | null>(null)
   const [exerciseInput, setExerciseInput] = useState('')
   const [exerciseName, setExerciseName] = useState('')
   const [workload, setWorkload] = useState<WorkloadPoint[]>([])
@@ -52,17 +47,15 @@ export default function StatisticsTab({ patientId }: StatisticsTabProps) {
   const [workloadError, setWorkloadError] = useState<string | null>(null)
 
   useEffect(() => {
-    const year = new Date().getFullYear()
     Promise.all([
-      getTransitionRatio(patientId, year),
       getTrainingSessionsFromPatient(patientId, 0, 1),
       getIndibaSessionsFromPatient(patientId, 0, 1),
     ])
-      .then(([ratio, training, indiba]) => {
-        setRatioPoints(ratio)
+      .then(([training, indiba]) => {
         setTrainingCount(training.totalElements)
         setIndibaCount(indiba.totalElements)
       })
+      .catch(() => setStatsError('Failed to load statistics'))
       .finally(() => setStatsLoading(false))
   }, [patientId])
 
@@ -76,16 +69,23 @@ export default function StatisticsTab({ patientId }: StatisticsTabProps) {
       .finally(() => setWorkloadLoading(false))
   }, [patientId, exerciseName])
 
-  const currentRatio = ratioPoints.length > 0
-    ? ratioPoints[ratioPoints.length - 1].transitionRatio
-    : null
+  const currentRatio = useMemo(() => {
+    const total = trainingCount + indibaCount
+    return total > 0 ? trainingCount / total : null
+  }, [trainingCount, indibaCount])
 
-  const linePath = useMemo(() => {
-    if (workload.length === 0) return ''
-    return workload
-      .map((p, i) => `${i === 0 ? 'M' : 'L'} ${xFor(i, workload.length)},${yFor(p.workload)}`)
+  const { ceiling, linePath } = useMemo(() => {
+    if (workload.length === 0) return { ceiling: 1, linePath: '' }
+    const maxW = Math.max(...workload.map(p => p.workload))
+    const ceil = maxW > 0 ? maxW * 1.1 : 1
+    const yF = (w: number) => PAD_T + plotH - (w / ceil) * plotH
+    const path = workload
+      .map((p, i) => `${i === 0 ? 'M' : 'L'} ${xFor(i, workload.length)},${yF(p.workload)}`)
       .join(' ')
+    return { ceiling: ceil, linePath: path }
   }, [workload])
+
+  function yFor(w: number) { return PAD_T + plotH - (w / ceiling) * plotH }
 
   const labelStep = Math.max(1, Math.floor(workload.length / 5))
 
@@ -100,6 +100,8 @@ export default function StatisticsTab({ patientId }: StatisticsTabProps) {
 
           {statsLoading ? (
             <p className={styles.chartState}>Loading…</p>
+          ) : statsError ? (
+            <p className={styles.chartError}>{statsError}</p>
           ) : (
             <>
               <div className={styles.gaugeWrap}>
@@ -171,23 +173,27 @@ export default function StatisticsTab({ patientId }: StatisticsTabProps) {
           )}
           {!workloadLoading && !workloadError && workload.length > 0 && (
             <svg viewBox={`0 0 ${CHART_W} ${CHART_H}`} className={styles.chart}>
-              {/* Zone lines + labels */}
-              {ZONES.map(z => (
-                <g key={z.label}>
-                  <line
-                    x1={PAD_L} y1={yFor(z.value)}
-                    x2={CHART_W - PAD_R} y2={yFor(z.value)}
-                    stroke="#e5e7eb" strokeWidth="1" strokeDasharray="4 3"
-                  />
-                  <text
-                    x={PAD_L - 8} y={yFor(z.value) + 4}
-                    textAnchor="end" fontSize="8" fill="#9ca3af"
-                    fontFamily="sans-serif" fontWeight="600"
-                  >
-                    {z.label}
-                  </text>
-                </g>
-              ))}
+              {/* Y-axis ticks at 25 / 50 / 75 / 100% of ceiling */}
+              {[0.25, 0.5, 0.75, 1.0].map(pct => {
+                const val = ceiling * pct
+                const y = yFor(val)
+                return (
+                  <g key={pct}>
+                    <line
+                      x1={PAD_L} y1={y}
+                      x2={CHART_W - PAD_R} y2={y}
+                      stroke="#e5e7eb" strokeWidth="1" strokeDasharray="4 3"
+                    />
+                    <text
+                      x={PAD_L - 6} y={y + 4}
+                      textAnchor="end" fontSize="8" fill="#9ca3af"
+                      fontFamily="sans-serif" fontWeight="600"
+                    >
+                      {fmtVolume(val)}
+                    </text>
+                  </g>
+                )
+              })}
 
               {/* Shaded area under line */}
               <path
@@ -216,7 +222,7 @@ export default function StatisticsTab({ patientId }: StatisticsTabProps) {
                 const last = workload[workload.length - 1]
                 const x = xFor(workload.length - 1, workload.length)
                 const y = yFor(last.workload)
-                const label = `CURRENT INTENSITY: ${last.workload.toFixed(0)}%`
+                const label = `VOLUME: ${fmtVolume(last.workload)} kg`
                 const bw = label.length * 5.5 + 16
                 return (
                   <g>

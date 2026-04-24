@@ -5,13 +5,8 @@ import styles from './AuditLogPage.module.css'
 const PAGE_SIZE = 10
 
 const ACTION_BADGE_STYLES: Record<string, { bg: string; color: string }> = {
-  CREATE:   { bg: '#dcfce7', color: '#166534' },
-  FINALIZE: { bg: '#ccfbf1', color: '#0f766e' },
-  UPDATE:   { bg: '#fef9c3', color: '#854d0e' },
-  VIEW:     { bg: '#dbeafe', color: '#1e40af' },
-  OVERRIDE: { bg: '#fee2e2', color: '#b91c1c' },
-  DELETE:   { bg: '#fee2e2', color: '#b91c1c' },
-  SYSTEM:   { bg: '#f3f4f6', color: '#6b7280' },
+  CREATE: { bg: '#dcfce7', color: '#166534' },
+  UPDATE: { bg: '#fef9c3', color: '#854d0e' },
 }
 
 function ActionBadge({ action }: { action: string }) {
@@ -27,10 +22,6 @@ function ActionBadge({ action }: { action: string }) {
   )
 }
 
-function isCritical(action: string) {
-  const key = action.toUpperCase()
-  return key === 'OVERRIDE' || key === 'DELETE'
-}
 
 export default function AuditLogPage() {
   const [logs, setLogs] = useState<AuditLogSummary[]>([])
@@ -165,11 +156,6 @@ export default function AuditLogPage() {
                 <option value="">All</option>
                 <option value="CREATE">CREATE</option>
                 <option value="UPDATE">UPDATE</option>
-                <option value="FINALIZE">FINALIZE</option>
-                <option value="VIEW">VIEW</option>
-                <option value="OVERRIDE">OVERRIDE</option>
-                <option value="DELETE">DELETE</option>
-                <option value="SYSTEM">SYSTEM</option>
               </select>
             </label>
 
@@ -250,28 +236,15 @@ export default function AuditLogPage() {
             )}
             {!loading &&
               !error &&
-              filteredLogs.map((log) => {
-                const critical = isCritical(log.action)
-                return (
-                  <tr key={log.id}>
-                    <td
-                      className={`${styles.entityCell} ${critical ? styles.criticalText : ''}`}
-                    >
-                      {log.entityName}
-                    </td>
-                    <td>
-                      <ActionBadge action={log.action} />
-                    </td>
-                    <td
-                      className={`${styles.timestampCell} ${critical ? styles.criticalTimestamp : ''}`}
-                    >
-                      {log.timestamp}
-                    </td>
-                    <td className={styles.detailsCell}>{log.details}</td>
-                    <td className={styles.userCell}>{log.user}</td>
-                  </tr>
-                )
-              })}
+              filteredLogs.map((log) => (
+                <tr key={log.id}>
+                  <td className={styles.entityCell}>{log.entityName}</td>
+                  <td><ActionBadge action={log.action} /></td>
+                  <td className={styles.timestampCell}>{log.timestamp}</td>
+                  <td className={styles.detailsCell}>{log.details}</td>
+                  <td className={styles.userCell}>{log.user}</td>
+                </tr>
+              ))}
           </tbody>
         </table>
 
