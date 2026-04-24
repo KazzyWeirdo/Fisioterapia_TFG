@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { getTrainingSessionsFromPatient } from '../../services/trainingSessionService'
 import styles from './TrainingSessionTab.module.css'
 
@@ -14,6 +15,7 @@ function formatDate(raw: string): string {
 }
 
 export default function TrainingSessionTab({ patientId, patientName }: TrainingSessionTabProps) {
+  const navigate = useNavigate()
   const [sessions, setSessions] = useState<{ id: number; date: string }[]>([])
   const [totalElements, setTotalElements] = useState(0)
   const [totalPages, setTotalPages] = useState(0)
@@ -102,7 +104,13 @@ export default function TrainingSessionTab({ patientId, patientName }: TrainingS
               <tr key={s.id}>
                 <td>{formatDate(s.date)}</td>
                 <td className={styles.actionsCell}>
-                  <a href={`/training-session/${s.id}`} className={styles.viewLink}>View Details ›</a>
+                  <button
+                    type="button"
+                    className={styles.viewLink}
+                    onClick={() => navigate(`/training-session/${s.id}`)}
+                  >
+                    View Details ›
+                  </button>
                 </td>
               </tr>
             ))}

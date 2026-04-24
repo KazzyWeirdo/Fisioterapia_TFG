@@ -12,6 +12,7 @@ import RegisterPhysiotherapistPage from './pages/RegisterPhysiotherapistPage'
 import IndibaDetailPage from './pages/IndibaDetailPage'
 import PniReportDetailPage from './pages/PniReportDetailPage'
 import RegisterIndibaSessionPage from './pages/RegisterIndibaSessionPage'
+import TrainingSessionDetailPage from './pages/TrainingSessionDetailPage'
 
 function PrivateRoute() {
   const { token } = useAuth()
@@ -44,6 +45,7 @@ export default function App() {
               <Route path="/indiba/register" element={<RegisterIndibaSessionPage />} />
               <Route path="/indiba/:sessionId" element={<IndibaDetailPage />} />
               <Route path="/pni/:reportId" element={<PniReportDetailPage />} />
+              <Route path="/training-session/:sessionId" element={<TrainingSessionDetailPage />} />
             </Route>
           </Route>
 
