@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useLocation, useNavigate } from 'react-router-dom'
 import { getPatient, type PatientDetail } from '../services/patientService'
 import PatientInfoCard from '../components/patient/PatientInfoCard'
+import TrainingSessionTab from '../components/patient/TrainingSessionTab'
 import IndibaSessionTab from '../components/patient/IndibaSessionTab'
 import PniReportTab from '../components/patient/PniReportTab'
 import StatisticsTab from '../components/patient/StatisticsTab'
@@ -74,6 +75,12 @@ export default function PatientDetailPage() {
 
       <div className={styles.content}>
         {activeTab === 'overview' && <PatientInfoCard patient={patient} />}
+        {activeTab === 'training' && (
+          <TrainingSessionTab
+            patientId={Number(id)}
+            patientName={[patient.nameToUse, patient.surname, patient.secondSurname].filter(Boolean).join(' ')}
+          />
+        )}
         {activeTab === 'indiba' && (
           <IndibaSessionTab
             patientId={Number(id)}
@@ -87,7 +94,7 @@ export default function PatientDetailPage() {
           />
         )}
         {activeTab === 'statistics' && <StatisticsTab patientId={Number(id)} />}
-        {activeTab !== 'overview' && activeTab !== 'indiba' && activeTab !== 'pni' && activeTab !== 'statistics' && (
+        {activeTab !== 'overview' && activeTab !== 'training' && activeTab !== 'indiba' && activeTab !== 'pni' && activeTab !== 'statistics' && (
           <p className={styles.comingSoon}>Coming soon.</p>
         )}
       </div>
