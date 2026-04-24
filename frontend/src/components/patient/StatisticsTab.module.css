@@ -1,0 +1,161 @@
+.tab { padding: 2rem 0; }
+
+.panels {
+  display: grid;
+  grid-template-columns: 1fr 1.8fr;
+  gap: 1.25rem;
+}
+
+.ratioCard,
+.workloadCard {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid #e5e7eb;
+}
+
+.cardTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 0.2rem;
+}
+
+.cardSub {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  margin: 0 0 1.5rem;
+}
+
+.gaugeWrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.gauge {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: conic-gradient(#1a3a6b var(--ratio-pct), #e5e7eb 0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 0 22px white;
+}
+
+.gaugeValue {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1;
+}
+
+.gaugeLabel {
+  font-size: 0.55rem;
+  font-weight: 700;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.counters {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.counterDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.counterLabel {
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.counterValue {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.workloadHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.badge {
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #374151;
+  padding: 0.25rem 0.75rem;
+  white-space: nowrap;
+}
+
+.exerciseForm {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.exerciseInput {
+  flex: 1;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+.exerciseInput:focus {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+  border-color: transparent;
+}
+
+.exerciseBtn {
+  background: #1a3a6b;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.exerciseBtn:hover { background: #1e40af; }
+
+.chart { width: 100%; overflow: visible; }
+
+.chartState {
+  font-size: 0.875rem;
+  color: #9ca3af;
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.chartError {
+  font-size: 0.875rem;
+  color: #dc2626;
+  text-align: center;
+  padding: 2rem 0;
+}
