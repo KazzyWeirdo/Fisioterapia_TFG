@@ -19,7 +19,9 @@ public class PniReportJpaMapper {
 
     public static com.tfg.pni.PniReport toModelEntity(PniReportJpaEntity entity) {
         return new com.tfg.pni.PniReport(
+                new com.tfg.pni.PniReportId(entity.getId()),
                 PatientJpaMapper.toModelEntity(entity.getPatient()),
+                entity.getReportDate(),
                 entity.getHoursAsleep(),
                 entity.getHrv(),
                 entity.getAnsCharge(),

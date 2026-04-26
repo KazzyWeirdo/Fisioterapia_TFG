@@ -28,4 +28,6 @@ public interface PatientRepository {
     PagedResponse<PatientSummaryElement> findAllSummaries(PageQuery query);
 
     List<Patient> findAllWithPolarToken();
+
+    List<Patient> findAll();
 }

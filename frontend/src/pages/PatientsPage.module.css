@@ -124,6 +124,12 @@
   background: #142d54;
 }
 
+.exportGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
 .tableWrap {
   background: #ffffff;
   border-radius: 12px;

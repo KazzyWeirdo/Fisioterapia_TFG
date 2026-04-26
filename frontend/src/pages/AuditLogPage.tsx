@@ -122,9 +122,6 @@ export default function AuditLogPage() {
             <span className={styles.filterBadge}>{activeFilterCount}</span>
           )}
         </button>
-        <button type="button" className={styles.exportBtn}>
-          ⬇ Export
-        </button>
       </div>
 
       {filtersOpen && (

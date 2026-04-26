@@ -7,13 +7,14 @@ import com.tfg.pojos.pagedpojos.PagedResponse;
 import com.tfg.port.out.persistence.AuditLogRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import com.tfg.adapter.out.persistence.BaseRepositoryIT;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
-public abstract class AbstractAuditLogRepositoryTest {
+public abstract class AbstractAuditLogRepositoryTest extends BaseRepositoryIT {
     private final AuditLog testAuditLog = AuditLogFactory.createTestAuditLog("Uno");
     private final AuditLog testAuditLog2 = AuditLogFactory.createTestAuditLog("Dos");
 

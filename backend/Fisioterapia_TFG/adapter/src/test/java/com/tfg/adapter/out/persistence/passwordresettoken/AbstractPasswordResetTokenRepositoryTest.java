@@ -8,6 +8,7 @@ import com.tfg.port.out.persistence.PhysiotherapistRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import com.tfg.adapter.out.persistence.BaseRepositoryIT;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
@@ -17,7 +18,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public abstract class AbstractPasswordResetTokenRepositoryTest {
+public abstract class AbstractPasswordResetTokenRepositoryTest extends BaseRepositoryIT {
 
     private static final Physiotherapist TEST_PHYSIO = PhysiotherapistFactory.createTestPsychiatrist("hola@gmail.com", "ValidPassword123!");
     private static final String RAW_TOKEN = UUID.randomUUID().toString();

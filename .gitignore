@@ -48,3 +48,4 @@ backend/Fisioterapia_TFG/bootstrap/src/main/resources/.env
 backend/Fisioterapia_TFG/docker-compose.override.yml
 .claude/settings.local.json
 /openspec
+export-csv-exploration.txt

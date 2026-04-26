@@ -16,6 +16,7 @@ import com.tfg.trainingsession.TrainingSession;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import com.tfg.adapter.out.persistence.BaseRepositoryIT;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
@@ -24,7 +25,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public abstract class AbstractTrainingSessionRepositoryTest {
+public abstract class AbstractTrainingSessionRepositoryTest extends BaseRepositoryIT {
     private Patient testPatient;
     private TrainingSession testTrainingSession1;
     private TrainingSession testTrainingSession2;
@@ -52,6 +53,7 @@ public abstract class AbstractTrainingSessionRepositoryTest {
     @AfterEach
     void tearDown() {
         trainingSessionRepository.deleteAll();
+        patientRepository.deleteAll();
     }
 
     @Test
@@ -165,5 +167,27 @@ public abstract class AbstractTrainingSessionRepositoryTest {
         List<Object[]> progression = trainingSessionRepository.calculateVolumeProgression(testPatient.getId(), "Test Exercise");
 
         assertThat(progression).isEmpty();
+    }
+
+    @Test
+    public void givenExistingTrainingSessions_whenFindAllForExport_returnAll() {
+        trainingSessionRepository.save(testTrainingSession1);
+        trainingSessionRepository.save(testTrainingSession2);
+
+        List<TrainingSession> result = trainingSessionRepository.findAllForExport();
+
+        assertThat(result).hasSize(2);
+        assertThat(result).extracting(s -> s.getId().value())
+                .containsExactlyInAnyOrder(testTrainingSession1.getId().value(), testTrainingSession2.getId().value());
+        assertThat(result).anySatisfy(session -> {
+            assertThat(session.getExercises()).isNotEmpty();
+            assertThat(session.getExercises().get(0).getSets()).isNotEmpty();
+        });
+    }
+
+    @Test
+    public void givenNoTrainingSessions_whenFindAllForExport_returnEmptyList() {
+        List<TrainingSession> result = trainingSessionRepository.findAllForExport();
+        assertThat(result).isEmpty();
     }
 }

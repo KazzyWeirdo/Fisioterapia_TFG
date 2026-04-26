@@ -56,22 +56,13 @@ class AuditAspectTest {
     }
 
     @Test
-    void givenGenericEntity_whenLogAfterSave_thenSaveCreateAuditLog() {
-        mockSecurityContext();
-        Object genericEntity = "Any Entity";
-        when(joinPoint.getArgs()).thenReturn(new Object[]{genericEntity});
+    void givenNonDomainEntity_whenLogAfterSave_thenNoInteractionWithRepository() {
+        Object nonDomainEntity = "Any Entity";
+        when(joinPoint.getArgs()).thenReturn(new Object[]{nonDomainEntity});
 
         auditAspect.logAfterSave(joinPoint);
 
-        verify(auditLogRepository, times(1)).save(auditLogCaptor.capture());
-        AuditLog savedLog = auditLogCaptor.getValue();
-
-        assertEquals("CREATE", savedLog.getAction());
-        assertEquals("String", savedLog.getEntityName());
-        assertEquals("String", savedLog.getDetails());
-        assertEquals("admin_user", savedLog.getUser());
-        assertNotNull(savedLog.getId());
-        assertNotNull(savedLog.getTimestamp());
+        verify(auditLogRepository, never()).save(any());
     }
 
     @Test

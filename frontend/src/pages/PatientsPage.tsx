@@ -2,8 +2,14 @@ import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   getPatients,
+  getAllPatientsForExport,
   type PatientSummary,
+  type PatientExport,
 } from '../services/patientService'
+import { getAllIndibaForExport, type IndibaExport } from '../services/indibaService'
+import { getAllPniForExport, type PniExport } from '../services/pniReportService'
+import { getAllTrainingForExport, type TrainingSetExport } from '../services/trainingSessionService'
+import { downloadCsv } from '../utils/csvUtils'
 import styles from './PatientsPage.module.css'
 
 const PAGE_SIZE = 10
@@ -19,6 +25,7 @@ export default function PatientsPage() {
   const [error, setError] = useState<string | null>(null)
   const [search, setSearch] = useState('')
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc')
+  const [downloading, setDownloading] = useState<Record<string, boolean>>({})
 
   useEffect(() => {
     let cancelled = false
@@ -58,6 +65,22 @@ export default function PatientsPage() {
     [totalPages],
   )
 
+  async function handleExport<T>(
+    key: string,
+    fetchFn: () => Promise<T[]>,
+    filename: string,
+    headers: string[],
+    toRow: (item: T) => (string | number | null | undefined)[],
+  ) {
+    setDownloading((d) => ({ ...d, [key]: true }))
+    try {
+      const data = await fetchFn()
+      downloadCsv(filename, headers, data.map(toRow))
+    } finally {
+      setDownloading((d) => ({ ...d, [key]: false }))
+    }
+  }
+
   function toggleSort() {
     setSortDir((d) => (d === 'asc' ? 'desc' : 'asc'))
     setCurrentPage(0)
@@ -93,9 +116,64 @@ export default function PatientsPage() {
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-        <button type="button" className={styles.downloadBtn}>
-          ⬇ Download .csv
-        </button>
+        <div className={styles.exportGroup}>
+          <button
+            type="button"
+            className={styles.downloadBtn}
+            disabled={downloading.patients}
+            onClick={() => handleExport<PatientExport>(
+              'patients',
+              getAllPatientsForExport,
+              'patients.csv',
+              ['id', 'date_of_birth', 'clinical_sex'],
+              (p) => [p.id, p.dateOfBirth, p.clinicalUseSex],
+            )}
+          >
+            {downloading.patients ? 'Exporting…' : '⬇ Patients CSV'}
+          </button>
+          <button
+            type="button"
+            className={styles.downloadBtn}
+            disabled={downloading.indiba}
+            onClick={() => handleExport<IndibaExport>(
+              'indiba',
+              getAllIndibaForExport,
+              'indiba_sessions.csv',
+              ['patient_id', 'session_id', 'begin_session', 'end_session', 'treated_area', 'mode', 'intensity', 'objective', 'observations'],
+              (s) => [s.patientId, s.sessionId, s.beginSession, s.endSession, s.treatedArea, s.mode, s.intensity, s.objective, s.observations],
+            )}
+          >
+            {downloading.indiba ? 'Exporting…' : '⬇ Indiba CSV'}
+          </button>
+          <button
+            type="button"
+            className={styles.downloadBtn}
+            disabled={downloading.pni}
+            onClick={() => handleExport<PniExport>(
+              'pni',
+              getAllPniForExport,
+              'pni_reports.csv',
+              ['patient_id', 'report_id', 'report_date', 'hours_asleep', 'hrv', 'ans_charge', 'sleep_score'],
+              (r) => [r.patientId, r.reportId, r.reportDate, r.hoursAsleep, r.hrv, r.ansCharge, r.sleepScore],
+            )}
+          >
+            {downloading.pni ? 'Exporting…' : '⬇ PNI CSV'}
+          </button>
+          <button
+            type="button"
+            className={styles.downloadBtn}
+            disabled={downloading.training}
+            onClick={() => handleExport<TrainingSetExport>(
+              'training',
+              getAllTrainingForExport,
+              'training_sessions.csv',
+              ['patient_id', 'session_id', 'session_date', 'exercise_name', 'set_number', 'weight_kg', 'reps', 'rest_time_seconds', 'rpe'],
+              (s) => [s.patientId, s.sessionId, s.sessionDate, s.exerciseName, s.setNumber, s.weightKg, s.reps, s.restTimeSeconds, s.rpe],
+            )}
+          >
+            {downloading.training ? 'Exporting…' : '⬇ Training CSV'}
+          </button>
+        </div>
       </div>
 
       <div className={styles.tableWrap}>

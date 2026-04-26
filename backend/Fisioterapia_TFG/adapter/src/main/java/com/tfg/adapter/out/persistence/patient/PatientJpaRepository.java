@@ -102,4 +102,11 @@ public class PatientJpaRepository implements PatientRepository {
         List<PatientJpaEntity> patientJpaEntities = patientJpaDataRepository.findAllWithPolarToken();
         return patientJpaEntities.stream().map(PatientJpaMapper::toModelEntity).toList();
     }
+
+    @Override
+    public List<Patient> findAll() {
+        return patientJpaDataRepository.findAll().stream()
+                .map(PatientJpaMapper::toModelEntity)
+                .toList();
+    }
 }

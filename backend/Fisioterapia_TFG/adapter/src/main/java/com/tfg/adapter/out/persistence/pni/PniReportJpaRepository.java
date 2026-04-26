@@ -69,4 +69,11 @@ public class PniReportJpaRepository implements PniReportRepository {
                 page.isLast()
         );
     }
+
+    @Override
+    public List<PniReport> findAllForExport() {
+        return pniReportJpaDataRepository.findAll().stream()
+                .map(PniReportJpaMapper::toModelEntity)
+                .toList();
+    }
 }

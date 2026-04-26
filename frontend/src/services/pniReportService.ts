@@ -32,6 +32,21 @@ export async function getPniReport(reportId: number): Promise<PniReport> {
   return response.data
 }
 
+export interface PniExport {
+  patientId: number
+  reportId: number
+  reportDate: string
+  hoursAsleep: number
+  hrv: number
+  ansCharge: number
+  sleepScore: number
+}
+
+export async function getAllPniForExport(): Promise<PniExport[]> {
+  const response = await apiClient.get<PniExport[]>('/pni/export')
+  return response.data ?? []
+}
+
 export async function getPniReportsFromPatient(
   patientId: number,
   page = 0,
