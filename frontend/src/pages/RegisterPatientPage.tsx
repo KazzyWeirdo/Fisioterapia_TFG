@@ -282,9 +282,9 @@ export default function RegisterPatientPage() {
             Connect patient's biometric sensors to sync heart rate, sleep, and recovery metrics
             automatically.
           </p>
-          <button type="button" className={styles.polarBtn}>
-            🔄 Sync Biometric Data via Polar
-          </button>
+          <p className={styles.polarNote}>
+            After saving, open the patient's profile to connect their Polar account.
+          </p>
           <p className={styles.polarCaption}>ENCRYPTED POLAR API INTEGRATION</p>
         </aside>
       </div>

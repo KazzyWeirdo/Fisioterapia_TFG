@@ -48,3 +48,61 @@
   font-weight: 600;
   color: #111827;
 }
+
+.polarSection {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #f3f4f6;
+}
+
+.polarConnected {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.9rem;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  width: fit-content;
+}
+
+.polarConnectedIcon {
+  color: #166534;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.polarConnectedText {
+  color: #166534;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.polarDisconnected {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.polarDisconnectedMsg {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.polarBtn {
+  background: #c0392b;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.65rem 1.25rem;
+  font-weight: 700;
+  font-size: 0.875rem;
+  cursor: pointer;
+  width: fit-content;
+}
+
+.polarBtn:hover {
+  background: #a93226;
+}

@@ -40,6 +40,7 @@ export interface PatientDetail {
   pronouns: string
   phoneNumber: number
   dateOfBirth: string
+  hasPolarConnection: boolean
 }
 
 export async function getPatient(id: number): Promise<PatientDetail> {
