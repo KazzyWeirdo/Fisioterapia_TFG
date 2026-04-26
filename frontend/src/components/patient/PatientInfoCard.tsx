@@ -58,6 +58,29 @@ export default function PatientInfoCard({ patient }: Props) {
         <Field label="ADMINISTRATIVE SEX" value={patient.administrativeSex} />
         <Field label="PRONOUNS" value={patient.pronouns} />
       </div>
+
+      <div className={styles.polarSection}>
+        <p className={styles.sectionTitle}>POLAR INTEGRATION</p>
+        {patient.hasPolarConnection ? (
+          <div className={styles.polarConnected}>
+            <span className={styles.polarConnectedIcon}>✓</span>
+            <span className={styles.polarConnectedText}>Polar Connected</span>
+          </div>
+        ) : (
+          <div className={styles.polarDisconnected}>
+            <p className={styles.polarDisconnectedMsg}>
+              No Polar account linked. Connect to enable automatic sleep and recovery sync.
+            </p>
+            <button
+              type="button"
+              className={styles.polarBtn}
+              onClick={() => window.open(`/api/auth/polar/authorize?patientId=${patient.id}`, '_blank')}
+            >
+              ❤️ Connect Polar Account
+            </button>
+          </div>
+        )}
+      </div>
     </section>
   )
 }

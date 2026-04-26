@@ -32,6 +32,7 @@ public class SecurityConfiguration {
             "/swagger-ui.html",
             "/webjars/**",
             "/training-session/*/create",
+            "/api/auth/polar/**",
     };
 
     public SecurityConfiguration(JwtDecoder jwtDecoder) {

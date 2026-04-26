@@ -24,7 +24,7 @@ public class SmtpEmailAdapter implements EmailSenderPort {
     @Override
     public void sendFormLink(String email, int id) {
         SimpleMailMessage message = new SimpleMailMessage();
-        String formUrl = formBaseUrl + "/" + id;
+        String formUrl = formBaseUrl + "?patientId=" + id;
         message.setTo(email);
         message.setSubject("Registro de sesiones de entrenamiento");
         message.setText("%s".formatted(formUrl));
