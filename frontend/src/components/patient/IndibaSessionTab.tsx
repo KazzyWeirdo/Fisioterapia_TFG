@@ -83,9 +83,6 @@ export default function IndibaSessionTab({ patientId, patientName }: IndibaSessi
             onChange={e => setDateFrom(e.target.value)}
           />
         </label>
-        <div className={styles.controlsRight}>
-          <button type="button" className={styles.downloadBtn}>⬇ Download .csv</button>
-        </div>
       </div>
 
       <div className={styles.tableWrap}>
