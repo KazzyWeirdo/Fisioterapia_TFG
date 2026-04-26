@@ -63,6 +63,23 @@ export async function getTrainingSession(id: number): Promise<TrainingSessionDet
   return response.data
 }
 
+export interface TrainingSetExport {
+  patientId: number
+  sessionId: number
+  sessionDate: string
+  exerciseName: string
+  setNumber: number
+  weightKg: number
+  reps: number
+  restTimeSeconds: number
+  rpe: number
+}
+
+export async function getAllTrainingForExport(): Promise<TrainingSetExport[]> {
+  const response = await apiClient.get<TrainingSetExport[]>('/training-session/export')
+  return response.data ?? []
+}
+
 export async function getTrainingSessionsFromPatient(
   patientId: number,
   page = 0,

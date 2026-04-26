@@ -79,9 +79,6 @@ export default function Sidebar() {
       </nav>
 
       <div className={styles.bottom}>
-        <NavLink to="/settings" className={linkClass}>
-          <span className={styles.icon}>⚙️</span> Settings
-        </NavLink>
         <button
           type="button"
           onClick={logout}

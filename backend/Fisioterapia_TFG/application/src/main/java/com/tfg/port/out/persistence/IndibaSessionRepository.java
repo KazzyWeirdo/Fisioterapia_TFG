@@ -22,4 +22,6 @@ public interface IndibaSessionRepository {
     PagedResponse<IndibaSummaryElement> findAllByPatientId (PageQuery query, PatientId patientId);
 
     List<Object[]> countSessionGroupedByMonth(PatientId patientId, Integer year);
+
+    List<IndibaSession> findAllForExport();
 }

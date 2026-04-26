@@ -16,6 +16,7 @@ import com.tfg.port.out.persistence.PhysiotherapistRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import com.tfg.adapter.out.persistence.BaseRepositoryIT;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
@@ -23,7 +24,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public abstract class AbstractIndibaRepositoryTest {
+public abstract class AbstractIndibaRepositoryTest extends BaseRepositoryIT {
 
     private Patient testPatient;
     private Physiotherapist testPhysiotherapist;
@@ -67,6 +68,8 @@ public abstract class AbstractIndibaRepositoryTest {
     @AfterEach
     void tearDown() {
         indibaSessionRepository.deleteAll();
+        patientRepository.deleteAll();
+        physiotherapistRepository.deleteAll();
     }
 
     @Test
@@ -162,5 +165,23 @@ public abstract class AbstractIndibaRepositoryTest {
         List<Object[]> indibaSessions = indibaSessionRepository.countSessionGroupedByMonth(testPatient.getId(), testIndibaSession.getEndSession().getYear() + 1900);
 
         assertThat(indibaSessions).isEmpty();
+    }
+
+    @Test
+    public void givenExistingIndibaSessions_whenFindAllForExport_returnAll() {
+        indibaSessionRepository.save(testIndibaSession);
+        indibaSessionRepository.save(testIndibaSession2);
+
+        List<IndibaSession> result = indibaSessionRepository.findAllForExport();
+
+        assertThat(result).hasSize(2);
+        assertThat(result).extracting(s -> s.getId().value())
+                .containsExactlyInAnyOrder(testIndibaSession.getId().value(), testIndibaSession2.getId().value());
+    }
+
+    @Test
+    public void givenNoIndibaSessions_whenFindAllForExport_returnEmptyList() {
+        List<IndibaSession> result = indibaSessionRepository.findAllForExport();
+        assertThat(result).isEmpty();
     }
 }

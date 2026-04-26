@@ -51,6 +51,23 @@ export async function createIndibaSession(data: CreateIndibaSessionRequest): Pro
   await apiClient.post('/indiba/create', data)
 }
 
+export interface IndibaExport {
+  patientId: number
+  sessionId: number
+  beginSession: string
+  endSession: string
+  treatedArea: string
+  mode: string
+  intensity: number
+  objective: string
+  observations: string
+}
+
+export async function getAllIndibaForExport(): Promise<IndibaExport[]> {
+  const response = await apiClient.get<IndibaExport[]>('/indiba/export')
+  return response.data ?? []
+}
+
 export async function getIndibaSessionsFromPatient(
   patientId: number,
   page = 0,

@@ -9,13 +9,14 @@ import com.tfg.physiotherapist.PhysiotherapistId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import com.tfg.adapter.out.persistence.BaseRepositoryIT;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public abstract class AbstractPhysiotherapistRepositoryTest {
+public abstract class AbstractPhysiotherapistRepositoryTest extends BaseRepositoryIT {
 
     private Physiotherapist testPsychiatrist;
 

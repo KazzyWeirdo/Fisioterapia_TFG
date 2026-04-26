@@ -2,9 +2,11 @@ package com.tfg;
 
 import com.tfg.port.in.auditlog.GetAllAuditLogsUseCase;
 import com.tfg.port.in.indiba.CreateIndibaSessionUseCase;
+import com.tfg.port.in.indiba.GetAllIndibaSessionsForExportUseCase;
 import com.tfg.port.in.indiba.GetIndibaSessionFromPatientUseCase;
 import com.tfg.port.in.indiba.GetIndibaSessionUseCase;
 import com.tfg.port.in.patient.CreatePatientUseCase;
+import com.tfg.port.in.patient.GetAllPatientsForExportUseCase;
 import com.tfg.port.in.patient.GetAllPatientsUseCase;
 import com.tfg.port.in.patient.GetPatientUseCase;
 import com.tfg.port.in.patient.UpdatePatientUseCase;
@@ -13,6 +15,7 @@ import com.tfg.port.in.physiotherapist.LogPhysiotherapistUseCase;
 import com.tfg.port.in.physiotherapist.RequestPasswordResetUseCase;
 import com.tfg.port.in.physiotherapist.ResetPasswordUseCase;
 import com.tfg.port.in.pni.CreatePniReportUseCase;
+import com.tfg.port.in.pni.GetAllPniReportsForExportUseCase;
 import com.tfg.port.in.pni.GetPniReportUseCase;
 import com.tfg.port.in.pni.GetPniReportsFromPatientUseCase;
 import com.tfg.port.in.polar.ManagePolarConnectionUseCase;
@@ -21,6 +24,7 @@ import com.tfg.port.in.physiotherapist.RegisterPhysiotherapistUseCase;
 import com.tfg.port.in.statistics.GetPatientTransitionRatioUseCase;
 import com.tfg.port.in.statistics.GetWorkloadProgressionUseCase;
 import com.tfg.port.in.trainingsession.CreateTrainingSessionUseCase;
+import com.tfg.port.in.trainingsession.GetAllTrainingSessionsForExportUseCase;
 import com.tfg.port.in.trainingsession.GetTrainingSessionByPatientUseCase;
 import com.tfg.port.in.trainingsession.GetTrainingSessionUseCase;
 import com.tfg.port.out.mail.EmailSenderPort;
@@ -31,15 +35,18 @@ import com.tfg.port.out.persistence.*;
 import com.tfg.port.out.polar.PolarRepository;
 import com.tfg.service.auditlog.GetAllAuditLogsService;
 import com.tfg.service.indiba.CreateIndibaSessionService;
+import com.tfg.service.indiba.GetAllIndibaSessionsForExportService;
 import com.tfg.service.indiba.GetIndibaSessionFromPatientService;
 import com.tfg.service.indiba.GetIndibaSessionService;
 import com.tfg.service.patient.CreatePatientService;
+import com.tfg.service.patient.GetAllPatientsForExportService;
 import com.tfg.service.patient.GetAllPatientsService;
 import com.tfg.service.patient.UpdatePatientService;
 import com.tfg.service.physiotherapist.GetPhysiotherapistService;
 import com.tfg.service.physiotherapist.RequestPasswordResetService;
 import com.tfg.service.physiotherapist.ResetPasswordService;
 import com.tfg.service.pni.CreatePniReportService;
+import com.tfg.service.pni.GetAllPniReportsForExportService;
 import com.tfg.service.pni.GetPniReportService;
 import com.tfg.service.pni.GetPniReportsFromPatientService;
 import com.tfg.service.polar.ManagePolarConnectionService;
@@ -47,6 +54,7 @@ import com.tfg.service.polar.SyncPolarDataService;
 import com.tfg.service.physiotherapist.RegisterPhysiotherapistService;
 import com.tfg.service.statistics.GetPatientTransitionRatioService;
 import com.tfg.service.statistics.GetWorkloadProgressionService;
+import com.tfg.service.trainingsession.GetAllTrainingSessionsForExportService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
@@ -179,6 +187,26 @@ public class SpringAppConfig {
     @Bean
     GetWorkloadProgressionUseCase getWorkloadProgressionUseCase() {
         return new GetWorkloadProgressionService(trainingSessionRepository, patientRepository);
+    }
+
+    @Bean
+    GetAllPatientsForExportUseCase getAllPatientsForExportUseCase() {
+        return new GetAllPatientsForExportService(patientRepository);
+    }
+
+    @Bean
+    GetAllIndibaSessionsForExportUseCase getAllIndibaSessionsForExportUseCase() {
+        return new GetAllIndibaSessionsForExportService(indibaSessionRepository);
+    }
+
+    @Bean
+    GetAllPniReportsForExportUseCase getAllPniReportsForExportUseCase() {
+        return new GetAllPniReportsForExportService(pniReportRepository);
+    }
+
+    @Bean
+    GetAllTrainingSessionsForExportUseCase getAllTrainingSessionsForExportUseCase() {
+        return new GetAllTrainingSessionsForExportService(trainingSessionRepository);
     }
 
     @Bean
