@@ -106,3 +106,112 @@
 .polarBtn:hover {
   background: #a93226;
 }
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.cardHeader .sectionTitle {
+  margin: 0;
+}
+
+.editBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: transparent;
+  color: #1a3a6b;
+  border: 1px solid #1a3a6b;
+  border-radius: 6px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.editBtn:hover {
+  background: #1a3a6b;
+  color: #fff;
+}
+
+.actionRow {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.saveBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #1a3a6b;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.saveBtn:hover:not(:disabled) {
+  background: #14306b;
+}
+
+.saveBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.cancelBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: transparent;
+  color: #6b7280;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.cancelBtn:hover:not(:disabled) {
+  background: #f3f4f6;
+}
+
+.cancelBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.fieldInput {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #d1d5db;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #111827;
+  font-family: inherit;
+  padding: 2px 0;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.fieldInput:focus {
+  border-bottom-color: #1a3a6b;
+}
+
+.saveError {
+  margin: 1rem 0 0;
+  font-size: 0.82rem;
+  color: #b91c1c;
+}

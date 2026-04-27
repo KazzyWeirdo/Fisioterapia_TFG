@@ -74,7 +74,7 @@ export default function PatientDetailPage() {
       <div className={styles.tabSeparator} />
 
       <div className={styles.content}>
-        {activeTab === 'overview' && <PatientInfoCard patient={patient} />}
+        {activeTab === 'overview' && <PatientInfoCard patient={patient} onPatientUpdated={p => setPatient(p)} />}
         {activeTab === 'training' && (
           <TrainingSessionTab
             patientId={Number(id)}

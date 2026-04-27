@@ -28,13 +28,6 @@ function computeDuration(begin: string, end: string): number {
   return Math.round((new Date(end).getTime() - new Date(begin).getTime()) / 60000)
 }
 
-function formatSyncDate(raw: string): string {
-  return new Date(raw).toLocaleDateString('en-US', {
-    day: '2-digit', month: 'short', year: 'numeric',
-  }) + ' at ' + new Date(raw).toLocaleTimeString('en-US', {
-    hour: '2-digit', minute: '2-digit', hour12: true,
-  }) + ' CET'
-}
 
 function formatMode(mode: string): string {
   return mode.charAt(0).toUpperCase() + mode.slice(1).toLowerCase()
