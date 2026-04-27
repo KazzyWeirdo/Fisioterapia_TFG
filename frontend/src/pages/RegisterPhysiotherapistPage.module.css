@@ -202,3 +202,37 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+@media (max-width: 640px) {
+  .page {
+    padding: 1rem;
+  }
+
+  .card {
+    padding: 1.25rem;
+  }
+
+  .row {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .rolesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .rolesGrid > :last-child {
+    grid-column: auto;
+  }
+
+  .footer {
+    flex-direction: column-reverse;
+    gap: 12px;
+    align-items: stretch;
+  }
+
+  .submitBtn {
+    width: 100%;
+    justify-content: center;
+  }
+}

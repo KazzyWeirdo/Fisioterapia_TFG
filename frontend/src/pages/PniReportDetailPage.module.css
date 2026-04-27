@@ -323,3 +323,43 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
+
+@media (max-width: 1024px) {
+  .topRow {
+    grid-template-columns: 1fr;
+  }
+
+  .bottomRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: 1rem;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .tabBar {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .tabBar::-webkit-scrollbar { display: none; }
+
+  .restorationCard,
+  .metricCard,
+  .ansCard {
+    padding: 1.25rem;
+  }
+}
