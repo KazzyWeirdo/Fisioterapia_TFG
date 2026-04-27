@@ -36,3 +36,17 @@
 .progressCell { color: #9ca3af; font-size: 1rem; }
 .status { text-align: center; padding: 3rem; color: #6b7280; }
 .error { text-align: center; padding: 3rem; color: #dc2626; }
+
+@media (max-width: 640px) {
+  .page { padding: 1rem; }
+  .header { flex-direction: column; align-items: stretch; gap: 0.75rem; }
+  .title { font-size: 1.5rem; }
+  .tabBar { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .tabBar::-webkit-scrollbar { display: none; }
+  .statsCard { flex-direction: column; align-items: flex-start; gap: 1rem; padding: 1rem; }
+  .statIcons { margin-left: 0; }
+  .exerciseCard { padding: 1rem; }
+  .exerciseHeader { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+  .setsTable thead th,
+  .setsTable tbody td { padding: 0.5rem 0.4rem; font-size: 0.85rem; }
+}
