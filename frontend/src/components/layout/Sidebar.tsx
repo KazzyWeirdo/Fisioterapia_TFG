@@ -1,4 +1,6 @@
 import { NavLink } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUsers, faClipboardList, faUser, faPlus, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import { useAuth } from '../../contexts/AuthContext'
 import { decodeJwtPayload } from '../../utils/jwt'
 import styles from './Sidebar.module.css'
@@ -56,24 +58,24 @@ export default function Sidebar() {
       <nav className={styles.nav}>
         <div className={styles.section}>MAIN</div>
         <NavLink to="/patients" className={linkClass} end>
-          <span className={styles.icon}>👥</span> Patients
+          <FontAwesomeIcon icon={faUsers} className={styles.icon} /> Patients
         </NavLink>
         {showAudit && (
           <NavLink to="/audit" className={linkClass}>
-            <span className={styles.icon}>📋</span> Audit Logs
+            <FontAwesomeIcon icon={faClipboardList} className={styles.icon} /> Audit Logs
           </NavLink>
         )}
 
         <div className={styles.section}>ACTIONS</div>
         <NavLink to="/patients/register" className={linkClass}>
-          <span className={styles.icon}>👤</span> Register Patient
+          <FontAwesomeIcon icon={faUser} className={styles.icon} /> Register Patient
         </NavLink>
         <NavLink to="/indiba/register" className={linkClass}>
-          <span className={styles.icon}>➕</span> Register Indiba Session
+          <FontAwesomeIcon icon={faPlus} className={styles.icon} /> Register Indiba Session
         </NavLink>
         {showRegisterPhysio && (
           <NavLink to="/physiotherapist/register" className={linkClass}>
-            <span className={styles.icon}>➕</span> Register Physiotherapist
+            <FontAwesomeIcon icon={faPlus} className={styles.icon} /> Register Physiotherapist
           </NavLink>
         )}
       </nav>
@@ -84,7 +86,7 @@ export default function Sidebar() {
           onClick={logout}
           className={`${styles.link} ${styles.logout}`}
         >
-          <span className={styles.icon}>↪</span> Logout
+          <FontAwesomeIcon icon={faArrowRightFromBracket} className={styles.icon} /> Logout
         </button>
       </div>
     </aside>

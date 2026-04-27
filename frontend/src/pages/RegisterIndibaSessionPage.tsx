@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faClock, faGear, faShield, faEye, faTrash, faCheck } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import { createIndibaSession } from '../services/indibaService'
@@ -81,7 +83,7 @@ export default function RegisterIndibaSessionPage() {
       {/* SESSION TIMING */}
       <div className={styles.section}>
         <div className={styles.sectionHeader}>
-          🕐 SESSION TIMING
+          <FontAwesomeIcon icon={faClock} /> SESSION TIMING
         </div>
         <div className={styles.row}>
           <div className={styles.field}>
@@ -100,7 +102,7 @@ export default function RegisterIndibaSessionPage() {
       {/* TREATMENT PARAMETERS */}
       <div className={styles.section}>
         <div className={styles.sectionHeader}>
-          ⚙️ TREATMENT PARAMETERS
+          <FontAwesomeIcon icon={faGear} /> TREATMENT PARAMETERS
         </div>
 
         <div className={styles.field}>
@@ -149,7 +151,7 @@ export default function RegisterIndibaSessionPage() {
             <label className={styles.label}>ATTENDING PHYSIOTHERAPIST</label>
             <div className={styles.autoFillBox}>
               <span className={styles.autoFillName}>
-                🛡 {physio ? `${physio.name} ${physio.surname}` : '…'}
+                <FontAwesomeIcon icon={faShield} /> {physio ? `${physio.name} ${physio.surname}` : '…'}
               </span>
               <span className={styles.autoFillBadge}>AUTO-FILLED</span>
             </div>
@@ -167,7 +169,7 @@ export default function RegisterIndibaSessionPage() {
       {/* CLINICAL OBSERVATIONS */}
       <div className={styles.section}>
         <div className={styles.sectionHeader}>
-          👁 CLINICAL OBSERVATIONS
+          <FontAwesomeIcon icon={faEye} /> CLINICAL OBSERVATIONS
         </div>
         <div className={styles.field}>
           <label className={styles.label} htmlFor="observations">OBSERVATIONS</label>
@@ -181,10 +183,10 @@ export default function RegisterIndibaSessionPage() {
 
       <div className={styles.footer}>
         <button type="button" className={styles.discardBtn} onClick={() => navigate(-1)}>
-          🗑 DISCARD ENTRY
+          <FontAwesomeIcon icon={faTrash} /> DISCARD ENTRY
         </button>
         <button type="submit" className={styles.submitBtn} disabled={submitting || !physio}>
-          ✓ REGISTER SESSION
+          <FontAwesomeIcon icon={faCheck} /> REGISTER SESSION
         </button>
       </div>
 

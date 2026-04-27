@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faClipboardList } from '@fortawesome/free-solid-svg-icons'
 import { getAuditLogs, type AuditLogSummary } from '../services/auditLogService'
 import styles from './AuditLogPage.module.css'
 
@@ -104,7 +106,7 @@ export default function AuditLogPage() {
 
       <div className={styles.statCardWrap}>
         <div className={styles.statCard}>
-          <div className={styles.statIcon}>📋</div>
+          <div className={styles.statIcon}><FontAwesomeIcon icon={faClipboardList} /></div>
           <div className={styles.statLabel}>TOTAL LOGS</div>
           <div className={styles.statValue}>{totalElements.toLocaleString()}</div>
         </div>

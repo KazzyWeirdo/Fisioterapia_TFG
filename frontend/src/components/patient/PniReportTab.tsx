@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faClipboardList } from '@fortawesome/free-solid-svg-icons'
 import { getPniReportsFromPatient, type PniReportSummary } from '../../services/pniReportService'
 import styles from './PniReportTab.module.css'
 
@@ -58,7 +60,7 @@ export default function PniReportTab({ patientId, patientName }: PniReportTabPro
       </p>
 
       <div className={styles.statCard}>
-        <div className={styles.statIcon}>📋</div>
+        <div className={styles.statIcon}><FontAwesomeIcon icon={faClipboardList} /></div>
         <div>
           <div className={styles.statLabel}>TOTAL REPORTS</div>
           <div className={styles.statValue}>{totalElements}</div>

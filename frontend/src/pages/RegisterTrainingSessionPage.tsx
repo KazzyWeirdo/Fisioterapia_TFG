@@ -1,4 +1,6 @@
 import { useRef, useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCalendarDays, faDumbbell, faCirclePlus, faTrash, faXmark, faCheck } from '@fortawesome/free-solid-svg-icons'
 import { useSearchParams } from 'react-router-dom'
 import { createTrainingSession } from '../services/trainingSessionService'
 import styles from './RegisterTrainingSessionPage.module.css'
@@ -90,7 +92,7 @@ export default function RegisterTrainingSessionPage() {
   if (submitted) {
     return (
       <div className={styles.successPage}>
-        <div className={styles.successIcon}>✓</div>
+        <div className={styles.successIcon}><FontAwesomeIcon icon={faCheck} /></div>
         <h2 className={styles.successTitle}>Session Registered</h2>
         <p className={styles.successMsg}>Your training session has been recorded successfully.</p>
       </div>
@@ -108,7 +110,7 @@ export default function RegisterTrainingSessionPage() {
       {/* General Information */}
       <div className={styles.section}>
         <div className={styles.sectionHeader}>
-          <span>📅</span> General Information
+          <FontAwesomeIcon icon={faCalendarDays} /> General Information
         </div>
         <div className={styles.row}>
           <div className={styles.field}>
@@ -131,13 +133,13 @@ export default function RegisterTrainingSessionPage() {
 
       {/* Exercises */}
       <div className={styles.exercisesHeader}>
-        <span className={styles.exercisesTitle}>🏋️ Exercises</span>
+        <span className={styles.exercisesTitle}><FontAwesomeIcon icon={faDumbbell} /> Exercises</span>
         <button
           type="button"
           className={styles.addExerciseBtn}
           onClick={() => setExercises(prev => [...prev, newExercise()])}
         >
-          ⊕ Add Exercise
+          <FontAwesomeIcon icon={faCirclePlus} /> Add Exercise
         </button>
       </div>
 
@@ -163,7 +165,7 @@ export default function RegisterTrainingSessionPage() {
                 className={styles.deleteExerciseBtn}
                 onClick={() => setExercises(prev => prev.filter((_, i) => i !== exIdx))}
               >
-                🗑
+                <FontAwesomeIcon icon={faTrash} />
               </button>
             )}
           </div>
@@ -211,7 +213,7 @@ export default function RegisterTrainingSessionPage() {
                     {ex.sets.length > 1 && (
                       <button type="button" className={styles.removeSetBtn}
                         onClick={() => removeSet(exIdx, sIdx)}>
-                        ✕
+                        <FontAwesomeIcon icon={faXmark} />
                       </button>
                     )}
                   </td>

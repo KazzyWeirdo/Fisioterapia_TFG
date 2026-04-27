@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faDumbbell } from '@fortawesome/free-solid-svg-icons'
 import { getTrainingSessionsFromPatient } from '../../services/trainingSessionService'
 import styles from './TrainingSessionTab.module.css'
 
@@ -60,7 +62,7 @@ export default function TrainingSessionTab({ patientId, patientName }: TrainingS
       </p>
 
       <div className={styles.statCard}>
-        <div className={styles.statIcon}>💪</div>
+        <div className={styles.statIcon}><FontAwesomeIcon icon={faDumbbell} /></div>
         <div>
           <div className={styles.statLabel}>TOTAL SESSIONS</div>
           <div className={styles.statValue}>{totalElements}</div>

@@ -1,4 +1,6 @@
 import type { PatientDetail } from '../../services/patientService'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheck, faHeart } from '@fortawesome/free-solid-svg-icons'
 import styles from './PatientInfoCard.module.css'
 
 function formatDateOfBirth(dateStr: string): string {
@@ -63,7 +65,7 @@ export default function PatientInfoCard({ patient }: Props) {
         <p className={styles.sectionTitle}>POLAR INTEGRATION</p>
         {patient.hasPolarConnection ? (
           <div className={styles.polarConnected}>
-            <span className={styles.polarConnectedIcon}>✓</span>
+            <FontAwesomeIcon icon={faCheck} className={styles.polarConnectedIcon} />
             <span className={styles.polarConnectedText}>Polar Connected</span>
           </div>
         ) : (
@@ -76,7 +78,7 @@ export default function PatientInfoCard({ patient }: Props) {
               className={styles.polarBtn}
               onClick={() => window.open(`/api/auth/polar/authorize?patientId=${patient.id}`, '_blank')}
             >
-              ❤️ Connect Polar Account
+              <FontAwesomeIcon icon={faHeart} /> Connect Polar Account
             </button>
           </div>
         )}

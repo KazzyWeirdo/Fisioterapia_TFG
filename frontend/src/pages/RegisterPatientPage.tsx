@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faIdCard, faAddressCard, faUsers, faHeart, faUser } from '@fortawesome/free-solid-svg-icons'
 import { createPatient } from '../services/patientService'
 import styles from './RegisterPatientPage.module.css'
 
@@ -83,7 +85,7 @@ export default function RegisterPatientPage() {
           {/* Personal Information */}
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>
-              <span>🪪</span> Personal Information
+              <FontAwesomeIcon icon={faIdCard} /> Personal Information
             </h2>
 
             <div className={styles.field}>
@@ -180,7 +182,7 @@ export default function RegisterPatientPage() {
           {/* Contact Details */}
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>
-              <span>📇</span> Contact Details
+              <FontAwesomeIcon icon={faAddressCard} /> Contact Details
             </h2>
 
             <div className={styles.row}>
@@ -214,7 +216,7 @@ export default function RegisterPatientPage() {
           {/* Clinical & Administrative Identity */}
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>
-              <span>👥</span> Clinical &amp; Administrative Identity
+              <FontAwesomeIcon icon={faUsers} /> Clinical &amp; Administrative Identity
             </h2>
 
             <div className={styles.row}>
@@ -275,7 +277,7 @@ export default function RegisterPatientPage() {
 
         <aside className={styles.polarCard}>
           <div className={styles.polarIconWrap}>
-            <span className={styles.polarIcon}>❤️</span>
+            <FontAwesomeIcon icon={faHeart} className={styles.polarIcon} />
           </div>
           <h3 className={styles.polarTitle}>Polar Ecosystem</h3>
           <p className={styles.polarDesc}>
@@ -299,7 +301,7 @@ export default function RegisterPatientPage() {
           disabled={submitting}
           className={styles.submitBtn}
         >
-          {submitting ? 'Registering…' : '👤 Register Patient'}
+          {submitting ? 'Registering…' : <><FontAwesomeIcon icon={faUser} /> Register Patient</>}
         </button>
       </div>
     </div>
