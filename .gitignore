@@ -49,3 +49,4 @@ backend/Fisioterapia_TFG/docker-compose.override.yml
 .claude/settings.local.json
 /openspec
 export-csv-exploration.txt
+/frontend/test-results
