@@ -67,6 +67,10 @@ export async function createPatient(data: CreatePatientRequest): Promise<void> {
   await apiClient.post('/patients/create', data)
 }
 
+export async function updatePatient(id: number, data: CreatePatientRequest): Promise<void> {
+  await apiClient.put(`/patients/${id}`, data)
+}
+
 export interface PatientExport {
   id: number
   dateOfBirth: string

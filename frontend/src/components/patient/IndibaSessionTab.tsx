@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBolt } from '@fortawesome/free-solid-svg-icons'
 import { getIndibaSessionsFromPatient, type IndibaSessionSummary } from '../../services/indibaService'
 import styles from './IndibaSessionTab.module.css'
 
@@ -21,7 +22,6 @@ function formatTime(raw: string): string {
 }
 
 export default function IndibaSessionTab({ patientId, patientName }: IndibaSessionTabProps) {
-  const navigate = useNavigate()
   const [sessions, setSessions] = useState<IndibaSessionSummary[]>([])
   const [totalElements, setTotalElements] = useState(0)
   const [totalPages, setTotalPages] = useState(0)
@@ -66,7 +66,7 @@ export default function IndibaSessionTab({ patientId, patientName }: IndibaSessi
       </p>
 
       <div className={styles.statCard}>
-        <div className={styles.statIcon}>🗓</div>
+        <div className={styles.statIcon}><FontAwesomeIcon icon={faBolt} /></div>
         <div>
           <div className={styles.statLabel}>TOTAL SESSIONS</div>
           <div className={styles.statValue}>{totalElements}</div>

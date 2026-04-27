@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChartBar, faBolt, faClock, faUser } from '@fortawesome/free-solid-svg-icons'
 import { useParams, useNavigate } from 'react-router-dom'
 import { getIndibaSession, type IndibaSession } from '../services/indibaService'
 import { getPhysiotherapist, type PhysiotherapistSummary } from '../services/physiotherapistService'
@@ -26,13 +28,6 @@ function computeDuration(begin: string, end: string): number {
   return Math.round((new Date(end).getTime() - new Date(begin).getTime()) / 60000)
 }
 
-function formatSyncDate(raw: string): string {
-  return new Date(raw).toLocaleDateString('en-US', {
-    day: '2-digit', month: 'short', year: 'numeric',
-  }) + ' at ' + new Date(raw).toLocaleTimeString('en-US', {
-    hour: '2-digit', minute: '2-digit', hour12: true,
-  }) + ' CET'
-}
 
 function formatMode(mode: string): string {
   return mode.charAt(0).toUpperCase() + mode.slice(1).toLowerCase()
@@ -118,7 +113,7 @@ export default function IndibaDetailPage() {
         {/* Left — Treatment card */}
         <div className={styles.mainCard}>
           <h2 className={styles.cardTitle}>
-            <span className={styles.cardIcon}>📊</span> Treatment Protocol
+            <FontAwesomeIcon icon={faChartBar} className={styles.cardIcon} /> Treatment Protocol
           </h2>
 
           <div className={styles.fieldRow}>
@@ -135,7 +130,7 @@ export default function IndibaDetailPage() {
           <div className={styles.miniCards}>
             <div className={styles.miniCard}>
               <span className={styles.miniLabel}>MODE</span>
-              <span className={styles.miniValue}>⚡ {formatMode(session.mode)}</span>
+              <span className={styles.miniValue}><FontAwesomeIcon icon={faBolt} /> {formatMode(session.mode)}</span>
             </div>
             <div className={styles.miniCard}>
               <span className={styles.miniLabel}>INTENSITY</span>
@@ -157,7 +152,7 @@ export default function IndibaDetailPage() {
         <div className={styles.sidebar}>
 
           <div className={styles.sideCard}>
-            <h3 className={styles.sideCardTitle}>🕐 SESSION TIMELINE</h3>
+            <h3 className={styles.sideCardTitle}><FontAwesomeIcon icon={faClock} /> SESSION TIMELINE</h3>
             <div className={styles.timeline}>
               <div className={styles.timelineItem}>
                 <div className={styles.timelineDotActive} />
@@ -185,7 +180,7 @@ export default function IndibaDetailPage() {
           <div className={styles.sideCard}>
             <h3 className={styles.sideCardTitle}>ATTENDING PHYSIOTHERAPIST</h3>
             <div className={styles.physioRow}>
-              <div className={styles.physioAvatar}>👤</div>
+              <div className={styles.physioAvatar}><FontAwesomeIcon icon={faUser} /></div>
               <div>
                 <div className={styles.physioName}>
                   {physio ? `${physio.name} ${physio.surname}` : `Physiotherapist #${session.physiotherapistId}`}

@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faXmark, faUserPlus } from '@fortawesome/free-solid-svg-icons'
 import { registerPhysiotherapist } from '../services/physiotherapistService'
 import styles from './RegisterPhysiotherapistPage.module.css'
 
@@ -156,11 +158,11 @@ export default function RegisterPhysiotherapistPage() {
         {error && <p role="alert" className={styles.error}>{error}</p>}
 
         <div className={styles.footer}>
-          <button type="button" onClick={handleCancel} className={styles.cancelBtn}>
-            Cancel
+          <button type="button" onClick={handleCancel} className={styles.discardBtn}>
+            <FontAwesomeIcon icon={faXmark} /> Discard Entry
           </button>
-          <button type="submit" disabled={submitting} className={styles.registerBtn}>
-            {submitting ? 'Registering…' : 'Register'}
+          <button type="submit" disabled={submitting} className={styles.submitBtn}>
+            {submitting ? 'Registering…' : <><FontAwesomeIcon icon={faUserPlus} /> Register Physiotherapist</>}
           </button>
         </div>
       </form>

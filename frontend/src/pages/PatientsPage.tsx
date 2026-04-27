@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMagnifyingGlass, faDownload } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from 'react-router-dom'
 import {
   getPatients,
@@ -107,7 +109,7 @@ export default function PatientsPage() {
 
       <div className={styles.controls}>
         <div className={styles.searchWrap}>
-          <span className={styles.searchIcon}>🔍</span>
+          <FontAwesomeIcon icon={faMagnifyingGlass} className={styles.searchIcon} />
           <input
             type="text"
             className={styles.searchInput}
@@ -129,7 +131,7 @@ export default function PatientsPage() {
               (p) => [p.id, p.dateOfBirth, p.clinicalUseSex],
             )}
           >
-            {downloading.patients ? 'Exporting…' : '⬇ Patients CSV'}
+            {downloading.patients ? 'Exporting…' : <><FontAwesomeIcon icon={faDownload} /> Patients CSV</>}
           </button>
           <button
             type="button"
@@ -143,7 +145,7 @@ export default function PatientsPage() {
               (s) => [s.patientId, s.sessionId, s.beginSession, s.endSession, s.treatedArea, s.mode, s.intensity, s.objective, s.observations],
             )}
           >
-            {downloading.indiba ? 'Exporting…' : '⬇ Indiba CSV'}
+            {downloading.indiba ? 'Exporting…' : <><FontAwesomeIcon icon={faDownload} /> Indiba CSV</>}
           </button>
           <button
             type="button"
@@ -157,7 +159,7 @@ export default function PatientsPage() {
               (r) => [r.patientId, r.reportId, r.reportDate, r.hoursAsleep, r.hrv, r.ansCharge, r.sleepScore],
             )}
           >
-            {downloading.pni ? 'Exporting…' : '⬇ PNI CSV'}
+            {downloading.pni ? 'Exporting…' : <><FontAwesomeIcon icon={faDownload} /> PNI CSV</>}
           </button>
           <button
             type="button"
@@ -171,7 +173,7 @@ export default function PatientsPage() {
               (s) => [s.patientId, s.sessionId, s.sessionDate, s.exerciseName, s.setNumber, s.weightKg, s.reps, s.restTimeSeconds, s.rpe],
             )}
           >
-            {downloading.training ? 'Exporting…' : '⬇ Training CSV'}
+            {downloading.training ? 'Exporting…' : <><FontAwesomeIcon icon={faDownload} /> Training CSV</>}
           </button>
         </div>
       </div>

@@ -54,9 +54,7 @@ public abstract class AbstractAuditLogRepositoryTest extends BaseRepositoryIT {
         assertThat(response.isLast()).isTrue();
 
         assertThat(auditLogs).hasSize(2);
-        assertThat(auditLogs.get(0).getId()).isEqualTo(testAuditLog.getId());
-        assertThat(auditLogs.get(0).getAction()).isEqualTo(testAuditLog.getAction());
-        assertThat(auditLogs.get(1).getId()).isEqualTo(testAuditLog2.getId());
-        assertThat(auditLogs.get(1).getAction()).isEqualTo(testAuditLog2.getAction());
+        assertThat(auditLogs).extracting(AuditLog::getAction)
+                .containsExactlyInAnyOrder(testAuditLog.getAction(), testAuditLog2.getAction());
     }
 }

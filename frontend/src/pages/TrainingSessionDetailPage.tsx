@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faDumbbell } from '@fortawesome/free-solid-svg-icons'
 import { useParams, useNavigate } from 'react-router-dom'
 import { getTrainingSession, type TrainingSessionDetail } from '../services/trainingSessionService'
 import { getPatient, type PatientDetail } from '../services/patientService'
@@ -119,7 +121,7 @@ export default function TrainingSessionDetailPage() {
         <div key={exercise.id} className={styles.exerciseCard}>
           <div className={styles.exerciseHeader}>
             <div className={styles.exerciseName}>
-              <span className={styles.exerciseIcon}>🏋️</span>
+              <FontAwesomeIcon icon={faDumbbell} className={styles.exerciseIcon} />
               <span>{exercise.name}</span>
             </div>
           </div>

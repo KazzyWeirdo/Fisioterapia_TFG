@@ -1,4 +1,7 @@
 import { useEffect, useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMoon, faBolt } from '@fortawesome/free-solid-svg-icons'
+import { faHeart } from '@fortawesome/free-regular-svg-icons'
 import { useParams, useNavigate } from 'react-router-dom'
 import { getPniReport, type PniReport } from '../services/pniReportService'
 import { getPatient, type PatientDetail } from '../services/patientService'
@@ -110,7 +113,7 @@ export default function PniReportDetailPage() {
         <div className={styles.metricCol}>
 
           <div className={styles.metricCard}>
-            <div className={`${styles.metricIcon} ${styles.metricIconBlue}`}>🌙</div>
+            <div className={`${styles.metricIcon} ${styles.metricIconBlue}`}><FontAwesomeIcon icon={faMoon} /></div>
             <div className={styles.metricBody}>
               <div className={styles.metricLabel}>HOURS ASLEEP</div>
               <div className={styles.metricValue}>
@@ -126,7 +129,7 @@ export default function PniReportDetailPage() {
           </div>
 
           <div className={styles.metricCard}>
-            <div className={`${styles.metricIcon} ${styles.metricIconRose}`}>🤍</div>
+            <div className={`${styles.metricIcon} ${styles.metricIconRose}`}><FontAwesomeIcon icon={faHeart} /></div>
             <div className={styles.metricBody}>
               <div className={styles.metricLabel}>HRV (AVERAGE)</div>
               <div className={styles.metricValue}>
@@ -142,7 +145,7 @@ export default function PniReportDetailPage() {
       <div className={styles.bottomRow}>
         <div className={styles.ansCard}>
           <div className={styles.ansHeader}>
-            <div className={styles.ansIcon}>⚡</div>
+            <div className={styles.ansIcon}><FontAwesomeIcon icon={faBolt} /></div>
             <div>
               <div className={styles.ansTitle}>ANS Charge</div>
             </div>
