@@ -12,12 +12,11 @@ test('register indiba session', async ({ page }) => {
     }),
   )
 
-  let indibaPostCalled = false
-  await page.route('**/api/indiba/create', (route) => {
-    indibaPostCalled = true
-    route.fulfill({ status: 201, body: '{}' })
-  })
+  await page.route('**/api/indiba/create', (route) =>
+    route.fulfill({ status: 201, body: '{}' }),
+  )
 
+  await page.goto('/patients')
   await page.goto('/indiba/register')
 
   await expect(page.getByRole('heading', { name: 'Register INDIBA Session' })).toBeVisible()
@@ -28,8 +27,11 @@ test('register indiba session', async ({ page }) => {
   await page.selectOption('#patientId', '1')
   await page.fill('#treatedArea', 'Lumbar spine')
 
-  await page.click('button[type="submit"]')
+  const [response] = await Promise.all([
+    page.waitForResponse('**/api/indiba/create'),
+    page.click('button[type="submit"]'),
+  ])
 
-  expect(indibaPostCalled).toBe(true)
-  await expect(page).not.toHaveURL('/indiba/register')
+  expect(response.status()).toBe(201)
+  await expect(page).toHaveURL('/patients')
 })
