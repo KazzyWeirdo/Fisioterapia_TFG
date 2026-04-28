@@ -1,6 +1,6 @@
 # Bones pràctiques en enginyeria de software: DDD, TDD, Clean/Hexagonal, CI/CD
 
-## Table of contents
+## 📖 Table of contents
 
 - [Context](context)
 - [Project Structure](project_structure)
@@ -12,7 +12,7 @@
 - [Domain Concepts](domain_concepts)
 - [Test Coverage](test_coverage)
 
-## Context
+## 📓 Context
 
 Aquest Treball de Fi de Grau (TFG) se centra en crear un sistema backend perquè els professionals de la fisioteràpia puguin registrar de manera digital i centralitzada les rehabilitacions de llarga durada, com la tendinopatia rotuliana crònica. El sistema inclou tant les sessions de radiofreqüència amb la màquina INDIBA com aspectes de psiconeuroimmunologia (PNI) i rehabilitació esportiva.
 
@@ -30,7 +30,7 @@ A més de la funcionalitat en salut, aquest TFG es basa en l'ús d'un conjunt d'
 - Principis SOLID: Per garantir un disseny de codi net i flexible.
 - CI/CD: Per establir un flux de treball automatitzat d'integració i desplegament.
 
-## Project structure
+## 🏠 Project structure
 
 ```
 DanielBarbancho_TFG/
@@ -95,7 +95,7 @@ DanielBarbancho_TFG/
 | `frontend/pages` | Login, registre, llistat de pacients, detall de pacient, sessions, auditoria |
 | `frontend/services` | Una capa de servei per domini: auth, patient, indiba, pni, training, statistics, auditLog |
 
-## Prerequisites
+## ✅ Prerequisites
 
 - IntelliJ Idea Ultimate
 - Java Development Kit 21 o superior
@@ -105,7 +105,7 @@ DanielBarbancho_TFG/
 - Node.js LTS (v20 o superior)
 - npm (inclòs amb Node.js)
 
-## Getting started
+## ⚙️ Getting started
 
 <h3> Clonar el repositori </h3>
 
@@ -184,7 +184,7 @@ npm run dev
 
 El frontend estarà disponible a `http://localhost:5173`.
 
-## Dades de prova (Seed Data)
+## ☘️ Seed Data
 
 El fitxer `backend/Fisioterapia_TFG/bootstrap/src/main/resources/data.sql` s'executa automàticament en arrencar l'aplicació amb el perfil `dev`. Insereix les següents entitats de prova:
 
@@ -236,7 +236,7 @@ El fitxer `backend/Fisioterapia_TFG/bootstrap/src/main/resources/data.sql` s'exe
 | 3 | David Navarro | 2026-03-03 | Remo amb barra (2 sèries) |
 | 4 | David Navarro | 2026-03-10 | Extensió de quàdriceps (2 sèries) |
 
-## API Keys Configuration
+## 🔑 API Keys Configuration
 
 Copia el fitxer d'exemple i omple les teves credencials:
 
@@ -258,7 +258,7 @@ cp backend/Fisioterapia_TFG/bootstrap/src/main/resources/.env.example \
 | `MAIL_USERNAME` | ✅ | Adreça de correu per enviar notificacions (reset de contrasenya) |
 | `MAIL_PASSWORD` | ✅ | Contrasenya o token d'aplicació del compte de correu |
 
-## Application Calls
+## 📣 Application Calls
 
 La documentació interactiva completa està disponible a:
 
@@ -339,7 +339,7 @@ Els endpoints estan protegits amb JWT excepte els marcats com a públics. La cap
 | `GET` | `/api/auth/polar/authorize` | Inicia el flux OAuth2 amb Polar | Públic |
 | `GET` | `/api/auth/polar/callback` | Callback OAuth2, rep el token de Polar | Públic |
 
-## Arquitecture Overview
+## 🔍 Arquitecture Overview
 
 El projecte implementa una **arquitectura hexagonal (ports i adaptadors)** combinada amb **DDD**, estructurada en quatre mòduls Maven independents. La lògica de negoci (`model` i `application`) no conté cap dependència d'infraestructura: és el mòdul `adapter` qui connecta el món exterior (HTTP, bases de dades, APIs externes) amb el domini a través dels ports definits a `application`.
 
@@ -372,7 +372,7 @@ El projecte implementa una **arquitectura hexagonal (ports i adaptadors)** combi
 
 La seguretat es gestiona amb **JWT**: Spring Security intercepta totes les peticions (excepte les d'autenticació) i valida el token abans d'arribar als controladors. El pipeline **CI/CD** de GitHub Actions executa els tests, genera el badge de cobertura JaCoCo i publica les imatges Docker (backend i frontend) al GitHub Container Registry (GHCR).
 
-## Domain Concepts
+## 📚 Domain Concepts
 
 ### Pacient (`Patient`)
 Persona que rep tractament al centre de fisioteràpia. Conté dades personals i és l'entitat central al voltant de la qual s'organitzen totes les sessions i informes.
@@ -392,7 +392,7 @@ Sessió de rehabilitació esportiva amb un conjunt d'exercicis. Cada exercici t�
 ### Log d'auditoria (`AuditLog`)
 Registre immutable de cada acció executada sobre el sistema (creació, modificació, eliminació). Es genera automàticament via AOP i es persisteix a MongoDB. Només visible per als usuaris amb rol `ADMIN`.
 
-## Test Coverage
+## 🧾 Test Coverage
 <img width="1534" height="755" alt="image" src="https://github.com/user-attachments/assets/0e5751d6-11bf-42f8-9d84-2cc80fd22a35" />
 <img width="1363" height="473" alt="image" src="https://github.com/user-attachments/assets/6e91fdd5-986a-46d0-b59d-6dc44ed711f2" />
 <img width="1364" height="337" alt="image" src="https://github.com/user-attachments/assets/301e5178-a63e-4e09-bed9-0cca74d9d7dd" />
