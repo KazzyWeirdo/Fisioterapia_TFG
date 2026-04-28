@@ -23,4 +23,6 @@ public interface TrainingSessionRepository {
     List<Object[]> countSessionByMonth (PatientId patientId, Integer year);
 
     List<Object[]> calculateVolumeProgression (PatientId patientId, String exerciseName);
+
+    List<TrainingSession> findAllForExport();
 }

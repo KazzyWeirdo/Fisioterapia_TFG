@@ -14,6 +14,7 @@ import com.tfg.port.out.persistence.PniReportRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import com.tfg.adapter.out.persistence.BaseRepositoryIT;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -21,7 +22,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public abstract class AbstractPniReportRepositoryTest {
+public abstract class AbstractPniReportRepositoryTest extends BaseRepositoryIT {
 
     private Patient testPatient;
     private PniReport testPniReport1;
@@ -46,6 +47,7 @@ public abstract class AbstractPniReportRepositoryTest {
     @AfterEach
     void tearDown() {
         pniReportRepository.deleteAll();
+        patientRepository.deleteAll();
     }
 
     @Test
@@ -121,5 +123,23 @@ public abstract class AbstractPniReportRepositoryTest {
        Optional<PniReport> retrievedPniReport = pniReportRepository.findById(testPniReport1.getId());
 
         assertThat(retrievedPniReport).isPresent();
+    }
+
+    @Test
+    public void givenExistingPniReports_whenFindAllForExport_returnAll() {
+        pniReportRepository.save(testPniReport1);
+        pniReportRepository.save(testPniReport2);
+
+        List<PniReport> result = pniReportRepository.findAllForExport();
+
+        assertThat(result).hasSize(2);
+        assertThat(result).extracting(r -> r.getId().value())
+                .containsExactlyInAnyOrder(testPniReport1.getId().value(), testPniReport2.getId().value());
+    }
+
+    @Test
+    public void givenNoPniReports_whenFindAllForExport_returnEmptyList() {
+        List<PniReport> result = pniReportRepository.findAllForExport();
+        assertThat(result).isEmpty();
     }
 }

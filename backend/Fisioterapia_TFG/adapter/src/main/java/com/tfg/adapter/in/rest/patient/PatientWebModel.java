@@ -3,7 +3,10 @@ package com.tfg.adapter.in.rest.patient;
 import java.time.LocalDate;
 
 public record PatientWebModel(
-        int id, String email, String dni, String genderIdentity, String clinicalUseSex, String administrativeSex, String legalName, String nameToUse, String surname, String secondSurname, String pronouns, int phoneNumber, LocalDate dateOfBirth) {
+        int id, String email, String dni, String genderIdentity, String clinicalUseSex,
+        String administrativeSex, String legalName, String nameToUse, String surname,
+        String secondSurname, String pronouns, int phoneNumber, LocalDate dateOfBirth,
+        boolean hasPolarConnection) {
 
     static PatientWebModel fromDomainModel(com.tfg.patient.Patient patient) {
         return new PatientWebModel(
@@ -19,7 +22,8 @@ public record PatientWebModel(
                 patient.getSecondSurname(),
                 patient.getPronouns(),
                 patient.getPhoneNumber(),
-                patient.getDateOfBirth()
+                patient.getDateOfBirth(),
+                patient.getPolarUserId() != null
         );
     }
 }

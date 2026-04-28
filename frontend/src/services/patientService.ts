@@ -40,6 +40,7 @@ export interface PatientDetail {
   pronouns: string
   phoneNumber: number
   dateOfBirth: string
+  hasPolarConnection: boolean
 }
 
 export async function getPatient(id: number): Promise<PatientDetail> {
@@ -64,4 +65,19 @@ export interface CreatePatientRequest {
 
 export async function createPatient(data: CreatePatientRequest): Promise<void> {
   await apiClient.post('/patients/create', data)
+}
+
+export async function updatePatient(id: number, data: CreatePatientRequest): Promise<void> {
+  await apiClient.put(`/patients/${id}`, data)
+}
+
+export interface PatientExport {
+  id: number
+  dateOfBirth: string
+  clinicalUseSex: string
+}
+
+export async function getAllPatientsForExport(): Promise<PatientExport[]> {
+  const response = await apiClient.get<PatientExport[]>('/patients/export')
+  return response.data ?? []
 }

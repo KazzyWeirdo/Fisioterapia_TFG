@@ -1,4 +1,6 @@
 import { useState, type FormEvent } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { useSearchParams } from 'react-router-dom'
 import { resetPassword } from '../services/authService'
 import AuthCard from '../components/auth/AuthCard'
@@ -67,7 +69,7 @@ export default function ResetPasswordPage() {
           </div>
         ) : submitted ? (
           <div className={styles.success}>
-            <div className={styles.successIcon}>&#10003;</div>
+            <div className={styles.successIcon}><FontAwesomeIcon icon={faCheck} /></div>
             <p className={styles.successTitle}>Password updated</p>
             <p className={styles.successText}>Your password has been changed successfully.</p>
             <AuthLink to="/login">Back to login</AuthLink>

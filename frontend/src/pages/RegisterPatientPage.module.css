@@ -146,6 +146,14 @@
   margin-bottom: 0.5rem;
 }
 
+.polarNote {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  margin: 0 0 0.5rem;
+  font-style: italic;
+  line-height: 1.5;
+}
+
 .polarCaption {
   font-size: 0.7rem;
   color: #9ca3af;
@@ -208,4 +216,42 @@
 .submitBtn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+@media (max-width: 1024px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .formCard {
+    flex: none;
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: 1rem;
+  }
+
+  .formCard,
+  .polarCard {
+    padding: 1.25rem;
+  }
+
+  .row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .footer {
+    flex-direction: column-reverse;
+    gap: 12px;
+    align-items: stretch;
+  }
+
+  .submitBtn {
+    width: 100%;
+    justify-content: center;
+  }
 }

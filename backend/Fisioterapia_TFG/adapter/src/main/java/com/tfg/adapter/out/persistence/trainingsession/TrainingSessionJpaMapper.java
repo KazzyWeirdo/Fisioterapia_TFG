@@ -3,7 +3,9 @@ package com.tfg.adapter.out.persistence.trainingsession;
 import com.tfg.adapter.out.persistence.patient.PatientJpaEntity;
 import com.tfg.adapter.out.persistence.patient.PatientJpaMapper;
 import com.tfg.trainingsession.TrainingSession;
+import com.tfg.trainingsession.TrainingSessionId;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TrainingSessionJpaMapper {
@@ -21,8 +23,10 @@ public class TrainingSessionJpaMapper {
 
         public static TrainingSession toModelEntity(TrainingSessionJpaEntity trainingSession) {
                 TrainingSession model = new TrainingSession(
+                        new TrainingSessionId(trainingSession.getId()),
                         PatientJpaMapper.toModelEntity(trainingSession.getPatient()),
-                        trainingSession.getDate()
+                        trainingSession.getDate(),
+                        new ArrayList<>()
                 );
                 trainingSession.getExercises().forEach(exercise -> model.addExercise(ExercisesJpaMapper.toModelEntity(exercise)));
                 return model;

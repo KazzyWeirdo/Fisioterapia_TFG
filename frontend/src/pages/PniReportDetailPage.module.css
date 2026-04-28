@@ -1,0 +1,365 @@
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.status { color: #6b7280; padding: 2rem; }
+.error  { color: #dc2626; padding: 2rem; }
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.headerLeft { flex: 1; }
+.headerRight { flex-shrink: 0; padding-top: 0.25rem; }
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+}
+
+.breadcrumbLink {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6b7280;
+  font-size: 0.8rem;
+  padding: 0;
+}
+
+.breadcrumbLink:hover {
+  color: #1a3a6b;
+  text-decoration: underline;
+}
+
+.breadcrumbSep { color: #9ca3af; }
+
+.breadcrumbCurrent {
+  color: #1a3a6b;
+  font-weight: 600;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 0.25rem;
+}
+
+.subtitle {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.exportBtn {
+  background: #1a3a6b;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.exportBtn:hover { background: #1e40af; }
+
+/* Tab bar */
+.tabBar {
+  display: flex;
+  gap: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tab {
+  padding: 0.75rem 1.25rem;
+  font-size: 0.9rem;
+  color: #6b7280;
+  border: none;
+  border-bottom: 2px solid transparent;
+  background: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.tab:hover {
+  color: #1a3a6b;
+}
+
+.tabActive {
+  color: #1a3a6b;
+  font-weight: 600;
+  border-bottom: 2.5px solid #1a3a6b;
+}
+
+.tabSeparator {
+  height: 1px;
+  background: #e5e7eb;
+  margin-bottom: 2rem;
+}
+
+/* Top row */
+.topRow {
+  display: grid;
+  grid-template-columns: 1fr 1.8fr;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.metricCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Restoration Profile card */
+.restorationCard {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid #e5e7eb;
+  position: relative;
+  overflow: hidden;
+  min-height: 200px;
+}
+
+.restorationBadge {
+  display: inline-block;
+  background: #e0e7ff;
+  color: #1a3a6b;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+}
+
+.arcWrap { margin-top: 1rem; }
+
+.arcScore {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+}
+
+.arcMain {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: #1a3a6b;
+  line-height: 1;
+}
+
+.arcMax { font-size: 1.25rem; color: #6b7280; }
+
+.arcLabel {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+  margin-top: 0.25rem;
+}
+
+.arcDecor {
+  position: absolute;
+  bottom: -40px;
+  right: -40px;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: #dbeafe;
+  opacity: 0.5;
+}
+
+/* Metric cards */
+.metricCard {
+  background: white;
+  border-radius: 16px;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid #e5e7eb;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.metricIcon {
+  font-size: 1.25rem;
+  border-radius: 8px;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.metricIconBlue { background: #dbeafe; }
+.metricIconRose { background: #fce7f3; }
+
+.metricBody { flex: 1; }
+
+.metricLabel {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.25rem;
+}
+
+.metricValue {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1;
+}
+
+.metricUnit {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #6b7280;
+  margin-left: 0.15rem;
+}
+
+.progressBar {
+  margin-top: 0.75rem;
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: #1a3a6b;
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+/* ANS Charge card */
+.bottomRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.ansCard {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid #e5e7eb;
+}
+
+.ansHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.ansIcon {
+  background: #e0e7ff;
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.ansSubLabel {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.ansTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.gaugeWrap { display: flex; justify-content: center; }
+
+.gauge {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: conic-gradient(#1a3a6b var(--gauge-pct), #e5e7eb 0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 0 18px white;
+}
+
+.gaugeValue {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1;
+}
+
+.gaugeLabel {
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+@media (max-width: 1024px) {
+  .topRow {
+    grid-template-columns: 1fr;
+  }
+
+  .bottomRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: 1rem;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .tabBar {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .tabBar::-webkit-scrollbar { display: none; }
+
+  .restorationCard,
+  .metricCard,
+  .ansCard {
+    padding: 1.25rem;
+  }
+}

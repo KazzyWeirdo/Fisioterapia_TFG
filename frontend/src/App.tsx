@@ -7,6 +7,13 @@ import DashboardLayout from './components/layout/DashboardLayout'
 import PatientsPage from './pages/PatientsPage'
 import PatientDetailPage from './pages/PatientDetailPage'
 import RegisterPatientPage from './pages/RegisterPatientPage'
+import AuditLogPage from './pages/AuditLogPage'
+import RegisterPhysiotherapistPage from './pages/RegisterPhysiotherapistPage'
+import IndibaDetailPage from './pages/IndibaDetailPage'
+import PniReportDetailPage from './pages/PniReportDetailPage'
+import RegisterIndibaSessionPage from './pages/RegisterIndibaSessionPage'
+import TrainingSessionDetailPage from './pages/TrainingSessionDetailPage'
+import RegisterTrainingSessionPage from './pages/RegisterTrainingSessionPage'
 
 function PrivateRoute() {
   const { token } = useAuth()
@@ -20,6 +27,7 @@ export default function App() {
         <Routes>
           {/* Public */}
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/training-session/register" element={<RegisterTrainingSessionPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
 
@@ -34,7 +42,12 @@ export default function App() {
               <Route path="/patients/:id/pni" element={<div>PNI Reports</div>} />
               <Route path="/patients/:id/training" element={<div>Training Sessions</div>} />
               <Route path="/statistics" element={<div>Statistics</div>} />
-              <Route path="/audit" element={<div>Audit Log</div>} />
+              <Route path="/audit" element={<AuditLogPage />} />
+              <Route path="/physiotherapist/register" element={<RegisterPhysiotherapistPage />} />
+              <Route path="/indiba/register" element={<RegisterIndibaSessionPage />} />
+              <Route path="/indiba/:sessionId" element={<IndibaDetailPage />} />
+              <Route path="/pni/:reportId" element={<PniReportDetailPage />} />
+              <Route path="/training-session/:sessionId" element={<TrainingSessionDetailPage />} />
             </Route>
           </Route>
 

@@ -1,0 +1,479 @@
+.page {
+  max-width: 1100px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.status {
+  padding: 2rem;
+  color: #6b7280;
+}
+
+.error {
+  padding: 2rem;
+  color: #dc2626;
+}
+
+/* Header */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin-bottom: 0.25rem;
+}
+
+.breadcrumbLink {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #2563eb;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.breadcrumbLink:hover {
+  text-decoration: underline;
+}
+
+.breadcrumbSep {
+  color: #9ca3af;
+}
+
+.breadcrumbCurrent {
+  color: #374151;
+  font-weight: 500;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 0.1rem;
+}
+
+.sessionId {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+.exportBtn {
+  background: #1a3a6b;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.exportBtn:hover {
+  background: #1e40af;
+}
+
+/* Tab bar */
+
+.tabBar {
+  display: flex;
+  gap: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.tab {
+  padding: 0.625rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: #6b7280;
+  border: none;
+  border-bottom: 2px solid transparent;
+  background: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.tab:hover {
+  color: #1a3a6b;
+}
+
+.tabActive {
+  font-weight: 700;
+  color: #1a3a6b;
+  border-bottom-color: #1a3a6b;
+}
+
+.tabSeparator {
+  height: 1px;
+  background: #e5e7eb;
+  margin-bottom: 1.5rem;
+}
+
+/* Body */
+
+.body {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+/* Main card */
+
+.mainCard {
+  flex: 1;
+  background: #f9fafb;
+  border-radius: 16px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.cardTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a3a6b;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+.cardIcon {
+  font-size: 1.1rem;
+}
+
+.fieldRow {
+  display: flex;
+  gap: 2rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex: 1;
+}
+
+.fieldLabel {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.fieldValue {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #111827;
+  line-height: 1.4;
+}
+
+/* Mini cards */
+
+.miniCards {
+  display: flex;
+  gap: 1rem;
+}
+
+.miniCard {
+  background: white;
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+  border: 1px solid #e5e7eb;
+}
+
+.miniLabel {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.miniValue {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.miniValueLarge {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.pct {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #6b7280;
+}
+
+/* Observations */
+
+.observations {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.observationsText {
+  background: white;
+  border-radius: 12px;
+  padding: 1.25rem;
+  font-size: 0.9rem;
+  color: #374151;
+  line-height: 1.6;
+  margin: 0;
+  border: 1px solid #e5e7eb;
+  font-style: italic;
+}
+
+/* Sidebar */
+
+.sidebar {
+  width: 320px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sideCard {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sideCardTitle {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0;
+}
+
+/* Timeline */
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.timelineItem {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.timelineDotActive {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #1a3a6b;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.timelineDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #d1d5db;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.timelineLabel {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-bottom: 0.1rem;
+}
+
+.timelineTime {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.durationRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.durationLabel {
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+.durationBadge {
+  background: #dbeafe;
+  color: #1e40af;
+  border-radius: 20px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+/* Physiotherapist */
+
+.physioRow {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.physioAvatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.physioName {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.physioRole {
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.clinicalBtn {
+  width: 100%;
+  background: white;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 0.6rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #111827;
+  cursor: pointer;
+}
+
+.clinicalBtn:hover {
+  background: #f9fafb;
+}
+
+/* Footer */
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.footerLeft {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.footerBadge {
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.footerSync {
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+@media (max-width: 1024px) {
+  .body {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: 1rem;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .tabBar {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .tabBar::-webkit-scrollbar { display: none; }
+
+  .mainCard {
+    padding: 1.25rem;
+  }
+
+  .fieldRow {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .miniCards {
+    flex-direction: column;
+  }
+
+  .footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+
+  .footerLeft {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}

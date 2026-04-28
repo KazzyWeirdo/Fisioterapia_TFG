@@ -73,4 +73,12 @@ public class TrainingSessionJpaRepository implements TrainingSessionRepository {
     public List<Object[]> calculateVolumeProgression(PatientId patientId, String exerciseName) {
         return trainingSessionJpaDataRepository.calculateVolumeProgression(patientId.value(), exerciseName);
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<TrainingSession> findAllForExport() {
+        return trainingSessionJpaDataRepository.findAll().stream()
+                .map(TrainingSessionJpaMapper::toModelEntity)
+                .toList();
+    }
 }

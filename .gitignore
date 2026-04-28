@@ -48,3 +48,14 @@ backend/Fisioterapia_TFG/bootstrap/src/main/resources/.env
 backend/Fisioterapia_TFG/docker-compose.override.yml
 .claude/settings.local.json
 /openspec
+export-csv-exploration.txt
+/frontend/test-results
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+/frontend/dist

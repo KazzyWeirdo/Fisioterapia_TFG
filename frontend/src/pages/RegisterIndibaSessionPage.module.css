@@ -1,0 +1,263 @@
+.page {
+  max-width: 860px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.heading {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a3a6b;
+  margin: 0;
+}
+
+.subtitle {
+  font-size: 0.95rem;
+  color: #6b7280;
+  margin: 0.25rem 0 0;
+}
+
+/* Section */
+
+.section {
+  background: #f9fafb;
+  border-radius: 16px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #1a3a6b;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.25rem;
+}
+
+/* Layout */
+
+.row {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  flex: 1;
+}
+
+.fieldNarrow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  width: 200px;
+  flex-shrink: 0;
+}
+
+.label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Inputs */
+
+.input,
+.select {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 0.65rem 0.85rem;
+  font-size: 0.95rem;
+  color: #111827;
+  background: white;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.input:focus,
+.select:focus {
+  outline: 2px solid #1a3a6b;
+  outline-offset: -1px;
+}
+
+/* Intensity */
+
+.intensityWrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: white;
+  overflow: hidden;
+}
+
+.intensityInput {
+  border: none;
+  padding: 0.65rem 0.85rem;
+  font-size: 0.95rem;
+  flex: 1;
+  outline: none;
+  width: 100%;
+  color: #111827;
+}
+
+.intensityUnit {
+  padding: 0 0.85rem;
+  color: #6b7280;
+  font-size: 0.95rem;
+  border-left: 1px solid #e5e7eb;
+  line-height: 1;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+}
+
+/* Auto-fill */
+
+.autoFillBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 0.65rem 0.85rem;
+  background: white;
+}
+
+.autoFillName {
+  font-size: 0.95rem;
+  color: #111827;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.autoFillBadge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #1a3a6b;
+  border: 1.5px solid #1a3a6b;
+  border-radius: 6px;
+  padding: 0.15rem 0.5rem;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+/* Textarea */
+
+.textarea {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 0.65rem 0.85rem;
+  font-size: 0.95rem;
+  color: #111827;
+  background: white;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 140px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.textarea:focus {
+  outline: 2px solid #1a3a6b;
+  outline-offset: -1px;
+}
+
+/* Footer */
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.5rem;
+}
+
+.discardBtn {
+  background: none;
+  border: none;
+  color: #dc2626;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.discardBtn:hover {
+  text-decoration: underline;
+}
+
+.submitBtn {
+  background: #1a3a6b;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.submitBtn:hover:not(:disabled) {
+  background: #1e40af;
+}
+
+.submitBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Error */
+
+.error {
+  color: #dc2626;
+  font-size: 0.875rem;
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: 1rem;
+    gap: 1.25rem;
+  }
+
+  .section {
+    padding: 1.25rem;
+  }
+
+  .row {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .fieldNarrow {
+    width: 100%;
+  }
+
+  .footer {
+    flex-direction: column-reverse;
+    gap: 12px;
+    align-items: stretch;
+  }
+
+  .submitBtn {
+    width: 100%;
+    justify-content: center;
+  }
+}

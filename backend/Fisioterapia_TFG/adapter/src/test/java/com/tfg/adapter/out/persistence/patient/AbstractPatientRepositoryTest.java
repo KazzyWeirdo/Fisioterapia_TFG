@@ -8,6 +8,7 @@ import com.tfg.pojos.query.PatientSummaryElement;
 import com.tfg.port.out.persistence.PatientRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import com.tfg.adapter.out.persistence.BaseRepositoryIT;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public abstract class AbstractPatientRepositoryTest {
+public abstract class AbstractPatientRepositoryTest extends BaseRepositoryIT {
 
     private static final Patient TEST_PATIENT = PatientFactory.createTestPatient("hola@gmail.com", "85729487J");
     private static final Patient TEST_PATIENT2 = PatientFactory.createTestPatient("hola2@gmail.com", "85728487G");
@@ -162,6 +163,24 @@ public abstract class AbstractPatientRepositoryTest {
         assertThat(patients.get(1).getId().value()).isEqualTo(TEST_PATIENT2.getId().value());
         assertThat(patients.get(1).getPolarAccessToken()).isEqualTo(TEST_PATIENT2.getPolarAccessToken());
         assertThat(patients.get(1).getPolarUserId()).isEqualTo(TEST_PATIENT2.getPolarUserId());
+    }
+
+    @Test
+    public void givenExistingPatients_whenFindAll_returnAll() {
+        patientRepository.save(TEST_PATIENT);
+        patientRepository.save(TEST_PATIENT2);
+
+        List<Patient> result = patientRepository.findAll();
+
+        assertThat(result).hasSize(2);
+        assertThat(result).extracting(p -> p.getId().value())
+                .containsExactlyInAnyOrder(TEST_PATIENT.getId().value(), TEST_PATIENT2.getId().value());
+    }
+
+    @Test
+    public void givenNoPatients_whenFindAll_returnEmptyList() {
+        List<Patient> result = patientRepository.findAll();
+        assertThat(result).isEmpty();
     }
 
     @Test

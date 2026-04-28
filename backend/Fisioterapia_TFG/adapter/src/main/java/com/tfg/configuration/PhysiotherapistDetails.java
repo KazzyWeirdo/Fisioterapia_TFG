@@ -37,7 +37,7 @@ public class PhysiotherapistDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return String.valueOf(physiotherapist.getId());
+        return String.valueOf(physiotherapist.getId().value());
     }
 
     @Override
