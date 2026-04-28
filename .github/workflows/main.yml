@@ -73,4 +73,35 @@ jobs:
           tags: ghcr.io/${{ env.OWNER_LC }}/fisioterapia-backend:latest
           build-args: |
             JAR_FILE=bootstrap/target/fisioterapia-app.jar
-  
+
+  build-and-publish-frontend:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Lowercase Registry Owner
+        id: string_transform
+        run: |
+            echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
+        env:
+            OWNER: '${{ github.repository_owner }}'
+
+      - name: Build and Push
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile
+          push: true
+          tags: ghcr.io/${{ env.OWNER_LC }}/fisioterapia-frontend:latest
+
