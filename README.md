@@ -245,18 +245,13 @@ cp backend/Fisioterapia_TFG/bootstrap/src/main/resources/.env.example \
    backend/Fisioterapia_TFG/bootstrap/src/main/resources/.env
 ```
 
-| Variable | Requerida | Descripció |
-|----------|-----------|-----------|
-| `POSTGRES_USER` | ✅ | Usuari de la base de dades PostgreSQL |
-| `POSTGRES_PASSWORD` | ✅ | Contrasenya de la base de dades PostgreSQL |
-| `POSTGRES_DB` | ✅ | Nom de la base de dades PostgreSQL |
-| `MONGO_INITDB_ROOT_USERNAME` | ✅ | Usuari root de MongoDB |
-| `MONGO_INITDB_ROOT_PASSWORD` | ✅ | Contrasenya root de MongoDB |
-| `APPLICATION_SECRET_KEY_JWT` | ✅ | Clau secreta per signar els tokens JWT |
-| `POLAR_CLIENT_ID` | ✅ | Client ID de l'API Polar (dispositius de PNI) |
-| `POLAR_CLIENT_SECRET` | ✅ | Client Secret de l'API Polar |
-| `MAIL_USERNAME` | ✅ | Adreça de correu per enviar notificacions (reset de contrasenya) |
-| `MAIL_PASSWORD` | ✅ | Contrasenya o token d'aplicació del compte de correu |
+| Variable | Descripció |
+|----------|-----------|
+| `APPLICATION_SECRET_KEY_JWT` | Clau secreta per signar els tokens JWT |
+| `POLAR_CLIENT_ID` | Client ID de l'API Polar (dispositius de PNI) |
+| `POLAR_CLIENT_SECRET` | Client Secret de l'API Polar |
+| `MAIL_USERNAME` | Adreça de correu per enviar notificacions (reset de contrasenya) |
+| `MAIL_PASSWORD` | Contrasenya o token d'aplicació del compte de correu |
 
 ## 📣 Application Calls
 
