@@ -1,37 +1,68 @@
 services:
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - fisio-network
+    restart: unless-stopped
+
+  frontend:
+    image: ghcr.io/kazzyweirdo/fisioterapia-frontend:latest
+    pull_policy: always
+    networks:
+      - fisio-network
+    restart: unless-stopped
+
   backend:
     image: ghcr.io/kazzyweirdo/fisioterapia-backend:latest
     pull_policy: always
-    ports:
-      - "8080:8080"
     env_file:
       - ./bootstrap/src/main/resources/.env
     environment:
-    - SPRING_PROFILES_ACTIVE=prod
-    - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-    - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/$${POSTGRES_DB}
-    - SPRING_DATASOURCE_USERNAME=$${POSTGRES_USER}
-    - SPRING_DATASOURCE_PASSWORD=$${POSTGRES_PASSWORD}
-    - SPRING_DATA_MONGODB_URI=mongodb://$${MONGO_INITDB_ROOT_USERNAME}:$${MONGO_INITDB_ROOT_PASSWORD}@mongo-db:27017/fisio_logs?authSource=admin
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/$${POSTGRES_DB}
+      - SPRING_DATASOURCE_USERNAME=$${POSTGRES_USER}
+      - SPRING_DATASOURCE_PASSWORD=$${POSTGRES_PASSWORD}
+      - SPRING_DATA_MONGODB_URI=mongodb://$${MONGO_INITDB_ROOT_USERNAME}:$${MONGO_INITDB_ROOT_PASSWORD}@mongo-db:27017/fisio_logs?authSource=admin
     depends_on:
       - postgres-db
       - mongo-db
     networks:
       - fisio-network
+    restart: unless-stopped
 
   postgres-db:
     image: postgres:15-alpine
     env_file:
       - ./bootstrap/src/main/resources/.env
+    volumes:
+      - pg-data:/var/lib/postgresql/data
     networks:
       - fisio-network
+    restart: unless-stopped
 
   mongo-db:
     image: mongo:6.0
     env_file:
       - ./bootstrap/src/main/resources/.env
+    volumes:
+      - mongo-data:/data/db
     networks:
       - fisio-network
+    restart: unless-stopped
+
+volumes:
+  pg-data:
+  mongo-data:
 
 networks:
   fisio-network:
