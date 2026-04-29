@@ -15,6 +15,10 @@ export interface PatientsPage {
   isLast: boolean
 }
 
+const EMPTY_PATIENTS_PAGE: PatientsPage = {
+  content: [], totalElements: 0, totalPages: 0, pageNumber: 0, isLast: true,
+}
+
 export async function getPatients(
   page: number,
   size = 10,
@@ -23,6 +27,7 @@ export async function getPatients(
   const response = await apiClient.get<PatientsPage>('/patients/list', {
     params: { page, size, sort: `nameToUse,${sortDir}` },
   })
+  if (response.status === 204 || !response.data) return EMPTY_PATIENTS_PAGE
   return response.data
 }
 
