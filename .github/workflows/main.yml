@@ -7,6 +7,7 @@ on:
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     permissions:
       contents: write
       packages: write
@@ -21,6 +22,11 @@ jobs:
           java-version: '21'
           distribution: 'corretto'
           cache: maven
+
+      - name: Pre-pull TestContainers images
+        run: |
+          docker pull mongo:6.0
+          docker pull postgres:15-alpine
 
       - name: Run Tests
         run: mvn -f backend/Fisioterapia_TFG/pom.xml clean verify
