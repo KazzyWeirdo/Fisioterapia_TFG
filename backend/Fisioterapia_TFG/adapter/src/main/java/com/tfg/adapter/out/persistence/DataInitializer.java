@@ -73,17 +73,23 @@ public class DataInitializer implements ApplicationRunner {
         RoleJpaEntity adminRole = roleRepository.findByName(ERole.ADMIN).orElseThrow();
         RoleJpaEntity userRole = roleRepository.findByName(ERole.USER).orElseThrow();
 
-        int nextId = physiotherapistRepository.findAll().stream()
-                .mapToInt(PhysiotherapistJpaEntity::getId).max().orElse(0) + 1;
-
-        PhysiotherapistJpaEntity admin = new PhysiotherapistJpaEntity();
-        admin.setId(nextId);
-        admin.setEmail(adminEmail);
-        admin.setName(adminName);
-        admin.setSurname(adminSurname);
-        admin.setPassword(passwordEncoder.encode(adminPassword));
-        admin.setRoles(Set.of(adminRole, userRole));
-
-        physiotherapistRepository.save(admin);
+        physiotherapistRepository.findAll().stream()
+                .filter(p -> p.getEmail().equals(adminEmail))
+                .findFirst()
+                .ifPresentOrElse(existing -> {
+                    existing.setRoles(Set.of(adminRole, userRole));
+                    physiotherapistRepository.save(existing);
+                }, () -> {
+                    int nextId = physiotherapistRepository.findAll().stream()
+                            .mapToInt(PhysiotherapistJpaEntity::getId).max().orElse(0) + 1;
+                    PhysiotherapistJpaEntity admin = new PhysiotherapistJpaEntity();
+                    admin.setId(nextId);
+                    admin.setEmail(adminEmail);
+                    admin.setName(adminName);
+                    admin.setSurname(adminSurname);
+                    admin.setPassword(passwordEncoder.encode(adminPassword));
+                    admin.setRoles(Set.of(adminRole, userRole));
+                    physiotherapistRepository.save(admin);
+                });
     }
 }
