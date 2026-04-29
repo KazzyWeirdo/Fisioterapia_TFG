@@ -105,3 +105,20 @@ jobs:
           push: true
           tags: ghcr.io/${{ env.OWNER_LC }}/fisioterapia-frontend:latest
 
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [build-and-publish, build-and-publish-frontend]
+
+    steps:
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd ~/app/DanielBarbancho_TFG/backend/Fisioterapia_TFG
+            docker compose pull
+            docker compose up -d
+            docker image prune -f
+
