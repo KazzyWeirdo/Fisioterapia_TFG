@@ -9,7 +9,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,7 +21,6 @@ public class AuditLogMongoRepository implements AuditLogRepository {
     }
 
     @Override
-    @Transactional
     public void save(AuditLog auditLog) {
         auditLogMongoDataRepository.save(AuditLogMongoMapper.toMongoEntity(auditLog));
     }

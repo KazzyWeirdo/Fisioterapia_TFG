@@ -1,6 +1,7 @@
 import apiClient from '../api/client'
 
 export async function login(email: string, password: string): Promise<string> {
+  localStorage.removeItem('access_token')
   const response = await apiClient.post<{ access_token: string }>(
     '/physiotherapist/login',
     { email, password },
