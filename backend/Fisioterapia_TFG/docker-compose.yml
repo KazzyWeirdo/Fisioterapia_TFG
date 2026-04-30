@@ -38,6 +38,9 @@ services:
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}
       - ADMIN_NAME=${ADMIN_NAME}
       - ADMIN_SURNAME=${ADMIN_SURNAME}
+      - POLAR_REDIRECT_URI=${POLAR_REDIRECT_URI}
+      - APP_FORM_BASE_URL=${APP_FORM_BASE_URL}
+      - APP_RESET_BASE_URL=${APP_RESET_BASE_URL}
     depends_on:
       - postgres-db
       - mongo-db
