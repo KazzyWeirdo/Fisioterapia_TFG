@@ -1,39 +1,21 @@
-import { createContext, useContext, useState, type ReactNode } from 'react'
-import { translations, type Locale, type TranslationKey } from '../i18n/translations'
+import { useTranslation } from 'react-i18next'
+import i18n from '../i18n/config'
 
-interface LanguageContextValue {
-  locale: Locale
-  t: (key: TranslationKey) => string
-  toggleLanguage: () => void
+export type Locale = 'en' | 'es'
+
+export function LanguageProvider({ children }: { children: React.ReactNode }) {
+  return <>{children}</>
 }
 
-const LanguageContext = createContext<LanguageContextValue | null>(null)
-
-export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocale] = useState<Locale>(() => {
-    const stored = localStorage.getItem('lang')
-    return stored === 'es' ? 'es' : 'en'
-  })
-
-  const t = (key: TranslationKey): string => translations[locale][key]
+export function useLanguage() {
+  const { t } = useTranslation()
+  const locale = (i18n.language ?? 'en') as Locale
 
   const toggleLanguage = () => {
-    setLocale(prev => {
-      const next = prev === 'en' ? 'es' : 'en'
-      localStorage.setItem('lang', next)
-      return next
-    })
+    const next: Locale = locale === 'en' ? 'es' : 'en'
+    i18n.changeLanguage(next)
+    localStorage.setItem('lang', next)
   }
 
-  return (
-    <LanguageContext.Provider value={{ locale, t, toggleLanguage }}>
-      {children}
-    </LanguageContext.Provider>
-  )
-}
-
-export function useLanguage(): LanguageContextValue {
-  const ctx = useContext(LanguageContext)
-  if (!ctx) throw new Error('useLanguage must be used inside LanguageProvider')
-  return ctx
+  return { t, locale, toggleLanguage }
 }

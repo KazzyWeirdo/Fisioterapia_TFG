@@ -113,7 +113,7 @@ export default function PniReportTab({ patientId, patientName }: PniReportTabPro
 
         <div className={styles.footer}>
           <span className={styles.footerText}>
-            {t('pni_tab_footer').replace('{n}', String(filtered.length)).replace('{total}', String(totalElements))}
+            {t('pni_tab_footer', { n: filtered.length, total: totalElements })}
           </span>
           <div className={styles.pagination}>
             <button

@@ -229,7 +229,7 @@ export default function PatientsPage() {
 
         <div className={styles.footer}>
           <span className={styles.footerText}>
-            {t('patients_footer').replace('{n}', String(filteredPatients.length)).replace('{total}', String(totalElements))}
+            {t('patients_footer', { n: filteredPatients.length, total: totalElements })}
           </span>
           <div className={styles.pagination}>
             <button

@@ -171,7 +171,7 @@ export default function StatisticsTab({ patientId }: StatisticsTabProps) {
             <p className={styles.chartState}>{t('stats_enter_exercise')}</p>
           )}
           {!workloadLoading && !workloadError && exerciseName && workload.length === 0 && (
-            <p className={styles.chartState}>{t('stats_no_workload').replace('{name}', exerciseName)}</p>
+            <p className={styles.chartState}>{t('stats_no_workload', { name: exerciseName })}</p>
           )}
           {!workloadLoading && !workloadError && workload.length > 0 && (
             <svg viewBox={`0 0 ${CHART_W} ${CHART_H}`} className={styles.chart}>

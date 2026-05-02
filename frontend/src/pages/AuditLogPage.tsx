@@ -249,7 +249,7 @@ export default function AuditLogPage() {
 
         <div className={styles.footer}>
           <span className={styles.footerText}>
-            {t('audit_footer').replace('{n}', String(filteredLogs.length)).replace('{total}', totalElements.toLocaleString())}
+            {t('audit_footer', { n: filteredLogs.length, total: totalElements.toLocaleString() })}
           </span>
           <div className={styles.pagination}>
             <button

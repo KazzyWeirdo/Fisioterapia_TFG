@@ -121,7 +121,7 @@ export default function TrainingSessionTab({ patientId, patientName }: TrainingS
 
         <div className={styles.footer}>
           <span className={styles.footerText}>
-            {t('training_tab_footer').replace('{n}', String(filtered.length)).replace('{total}', String(totalElements))}
+            {t('training_tab_footer', { n: filtered.length, total: totalElements })}
           </span>
           <div className={styles.pagination}>
             <button
