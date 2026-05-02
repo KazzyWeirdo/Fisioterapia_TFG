@@ -8,29 +8,30 @@ import { getPatient, type PatientDetail } from '../services/patientService'
 import { useLanguage } from '../contexts/LanguageContext'
 import styles from './PniReportDetailPage.module.css'
 
-function formatDate(raw: string): string {
-  return new Date(raw + 'T00:00:00').toLocaleDateString('en-US', {
+function formatDate(raw: string, locale: string): string {
+  return new Date(raw + 'T00:00:00').toLocaleDateString(locale, {
     year: 'numeric', month: 'long', day: 'numeric',
   })
 }
 
-function ansLabel(value: number): string {
-  if (value >= 70) return 'OPTIMAL'
-  if (value >= 40) return 'MODERATE'
-  return 'LOW'
+function ansKey(value: number): 'pni_ans_optimal' | 'pni_ans_moderate' | 'pni_ans_low' {
+  if (value >= 70) return 'pni_ans_optimal'
+  if (value >= 40) return 'pni_ans_moderate'
+  return 'pni_ans_low'
 }
 
 export default function PniReportDetailPage() {
   const { reportId } = useParams<{ reportId: string }>()
   const navigate = useNavigate()
-  const { t } = useLanguage()
+  const { t, locale } = useLanguage()
+  const localeTag = locale === 'es' ? 'es-ES' : 'en-US'
   const [report, setReport] = useState<PniReport | null>(null)
   const [patient, setPatient] = useState<PatientDetail | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   const TABS: { label: string; tab: string }[] = [
-    { label: 'Overview',                tab: 'overview'  },
+    { label: t('tab_overview'),         tab: 'overview'  },
     { label: t('patient_tab_training'), tab: 'training'  },
     { label: t('patient_tab_indiba'),   tab: 'indiba'    },
     { label: t('patient_tab_pni'),      tab: 'pni'       },
@@ -45,12 +46,12 @@ export default function PniReportDetailPage() {
         return getPatient(r.patientId)
       })
       .then(setPatient)
-      .catch(() => setError('Failed to load report'))
+      .catch(() => setError(t('pni_load_error')))
       .finally(() => setLoading(false))
   }, [reportId])
 
-  if (loading) return <p className={styles.status}>Loading…</p>
-  if (error || !report) return <p className={styles.error}>{error ?? 'Report not found'}</p>
+  if (loading) return <p className={styles.status}>{t('common_loading')}</p>
+  if (error || !report) return <p className={styles.error}>{error ?? t('pni_not_found')}</p>
 
   const patientName = patient
     ? [patient.nameToUse, patient.surname, patient.secondSurname].filter(Boolean).join(' ')
@@ -64,18 +65,18 @@ export default function PniReportDetailPage() {
         <div className={styles.headerLeft}>
           <nav className={styles.breadcrumb}>
             <button type="button" className={styles.breadcrumbLink} onClick={() => navigate('/patients')}>
-              Patients
+              {t('nav_patients')}
             </button>
             <span className={styles.breadcrumbSep}>›</span>
             <button type="button" className={styles.breadcrumbLink} onClick={() => navigate(`/patients/${report.patientId}`)}>
               {patientName}
             </button>
             <span className={styles.breadcrumbSep}>›</span>
-            <span className={styles.breadcrumbCurrent}>PNI Reports</span>
+            <span className={styles.breadcrumbCurrent}>{t('pni_breadcrumb_current')}</span>
           </nav>
-          <h1 className={styles.title}>{formatDate(report.reportDate)}</h1>
+          <h1 className={styles.title}>{formatDate(report.reportDate, localeTag)}</h1>
           <p className={styles.subtitle}>
-            Psychoneuroimmunology Comprehensive Assessment for {patientName}
+            {t('pni_assessment_subtitle')} {patientName}
           </p>
         </div>
       </div>
@@ -86,7 +87,7 @@ export default function PniReportDetailPage() {
           <button
             key={tab}
             type="button"
-            className={`${styles.tab} ${label === 'PNI Reports' ? styles.tabActive : ''}`}
+            className={`${styles.tab} ${tab === 'pni' ? styles.tabActive : ''}`}
             onClick={() => navigate(`/patients/${report.patientId}`, { state: { tab } })}
           >
             {label}
@@ -100,13 +101,13 @@ export default function PniReportDetailPage() {
 
         {/* Restoration Profile card */}
         <div className={styles.restorationCard}>
-          <span className={styles.restorationBadge}>RESTORATION PROFILE</span>
+          <span className={styles.restorationBadge}>{t('pni_restoration_profile')}</span>
           <div className={styles.arcWrap}>
             <div className={styles.arcScore}>
               <span className={styles.arcMain}>{report.ntrs}</span>
               <span className={styles.arcMax}>/100</span>
             </div>
-            <div className={styles.arcLabel}>Sleep Score</div>
+            <div className={styles.arcLabel}>{t('pni_sleep_score')}</div>
           </div>
           <div className={styles.arcDecor} />
         </div>
@@ -117,7 +118,7 @@ export default function PniReportDetailPage() {
           <div className={styles.metricCard}>
             <div className={`${styles.metricIcon} ${styles.metricIconBlue}`}><FontAwesomeIcon icon={faMoon} /></div>
             <div className={styles.metricBody}>
-              <div className={styles.metricLabel}>HOURS ASLEEP</div>
+              <div className={styles.metricLabel}>{t('pni_hours_asleep')}</div>
               <div className={styles.metricValue}>
                 {report.hours_asleep}<span className={styles.metricUnit}>h</span>
               </div>
@@ -133,7 +134,7 @@ export default function PniReportDetailPage() {
           <div className={styles.metricCard}>
             <div className={`${styles.metricIcon} ${styles.metricIconRose}`}><FontAwesomeIcon icon={faHeart} /></div>
             <div className={styles.metricBody}>
-              <div className={styles.metricLabel}>HRV (AVERAGE)</div>
+              <div className={styles.metricLabel}>{t('pni_hrv')}</div>
               <div className={styles.metricValue}>
                 {report.hrv}<span className={styles.metricUnit}>ms</span>
               </div>
@@ -149,7 +150,7 @@ export default function PniReportDetailPage() {
           <div className={styles.ansHeader}>
             <div className={styles.ansIcon}><FontAwesomeIcon icon={faBolt} /></div>
             <div>
-              <div className={styles.ansTitle}>ANS Charge</div>
+              <div className={styles.ansTitle}>{t('pni_ans_charge')}</div>
             </div>
           </div>
           <div className={styles.gaugeWrap}>
@@ -158,7 +159,7 @@ export default function PniReportDetailPage() {
               style={{ '--gauge-pct': `${report.stress}%` } as React.CSSProperties}
             >
               <span className={styles.gaugeValue}>{report.stress}</span>
-              <span className={styles.gaugeLabel}>{ansLabel(report.stress)}</span>
+              <span className={styles.gaugeLabel}>{t(ansKey(report.stress))}</span>
             </div>
           </div>
         </div>

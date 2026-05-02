@@ -3,6 +3,7 @@ import type { PatientDetail, CreatePatientRequest } from '../../services/patient
 import { updatePatient } from '../../services/patientService'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck, faHeart, faPenToSquare, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { useLanguage } from '../../contexts/LanguageContext'
 import styles from './PatientInfoCard.module.css'
 
 const GENDER_OPTIONS = ['MALE', 'FEMALE', 'OTHER', 'NONBINARY', 'UNKNOWN']
@@ -73,6 +74,7 @@ function Field({ label, value, isEditing, editNode }: FieldProps) {
 }
 
 export default function PatientInfoCard({ patient, onPatientUpdated }: Props) {
+  const { t } = useLanguage()
   const [isEditing, setIsEditing] = useState(false)
   const [formData, setFormData] = useState<EditForm>(toEditForm(patient))
   const [saving, setSaving] = useState(false)
@@ -101,7 +103,7 @@ export default function PatientInfoCard({ patient, onPatientUpdated }: Props) {
       onPatientUpdated({ ...patient, ...formData, phoneNumber: parseInt(formData.phoneNumber, 10) })
       setIsEditing(false)
     } catch {
-      setSaveError('Failed to save changes. Please try again.')
+      setSaveError(t('patient_info_save_error'))
     } finally {
       setSaving(false)
     }
@@ -131,34 +133,34 @@ export default function PatientInfoCard({ patient, onPatientUpdated }: Props) {
   return (
     <section className={styles.card} aria-label="Personal information">
       <div className={styles.cardHeader}>
-        <p className={styles.sectionTitle}>PERSONAL INFORMATION</p>
+        <p className={styles.sectionTitle}>{t('patient_info_section')}</p>
         {!isEditing ? (
           <button type="button" className={styles.editBtn} onClick={handleEdit}>
-            <FontAwesomeIcon icon={faPenToSquare} /> Edit
+            <FontAwesomeIcon icon={faPenToSquare} /> {t('common_edit')}
           </button>
         ) : (
           <div className={styles.actionRow}>
             <button type="button" className={styles.cancelBtn} onClick={handleCancel} disabled={saving}>
-              <FontAwesomeIcon icon={faXmark} /> Cancel
+              <FontAwesomeIcon icon={faXmark} /> {t('common_cancel')}
             </button>
             <button type="button" className={styles.saveBtn} onClick={handleSave} disabled={saving}>
-              <FontAwesomeIcon icon={faCheck} /> {saving ? 'Saving…' : 'Save Changes'}
+              <FontAwesomeIcon icon={faCheck} /> {saving ? t('common_saving') : t('common_save_changes')}
             </button>
           </div>
         )}
       </div>
 
       <div className={styles.rowGroup}>
-        <Field label="LEGAL NAME (FULL)" value={patient.legalName} isEditing={isEditing} editNode={input('legalName')} />
-        <Field label="NAME TO USE" value={patient.nameToUse} isEditing={isEditing} editNode={input('nameToUse')} />
-        <Field label="SURNAME" value={patient.surname} isEditing={isEditing} editNode={input('surname')} />
+        <Field label={t('patient_info_legal_name')} value={patient.legalName} isEditing={isEditing} editNode={input('legalName')} />
+        <Field label={t('patient_info_name_to_use')} value={patient.nameToUse} isEditing={isEditing} editNode={input('nameToUse')} />
+        <Field label={t('patient_info_surname')} value={patient.surname} isEditing={isEditing} editNode={input('surname')} />
       </div>
 
       <div className={styles.rowGroup}>
-        <Field label="SECOND SURNAME" value={patient.secondSurname} isEditing={isEditing} editNode={input('secondSurname')} />
-        <Field label="DNI / IDENTIFICATION" value={patient.dni} isEditing={isEditing} editNode={input('dni')} />
+        <Field label={t('patient_info_second_surname')} value={patient.secondSurname} isEditing={isEditing} editNode={input('secondSurname')} />
+        <Field label={t('patient_info_dni')} value={patient.dni} isEditing={isEditing} editNode={input('dni')} />
         <Field
-          label="DATE OF BIRTH"
+          label={t('patient_info_dob')}
           value={formatDateOfBirth(patient.dateOfBirth)}
           isEditing={isEditing}
           editNode={input('dateOfBirth', 'date')}
@@ -166,15 +168,15 @@ export default function PatientInfoCard({ patient, onPatientUpdated }: Props) {
       </div>
 
       <div className={styles.rowGroup}>
-        <Field label="EMAIL ADDRESS" value={patient.email} isEditing={isEditing} editNode={input('email', 'email')} />
-        <Field label="PHONE NUMBER" value={String(patient.phoneNumber)} isEditing={isEditing} editNode={input('phoneNumber', 'tel')} />
-        <Field label="GENDER IDENTITY" value={patient.genderIdentity} isEditing={isEditing} editNode={select('genderIdentity', GENDER_OPTIONS)} />
+        <Field label={t('patient_info_email')} value={patient.email} isEditing={isEditing} editNode={input('email', 'email')} />
+        <Field label={t('patient_info_phone')} value={String(patient.phoneNumber)} isEditing={isEditing} editNode={input('phoneNumber', 'tel')} />
+        <Field label={t('patient_info_gender')} value={patient.genderIdentity} isEditing={isEditing} editNode={select('genderIdentity', GENDER_OPTIONS)} />
       </div>
 
       <div className={styles.rowGroupLast}>
-        <Field label="CLINICAL USE SEX" value={patient.clinicalUseSex} isEditing={isEditing} editNode={select('clinicalUseSex', SEX_OPTIONS)} />
-        <Field label="ADMINISTRATIVE SEX" value={patient.administrativeSex} isEditing={isEditing} editNode={select('administrativeSex', SEX_OPTIONS)} />
-        <Field label="PRONOUNS" value={patient.pronouns} isEditing={isEditing} editNode={input('pronouns')} />
+        <Field label={t('patient_info_clinical_sex')} value={patient.clinicalUseSex} isEditing={isEditing} editNode={select('clinicalUseSex', SEX_OPTIONS)} />
+        <Field label={t('patient_info_admin_sex')} value={patient.administrativeSex} isEditing={isEditing} editNode={select('administrativeSex', SEX_OPTIONS)} />
+        <Field label={t('patient_info_pronouns')} value={patient.pronouns} isEditing={isEditing} editNode={input('pronouns')} />
       </div>
 
       {isEditing && saveError && (
@@ -182,23 +184,23 @@ export default function PatientInfoCard({ patient, onPatientUpdated }: Props) {
       )}
 
       <div className={styles.polarSection}>
-        <p className={styles.sectionTitle}>POLAR INTEGRATION</p>
+        <p className={styles.sectionTitle}>{t('polar_section')}</p>
         {patient.hasPolarConnection ? (
           <div className={styles.polarConnected}>
             <FontAwesomeIcon icon={faCheck} className={styles.polarConnectedIcon} />
-            <span className={styles.polarConnectedText}>Polar Connected</span>
+            <span className={styles.polarConnectedText}>{t('polar_connected')}</span>
           </div>
         ) : (
           <div className={styles.polarDisconnected}>
             <p className={styles.polarDisconnectedMsg}>
-              No Polar account linked. Connect to enable automatic sleep and recovery sync.
+              {t('polar_disconnected_msg')}
             </p>
             <button
               type="button"
               className={styles.polarBtn}
               onClick={() => window.open(`/api/auth/polar/authorize?patientId=${patient.id}`, '_blank')}
             >
-              <FontAwesomeIcon icon={faHeart} /> Connect Polar Account
+              <FontAwesomeIcon icon={faHeart} /> {t('polar_connect_btn')}
             </button>
           </div>
         )}

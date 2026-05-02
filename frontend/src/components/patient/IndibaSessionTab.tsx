@@ -10,20 +10,21 @@ interface IndibaSessionTabProps {
   patientName: string
 }
 
-function formatDate(raw: string): string {
-  return new Date(raw).toLocaleDateString('en-US', {
+function formatDate(raw: string, locale: string): string {
+  return new Date(raw).toLocaleDateString(locale, {
     year: 'numeric', month: 'long', day: '2-digit',
   })
 }
 
-function formatTime(raw: string): string {
-  return new Date(raw).toLocaleTimeString('en-US', {
+function formatTime(raw: string, locale: string): string {
+  return new Date(raw).toLocaleTimeString(locale, {
     hour: '2-digit', minute: '2-digit', hour12: false,
   })
 }
 
 export default function IndibaSessionTab({ patientId, patientName }: IndibaSessionTabProps) {
-  const { t } = useLanguage()
+  const { t, locale } = useLanguage()
+  const localeTag = locale === 'es' ? 'es-ES' : 'en-US'
   const [sessions, setSessions] = useState<IndibaSessionSummary[]>([])
   const [totalElements, setTotalElements] = useState(0)
   const [totalPages, setTotalPages] = useState(0)
@@ -64,20 +65,20 @@ export default function IndibaSessionTab({ patientId, patientName }: IndibaSessi
     <div className={styles.tab}>
       <h2 className={styles.title}>{t('patient_tab_indiba')}</h2>
       <p className={styles.subtitle}>
-        Diagnostic history for patient <strong>{patientName}</strong>.
+        {t('indiba_tab_subtitle')} <strong>{patientName}</strong>.
       </p>
 
       <div className={styles.statCard}>
         <div className={styles.statIcon}><FontAwesomeIcon icon={faBolt} /></div>
         <div>
-          <div className={styles.statLabel}>TOTAL SESSIONS</div>
+          <div className={styles.statLabel}>{t('indiba_stat_total')}</div>
           <div className={styles.statValue}>{totalElements}</div>
         </div>
       </div>
 
       <div className={styles.controls}>
         <label className={styles.dateLabel}>
-          Filter by date
+          {t('common_filter_by_date')}
           <input
             type="date"
             className={styles.dateInput}
@@ -91,27 +92,27 @@ export default function IndibaSessionTab({ patientId, patientName }: IndibaSessi
         <table className={styles.table}>
           <thead>
             <tr>
-              <th>ANALYSIS DATE</th>
-              <th>TIME</th>
-              <th>ACTIONS</th>
+              <th>{t('indiba_col_date')}</th>
+              <th>{t('indiba_col_time')}</th>
+              <th>{t('indiba_col_actions')}</th>
             </tr>
           </thead>
           <tbody>
             {loading && (
-              <tr><td colSpan={3} className={styles.stateCell}>Loading…</td></tr>
+              <tr><td colSpan={3} className={styles.stateCell}>{t('common_loading')}</td></tr>
             )}
             {!loading && error && (
               <tr><td colSpan={3} className={styles.errorCell}>{error}</td></tr>
             )}
             {!loading && !error && filtered.length === 0 && (
-              <tr><td colSpan={3} className={styles.stateCell}>No sessions found</td></tr>
+              <tr><td colSpan={3} className={styles.stateCell}>{t('indiba_empty')}</td></tr>
             )}
             {!loading && !error && filtered.map(s => (
               <tr key={s.id}>
-                <td>{formatDate(s.date)}</td>
-                <td>{formatTime(s.date)}</td>
+                <td>{formatDate(s.date, localeTag)}</td>
+                <td>{formatTime(s.date, localeTag)}</td>
                 <td className={styles.actionsCell}>
-                  <a href={`/indiba/${s.id}`} className={styles.viewLink}>View Details ›</a>
+                  <a href={`/indiba/${s.id}`} className={styles.viewLink}>{t('common_view_details')}</a>
                 </td>
               </tr>
             ))}
@@ -120,7 +121,7 @@ export default function IndibaSessionTab({ patientId, patientName }: IndibaSessi
 
         <div className={styles.footer}>
           <span className={styles.footerText}>
-            Showing {filtered.length} of {totalElements} sessions
+            {t('indiba_tab_footer').replace('{n}', String(filtered.length)).replace('{total}', String(totalElements))}
           </span>
           <div className={styles.pagination}>
             <button

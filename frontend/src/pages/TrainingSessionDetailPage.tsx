@@ -7,8 +7,8 @@ import { getPatient, type PatientDetail } from '../services/patientService'
 import { useLanguage } from '../contexts/LanguageContext'
 import styles from './TrainingSessionDetailPage.module.css'
 
-function formatDate(raw: string): string {
-  return new Date(raw + 'T00:00:00').toLocaleDateString('en-US', {
+function formatDate(raw: string, locale: string): string {
+  return new Date(raw + 'T00:00:00').toLocaleDateString(locale, {
     year: 'numeric', month: 'long', day: 'numeric',
   })
 }
@@ -23,14 +23,15 @@ function rpeBadgeStyle(rpe: number): { bg: string; color: string } {
 export default function TrainingSessionDetailPage() {
   const { sessionId } = useParams<{ sessionId: string }>()
   const navigate = useNavigate()
-  const { t } = useLanguage()
+  const { t, locale } = useLanguage()
+  const localeTag = locale === 'es' ? 'es-ES' : 'en-US'
   const [session, setSession] = useState<TrainingSessionDetail | null>(null)
   const [patient, setPatient] = useState<PatientDetail | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   const TABS = [
-    { label: 'Overview',                tab: 'overview'   },
+    { label: t('tab_overview'),         tab: 'overview'   },
     { label: t('patient_tab_training'), tab: 'training'   },
     { label: t('patient_tab_indiba'),   tab: 'indiba'     },
     { label: t('patient_tab_pni'),      tab: 'pni'        },
@@ -45,7 +46,7 @@ export default function TrainingSessionDetailPage() {
         return getPatient(s.patientId)
       })
       .then(setPatient)
-      .catch(() => setError('Failed to load session'))
+      .catch(() => setError(t('training_load_error')))
       .finally(() => setLoading(false))
   }, [sessionId])
 
@@ -64,8 +65,8 @@ export default function TrainingSessionDetailPage() {
     ? [patient.nameToUse, patient.surname, patient.secondSurname].filter(Boolean).join(' ')
     : `Patient #${session?.patientId}`
 
-  if (loading) return <p className={styles.status}>Loading…</p>
-  if (error || !session) return <p className={styles.error}>{error ?? 'Session not found'}</p>
+  if (loading) return <p className={styles.status}>{t('common_loading')}</p>
+  if (error || !session) return <p className={styles.error}>{error ?? t('training_not_found')}</p>
 
   return (
     <div className={styles.page}>
@@ -74,7 +75,7 @@ export default function TrainingSessionDetailPage() {
         <div className={styles.headerLeft}>
           <nav className={styles.breadcrumb}>
             <button type="button" className={styles.breadcrumbLink} onClick={() => navigate('/patients')}>
-              Patients
+              {t('nav_patients')}
             </button>
             <span className={styles.breadcrumbSep}>›</span>
             <button
@@ -85,9 +86,9 @@ export default function TrainingSessionDetailPage() {
               {patientName}
             </button>
             <span className={styles.breadcrumbSep}>›</span>
-            <span className={styles.breadcrumbCurrent}>Training Sessions</span>
+            <span className={styles.breadcrumbCurrent}>{t('training_breadcrumb_current')}</span>
           </nav>
-          <h1 className={styles.title}>{formatDate(session.date)}</h1>
+          <h1 className={styles.title}>{formatDate(session.date, localeTag)}</h1>
           <p className={styles.subtitle}>{patientName}</p>
         </div>
       </div>
@@ -97,7 +98,7 @@ export default function TrainingSessionDetailPage() {
           <button
             key={tab}
             type="button"
-            className={`${styles.tab} ${label === 'Training Sessions' ? styles.tabActive : ''}`}
+            className={`${styles.tab} ${tab === 'training' ? styles.tabActive : ''}`}
             onClick={() => navigate(`/patients/${session.patientId}`, { state: { tab } })}
           >
             {label}
@@ -108,13 +109,13 @@ export default function TrainingSessionDetailPage() {
 
       <div className={styles.statsCard}>
         <div className={styles.stat}>
-          <span className={styles.statLabel}>VOLUME</span>
+          <span className={styles.statLabel}>{t('training_stat_volume')}</span>
           <span className={styles.statValue}>
             {totalVolume.toLocaleString()} <span className={styles.statUnit}>kg</span>
           </span>
         </div>
         <div className={styles.stat}>
-          <span className={styles.statLabel}>AVG RPE</span>
+          <span className={styles.statLabel}>{t('training_stat_avg_rpe')}</span>
           <span className={styles.statValue}>{avgRpe !== null ? avgRpe.toFixed(1) : '—'}</span>
         </div>
       </div>
@@ -131,12 +132,12 @@ export default function TrainingSessionDetailPage() {
           <table className={styles.setsTable}>
             <thead>
               <tr>
-                <th>SET</th>
-                <th>WEIGHT (KG)</th>
-                <th>REPS</th>
-                <th>REST (S)</th>
-                <th>RPE</th>
-                <th>PROGRESS</th>
+                <th>{t('training_col_set')}</th>
+                <th>{t('training_col_weight')}</th>
+                <th>{t('training_col_reps')}</th>
+                <th>{t('training_col_rest')}</th>
+                <th>{t('training_col_rpe')}</th>
+                <th>{t('training_col_progress')}</th>
               </tr>
             </thead>
             <tbody>

@@ -11,15 +11,16 @@ interface TrainingSessionTabProps {
   patientName: string
 }
 
-function formatDate(raw: string): string {
-  return new Date(raw).toLocaleDateString('en-US', {
+function formatDate(raw: string, locale: string): string {
+  return new Date(raw).toLocaleDateString(locale, {
     year: 'numeric', month: 'long', day: '2-digit',
   })
 }
 
 export default function TrainingSessionTab({ patientId, patientName }: TrainingSessionTabProps) {
   const navigate = useNavigate()
-  const { t } = useLanguage()
+  const { t, locale } = useLanguage()
+  const localeTag = locale === 'es' ? 'es-ES' : 'en-US'
   const [sessions, setSessions] = useState<{ id: number; date: string }[]>([])
   const [totalElements, setTotalElements] = useState(0)
   const [totalPages, setTotalPages] = useState(0)
@@ -60,20 +61,20 @@ export default function TrainingSessionTab({ patientId, patientName }: TrainingS
     <div className={styles.tab}>
       <h2 className={styles.title}>{t('patient_tab_training')}</h2>
       <p className={styles.subtitle}>
-        Training history for patient <strong>{patientName}</strong>.
+        {t('training_tab_subtitle')} <strong>{patientName}</strong>.
       </p>
 
       <div className={styles.statCard}>
         <div className={styles.statIcon}><FontAwesomeIcon icon={faDumbbell} /></div>
         <div>
-          <div className={styles.statLabel}>TOTAL SESSIONS</div>
+          <div className={styles.statLabel}>{t('training_stat_total')}</div>
           <div className={styles.statValue}>{totalElements}</div>
         </div>
       </div>
 
       <div className={styles.controls}>
         <label className={styles.dateLabel}>
-          Filter by date
+          {t('common_filter_by_date')}
           <input
             type="date"
             className={styles.dateInput}
@@ -87,30 +88,30 @@ export default function TrainingSessionTab({ patientId, patientName }: TrainingS
         <table className={styles.table}>
           <thead>
             <tr>
-              <th>SESSION DATE</th>
-              <th>ACTIONS</th>
+              <th>{t('training_col_date')}</th>
+              <th>{t('training_col_actions')}</th>
             </tr>
           </thead>
           <tbody>
             {loading && (
-              <tr><td colSpan={2} className={styles.stateCell}>Loading…</td></tr>
+              <tr><td colSpan={2} className={styles.stateCell}>{t('common_loading')}</td></tr>
             )}
             {!loading && error && (
               <tr><td colSpan={2} className={styles.errorCell}>{error}</td></tr>
             )}
             {!loading && !error && filtered.length === 0 && (
-              <tr><td colSpan={2} className={styles.stateCell}>No sessions found</td></tr>
+              <tr><td colSpan={2} className={styles.stateCell}>{t('training_empty')}</td></tr>
             )}
             {!loading && !error && filtered.map(s => (
               <tr key={s.id}>
-                <td>{formatDate(s.date)}</td>
+                <td>{formatDate(s.date, localeTag)}</td>
                 <td className={styles.actionsCell}>
                   <button
                     type="button"
                     className={styles.viewLink}
                     onClick={() => navigate(`/training-session/${s.id}`)}
                   >
-                    View Details ›
+                    {t('common_view_details')}
                   </button>
                 </td>
               </tr>
@@ -120,7 +121,7 @@ export default function TrainingSessionTab({ patientId, patientName }: TrainingS
 
         <div className={styles.footer}>
           <span className={styles.footerText}>
-            Showing {filtered.length} of {totalElements} sessions
+            {t('training_tab_footer').replace('{n}', String(filtered.length)).replace('{total}', String(totalElements))}
           </span>
           <div className={styles.pagination}>
             <button

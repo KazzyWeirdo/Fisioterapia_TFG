@@ -97,15 +97,11 @@ export default function PatientsPage() {
 
   return (
     <div className={styles.page}>
-      <h1 className={styles.title}>Patient Records</h1>
-      <p className={styles.subtitle}>
-        Manage and review clinical histories, recovery progress,
-        <br />
-        and personalized care plans for your active clientele.
-      </p>
+      <h1 className={styles.title}>{t('patients_title')}</h1>
+      <p className={styles.subtitle}>{t('patients_page_subtitle')}</p>
 
       <div className={styles.statCard}>
-        <div className={styles.statLabel}>ACTIVE</div>
+        <div className={styles.statLabel}>{t('patients_stat_active')}</div>
         <div className={styles.statValue}>{totalElements}</div>
       </div>
 
@@ -133,7 +129,7 @@ export default function PatientsPage() {
               (p) => [p.id, p.dateOfBirth, p.clinicalUseSex],
             )}
           >
-            {downloading.patients ? t('common_loading') : <><FontAwesomeIcon icon={faDownload} /> Patients CSV</>}
+            {downloading.patients ? t('patients_exporting') : <><FontAwesomeIcon icon={faDownload} /> {t('patients_export_patients')}</>}
           </button>
           <button
             type="button"
@@ -147,7 +143,7 @@ export default function PatientsPage() {
               (s) => [s.patientId, s.sessionId, s.beginSession, s.endSession, s.treatedArea, s.mode, s.intensity, s.objective, s.observations],
             )}
           >
-            {downloading.indiba ? 'Exporting…' : <><FontAwesomeIcon icon={faDownload} /> Indiba CSV</>}
+            {downloading.indiba ? t('patients_exporting') : <><FontAwesomeIcon icon={faDownload} /> {t('patients_export_indiba')}</>}
           </button>
           <button
             type="button"
@@ -161,7 +157,7 @@ export default function PatientsPage() {
               (r) => [r.patientId, r.reportId, r.reportDate, r.hoursAsleep, r.hrv, r.ansCharge, r.sleepScore],
             )}
           >
-            {downloading.pni ? 'Exporting…' : <><FontAwesomeIcon icon={faDownload} /> PNI CSV</>}
+            {downloading.pni ? t('patients_exporting') : <><FontAwesomeIcon icon={faDownload} /> {t('patients_export_pni')}</>}
           </button>
           <button
             type="button"
@@ -175,7 +171,7 @@ export default function PatientsPage() {
               (s) => [s.patientId, s.sessionId, s.sessionDate, s.exerciseName, s.setNumber, s.weightKg, s.reps, s.restTimeSeconds, s.rpe],
             )}
           >
-            {downloading.training ? 'Exporting…' : <><FontAwesomeIcon icon={faDownload} /> Training CSV</>}
+            {downloading.training ? t('patients_exporting') : <><FontAwesomeIcon icon={faDownload} /> {t('patients_export_training')}</>}
           </button>
         </div>
       </div>
@@ -185,16 +181,16 @@ export default function PatientsPage() {
           <thead>
             <tr>
               <th onClick={toggleSort} className={styles.sortableHeader}>
-                PATIENT NAME {sortDir === 'asc' ? '↑' : '↓'}
+                {t('patients_col_name')} {sortDir === 'asc' ? '↑' : '↓'}
               </th>
-              <th className={styles.actionCol}>ACTION</th>
+              <th className={styles.actionCol}>{t('patients_col_action')}</th>
             </tr>
           </thead>
           <tbody>
             {loading && (
               <tr>
                 <td colSpan={2} className={styles.stateCell}>
-                  Loading…
+                  {t('common_loading')}
                 </td>
               </tr>
             )}
@@ -223,7 +219,7 @@ export default function PatientsPage() {
                       className={styles.viewBtn}
                       onClick={() => navigate(`/patients/${p.id}`)}
                     >
-                      View Details
+                      {t('common_view_details')}
                     </button>
                   </td>
                 </tr>
@@ -233,7 +229,7 @@ export default function PatientsPage() {
 
         <div className={styles.footer}>
           <span className={styles.footerText}>
-            Showing {filteredPatients.length} of {totalElements} patients
+            {t('patients_footer').replace('{n}', String(filteredPatients.length)).replace('{total}', String(totalElements))}
           </span>
           <div className={styles.pagination}>
             <button

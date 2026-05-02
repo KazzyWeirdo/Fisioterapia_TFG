@@ -15,9 +15,9 @@ interface RegisterPhysiotherapistForm {
 }
 
 const ROLES = [
-  { value: 'AUDITOR', label: 'Auditor', caption: 'AUDIT ACCESS' },
-  { value: 'USER', label: 'Physiotherapist User', caption: 'CLINICAL RECORDS ONLY' },
-  { value: 'ADMIN', label: 'Administrator', caption: 'PERFORMANCE REVIEW' },
+  { value: 'AUDITOR', labelKey: 'reg_physio_role_auditor', captionKey: 'reg_physio_role_auditor_caption' },
+  { value: 'USER',    labelKey: 'reg_physio_role_user',    captionKey: 'reg_physio_role_user_caption'    },
+  { value: 'ADMIN',   labelKey: 'reg_physio_role_admin',   captionKey: 'reg_physio_role_admin_caption'   },
 ]
 
 export default function RegisterPhysiotherapistPage() {
@@ -40,7 +40,7 @@ export default function RegisterPhysiotherapistPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!form.role) {
-      setError('Please select a role.')
+      setError(t('reg_physio_error_no_role'))
       return
     }
     setSubmitting(true)
@@ -55,7 +55,7 @@ export default function RegisterPhysiotherapistPage() {
       })
       navigate('/patients')
     } catch {
-      setError('Failed to register physiotherapist. Please check the form and try again.')
+      setError(t('reg_physio_error'))
     } finally {
       setSubmitting(false)
     }
@@ -63,62 +63,59 @@ export default function RegisterPhysiotherapistPage() {
 
   return (
     <div className={styles.page}>
-      <p className={styles.adminLabel}>ADMINISTRATION</p>
+      <p className={styles.adminLabel}>{t('reg_physio_admin_label')}</p>
       <h1 className={styles.title}>{t('register_physio_title')}</h1>
-      <p className={styles.subtitle}>
-        Onboard a new medical practitioner to the Clinical Atelier network.
-        Ensure all credentials and access levels are verified.
-      </p>
+      <p className={styles.subtitle}>{t('reg_physio_subtitle')}</p>
 
       <form aria-label="Register physiotherapist" onSubmit={handleSubmit}>
 
         <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>Personal Details</h2>
-          <p className={styles.sectionSub}>Basic identification information for the practitioner's professional profile.</p>
+          <h2 className={styles.sectionTitle}>{t('reg_physio_section_personal')}</h2>
+          <p className={styles.sectionSub}>{t('reg_physio_section_personal_sub')}</p>
           <div className={styles.card}>
             <div className={styles.row}>
               <div className={styles.field}>
-                <label htmlFor="firstName">First Name</label>
+                <label htmlFor="firstName">{t('reg_physio_first_name')}</label>
                 <input
                   id="firstName"
                   name="firstName"
                   value={form.firstName}
                   onChange={handleChange}
                   required
-                  placeholder="e.g. Julian"
+                  placeholder={t('reg_physio_first_name_placeholder')}
                 />
               </div>
               <div className={styles.field}>
-                <label htmlFor="surname">Surname</label>
+                <label htmlFor="surname">{t('reg_physio_surname')}</label>
                 <input
                   id="surname"
                   name="surname"
                   value={form.surname}
                   onChange={handleChange}
                   required
-                  placeholder="e.g. Ross"
+                  placeholder={t('reg_physio_surname_placeholder')}
                 />
               </div>
             </div>
             <div className={styles.field}>
-              <label htmlFor="secondSurname">Second Surname</label>
+              <label htmlFor="secondSurname">{t('reg_physio_second_surname')}</label>
               <input
                 id="secondSurname"
                 name="secondSurname"
                 value={form.secondSurname}
                 onChange={handleChange}
-                placeholder="e.g. García"
+                placeholder={t('reg_physio_second_surname_placeholder')}
               />
             </div>
           </div>
         </section>
 
         <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>Access &amp; Credentials</h2>
-          <p className={styles.sectionSub}>Secure credentials and system authorization levels for this user account.</p>
+          <h2 className={styles.sectionTitle}>{t('reg_physio_section_access')}</h2>
+          <p className={styles.sectionSub}>{t('reg_physio_section_access_sub')}</p>
           <div className={styles.card}>
             <div className={styles.field}>
-              <label htmlFor="email">PhysiotherapistEmail</label>
+              <label htmlFor="email">{t('reg_physio_email_label')}</label>
               <input
                 id="email"
                 name="email"
@@ -126,14 +123,14 @@ export default function RegisterPhysiotherapistPage() {
                 value={form.email}
                 onChange={handleChange}
                 required
-                placeholder="physio.name@clinicalatelier.com"
+                placeholder={t('reg_physio_email_placeholder')}
               />
             </div>
 
             <div className={styles.rolesSection}>
-              <p className={styles.rolesLabel}>Roles</p>
+              <p className={styles.rolesLabel}>{t('reg_physio_roles_label')}</p>
               <div className={styles.rolesGrid}>
-                {ROLES.map(({ value, label, caption }) => (
+                {ROLES.map(({ value, labelKey, captionKey }) => (
                   <label
                     key={value}
                     className={`${styles.roleCard} ${form.role === value ? styles.roleCardSelected : ''}`}
@@ -147,8 +144,8 @@ export default function RegisterPhysiotherapistPage() {
                       className={styles.roleRadio}
                     />
                     <div>
-                      <span className={styles.roleLabel}>{label}</span>
-                      <span className={styles.roleCaption}>{caption}</span>
+                      <span className={styles.roleLabel}>{t(labelKey as Parameters<typeof t>[0])}</span>
+                      <span className={styles.roleCaption}>{t(captionKey as Parameters<typeof t>[0])}</span>
                     </div>
                   </label>
                 ))}
@@ -161,7 +158,7 @@ export default function RegisterPhysiotherapistPage() {
 
         <div className={styles.footer}>
           <button type="button" onClick={handleCancel} className={styles.discardBtn}>
-            <FontAwesomeIcon icon={faXmark} /> Discard Entry
+            <FontAwesomeIcon icon={faXmark} /> {t('reg_physio_discard')}
           </button>
           <button type="submit" disabled={submitting} className={styles.submitBtn}>
             {submitting ? t('common_loading') : <><FontAwesomeIcon icon={faUserPlus} /> {t('register_physio_submit')}</>}

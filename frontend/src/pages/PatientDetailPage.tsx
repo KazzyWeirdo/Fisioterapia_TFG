@@ -23,7 +23,7 @@ export default function PatientDetailPage() {
   const [activeTab, setActiveTab] = useState<Tab>(initialTab)
 
   const TABS: { id: Tab; label: string }[] = [
-    { id: 'overview', label: 'Overview' },
+    { id: 'overview', label: t('tab_overview') },
     { id: 'training', label: t('patient_tab_training') },
     { id: 'indiba', label: t('patient_tab_indiba') },
     { id: 'pni', label: t('patient_tab_pni') },
@@ -36,11 +36,11 @@ export default function PatientDetailPage() {
     setError(null)
     getPatient(Number(id))
       .then(setPatient)
-      .catch(() => setError('Failed to load patient'))
+      .catch(() => setError(t('patient_load_error')))
       .finally(() => setLoading(false))
   }, [id])
 
-  if (loading) return <p className={styles.status}>Loading…</p>
+  if (loading) return <p className={styles.status}>{t('common_loading')}</p>
   if (error) return <p className={styles.error}>{error}</p>
   if (!patient) return null
 
@@ -48,7 +48,7 @@ export default function PatientDetailPage() {
     <div className={styles.page}>
       <nav className={styles.breadcrumb}>
         <button type="button" className={styles.breadcrumbLink} onClick={() => navigate('/patients')}>
-          Patients
+          {t('nav_patients')}
         </button>
         <span className={styles.breadcrumbSep}>›</span>
         <span className={styles.breadcrumbCurrent}>

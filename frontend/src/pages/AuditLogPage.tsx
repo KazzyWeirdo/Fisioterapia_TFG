@@ -101,15 +101,13 @@ export default function AuditLogPage() {
     <div className={styles.page}>
       <div className={styles.titleArea}>
         <h1 className={styles.title}>{t('audit_title')}</h1>
-        <p className={styles.subtitle}>
-          A rigorous, immutable chronological record of every interaction within the Clinical Atelier ecosystem.
-        </p>
+        <p className={styles.subtitle}>{t('audit_subtitle')}</p>
       </div>
 
       <div className={styles.statCardWrap}>
         <div className={styles.statCard}>
           <div className={styles.statIcon}><FontAwesomeIcon icon={faClipboardList} /></div>
-          <div className={styles.statLabel}>TOTAL LOGS</div>
+          <div className={styles.statLabel}>{t('audit_stat_total')}</div>
           <div className={styles.statValue}>{totalElements.toLocaleString()}</div>
         </div>
       </div>
@@ -121,7 +119,7 @@ export default function AuditLogPage() {
           onClick={() => setFiltersOpen(o => !o)}
           aria-expanded={filtersOpen}
         >
-          ≡ Filters
+          {t('audit_filters_btn')}
           {activeFilterCount > 0 && (
             <span className={styles.filterBadge}>{activeFilterCount}</span>
           )}
@@ -132,13 +130,13 @@ export default function AuditLogPage() {
         <div className={styles.filterPanel}>
           <div className={styles.filterRow}>
             <label className={styles.filterLabel}>
-              Entity
+              {t('audit_filter_entity')}
               <select
                 className={styles.filterSelect}
                 value={filterEntity}
                 onChange={(e) => setFilterEntity(e.target.value)}
               >
-                <option value="">All</option>
+                <option value="">{t('audit_filter_all')}</option>
                 <option value="Patient">Patient</option>
                 <option value="IndibaSession">IndibaSession</option>
                 <option value="PniReport">PniReport</option>
@@ -148,24 +146,24 @@ export default function AuditLogPage() {
             </label>
 
             <label className={styles.filterLabel}>
-              Action
+              {t('audit_filter_action')}
               <select
                 className={styles.filterSelect}
                 value={filterAction}
                 onChange={(e) => setFilterAction(e.target.value)}
               >
-                <option value="">All</option>
+                <option value="">{t('audit_filter_all')}</option>
                 <option value="CREATE">CREATE</option>
                 <option value="UPDATE">UPDATE</option>
               </select>
             </label>
 
             <label className={styles.filterLabel}>
-              User
+              {t('audit_filter_user')}
               <input
                 type="text"
                 className={styles.filterInput}
-                placeholder="Any user"
+                placeholder={t('audit_filter_any_user')}
                 value={filterUser}
                 onChange={(e) => setFilterUser(e.target.value)}
               />
@@ -174,7 +172,7 @@ export default function AuditLogPage() {
 
           <div className={styles.filterRow}>
             <label className={styles.filterLabel}>
-              From
+              {t('audit_filter_from')}
               <input
                 type="date"
                 className={styles.filterInput}
@@ -184,7 +182,7 @@ export default function AuditLogPage() {
             </label>
 
             <label className={styles.filterLabel}>
-              To
+              {t('audit_filter_to')}
               <input
                 type="date"
                 className={styles.filterInput}
@@ -195,7 +193,7 @@ export default function AuditLogPage() {
 
             <div className={styles.filterClearWrap}>
               <button type="button" className={styles.clearBtn} onClick={clearFilters}>
-                Clear all
+                {t('audit_filter_clear')}
               </button>
             </div>
           </div>
@@ -206,18 +204,18 @@ export default function AuditLogPage() {
         <table className={styles.table}>
           <thead>
             <tr>
-              <th scope="col">ENTITY NAME</th>
-              <th scope="col">ACTION</th>
-              <th scope="col">TIMESTAMP</th>
-              <th scope="col">DETAILS</th>
-              <th scope="col">USER</th>
+              <th scope="col">{t('audit_col_entity')}</th>
+              <th scope="col">{t('audit_col_action')}</th>
+              <th scope="col">{t('audit_col_timestamp')}</th>
+              <th scope="col">{t('audit_col_details')}</th>
+              <th scope="col">{t('audit_col_user')}</th>
             </tr>
           </thead>
           <tbody>
             {loading && (
               <tr>
                 <td colSpan={5} className={styles.stateCell}>
-                  Loading…
+                  {t('common_loading')}
                 </td>
               </tr>
             )}
@@ -251,7 +249,7 @@ export default function AuditLogPage() {
 
         <div className={styles.footer}>
           <span className={styles.footerText}>
-            Showing {filteredLogs.length} of {totalElements.toLocaleString()} log entries
+            {t('audit_footer').replace('{n}', String(filteredLogs.length)).replace('{total}', totalElements.toLocaleString())}
           </span>
           <div className={styles.pagination}>
             <button
