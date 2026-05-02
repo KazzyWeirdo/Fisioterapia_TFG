@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faIdCard, faAddressCard, faUsers, faHeart, faUser } from '@fortawesome/free-solid-svg-icons'
 import { createPatient } from '../services/patientService'
+import { useLanguage } from '../contexts/LanguageContext'
 import styles from './RegisterPatientPage.module.css'
 
 interface RegisterPatientForm {
@@ -40,6 +41,7 @@ const SEX_OPTIONS = ['FEMALE', 'MALE', 'COMPLEX', 'UNKNOWN']
 
 export default function RegisterPatientPage() {
   const navigate = useNavigate()
+  const { t } = useLanguage()
   const [form, setForm] = useState<RegisterPatientForm>(EMPTY_FORM)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -69,7 +71,7 @@ export default function RegisterPatientPage() {
 
   return (
     <div className={styles.page}>
-      <h1 className={styles.title}>Register Patient</h1>
+      <h1 className={styles.title}>{t('register_patient_title')}</h1>
       <p className={styles.subtitle}>
         Onboard a new patient to the clinical system. Ensure all legal information matches official
         identification documents.
@@ -301,7 +303,7 @@ export default function RegisterPatientPage() {
           disabled={submitting}
           className={styles.submitBtn}
         >
-          {submitting ? 'Registering…' : <><FontAwesomeIcon icon={faUser} /> Register Patient</>}
+          {submitting ? t('common_loading') : <><FontAwesomeIcon icon={faUser} /> {t('register_patient_submit')}</>}
         </button>
       </div>
     </div>

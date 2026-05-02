@@ -5,6 +5,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { getIndibaSession, type IndibaSession } from '../services/indibaService'
 import { getPhysiotherapist, type PhysiotherapistSummary } from '../services/physiotherapistService'
 import { getPatient, type PatientDetail } from '../services/patientService'
+import { useLanguage } from '../contexts/LanguageContext'
 import styles from './IndibaDetailPage.module.css'
 
 function formatHeaderDate(raw: string): string {
@@ -33,22 +34,23 @@ function formatMode(mode: string): string {
   return mode.charAt(0).toUpperCase() + mode.slice(1).toLowerCase()
 }
 
-const TABS: { label: string; tab: string }[] = [
-  { label: 'Overview',          tab: 'overview'  },
-  { label: 'Training Sessions', tab: 'training'  },
-  { label: 'INDIBA Sessions',   tab: 'indiba'    },
-  { label: 'PNI Reports',       tab: 'pni'       },
-  { label: 'Statistics',        tab: 'statistics' },
-]
-
 export default function IndibaDetailPage() {
   const { sessionId } = useParams<{ sessionId: string }>()
   const navigate = useNavigate()
+  const { t } = useLanguage()
   const [session, setSession] = useState<IndibaSession | null>(null)
   const [physio, setPhysio] = useState<PhysiotherapistSummary | null>(null)
   const [patient, setPatient] = useState<PatientDetail | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+
+  const TABS: { label: string; tab: string }[] = [
+    { label: 'Overview',                tab: 'overview'  },
+    { label: t('patient_tab_training'), tab: 'training'  },
+    { label: t('patient_tab_indiba'),   tab: 'indiba'    },
+    { label: t('patient_tab_pni'),      tab: 'pni'       },
+    { label: t('patient_tab_stats'),    tab: 'statistics' },
+  ]
 
   useEffect(() => {
     if (!sessionId) return

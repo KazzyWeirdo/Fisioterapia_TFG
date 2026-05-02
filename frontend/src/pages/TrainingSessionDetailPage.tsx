@@ -4,15 +4,8 @@ import { faDumbbell } from '@fortawesome/free-solid-svg-icons'
 import { useParams, useNavigate } from 'react-router-dom'
 import { getTrainingSession, type TrainingSessionDetail } from '../services/trainingSessionService'
 import { getPatient, type PatientDetail } from '../services/patientService'
+import { useLanguage } from '../contexts/LanguageContext'
 import styles from './TrainingSessionDetailPage.module.css'
-
-const TABS = [
-  { label: 'Overview',          tab: 'overview'   },
-  { label: 'Training Sessions', tab: 'training'   },
-  { label: 'INDIBA Sessions',   tab: 'indiba'     },
-  { label: 'PNI Reports',       tab: 'pni'        },
-  { label: 'Statistics',        tab: 'statistics' },
-]
 
 function formatDate(raw: string): string {
   return new Date(raw + 'T00:00:00').toLocaleDateString('en-US', {
@@ -30,10 +23,19 @@ function rpeBadgeStyle(rpe: number): { bg: string; color: string } {
 export default function TrainingSessionDetailPage() {
   const { sessionId } = useParams<{ sessionId: string }>()
   const navigate = useNavigate()
+  const { t } = useLanguage()
   const [session, setSession] = useState<TrainingSessionDetail | null>(null)
   const [patient, setPatient] = useState<PatientDetail | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+
+  const TABS = [
+    { label: 'Overview',                tab: 'overview'   },
+    { label: t('patient_tab_training'), tab: 'training'   },
+    { label: t('patient_tab_indiba'),   tab: 'indiba'     },
+    { label: t('patient_tab_pni'),      tab: 'pni'        },
+    { label: t('patient_tab_stats'),    tab: 'statistics' },
+  ]
 
   useEffect(() => {
     if (!sessionId) return

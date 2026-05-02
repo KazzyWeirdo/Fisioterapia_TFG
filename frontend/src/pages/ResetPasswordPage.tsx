@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { useSearchParams } from 'react-router-dom'
 import { resetPassword } from '../services/authService'
+import { useLanguage } from '../contexts/LanguageContext'
 import AuthCard from '../components/auth/AuthCard'
 import PasswordInput from '../components/auth/PasswordInput'
 import AuthButton from '../components/auth/AuthButton'
@@ -10,6 +11,7 @@ import AuthLink from '../components/auth/AuthLink'
 import styles from './ResetPasswordPage.module.css'
 
 export default function ResetPasswordPage() {
+  const { t } = useLanguage()
   const [searchParams] = useSearchParams()
   const token = searchParams.get('token') ?? ''
 
@@ -41,7 +43,7 @@ export default function ResetPasswordPage() {
       return
     }
     if (newPassword !== confirmPassword) {
-      setError('Passwords do not match')
+      setError(t('reset_error_mismatch'))
       return
     }
     setError(null)
@@ -50,7 +52,7 @@ export default function ResetPasswordPage() {
       await resetPassword(token, newPassword)
       setSubmitted(true)
     } catch {
-      setError('Invalid or expired reset link. Please request a new one.')
+      setError(t('reset_error_invalid_token'))
     } finally {
       setLoading(false)
     }
@@ -76,12 +78,12 @@ export default function ResetPasswordPage() {
           </div>
         ) : (
           <form className={styles.form} onSubmit={handleSubmit} noValidate>
-            <h1 className={styles.title}>Set new password</h1>
-            <p className={styles.subtitle}>Choose a strong password for your account.</p>
+            <h1 className={styles.title}>{t('reset_title')}</h1>
+            <p className={styles.subtitle}>{t('reset_subtitle')}</p>
 
             <PasswordInput
               id="new-password"
-              label="New password"
+              label={t('reset_new_label')}
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               required
@@ -90,7 +92,7 @@ export default function ResetPasswordPage() {
 
             <PasswordInput
               id="confirm-password"
-              label="Confirm password"
+              label={t('reset_confirm_label')}
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               error={error}
@@ -99,7 +101,7 @@ export default function ResetPasswordPage() {
             />
 
             <AuthButton type="submit" loading={loading}>
-              Reset password
+              {t('reset_submit')}
             </AuthButton>
           </form>
         )}

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClipboardList } from '@fortawesome/free-solid-svg-icons'
 import { getPniReportsFromPatient, type PniReportSummary } from '../../services/pniReportService'
+import { useLanguage } from '../../contexts/LanguageContext'
 import styles from './PniReportTab.module.css'
 
 interface PniReportTabProps {
@@ -16,6 +17,7 @@ function formatDate(raw: string): string {
 }
 
 export default function PniReportTab({ patientId, patientName }: PniReportTabProps) {
+  const { t } = useLanguage()
   const [reports, setReports] = useState<PniReportSummary[]>([])
   const [totalElements, setTotalElements] = useState(0)
   const [totalPages, setTotalPages] = useState(0)
@@ -35,7 +37,7 @@ export default function PniReportTab({ patientId, patientName }: PniReportTabPro
         setTotalElements(data.totalElements)
         setTotalPages(data.totalPages)
       })
-      .catch(() => { if (!cancelled) setError('Failed to load reports') })
+      .catch(() => { if (!cancelled) setError(t('common_error')) })
       .finally(() => { if (!cancelled) setLoading(false) })
     return () => { cancelled = true }
   }, [patientId, currentPage])
@@ -54,7 +56,7 @@ export default function PniReportTab({ patientId, patientName }: PniReportTabPro
 
   return (
     <div className={styles.tab}>
-      <h2 className={styles.title}>PNI Reports</h2>
+      <h2 className={styles.title}>{t('patient_tab_pni')}</h2>
       <p className={styles.subtitle}>
         Diagnostic history for patient <strong>{patientName}</strong>.
       </p>

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClipboardList } from '@fortawesome/free-solid-svg-icons'
 import { getAuditLogs, type AuditLogSummary } from '../services/auditLogService'
+import { useLanguage } from '../contexts/LanguageContext'
 import styles from './AuditLogPage.module.css'
 
 const PAGE_SIZE = 10
@@ -26,6 +27,7 @@ function ActionBadge({ action }: { action: string }) {
 
 
 export default function AuditLogPage() {
+  const { t } = useLanguage()
   const [logs, setLogs] = useState<AuditLogSummary[]>([])
   const [totalElements, setTotalElements] = useState(0)
   const [totalPages, setTotalPages] = useState(0)
@@ -56,7 +58,7 @@ export default function AuditLogPage() {
       })
       .catch(() => {
         if (cancelled) return
-        setError('Failed to load audit logs')
+        setError(t('audit_load_error'))
       })
       .finally(() => {
         if (!cancelled) setLoading(false)
@@ -98,7 +100,7 @@ export default function AuditLogPage() {
   return (
     <div className={styles.page}>
       <div className={styles.titleArea}>
-        <h1 className={styles.title}>Audit Logs</h1>
+        <h1 className={styles.title}>{t('audit_title')}</h1>
         <p className={styles.subtitle}>
           A rigorous, immutable chronological record of every interaction within the Clinical Atelier ecosystem.
         </p>
@@ -229,7 +231,7 @@ export default function AuditLogPage() {
             {!loading && !error && filteredLogs.length === 0 && (
               <tr>
                 <td colSpan={5} className={styles.stateCell}>
-                  No audit logs found
+                  {t('audit_empty')}
                 </td>
               </tr>
             )}

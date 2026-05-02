@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDumbbell } from '@fortawesome/free-solid-svg-icons'
 import { getTrainingSessionsFromPatient } from '../../services/trainingSessionService'
+import { useLanguage } from '../../contexts/LanguageContext'
 import styles from './TrainingSessionTab.module.css'
 
 interface TrainingSessionTabProps {
@@ -18,6 +19,7 @@ function formatDate(raw: string): string {
 
 export default function TrainingSessionTab({ patientId, patientName }: TrainingSessionTabProps) {
   const navigate = useNavigate()
+  const { t } = useLanguage()
   const [sessions, setSessions] = useState<{ id: number; date: string }[]>([])
   const [totalElements, setTotalElements] = useState(0)
   const [totalPages, setTotalPages] = useState(0)
@@ -37,7 +39,7 @@ export default function TrainingSessionTab({ patientId, patientName }: TrainingS
         setTotalElements(data.totalElements)
         setTotalPages(data.totalPages)
       })
-      .catch(() => { if (!cancelled) setError('Failed to load sessions') })
+      .catch(() => { if (!cancelled) setError(t('common_error')) })
       .finally(() => { if (!cancelled) setLoading(false) })
     return () => { cancelled = true }
   }, [patientId, currentPage])
@@ -56,7 +58,7 @@ export default function TrainingSessionTab({ patientId, patientName }: TrainingS
 
   return (
     <div className={styles.tab}>
-      <h2 className={styles.title}>Training Sessions</h2>
+      <h2 className={styles.title}>{t('patient_tab_training')}</h2>
       <p className={styles.subtitle}>
         Training history for patient <strong>{patientName}</strong>.
       </p>

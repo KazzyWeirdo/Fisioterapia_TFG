@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCalendarDays, faDumbbell, faCirclePlus, faTrash, faXmark, faCheck } from '@fortawesome/free-solid-svg-icons'
 import { useSearchParams } from 'react-router-dom'
 import { createTrainingSession } from '../services/trainingSessionService'
+import { useLanguage } from '../contexts/LanguageContext'
 import styles from './RegisterTrainingSessionPage.module.css'
 
 interface SetDraft {
@@ -23,6 +24,7 @@ function newSet(): SetDraft {
 }
 
 export default function RegisterTrainingSessionPage() {
+  const { t } = useLanguage()
   const [searchParams] = useSearchParams()
   const patientIdParam = searchParams.get('patientId')
   const patientName = searchParams.get('name') ?? (patientIdParam ? `Patient #${patientIdParam}` : '')
@@ -79,7 +81,7 @@ export default function RegisterTrainingSessionPage() {
       })
       setSubmitted(true)
     } catch {
-      setSubmitError('Failed to register session. Please check the fields and try again.')
+      setSubmitError(t('training_error'))
     } finally {
       setSubmitting(false)
     }
@@ -103,7 +105,7 @@ export default function RegisterTrainingSessionPage() {
     <form className={styles.page} onSubmit={handleSubmit}>
 
       <div>
-        <h1 className={styles.heading}>Register Training Session</h1>
+        <h1 className={styles.heading}>{t('training_register_title')}</h1>
         <p className={styles.subtitle}>Document patient progress with precision.</p>
       </div>
 

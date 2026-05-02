@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass, faDownload } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from 'react-router-dom'
+import { useLanguage } from '../contexts/LanguageContext'
 import {
   getPatients,
   getAllPatientsForExport,
@@ -18,6 +19,7 @@ const PAGE_SIZE = 10
 
 export default function PatientsPage() {
   const navigate = useNavigate()
+  const { t } = useLanguage()
 
   const [patients, setPatients] = useState<PatientSummary[]>([])
   const [totalElements, setTotalElements] = useState(0)
@@ -42,7 +44,7 @@ export default function PatientsPage() {
       })
       .catch(() => {
         if (cancelled) return
-        setError('Failed to load patients')
+        setError(t('patients_load_error'))
       })
       .finally(() => {
         if (!cancelled) setLoading(false)
@@ -113,7 +115,7 @@ export default function PatientsPage() {
           <input
             type="text"
             className={styles.searchInput}
-            placeholder="Search patients..."
+            placeholder={t('patients_search_placeholder')}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -131,7 +133,7 @@ export default function PatientsPage() {
               (p) => [p.id, p.dateOfBirth, p.clinicalUseSex],
             )}
           >
-            {downloading.patients ? 'Exporting…' : <><FontAwesomeIcon icon={faDownload} /> Patients CSV</>}
+            {downloading.patients ? t('common_loading') : <><FontAwesomeIcon icon={faDownload} /> Patients CSV</>}
           </button>
           <button
             type="button"
@@ -206,7 +208,7 @@ export default function PatientsPage() {
             {!loading && !error && filteredPatients.length === 0 && (
               <tr>
                 <td colSpan={2} className={styles.stateCell}>
-                  No patients found
+                  {t('patients_empty')}
                 </td>
               </tr>
             )}

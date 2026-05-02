@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBolt } from '@fortawesome/free-solid-svg-icons'
 import { getIndibaSessionsFromPatient, type IndibaSessionSummary } from '../../services/indibaService'
+import { useLanguage } from '../../contexts/LanguageContext'
 import styles from './IndibaSessionTab.module.css'
 
 interface IndibaSessionTabProps {
@@ -22,6 +23,7 @@ function formatTime(raw: string): string {
 }
 
 export default function IndibaSessionTab({ patientId, patientName }: IndibaSessionTabProps) {
+  const { t } = useLanguage()
   const [sessions, setSessions] = useState<IndibaSessionSummary[]>([])
   const [totalElements, setTotalElements] = useState(0)
   const [totalPages, setTotalPages] = useState(0)
@@ -41,7 +43,7 @@ export default function IndibaSessionTab({ patientId, patientName }: IndibaSessi
         setTotalElements(data.totalElements)
         setTotalPages(data.totalPages)
       })
-      .catch(() => { if (!cancelled) setError('Failed to load sessions') })
+      .catch(() => { if (!cancelled) setError(t('common_error')) })
       .finally(() => { if (!cancelled) setLoading(false) })
     return () => { cancelled = true }
   }, [patientId, currentPage])
@@ -60,7 +62,7 @@ export default function IndibaSessionTab({ patientId, patientName }: IndibaSessi
 
   return (
     <div className={styles.tab}>
-      <h2 className={styles.title}>INDIBA Sessions</h2>
+      <h2 className={styles.title}>{t('patient_tab_indiba')}</h2>
       <p className={styles.subtitle}>
         Diagnostic history for patient <strong>{patientName}</strong>.
       </p>

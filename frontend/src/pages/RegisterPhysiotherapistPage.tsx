@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark, faUserPlus } from '@fortawesome/free-solid-svg-icons'
 import { registerPhysiotherapist } from '../services/physiotherapistService'
+import { useLanguage } from '../contexts/LanguageContext'
 import styles from './RegisterPhysiotherapistPage.module.css'
 
 interface RegisterPhysiotherapistForm {
@@ -21,6 +22,7 @@ const ROLES = [
 
 export default function RegisterPhysiotherapistPage() {
   const navigate = useNavigate()
+  const { t } = useLanguage()
   const [form, setForm] = useState<RegisterPhysiotherapistForm>({
     firstName: '', surname: '', secondSurname: '', email: '', role: '',
   })
@@ -62,7 +64,7 @@ export default function RegisterPhysiotherapistPage() {
   return (
     <div className={styles.page}>
       <p className={styles.adminLabel}>ADMINISTRATION</p>
-      <h1 className={styles.title}>Register Physiotherapist</h1>
+      <h1 className={styles.title}>{t('register_physio_title')}</h1>
       <p className={styles.subtitle}>
         Onboard a new medical practitioner to the Clinical Atelier network.
         Ensure all credentials and access levels are verified.
@@ -162,7 +164,7 @@ export default function RegisterPhysiotherapistPage() {
             <FontAwesomeIcon icon={faXmark} /> Discard Entry
           </button>
           <button type="submit" disabled={submitting} className={styles.submitBtn}>
-            {submitting ? 'Registering…' : <><FontAwesomeIcon icon={faUserPlus} /> Register Physiotherapist</>}
+            {submitting ? t('common_loading') : <><FontAwesomeIcon icon={faUserPlus} /> {t('register_physio_submit')}</>}
           </button>
         </div>
       </form>

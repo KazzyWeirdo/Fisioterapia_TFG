@@ -5,6 +5,7 @@ import {
 } from '../../services/statisticsService'
 import { getTrainingSessionsFromPatient } from '../../services/trainingSessionService'
 import { getIndibaSessionsFromPatient } from '../../services/indibaService'
+import { useLanguage } from '../../contexts/LanguageContext'
 import styles from './StatisticsTab.module.css'
 
 interface StatisticsTabProps {
@@ -36,6 +37,7 @@ function fmtDate(raw: string): string {
 }
 
 export default function StatisticsTab({ patientId }: StatisticsTabProps) {
+  const { t } = useLanguage()
   const [trainingCount, setTrainingCount] = useState(0)
   const [indibaCount, setIndibaCount] = useState(0)
   const [statsLoading, setStatsLoading] = useState(true)
@@ -95,7 +97,7 @@ export default function StatisticsTab({ patientId }: StatisticsTabProps) {
 
         {/* Left: Transition Ratio */}
         <div className={styles.ratioCard}>
-          <h3 className={styles.cardTitle}>Patient Month Transition Ratio</h3>
+          <h3 className={styles.cardTitle}>{t('stats_transition_title')}</h3>
           <p className={styles.cardSub}>Monthly treatment modality distribution</p>
 
           {statsLoading ? (
@@ -140,7 +142,7 @@ export default function StatisticsTab({ patientId }: StatisticsTabProps) {
         <div className={styles.workloadCard}>
           <div className={styles.workloadHeader}>
             <div>
-              <h3 className={styles.cardTitle}>Workload Progression</h3>
+              <h3 className={styles.cardTitle}>{t('stats_workload_title')}</h3>
               <p className={styles.cardSub}>Evolution of intensity across current program</p>
             </div>
             <span className={styles.badge}>Last 30 Days</span>

@@ -3,6 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUsers, faClipboardList, faUser, faPlus, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import { useAuth } from '../../contexts/AuthContext'
+import { useLanguage } from '../../contexts/LanguageContext'
 import { decodeJwtPayload } from '../../utils/jwt'
 import styles from './Sidebar.module.css'
 
@@ -23,6 +24,7 @@ function decodeScope(token: string | null): string | null {
 
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const { token, logout } = useAuth()
+  const { t } = useLanguage()
   const scope = decodeScope(token)
   const location = useLocation()
 
@@ -78,26 +80,26 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         </div>
 
         <nav className={styles.nav}>
-          <div className={styles.section}>MAIN</div>
+          <div className={styles.section}>{t('sidebar_main')}</div>
           <NavLink to="/patients" className={linkClass} end>
-            <FontAwesomeIcon icon={faUsers} className={styles.icon} /> Patients
+            <FontAwesomeIcon icon={faUsers} className={styles.icon} /> {t('nav_patients')}
           </NavLink>
           {showAudit && (
             <NavLink to="/audit" className={linkClass}>
-              <FontAwesomeIcon icon={faClipboardList} className={styles.icon} /> Audit Logs
+              <FontAwesomeIcon icon={faClipboardList} className={styles.icon} /> {t('nav_audit')}
             </NavLink>
           )}
 
-          <div className={styles.section}>ACTIONS</div>
+          <div className={styles.section}>{t('sidebar_actions')}</div>
           <NavLink to="/patients/register" className={linkClass}>
-            <FontAwesomeIcon icon={faUser} className={styles.icon} /> Register Patient
+            <FontAwesomeIcon icon={faUser} className={styles.icon} /> {t('nav_register_patient')}
           </NavLink>
           <NavLink to="/indiba/register" className={linkClass}>
-            <FontAwesomeIcon icon={faPlus} className={styles.icon} /> Register Indiba Session
+            <FontAwesomeIcon icon={faPlus} className={styles.icon} /> {t('nav_register_indiba')}
           </NavLink>
           {showRegisterPhysio && (
             <NavLink to="/physiotherapist/register" className={linkClass}>
-              <FontAwesomeIcon icon={faPlus} className={styles.icon} /> Register Physiotherapist
+              <FontAwesomeIcon icon={faPlus} className={styles.icon} /> {t('nav_register_physio')}
             </NavLink>
           )}
         </nav>
@@ -108,7 +110,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             onClick={logout}
             className={`${styles.link} ${styles.logout}`}
           >
-            <FontAwesomeIcon icon={faArrowRightFromBracket} className={styles.icon} /> Logout
+            <FontAwesomeIcon icon={faArrowRightFromBracket} className={styles.icon} /> {t('logout')}
           </button>
         </div>
       </aside>

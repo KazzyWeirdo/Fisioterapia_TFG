@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useLocation, useNavigate } from 'react-router-dom'
 import { getPatient, type PatientDetail } from '../services/patientService'
+import { useLanguage } from '../contexts/LanguageContext'
 import PatientInfoCard from '../components/patient/PatientInfoCard'
 import TrainingSessionTab from '../components/patient/TrainingSessionTab'
 import IndibaSessionTab from '../components/patient/IndibaSessionTab'
@@ -10,23 +11,24 @@ import styles from './PatientDetailPage.module.css'
 
 type Tab = 'overview' | 'training' | 'indiba' | 'pni' | 'statistics'
 
-const TABS: { id: Tab; label: string }[] = [
-  { id: 'overview', label: 'Overview' },
-  { id: 'training', label: 'Training Sessions' },
-  { id: 'indiba', label: 'INDIBA Sessions' },
-  { id: 'pni', label: 'PNI Reports' },
-  { id: 'statistics', label: 'Statistics' },
-]
-
 export default function PatientDetailPage() {
   const { id } = useParams<{ id: string }>()
   const location = useLocation()
   const navigate = useNavigate()
+  const { t } = useLanguage()
   const [patient, setPatient] = useState<PatientDetail | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const initialTab = (location.state as { tab?: Tab } | null)?.tab ?? 'overview'
   const [activeTab, setActiveTab] = useState<Tab>(initialTab)
+
+  const TABS: { id: Tab; label: string }[] = [
+    { id: 'overview', label: 'Overview' },
+    { id: 'training', label: t('patient_tab_training') },
+    { id: 'indiba', label: t('patient_tab_indiba') },
+    { id: 'pni', label: t('patient_tab_pni') },
+    { id: 'statistics', label: t('patient_tab_stats') },
+  ]
 
   useEffect(() => {
     if (!id) return

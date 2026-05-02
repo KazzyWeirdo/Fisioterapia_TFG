@@ -5,15 +5,8 @@ import { faHeart } from '@fortawesome/free-regular-svg-icons'
 import { useParams, useNavigate } from 'react-router-dom'
 import { getPniReport, type PniReport } from '../services/pniReportService'
 import { getPatient, type PatientDetail } from '../services/patientService'
+import { useLanguage } from '../contexts/LanguageContext'
 import styles from './PniReportDetailPage.module.css'
-
-const TABS: { label: string; tab: string }[] = [
-  { label: 'Overview',          tab: 'overview'  },
-  { label: 'Training Sessions', tab: 'training'  },
-  { label: 'INDIBA Sessions',   tab: 'indiba'    },
-  { label: 'PNI Reports',       tab: 'pni'       },
-  { label: 'Statistics',        tab: 'statistics' },
-]
 
 function formatDate(raw: string): string {
   return new Date(raw + 'T00:00:00').toLocaleDateString('en-US', {
@@ -30,10 +23,19 @@ function ansLabel(value: number): string {
 export default function PniReportDetailPage() {
   const { reportId } = useParams<{ reportId: string }>()
   const navigate = useNavigate()
+  const { t } = useLanguage()
   const [report, setReport] = useState<PniReport | null>(null)
   const [patient, setPatient] = useState<PatientDetail | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+
+  const TABS: { label: string; tab: string }[] = [
+    { label: 'Overview',                tab: 'overview'  },
+    { label: t('patient_tab_training'), tab: 'training'  },
+    { label: t('patient_tab_indiba'),   tab: 'indiba'    },
+    { label: t('patient_tab_pni'),      tab: 'pni'       },
+    { label: t('patient_tab_stats'),    tab: 'statistics' },
+  ]
 
   useEffect(() => {
     if (!reportId) return

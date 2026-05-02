@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClock, faGear, faShield, faEye, faTrash, faCheck } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
+import { useLanguage } from '../contexts/LanguageContext'
 import { createIndibaSession } from '../services/indibaService'
 import type { PhysiotherapistSummary } from '../services/physiotherapistService'
 import { getPatients, type PatientSummary } from '../services/patientService'
@@ -30,6 +31,7 @@ const EMPTY_FORM = {
 export default function RegisterIndibaSessionPage() {
   const navigate = useNavigate()
   const { token } = useAuth()
+  const { t } = useLanguage()
   const [form, setForm] = useState(EMPTY_FORM)
   const [physio, setPhysio] = useState<PhysiotherapistSummary | null>(null)
   const [patients, setPatients] = useState<PatientSummary[]>([])
@@ -66,7 +68,7 @@ export default function RegisterIndibaSessionPage() {
       })
       navigate(-1)
     } catch {
-      setError('Failed to register session. Please check the fields and try again.')
+      setError(t('indiba_error'))
     } finally {
       setSubmitting(false)
     }
@@ -76,23 +78,23 @@ export default function RegisterIndibaSessionPage() {
     <form className={styles.page} onSubmit={handleSubmit}>
 
       <div>
-        <h1 className={styles.heading}>Register INDIBA Session</h1>
-        <p className={styles.subtitle}>Document a new INDIBA treatment session with clinical parameters and observations.</p>
+        <h1 className={styles.heading}>{t('indiba_register_title')}</h1>
+        <p className={styles.subtitle}>{t('indiba_register_subtitle')}</p>
       </div>
 
       {/* SESSION TIMING */}
       <div className={styles.section}>
         <div className={styles.sectionHeader}>
-          <FontAwesomeIcon icon={faClock} /> SESSION TIMING
+          <FontAwesomeIcon icon={faClock} /> {t('indiba_section_timing')}
         </div>
         <div className={styles.row}>
           <div className={styles.field}>
-            <label className={styles.label} htmlFor="beginSession">BEGIN SESSION</label>
+            <label className={styles.label} htmlFor="beginSession">{t('indiba_begin')}</label>
             <input id="beginSession" name="beginSession" type="datetime-local"
               className={styles.input} value={form.beginSession} onChange={handleChange} required />
           </div>
           <div className={styles.field}>
-            <label className={styles.label} htmlFor="endSession">END SESSION</label>
+            <label className={styles.label} htmlFor="endSession">{t('indiba_end')}</label>
             <input id="endSession" name="endSession" type="datetime-local"
               className={styles.input} value={form.endSession} onChange={handleChange} required />
           </div>
@@ -102,14 +104,14 @@ export default function RegisterIndibaSessionPage() {
       {/* TREATMENT PARAMETERS */}
       <div className={styles.section}>
         <div className={styles.sectionHeader}>
-          <FontAwesomeIcon icon={faGear} /> TREATMENT PARAMETERS
+          <FontAwesomeIcon icon={faGear} /> {t('indiba_section_params')}
         </div>
 
         <div className={styles.field}>
-          <label className={styles.label} htmlFor="patientId">PATIENT</label>
+          <label className={styles.label} htmlFor="patientId">{t('indiba_patient')}</label>
           <select id="patientId" name="patientId" className={styles.select}
             value={form.patientId} onChange={handleChange} required>
-            <option value="">Search or select patient...</option>
+            <option value="">{t('indiba_patient_placeholder')}</option>
             {patients.map(p => (
               <option key={p.id} value={p.id}>
                 {p.name} {p.surname}{p.secondSurname ? ` ${p.secondSurname}` : ''}
@@ -120,13 +122,13 @@ export default function RegisterIndibaSessionPage() {
 
         <div className={styles.row}>
           <div className={styles.field}>
-            <label className={styles.label} htmlFor="treatedArea">TREATED AREA</label>
+            <label className={styles.label} htmlFor="treatedArea">{t('indiba_area')}</label>
             <input id="treatedArea" name="treatedArea" type="text"
-              className={styles.input} placeholder="e.g. Lumbar spine, Right shoulder"
+              className={styles.input} placeholder={t('indiba_area_placeholder')}
               value={form.treatedArea} onChange={handleChange} required />
           </div>
           <div className={styles.field}>
-            <label className={styles.label} htmlFor="mode">MODE</label>
+            <label className={styles.label} htmlFor="mode">{t('indiba_mode')}</label>
             <select id="mode" name="mode" className={styles.select}
               value={form.mode} onChange={handleChange} required>
               {MODES.map(m => (
@@ -140,7 +142,7 @@ export default function RegisterIndibaSessionPage() {
 
         <div className={styles.row}>
           <div className={styles.fieldNarrow}>
-            <label className={styles.label} htmlFor="intensity">INTENSITY</label>
+            <label className={styles.label} htmlFor="intensity">{t('indiba_intensity')}</label>
             <div className={styles.intensityWrapper}>
               <input id="intensity" name="intensity" type="number" min="0" max="100"
                 className={styles.intensityInput} value={form.intensity} onChange={handleChange} required />
@@ -148,20 +150,20 @@ export default function RegisterIndibaSessionPage() {
             </div>
           </div>
           <div className={styles.field}>
-            <label className={styles.label}>ATTENDING PHYSIOTHERAPIST</label>
+            <label className={styles.label}>{t('indiba_physio')}</label>
             <div className={styles.autoFillBox}>
               <span className={styles.autoFillName}>
                 <FontAwesomeIcon icon={faShield} /> {physio ? `${physio.name} ${physio.surname}` : '…'}
               </span>
-              <span className={styles.autoFillBadge}>AUTO-FILLED</span>
+              <span className={styles.autoFillBadge}>{t('indiba_autofilled')}</span>
             </div>
           </div>
         </div>
 
         <div className={styles.field}>
-          <label className={styles.label} htmlFor="objective">OBJECTIVE</label>
+          <label className={styles.label} htmlFor="objective">{t('indiba_objective')}</label>
           <input id="objective" name="objective" type="text"
-            className={styles.input} placeholder="State the primary goal for this specific session"
+            className={styles.input} placeholder={t('indiba_objective_placeholder')}
             value={form.objective} onChange={handleChange} />
         </div>
       </div>
@@ -169,12 +171,12 @@ export default function RegisterIndibaSessionPage() {
       {/* CLINICAL OBSERVATIONS */}
       <div className={styles.section}>
         <div className={styles.sectionHeader}>
-          <FontAwesomeIcon icon={faEye} /> CLINICAL OBSERVATIONS
+          <FontAwesomeIcon icon={faEye} /> {t('indiba_section_observations')}
         </div>
         <div className={styles.field}>
-          <label className={styles.label} htmlFor="observations">OBSERVATIONS</label>
+          <label className={styles.label} htmlFor="observations">{t('indiba_observations_label')}</label>
           <textarea id="observations" name="observations" className={styles.textarea}
-            placeholder="Document patient feedback, tissue response, and post-session functional changes..."
+            placeholder={t('indiba_observations_placeholder')}
             value={form.observations} onChange={handleChange} />
         </div>
       </div>
@@ -183,10 +185,10 @@ export default function RegisterIndibaSessionPage() {
 
       <div className={styles.footer}>
         <button type="button" className={styles.discardBtn} onClick={() => navigate(-1)}>
-          <FontAwesomeIcon icon={faTrash} /> DISCARD ENTRY
+          <FontAwesomeIcon icon={faTrash} /> {t('indiba_discard')}
         </button>
         <button type="submit" className={styles.submitBtn} disabled={submitting || !physio}>
-          <FontAwesomeIcon icon={faCheck} /> REGISTER SESSION
+          <FontAwesomeIcon icon={faCheck} /> {t('indiba_submit')}
         </button>
       </div>
 
