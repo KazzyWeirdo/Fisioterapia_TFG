@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { forgotPassword } from '../services/authService'
+import { useLanguage } from '../contexts/LanguageContext'
 import AuthCard from '../components/auth/AuthCard'
 import AuthInput from '../components/auth/AuthInput'
 import AuthButton from '../components/auth/AuthButton'
@@ -7,6 +8,7 @@ import AuthLink from '../components/auth/AuthLink'
 import styles from './ForgotPasswordPage.module.css'
 
 export default function ForgotPasswordPage() {
+  const { t } = useLanguage()
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [submitted, setSubmitted] = useState(false)
@@ -17,7 +19,7 @@ export default function ForgotPasswordPage() {
     setError(null)
 
     if (!email.trim()) {
-      setError('Email is required')
+      setError(t('login_error_email_required'))
       return
     }
 
@@ -26,7 +28,7 @@ export default function ForgotPasswordPage() {
       await forgotPassword(email)
       setSubmitted(true)
     } catch {
-      setError('Something went wrong. Please try again.')
+      setError(t('forgot_error'))
     } finally {
       setLoading(false)
     }
@@ -38,22 +40,16 @@ export default function ForgotPasswordPage() {
         {submitted ? (
           <div className={styles.success}>
             <div className={styles.successIcon}>&#10003;</div>
-            <p className={styles.successTitle}>Check your inbox</p>
-            <p className={styles.successText}>
-              We've sent a password reset link to <strong>{email}</strong>. It may take a few
-              minutes to arrive.
-            </p>
+            <p className={styles.successTitle}>{t('forgot_success')}</p>
           </div>
         ) : (
           <form className={styles.form} onSubmit={handleSubmit} noValidate>
-            <h1 className={styles.title}>Forgot password?</h1>
-            <p className={styles.subtitle}>
-              Enter your email address and we'll send you a link to reset your password.
-            </p>
+            <h1 className={styles.title}>{t('forgot_title')}</h1>
+            <p className={styles.subtitle}>{t('forgot_subtitle')}</p>
 
             <AuthInput
               id="reset-email"
-              label="Email address"
+              label={t('forgot_email_label')}
               type="email"
               placeholder="name@example.com"
               value={email}
@@ -64,12 +60,12 @@ export default function ForgotPasswordPage() {
             />
 
             <AuthButton type="submit" loading={loading}>
-              Send reset link
+              {t('forgot_submit')}
             </AuthButton>
           </form>
         )}
 
-        <AuthLink to="/login">&#8592; Back to login</AuthLink>
+        <AuthLink to="/login">{t('forgot_back')}</AuthLink>
       </AuthCard>
 
       <div className={styles.stepDots} aria-hidden="true">

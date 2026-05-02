@@ -5,6 +5,7 @@ import {
 } from '../../services/statisticsService'
 import { getTrainingSessionsFromPatient } from '../../services/trainingSessionService'
 import { getIndibaSessionsFromPatient } from '../../services/indibaService'
+import { useLanguage } from '../../contexts/LanguageContext'
 import styles from './StatisticsTab.module.css'
 
 interface StatisticsTabProps {
@@ -36,6 +37,7 @@ function fmtDate(raw: string): string {
 }
 
 export default function StatisticsTab({ patientId }: StatisticsTabProps) {
+  const { t } = useLanguage()
   const [trainingCount, setTrainingCount] = useState(0)
   const [indibaCount, setIndibaCount] = useState(0)
   const [statsLoading, setStatsLoading] = useState(true)
@@ -55,7 +57,7 @@ export default function StatisticsTab({ patientId }: StatisticsTabProps) {
         setTrainingCount(training.totalElements)
         setIndibaCount(indiba.totalElements)
       })
-      .catch(() => setStatsError('Failed to load statistics'))
+      .catch(() => setStatsError(t('stats_load_error')))
       .finally(() => setStatsLoading(false))
   }, [patientId])
 
@@ -65,7 +67,7 @@ export default function StatisticsTab({ patientId }: StatisticsTabProps) {
     setWorkloadError(null)
     getWorkloadProgression(patientId, exerciseName)
       .then(setWorkload)
-      .catch(() => setWorkloadError('Failed to load workload data'))
+      .catch(() => setWorkloadError(t('stats_workload_error')))
       .finally(() => setWorkloadLoading(false))
   }, [patientId, exerciseName])
 
@@ -95,11 +97,11 @@ export default function StatisticsTab({ patientId }: StatisticsTabProps) {
 
         {/* Left: Transition Ratio */}
         <div className={styles.ratioCard}>
-          <h3 className={styles.cardTitle}>Patient Month Transition Ratio</h3>
-          <p className={styles.cardSub}>Monthly treatment modality distribution</p>
+          <h3 className={styles.cardTitle}>{t('stats_transition_title')}</h3>
+          <p className={styles.cardSub}>{t('stats_transition_subtitle')}</p>
 
           {statsLoading ? (
-            <p className={styles.chartState}>Loading…</p>
+            <p className={styles.chartState}>{t('common_loading')}</p>
           ) : statsError ? (
             <p className={styles.chartError}>{statsError}</p>
           ) : (
@@ -112,7 +114,7 @@ export default function StatisticsTab({ patientId }: StatisticsTabProps) {
                   <span className={styles.gaugeValue}>
                     {currentRatio !== null ? currentRatio.toFixed(2) : '—'}
                   </span>
-                  <span className={styles.gaugeLabel}>TRANSITION RATIO</span>
+                  <span className={styles.gaugeLabel}>{t('stats_ratio_label')}</span>
                 </div>
               </div>
 
@@ -120,14 +122,14 @@ export default function StatisticsTab({ patientId }: StatisticsTabProps) {
                 <div className={styles.counter}>
                   <span className={styles.counterDot} style={{ background: '#1a3a6b' }} />
                   <div>
-                    <div className={styles.counterLabel}>TRAINING SESSIONS</div>
+                    <div className={styles.counterLabel}>{t('stats_training_sessions')}</div>
                     <div className={styles.counterValue}>{trainingCount}</div>
                   </div>
                 </div>
                 <div className={styles.counter}>
                   <span className={styles.counterDot} style={{ background: '#b45309' }} />
                   <div>
-                    <div className={styles.counterLabel}>INDIBA SESSIONS</div>
+                    <div className={styles.counterLabel}>{t('stats_indiba_sessions')}</div>
                     <div className={styles.counterValue}>{indibaCount}</div>
                   </div>
                 </div>
@@ -140,10 +142,10 @@ export default function StatisticsTab({ patientId }: StatisticsTabProps) {
         <div className={styles.workloadCard}>
           <div className={styles.workloadHeader}>
             <div>
-              <h3 className={styles.cardTitle}>Workload Progression</h3>
-              <p className={styles.cardSub}>Evolution of intensity across current program</p>
+              <h3 className={styles.cardTitle}>{t('stats_workload_title')}</h3>
+              <p className={styles.cardSub}>{t('stats_workload_subtitle')}</p>
             </div>
-            <span className={styles.badge}>Last 30 Days</span>
+            <span className={styles.badge}>{t('stats_last_30_days')}</span>
           </div>
 
           <form
@@ -156,20 +158,20 @@ export default function StatisticsTab({ patientId }: StatisticsTabProps) {
             <input
               type="text"
               className={styles.exerciseInput}
-              placeholder="Exercise name (e.g. Squats)"
+              placeholder={t('stats_exercise_placeholder')}
               value={exerciseInput}
               onChange={e => setExerciseInput(e.target.value)}
             />
-            <button type="submit" className={styles.exerciseBtn}>Load</button>
+            <button type="submit" className={styles.exerciseBtn}>{t('stats_load_btn')}</button>
           </form>
 
-          {workloadLoading && <p className={styles.chartState}>Loading…</p>}
+          {workloadLoading && <p className={styles.chartState}>{t('common_loading')}</p>}
           {workloadError && <p className={styles.chartError}>{workloadError}</p>}
           {!workloadLoading && !workloadError && !exerciseName && (
-            <p className={styles.chartState}>Enter an exercise name to view progression.</p>
+            <p className={styles.chartState}>{t('stats_enter_exercise')}</p>
           )}
           {!workloadLoading && !workloadError && exerciseName && workload.length === 0 && (
-            <p className={styles.chartState}>No workload data found for "{exerciseName}".</p>
+            <p className={styles.chartState}>{t('stats_no_workload', { name: exerciseName })}</p>
           )}
           {!workloadLoading && !workloadError && workload.length > 0 && (
             <svg viewBox={`0 0 ${CHART_W} ${CHART_H}`} className={styles.chart}>
