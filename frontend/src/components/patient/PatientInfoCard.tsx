@@ -198,7 +198,7 @@ export default function PatientInfoCard({ patient, onPatientUpdated }: Props) {
             <button
               type="button"
               className={styles.polarBtn}
-              onClick={() => window.open(`/api/auth/polar/authorize?patientId=${patient.id}`, '_blank')}
+              onClick={() => window.open(`${import.meta.env.VITE_API_BASE_URL}/api/auth/polar/authorize?patientId=${patient.id}`, '_blank')}
             >
               <FontAwesomeIcon icon={faHeart} /> {t('polar_connect_btn')}
             </button>
