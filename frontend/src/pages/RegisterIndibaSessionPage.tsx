@@ -23,7 +23,8 @@ const EMPTY_FORM = {
   endSession: '',
   treatedArea: '',
   mode: 'CAPACITIVE',
-  intensity: '40',
+  capacitiveIntensity: '40',
+  resistiveIntensity: '40',
   objective: '',
   observations: '',
 }
@@ -55,13 +56,16 @@ export default function RegisterIndibaSessionPage() {
     setSubmitting(true)
     setError(null)
     try {
+      const isDual = form.mode === 'DUAL'
+      const isCapacitive = form.mode === 'CAPACITIVE'
       await createIndibaSession({
         patientId: Number(form.patientId),
         beginSession: new Date(form.beginSession).toISOString(),
         endSession: new Date(form.endSession).toISOString(),
         treatedArea: form.treatedArea,
         mode: form.mode,
-        intensity: parseFloat(form.intensity),
+        capacitiveIntensity: (isDual || isCapacitive) ? parseFloat(form.capacitiveIntensity) : null,
+        resistiveIntensity: (isDual || !isCapacitive) ? parseFloat(form.resistiveIntensity) : null,
         objective: form.objective,
         physiotherapistId: physio.id,
         observations: form.observations,
@@ -141,14 +145,42 @@ export default function RegisterIndibaSessionPage() {
         </div>
 
         <div className={styles.row}>
-          <div className={styles.fieldNarrow}>
-            <label className={styles.label} htmlFor="intensity">{t('indiba_intensity')}</label>
-            <div className={styles.intensityWrapper}>
-              <input id="intensity" name="intensity" type="number" min="0" max="100"
-                className={styles.intensityInput} value={form.intensity} onChange={handleChange} required />
-              <span className={styles.intensityUnit}>%</span>
+          {form.mode === 'DUAL' ? (
+            <>
+              <div className={styles.fieldNarrow}>
+                <label className={styles.label} htmlFor="capacitiveIntensity">{t('indiba_capacitive_intensity')}</label>
+                <div className={styles.intensityWrapper}>
+                  <input id="capacitiveIntensity" name="capacitiveIntensity" type="number" min="0" max="100"
+                    className={styles.intensityInput} value={form.capacitiveIntensity} onChange={handleChange} required />
+                  <span className={styles.intensityUnit}>%</span>
+                </div>
+              </div>
+              <div className={styles.fieldNarrow}>
+                <label className={styles.label} htmlFor="resistiveIntensity">{t('indiba_resistive_intensity')}</label>
+                <div className={styles.intensityWrapper}>
+                  <input id="resistiveIntensity" name="resistiveIntensity" type="number" min="0" max="100"
+                    className={styles.intensityInput} value={form.resistiveIntensity} onChange={handleChange} required />
+                  <span className={styles.intensityUnit}>%</span>
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className={styles.fieldNarrow}>
+              <label className={styles.label} htmlFor={form.mode === 'CAPACITIVE' ? 'capacitiveIntensity' : 'resistiveIntensity'}>
+                {form.mode === 'CAPACITIVE' ? t('indiba_capacitive_intensity') : t('indiba_resistive_intensity')}
+              </label>
+              <div className={styles.intensityWrapper}>
+                <input
+                  id={form.mode === 'CAPACITIVE' ? 'capacitiveIntensity' : 'resistiveIntensity'}
+                  name={form.mode === 'CAPACITIVE' ? 'capacitiveIntensity' : 'resistiveIntensity'}
+                  type="number" min="0" max="100"
+                  className={styles.intensityInput}
+                  value={form.mode === 'CAPACITIVE' ? form.capacitiveIntensity : form.resistiveIntensity}
+                  onChange={handleChange} required />
+                <span className={styles.intensityUnit}>%</span>
+              </div>
             </div>
-          </div>
+          )}
           <div className={styles.field}>
             <label className={styles.label}>{t('indiba_physio')}</label>
             <div className={styles.autoFillBox}>

@@ -112,6 +112,8 @@
   "indiba_area_placeholder": "e.g. Lumbar spine, Right shoulder",
   "indiba_mode": "MODE",
   "indiba_intensity": "INTENSITY",
+  "indiba_capacitive_intensity": "CAPACITIVE INTENSITY",
+  "indiba_resistive_intensity": "RESISTIVE INTENSITY",
   "indiba_objective": "OBJECTIVE",
   "indiba_objective_placeholder": "State the primary goal for this specific session",
   "indiba_physio": "ATTENDING PHYSIOTHERAPIST",

@@ -16,7 +16,8 @@ public class IndibaJpaMapper {
         entity.setEndSession(indibaSession.getEndSession());
         entity.setTreatedArea(indibaSession.getTreatedArea());
         entity.setMode(indibaSession.getMode());
-        entity.setIntensity(indibaSession.getIntensity());
+        entity.setCapacitiveIntensity(indibaSession.getCapacitiveIntensity());
+        entity.setResistiveIntensity(indibaSession.getResistiveIntensity());
         entity.setObjective(indibaSession.getObjective());
         entity.setPhysiotherapist(physiotherapistJpaEntity);
         entity.setObservations(indibaSession.getObservations());
@@ -31,7 +32,8 @@ public class IndibaJpaMapper {
                 entity.getEndSession(),
                 entity.getTreatedArea(),
                 entity.getMode(),
-                entity.getIntensity(),
+                entity.getCapacitiveIntensity(),
+                entity.getResistiveIntensity(),
                 entity.getObjective(),
                 PhysiotherapistJpaMapper.toModelEntity(entity.getPhysiotherapist()),
                 entity.getObservations()

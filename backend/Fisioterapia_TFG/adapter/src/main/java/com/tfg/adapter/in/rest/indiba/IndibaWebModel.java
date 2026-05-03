@@ -9,7 +9,8 @@ public record IndibaWebModel(
         Date endSession,
         String treatedArea,
         String mode,
-        float intensity,
+        Float capacitiveIntensity,
+        Float resistiveIntensity,
         String objective,
         int physiotherapistId,
         String observations
@@ -22,7 +23,8 @@ public record IndibaWebModel(
                 indibaSession.getEndSession(),
                 indibaSession.getTreatedArea(),
                 indibaSession.getMode().toString(),
-                indibaSession.getIntensity(),
+                indibaSession.getCapacitiveIntensity(),
+                indibaSession.getResistiveIntensity(),
                 indibaSession.getObjective(),
                 indibaSession.getPhysiotherapist().getId().value(),
                 indibaSession.getObservations()

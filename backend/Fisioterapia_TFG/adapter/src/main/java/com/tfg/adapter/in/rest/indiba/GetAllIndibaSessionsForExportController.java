@@ -30,7 +30,8 @@ public class GetAllIndibaSessionsForExportController {
                 s.getEndSession().toInstant().toString(),
                 s.getTreatedArea(),
                 s.getMode().name(),
-                s.getIntensity(),
+                s.getCapacitiveIntensity(),
+                s.getResistiveIntensity(),
                 s.getObjective(),
                 s.getObservations()
         )).toList();

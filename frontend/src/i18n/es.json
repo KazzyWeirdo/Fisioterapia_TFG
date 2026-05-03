@@ -112,6 +112,8 @@
   "indiba_area_placeholder": "p. ej. Columna lumbar, Hombro derecho",
   "indiba_mode": "MODO",
   "indiba_intensity": "INTENSIDAD",
+  "indiba_capacitive_intensity": "INTENSIDAD CAPACITIVA",
+  "indiba_resistive_intensity": "INTENSIDAD RESISTIVA",
   "indiba_objective": "OBJETIVO",
   "indiba_objective_placeholder": "Indica el objetivo principal de esta sesión",
   "indiba_physio": "FISIOTERAPEUTA ASIGNADO",

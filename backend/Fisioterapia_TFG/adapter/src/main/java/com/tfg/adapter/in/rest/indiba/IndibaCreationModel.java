@@ -22,8 +22,8 @@ public record IndibaCreationModel(
         String treatedArea,
         @NotNull(message = "Mode is required")
         String mode,
-        @NotNull(message = "Intensity is required")
-        float intensity,
+        Float capacitiveIntensity,
+        Float resistiveIntensity,
         String objective,
         @NotNull(message = "Physiotherapist is required")
         int physiotherapistId,
@@ -40,7 +40,8 @@ public record IndibaCreationModel(
                         endSession,
                         treatedArea,
                         com.tfg.indiba.IndibaSessionModes.valueOf(mode),
-                        intensity,
+                        capacitiveIntensity,
+                        resistiveIntensity,
                         objective,
                         physiotherapist,
                         observations
