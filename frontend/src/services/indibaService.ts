@@ -27,7 +27,8 @@ export interface IndibaSession {
   capacitiveIntensity: number | null
   resistiveIntensity: number | null
   objective: string
-  physiotherapistId: number
+  physiotherapistName: string
+  physiotherapistSurname: string
   observations: string
 }
 
