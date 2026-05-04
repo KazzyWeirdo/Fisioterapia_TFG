@@ -42,13 +42,13 @@ ON CONFLICT (id) DO NOTHING;
 -- INDIBA sessions
 INSERT INTO indiba_sessions (
     id, patient_id, begin_session, end_session,
-    treated_area, mode, intensity, objective, physiotherapist_id, observations
+    treated_area, mode, capacitive_intensity, resistive_intensity, objective, physiotherapist_id, observations
 ) VALUES
-  (1, 1, '2026-01-10 09:00:00', '2026-01-10 09:45:00', 'Lumbar',      'CAPACITIVE', 3.5, 'Reducció del dolor',        1, 'El pacient respon bé'),
-  (2, 1, '2026-01-17 09:00:00', '2026-01-17 09:45:00', 'Lumbar',      'RESISTIVE',  4.0, 'Millora mobilitat',         1, NULL),
-  (3, 2, '2026-01-12 10:00:00', '2026-01-12 10:45:00', 'Genoll dret', 'DUAL',       3.0, 'Recuperació post-cirurgia', 2, 'Seguiment setmanal'),
-  (4, 3, '2026-02-05 11:00:00', '2026-02-05 11:45:00', 'Espatlla',    'CAPACITIVE', 2.5, 'Tendinitis rotadors',       1, NULL),
-  (5, 4, '2026-02-18 16:00:00', '2026-02-18 16:45:00', 'Cervical',    'RESISTIVE',  3.0, 'Contractura cervical',      2, 'Millora notable')
+  (1, 1, '2026-01-10 09:00:00', '2026-01-10 09:45:00', 'Lumbar',      'CAPACITIVE', 3.5,  NULL, 'Reducció del dolor',        1, 'El pacient respon bé'),
+  (2, 1, '2026-01-17 09:00:00', '2026-01-17 09:45:00', 'Lumbar',      'RESISTIVE',  NULL, 4.0,  'Millora mobilitat',         1, NULL),
+  (3, 2, '2026-01-12 10:00:00', '2026-01-12 10:45:00', 'Genoll dret', 'DUAL',       3.0,  3.0,  'Recuperació post-cirurgia', 2, 'Seguiment setmanal'),
+  (4, 3, '2026-02-05 11:00:00', '2026-02-05 11:45:00', 'Espatlla',    'CAPACITIVE', 2.5,  NULL, 'Tendinitis rotadors',       1, NULL),
+  (5, 4, '2026-02-18 16:00:00', '2026-02-18 16:45:00', 'Cervical',    'RESISTIVE',  NULL, 3.0,  'Contractura cervical',      2, 'Millora notable')
 ON CONFLICT (id) DO NOTHING;
 
 -- PNI reports

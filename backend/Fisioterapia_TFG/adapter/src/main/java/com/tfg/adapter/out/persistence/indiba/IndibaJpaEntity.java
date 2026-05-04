@@ -28,8 +28,10 @@ public class IndibaJpaEntity {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private IndibaSessionModes mode;
-    @Column(nullable = false)
-    private float intensity;
+    @Column
+    private Float capacitiveIntensity;
+    @Column
+    private Float resistiveIntensity;
     private String objective;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "physiotherapist_id", nullable = false)

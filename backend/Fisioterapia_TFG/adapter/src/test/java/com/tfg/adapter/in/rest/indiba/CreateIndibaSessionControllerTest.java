@@ -41,7 +41,6 @@ public class CreateIndibaSessionControllerTest {
 
     @BeforeEach
     void setUp() {
-        // Configurar RestAssuredMockMvc con el controlador a probar
         RestAssuredMockMvc.standaloneSetup(createIndibaSessionController);
     }
 
@@ -55,11 +54,41 @@ public class CreateIndibaSessionControllerTest {
 
         IndibaCreationModel indibaCreationModel = new IndibaCreationModel(
                 TEST_PATIENT.getId().value(),
-                new java.util.Date(System.currentTimeMillis() - 100000), // beginSession en el pasado
-                new java.util.Date(System.currentTimeMillis()), // endSession en el presente
+                new java.util.Date(System.currentTimeMillis() - 100000),
+                new java.util.Date(System.currentTimeMillis()),
                 "Lower Back",
                 "CAPACITIVE",
                 5.0f,
+                null,
+                "Pain Relief",
+                TEST_PHYSIOTHERAPIST.getId().value(),
+                "No observations"
+        );
+        RestAssuredMockMvc.given()
+                .contentType("application/json")
+                .body(indibaCreationModel)
+                .when()
+                .post("/indiba/create")
+                .then()
+                .statusCode(200);
+    }
+
+    @Test
+    void createIndibaSession_ShouldReturnOk_WhenDualModeWithBothIntensities() {
+        when(patientRepository.findById(any()))
+                .thenReturn(Optional.of(TEST_PATIENT));
+
+        when(physiotherapistRepository.findById(any()))
+                .thenReturn(Optional.of(TEST_PHYSIOTHERAPIST));
+
+        IndibaCreationModel indibaCreationModel = new IndibaCreationModel(
+                TEST_PATIENT.getId().value(),
+                new java.util.Date(System.currentTimeMillis() - 100000),
+                new java.util.Date(System.currentTimeMillis()),
+                "Lower Back",
+                "DUAL",
+                5.0f,
+                4.0f,
                 "Pain Relief",
                 TEST_PHYSIOTHERAPIST.getId().value(),
                 "No observations"
@@ -77,13 +106,14 @@ public class CreateIndibaSessionControllerTest {
     void createIndibaSession_ShouldReturnBadRequest_WhenInputIsInvalid() {
         IndibaCreationModel indibaCreationModel = new IndibaCreationModel(
                 TEST_PATIENT.getId().value(),
-                new java.util.Date(System.currentTimeMillis() + 10000), // beginSession en el pasado
-                new java.util.Date(System.currentTimeMillis()), // endSession en el presente
+                new java.util.Date(System.currentTimeMillis() + 10000),
+                new java.util.Date(System.currentTimeMillis()),
                 "Lower Back",
                 "CAPACITIVE",
                 5.0f,
+                null,
                 "Pain Relief",
-                 TEST_PHYSIOTHERAPIST.getId().value(),
+                TEST_PHYSIOTHERAPIST.getId().value(),
                 "No observations"
         );
 

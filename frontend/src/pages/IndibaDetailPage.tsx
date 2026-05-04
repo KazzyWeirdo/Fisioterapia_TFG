@@ -135,12 +135,29 @@ export default function IndibaDetailPage() {
               <span className={styles.miniLabel}>{t('indiba_field_mode')}</span>
               <span className={styles.miniValue}><FontAwesomeIcon icon={faBolt} /> {formatMode(session.mode)}</span>
             </div>
-            <div className={styles.miniCard}>
-              <span className={styles.miniLabel}>{t('indiba_field_intensity')}</span>
-              <span className={styles.miniValueLarge}>
-                {session.intensity}<span className={styles.pct}>%</span>
-              </span>
-            </div>
+            {session.mode === 'DUAL' ? (
+              <>
+                <div className={styles.miniCard}>
+                  <span className={styles.miniLabel}>{t('indiba_capacitive_intensity')}</span>
+                  <span className={styles.miniValueLarge}>
+                    {session.capacitiveIntensity}<span className={styles.pct}>%</span>
+                  </span>
+                </div>
+                <div className={styles.miniCard}>
+                  <span className={styles.miniLabel}>{t('indiba_resistive_intensity')}</span>
+                  <span className={styles.miniValueLarge}>
+                    {session.resistiveIntensity}<span className={styles.pct}>%</span>
+                  </span>
+                </div>
+              </>
+            ) : (
+              <div className={styles.miniCard}>
+                <span className={styles.miniLabel}>{t('indiba_field_intensity')}</span>
+                <span className={styles.miniValueLarge}>
+                  {session.mode === 'CAPACITIVE' ? session.capacitiveIntensity : session.resistiveIntensity}<span className={styles.pct}>%</span>
+                </span>
+              </div>
+            )}
           </div>
 
           <div className={styles.observations}>
