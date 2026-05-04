@@ -117,7 +117,7 @@ public class SpringAppConfig {
 
     @Bean
     CreatePatientUseCase createPatientUseCase() {
-        return new CreatePatientService(patientRepository, emailSenderPort);
+        return new CreatePatientService(patientRepository);
     }
 
     @Bean

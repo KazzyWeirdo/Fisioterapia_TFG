@@ -12,15 +12,18 @@ import java.time.LocalDate;
 import java.util.List;
 
 public record TrainingSessionCreationModel(
+        @NotNull(message = "Patient ID is required")
+        Integer patientId,
         @NotNull(message = "Date is required")
         LocalDate date,
         @NotEmpty(message = "A session must have at least one exercise")
         @Valid
         List<ExerciseCreationModel> exercises
 ) {
-        public TrainingSession toDomainModel(PatientRepository patientRepository, PatientId patientId) {
-                Patient patient = patientRepository.findById(patientId)
-                        .orElseThrow(() -> new IllegalArgumentException("Patient with id " + patientId + " not found"));
+        public TrainingSession toDomainModel(PatientRepository patientRepository) {
+                PatientId id = new PatientId(patientId);
+                Patient patient = patientRepository.findById(id)
+                        .orElseThrow(() -> new IllegalArgumentException("Patient with id " + id + " not found"));
 
                 TrainingSession trainingSession = new TrainingSession(patient, date);
 

@@ -47,15 +47,15 @@ export interface ExerciseInput {
 }
 
 export interface CreateTrainingSessionRequest {
+  patientId: number
   date: string
   exercises: ExerciseInput[]
 }
 
 export async function createTrainingSession(
-  patientId: number,
   body: CreateTrainingSessionRequest,
 ): Promise<void> {
-  await apiClient.post(`/training-session/${patientId}/create`, body)
+  await apiClient.post(`/training-session/create`, body)
 }
 
 export async function getTrainingSession(id: number): Promise<TrainingSessionDetail> {

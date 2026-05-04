@@ -15,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -46,11 +47,11 @@ public class CreateTrainingSessionControllerTest {
 
         ExerciseCreationModel exercise1 = new ExerciseCreationModel("Squats", new ArrayList<>());
 
-        List<ExerciseCreationModel>  exercises = new ArrayList<>();
-
+        List<ExerciseCreationModel> exercises = new ArrayList<>();
         exercises.add(exercise1);
 
         TrainingSessionCreationModel trainingSessionCreationModel = new TrainingSessionCreationModel(
+                TEST_PATIENT.getId().value(),
                 LocalDate.of(2024, 6, 1),
                 exercises
         );
@@ -59,7 +60,7 @@ public class CreateTrainingSessionControllerTest {
                 .contentType("application/json")
                 .body(trainingSessionCreationModel)
                 .when()
-                .post("/training-session/{patientId}/create", String.valueOf(TEST_PATIENT.getId().value()))
+                .post("/training-session/create")
                 .then()
                 .statusCode(200);
     }
@@ -67,6 +68,7 @@ public class CreateTrainingSessionControllerTest {
     @Test
     void createTrainingSession_shouldReturnBadRequest_whenInputIsInvalid() {
         TrainingSessionCreationModel trainingSessionCreationModel = new TrainingSessionCreationModel(
+                TEST_PATIENT.getId().value(),
                 LocalDate.of(2024, 6, 1),
                 new ArrayList<>()
         );
@@ -75,7 +77,22 @@ public class CreateTrainingSessionControllerTest {
                 .contentType("application/json")
                 .body(trainingSessionCreationModel)
                 .when()
-                .post("/training-session/{patientId}/create", String.valueOf(TEST_PATIENT.getId().value()))
+                .post("/training-session/create")
+                .then()
+                .statusCode(400);
+    }
+
+    @Test
+    void createTrainingSession_shouldReturnBadRequest_whenPatientIdIsMissing() {
+        Map<String, Object> body = new java.util.HashMap<>();
+        body.put("date", "2024-06-01");
+        body.put("exercises", List.of(Map.of("name", "Squats", "exercises", List.of())));
+
+        RestAssuredMockMvc.given()
+                .contentType("application/json")
+                .body(body)
+                .when()
+                .post("/training-session/create")
                 .then()
                 .statusCode(400);
     }

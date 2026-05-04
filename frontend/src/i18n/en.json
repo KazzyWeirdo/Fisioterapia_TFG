@@ -7,6 +7,7 @@
   "nav_register_patient": "Register Patient",
   "nav_register_indiba": "Register Indiba Session",
   "nav_register_physio": "Register Physiotherapist",
+  "nav_register_training": "Register Training Session",
   "login_title": "Welcome back",
   "login_email_label": "Practitioner Email",
   "login_password_label": "Password",

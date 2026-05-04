@@ -1,7 +1,5 @@
 package com.tfg.adapter.in.rest.trainingsession;
 
-import com.tfg.adapter.in.rest.common.PatientIdParser;
-import com.tfg.patient.PatientId;
 import com.tfg.port.in.trainingsession.CreateTrainingSessionUseCase;
 import com.tfg.port.out.persistence.PatientRepository;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -22,15 +20,14 @@ public class CreateTrainingSessionController {
         this.patientRepository = patientRepository;
     }
 
-    @PostMapping("/{patientId}/create")
+    @PostMapping("/create")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Training session created successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid input data"),
             @ApiResponse(responseCode = "404", description = "Patient not found")
     })
-    public ResponseEntity<Void> createTrainingSession(@RequestBody @Valid TrainingSessionCreationModel trainingSessionCreationModel, @PathVariable("patientId") String grabbedPatientId) {
-        PatientId patientId = PatientIdParser.parsePatientId(grabbedPatientId);
-        createTrainingSessionUseCase.createTrainingSession(trainingSessionCreationModel.toDomainModel(patientRepository, patientId));
+    public ResponseEntity<Void> createTrainingSession(@RequestBody @Valid TrainingSessionCreationModel trainingSessionCreationModel) {
+        createTrainingSessionUseCase.createTrainingSession(trainingSessionCreationModel.toDomainModel(patientRepository));
         return ResponseEntity.ok().build();
     }
 }

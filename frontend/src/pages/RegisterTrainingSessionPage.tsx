@@ -1,8 +1,8 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCalendarDays, faDumbbell, faCirclePlus, faTrash, faXmark, faCheck } from '@fortawesome/free-solid-svg-icons'
-import { useSearchParams } from 'react-router-dom'
 import { createTrainingSession } from '../services/trainingSessionService'
+import { getPatients, type PatientSummary } from '../services/patientService'
 import { useLanguage } from '../contexts/LanguageContext'
 import styles from './RegisterTrainingSessionPage.module.css'
 
@@ -25,9 +25,8 @@ function newSet(): SetDraft {
 
 export default function RegisterTrainingSessionPage() {
   const { t } = useLanguage()
-  const [searchParams] = useSearchParams()
-  const patientIdParam = searchParams.get('patientId')
-  const patientName = searchParams.get('name') ?? (patientIdParam ? `Patient #${patientIdParam}` : '')
+  const [patients, setPatients] = useState<PatientSummary[]>([])
+  const [patientId, setPatientId] = useState<number | ''>('')
 
   const nextId = useRef(1)
   function newExercise(): ExerciseDraft {
@@ -40,6 +39,10 @@ export default function RegisterTrainingSessionPage() {
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
   const [submitted, setSubmitted] = useState(false)
+
+  useEffect(() => {
+    getPatients(0, 200).then(p => setPatients(p.content)).catch(() => {})
+  }, [])
 
   function updateSet(exIdx: number, sIdx: number, field: keyof SetDraft, value: string | number) {
     setExercises(prev => prev.map((ex, i) =>
@@ -62,11 +65,12 @@ export default function RegisterTrainingSessionPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!patientIdParam) return
+    if (!patientId) return
     setSubmitting(true)
     setSubmitError(null)
     try {
-      await createTrainingSession(Number(patientIdParam), {
+      await createTrainingSession({
+        patientId,
         date,
         exercises: exercises.map(ex => ({
           name: ex.name,
@@ -85,10 +89,6 @@ export default function RegisterTrainingSessionPage() {
     } finally {
       setSubmitting(false)
     }
-  }
-
-  if (!patientIdParam) {
-    return <p className={styles.loadError}>Invalid link — no patient specified.</p>
   }
 
   if (submitted) {
@@ -128,7 +128,19 @@ export default function RegisterTrainingSessionPage() {
           </div>
           <div className={styles.field}>
             <label className={styles.label}>PATIENT REFERENCE</label>
-            <div className={styles.patientDisplay}>{patientName}</div>
+            <select
+              className={styles.input}
+              value={patientId}
+              onChange={e => setPatientId(Number(e.target.value))}
+              required
+            >
+              <option value="">— Select patient —</option>
+              {patients.map(p => (
+                <option key={p.id} value={p.id}>
+                  {[p.name, p.surname, p.secondSurname].filter(Boolean).join(' ')}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
       </div>

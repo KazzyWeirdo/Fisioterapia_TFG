@@ -27,7 +27,6 @@ export default function App() {
         <Routes>
           {/* Public */}
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/training-session/register" element={<RegisterTrainingSessionPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
 
@@ -48,6 +47,7 @@ export default function App() {
               <Route path="/indiba/:sessionId" element={<IndibaDetailPage />} />
               <Route path="/pni/:reportId" element={<PniReportDetailPage />} />
               <Route path="/training-session/:sessionId" element={<TrainingSessionDetailPage />} />
+              <Route path="/training-session/register" element={<RegisterTrainingSessionPage />} />
             </Route>
           </Route>
 
