@@ -26,8 +26,8 @@ public class GetTrainingSessionByPatientServiceTest {
     private final GetTrainingSessionByPatientService getTrainingSessionByPatientService = new GetTrainingSessionByPatientService(trainingSessionRepository, patientRepository);
 
     private static final Patient TEST_PATIENT = PatientFactory.createTestPatient("hola@gmail.com", "12345678D");
-    private static final TrainingSessionSummaryElement TEST_TRAINING_SESSION = new TrainingSessionSummaryElement(1, LocalDate.of(2024, 6, 1));
-    private static final TrainingSessionSummaryElement TEST_TRAINING_SESSION_2 = new TrainingSessionSummaryElement(2, LocalDate.of(2024, 6, 2));
+    private static final TrainingSessionSummaryElement TEST_TRAINING_SESSION = new TrainingSessionSummaryElement(1, LocalDate.of(2024, 6, 1), "Laura Martínez", "Protocol A");
+    private static final TrainingSessionSummaryElement TEST_TRAINING_SESSION_2 = new TrainingSessionSummaryElement(2, LocalDate.of(2024, 6, 2), "Carlos López", "Protocol B");
 
     @Test
     public void givenPatiendId_whenTrainingSessionsExists_giveDates() {

@@ -36,7 +36,7 @@ public class GetTrainingSessionByPatientControllerTest {
     private GetTrainingSessionByPatientController getTrainingSessionByPatientController;
 
     private static final Patient TEST_PATIENT = PatientFactory.createTestPatient("hola@gmail.com", "85729487J");
-    private static final TrainingSessionSummaryElement TEST_TRAINING_SESSION_1 = new TrainingSessionSummaryElement(1, LocalDate.of(2023, 12, 15));
+    private static final TrainingSessionSummaryElement TEST_TRAINING_SESSION_1 = new TrainingSessionSummaryElement(1, LocalDate.of(2023, 12, 15), "Laura Martínez", "Protocol A");
 
     @BeforeEach
     void setUp() {

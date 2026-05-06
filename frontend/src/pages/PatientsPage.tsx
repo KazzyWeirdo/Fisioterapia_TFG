@@ -167,8 +167,8 @@ export default function PatientsPage() {
               'training',
               getAllTrainingForExport,
               'training_sessions.csv',
-              ['patient_id', 'session_id', 'session_date', 'exercise_name', 'set_number', 'weight_kg', 'reps', 'rest_time_seconds', 'rpe'],
-              (s) => [s.patientId, s.sessionId, s.sessionDate, s.exerciseName, s.setNumber, s.weightKg, s.reps, s.restTimeSeconds, s.rpe],
+              ['patient_id', 'session_id', 'session_date', 'template_name', 'exercise_name', 'set_number', 'weight_kg', 'reps', 'rest_time_seconds', 'rpe'],
+              (s) => [s.patientId, s.sessionId, s.sessionDate, s.templateName, s.exerciseName, s.setNumber, s.weightKg, s.reps, s.restTimeSeconds, s.rpe],
             )}
           >
             {downloading.training ? t('patients_exporting') : <><FontAwesomeIcon icon={faDownload} /> {t('patients_export_training')}</>}

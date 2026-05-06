@@ -57,6 +57,7 @@ export interface TrainingSetExport {
   patientId: number
   sessionId: number
   sessionDate: string
+  templateName: string
   exerciseName: string
   setNumber: number
   weightKg: number

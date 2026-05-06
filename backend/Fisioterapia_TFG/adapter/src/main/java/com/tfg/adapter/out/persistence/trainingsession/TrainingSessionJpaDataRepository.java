@@ -21,6 +21,7 @@ public interface TrainingSessionJpaDataRepository extends JpaRepository<Training
         LEFT JOIN s.exerciseTemplates et
         WHERE s.patient.id = :patientId
         GROUP BY s.id, s.date, s.physiotherapist.name, s.physiotherapist.surname
+        ORDER BY s.date ASC, s.id ASC
     """)
     Page<TrainingSessionSummaryJpaProjection> findAllByPatientId(
             @Param("patientId") int patientId,

@@ -7,6 +7,7 @@ import com.tfg.patient.Patient;
 import com.tfg.physiotherapist.Physiotherapist;
 import com.tfg.pni.PniReport;
 import com.tfg.port.out.persistence.AuditLogRepository;
+import com.tfg.trainingsession.ExerciseTemplate;
 import com.tfg.trainingsession.TrainingSession;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -78,7 +79,8 @@ public class AuditAspect {
                 || entity instanceof IndibaSession
                 || entity instanceof PniReport
                 || entity instanceof TrainingSession
-                || entity instanceof Physiotherapist;
+                || entity instanceof Physiotherapist
+                || entity instanceof ExerciseTemplate;
     }
 
     private String buildDetails(Object entity) {
@@ -97,6 +99,9 @@ public class AuditAspect {
         }
         if (entity instanceof Physiotherapist ph) {
             return ph.getEmail().value();
+        }
+        if (entity instanceof ExerciseTemplate et) {
+            return et.getName();
         }
         return entity.getClass().getSimpleName();
     }

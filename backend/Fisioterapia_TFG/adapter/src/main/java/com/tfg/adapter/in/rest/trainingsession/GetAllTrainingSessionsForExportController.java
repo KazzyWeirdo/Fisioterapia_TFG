@@ -31,6 +31,7 @@ public class GetAllTrainingSessionsForExportController {
                                                 session.getPatient().getId().value(),
                                                 session.getId().value(),
                                                 session.getDate().toString(),
+                                                template.getName(),
                                                 exercise.getName(),
                                                 set.setNumber(),
                                                 set.weightKg(),

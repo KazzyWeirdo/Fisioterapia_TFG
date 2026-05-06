@@ -142,6 +142,7 @@ export default function AuditLogPage() {
                 <option value="PniReport">PniReport</option>
                 <option value="TrainingSession">TrainingSession</option>
                 <option value="Physiotherapist">Physiotherapist</option>
+                <option value="ExerciseTemplate">ExerciseTemplate</option>
               </select>
             </label>
 
