@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faDumbbell } from '@fortawesome/free-solid-svg-icons'
+import { faDumbbell, faShield, faClipboardList } from '@fortawesome/free-solid-svg-icons'
 import { useParams, useNavigate } from 'react-router-dom'
 import { getTrainingSession, type TrainingSessionDetail } from '../services/trainingSessionService'
 import { getPatient, type PatientDetail } from '../services/patientService'
@@ -117,6 +117,18 @@ export default function TrainingSessionDetailPage() {
         <div className={styles.stat}>
           <span className={styles.statLabel}>{t('training_stat_avg_rpe')}</span>
           <span className={styles.statValue}>{avgRpe !== null ? avgRpe.toFixed(1) : '—'}</span>
+        </div>
+        <div className={styles.stat}>
+          <span className={styles.statLabel}>
+            <FontAwesomeIcon icon={faClipboardList} /> {t('training_col_protocol')}
+          </span>
+          <span className={styles.statValue}>{session.templateName ?? '—'}</span>
+        </div>
+        <div className={styles.stat}>
+          <span className={styles.statLabel}>
+            <FontAwesomeIcon icon={faShield} /> {t('training_col_physiotherapist')}
+          </span>
+          <span className={styles.statValue}>{session.physiotherapistName}</span>
         </div>
       </div>
 

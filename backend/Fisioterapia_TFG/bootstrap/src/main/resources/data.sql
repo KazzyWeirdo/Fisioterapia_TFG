@@ -64,16 +64,31 @@ INSERT INTO pni_reports (
   (7, 5, '2026-03-08',  8.0,  68.0, 58, 88)
 ON CONFLICT (id) DO NOTHING;
 
--- Training sessions
-INSERT INTO training_sessions (id, patient_id, date) VALUES
-  (1, 2, '2026-01-14'),
-  (2, 2, '2026-01-21'),
-  (3, 5, '2026-03-03'),
-  (4, 5, '2026-03-10')
+-- Training sessions (now include physiotherapist_id)
+INSERT INTO training_sessions (id, patient_id, physiotherapist_id, date) VALUES
+  (1, 2, 1, '2026-01-14'),
+  (2, 2, 1, '2026-01-21'),
+  (3, 5, 2, '2026-03-03'),
+  (4, 5, 2, '2026-03-10')
 ON CONFLICT (id) DO NOTHING;
 
--- Exercises (linked to training sessions)
-INSERT INTO exercises_jpa_entity (id, training_session_id, name) VALUES
+-- Standalone exercise templates (not linked to any session — reusable)
+INSERT INTO exercise_templates (id, name, training_session_id) VALUES
+  (10, 'Protocol de Genoll',  NULL),
+  (11, 'Protocol Lumbar',     NULL),
+  (12, 'Protocol d''Espatlla', NULL)
+ON CONFLICT (id) DO NOTHING;
+
+-- Exercise templates linked to training sessions
+INSERT INTO exercise_templates (id, name, training_session_id) VALUES
+  (1, 'Entrenament Cames',   1),
+  (2, 'Entrenament Pit',     2),
+  (3, 'Entrenament Esquena', 3),
+  (4, 'Recuperació',         4)
+ON CONFLICT (id) DO NOTHING;
+
+-- Exercises (now linked to exercise_template_id)
+INSERT INTO exercises_jpa_entity (id, exercise_template_id, name) VALUES
   (1, 1, 'Sentadilla'),
   (2, 1, 'Press banca'),
   (3, 2, 'Peso muerto'),

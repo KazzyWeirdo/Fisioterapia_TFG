@@ -1,17 +1,22 @@
 package com.tfg.adapter.out.persistence.trainingsession;
 
 import com.tfg.model.patient.PatientFactory;
+import com.tfg.model.physiotherapist.PhysiotherapistFactory;
 import com.tfg.model.trainingsession.ExerciseFactory;
 import com.tfg.model.trainingsession.ExerciseSetFactory;
+import com.tfg.model.trainingsession.ExerciseTemplateFactory;
 import com.tfg.model.trainingsession.TrainingSessionFactory;
 import com.tfg.patient.Patient;
+import com.tfg.physiotherapist.Physiotherapist;
 import com.tfg.pojos.pagedpojos.PageQuery;
 import com.tfg.pojos.pagedpojos.PagedResponse;
 import com.tfg.pojos.query.TrainingSessionSummaryElement;
 import com.tfg.port.out.persistence.PatientRepository;
+import com.tfg.port.out.persistence.PhysiotherapistRepository;
 import com.tfg.port.out.persistence.TrainingSessionRepository;
 import com.tfg.trainingsession.Exercise;
 import com.tfg.trainingsession.ExerciseSet;
+import com.tfg.trainingsession.ExerciseTemplate;
 import com.tfg.trainingsession.TrainingSession;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,6 +32,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public abstract class AbstractTrainingSessionRepositoryTest extends BaseRepositoryIT {
     private Patient testPatient;
+    private Physiotherapist testPhysiotherapist;
     private TrainingSession testTrainingSession1;
     private TrainingSession testTrainingSession2;
     private Exercise exercise1;
@@ -38,22 +44,36 @@ public abstract class AbstractTrainingSessionRepositoryTest extends BaseReposito
     @Autowired
     public PatientRepository patientRepository;
 
+    @Autowired
+    public PhysiotherapistRepository physiotherapistRepository;
+
     @BeforeEach
     void setUp() {
         testPatient = PatientFactory.createTestPatient("hola@gmail.com", "85729487J");
+        testPhysiotherapist = PhysiotherapistFactory.createTestPsychiatrist("test@example.com", "password");
 
         patientRepository.save(testPatient);
+        physiotherapistRepository.save(testPhysiotherapist);
 
         exerciseSet1 = ExerciseSetFactory.createTestExerciseSet(5);
         exercise1 = ExerciseFactory.createTestExerciseWithExerciseSets("Test Exercise", exerciseSet1);
-        testTrainingSession1 = TrainingSessionFactory.createTestTrainingSessionWithExercises(testPatient, LocalDate.of(2024, 6, 1), exercise1);
-        testTrainingSession2 = TrainingSessionFactory.createTestTrainingSessionWithExercises(testPatient, LocalDate.of(2024, 7, 2), exercise1);
+
+        ExerciseTemplate template1 = ExerciseTemplateFactory.createTestExerciseTemplateWithExercises("Test Template", exercise1);
+        testTrainingSession1 = TrainingSessionFactory.createTestTrainingSession(testPatient, LocalDate.of(2024, 6, 1), testPhysiotherapist);
+        testTrainingSession1.addExerciseTemplate(template1);
+
+        ExerciseSet exerciseSet2 = ExerciseSetFactory.createTestExerciseSet(5);
+        Exercise exercise2 = ExerciseFactory.createTestExerciseWithExerciseSets("Test Exercise", exerciseSet2);
+        ExerciseTemplate template2 = ExerciseTemplateFactory.createTestExerciseTemplateWithExercises("Test Template", exercise2);
+        testTrainingSession2 = TrainingSessionFactory.createTestTrainingSession(testPatient, LocalDate.of(2024, 7, 2), testPhysiotherapist);
+        testTrainingSession2.addExerciseTemplate(template2);
     }
 
     @AfterEach
     void tearDown() {
         trainingSessionRepository.deleteAll();
         patientRepository.deleteAll();
+        physiotherapistRepository.deleteAll();
     }
 
     @Test
@@ -159,7 +179,7 @@ public abstract class AbstractTrainingSessionRepositoryTest extends BaseReposito
         List<Object[]> progression = trainingSessionRepository.calculateVolumeProgression(testPatient.getId(), "Test Exercise");
 
         assertThat(progression).isNotEmpty();
-        assertThat(progression.size()).isEqualTo(1);
+        assertThat(progression.size()).isEqualTo(2);
     }
 
     @Test
@@ -180,8 +200,8 @@ public abstract class AbstractTrainingSessionRepositoryTest extends BaseReposito
         assertThat(result).extracting(s -> s.getId().value())
                 .containsExactlyInAnyOrder(testTrainingSession1.getId().value(), testTrainingSession2.getId().value());
         assertThat(result).anySatisfy(session -> {
-            assertThat(session.getExercises()).isNotEmpty();
-            assertThat(session.getExercises().get(0).getSets()).isNotEmpty();
+            assertThat(session.getExerciseTemplates()).isNotEmpty();
+            assertThat(session.getExerciseTemplates().get(0).getExercises()).isNotEmpty();
         });
     }
 

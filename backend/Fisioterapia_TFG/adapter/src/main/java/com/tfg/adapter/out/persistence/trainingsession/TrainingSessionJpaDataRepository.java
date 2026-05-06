@@ -12,10 +12,15 @@ public interface TrainingSessionJpaDataRepository extends JpaRepository<Training
     @Query("""
         SELECT new com.tfg.adapter.out.persistence.trainingsession.TrainingSessionSummaryJpaProjection(
             s.id,
-            s.date
+            s.date,
+            s.physiotherapist.name,
+            s.physiotherapist.surname,
+            MIN(et.name)
         )
         FROM TrainingSessionJpaEntity s
+        LEFT JOIN s.exerciseTemplates et
         WHERE s.patient.id = :patientId
+        GROUP BY s.id, s.date, s.physiotherapist.name, s.physiotherapist.surname
     """)
     Page<TrainingSessionSummaryJpaProjection> findAllByPatientId(
             @Param("patientId") int patientId,
@@ -26,14 +31,15 @@ public interface TrainingSessionJpaDataRepository extends JpaRepository<Training
     List<Object[]> countSessionsByMonthForYear(Integer patientId, Integer year);
 
     @Query("""
-    SELECT 
-        CAST(t.date AS DATE) as sessionDate, 
+    SELECT
+        CAST(t.date AS DATE) as sessionDate,
         SUM(s.reps * s.weightKg) as totalVolume
     FROM TrainingSessionJpaEntity t
-    JOIN t.exercises e
+    JOIN t.exerciseTemplates et
+    JOIN et.exercises e
     JOIN e.sets s
-    WHERE t.patient.id = :patientId 
-      AND e.name = :exerciseName 
+    WHERE t.patient.id = :patientId
+      AND e.name = :exerciseName
     GROUP BY CAST(t.date AS DATE)
     ORDER BY CAST(t.date AS DATE) ASC
     """)

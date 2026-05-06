@@ -1,11 +1,13 @@
 package com.tfg.adapter.out.persistence.trainingsession;
 
+import com.tfg.adapter.out.persistence.exercisetemplate.ExerciseTemplateJpaEntity;
+
 public class ExercisesJpaMapper {
-    public static ExercisesJpaEntity toJpaEntity(com.tfg.trainingsession.Exercise exercise, TrainingSessionJpaEntity trainingSessionJpaEntity) {
+    public static ExercisesJpaEntity toJpaEntity(com.tfg.trainingsession.Exercise exercise, ExerciseTemplateJpaEntity exerciseTemplateJpaEntity) {
         ExercisesJpaEntity entity = new ExercisesJpaEntity();
         entity.setId(exercise.getId().value());
         entity.setName(exercise.getName());
-        entity.setTrainingSession(trainingSessionJpaEntity);
+        entity.setExerciseTemplate(exerciseTemplateJpaEntity);
         entity.setSets(exercise.getSets().stream().map(set -> {
             ExerciseSetJpaEmbeddable embeddable = new ExerciseSetJpaEmbeddable();
             embeddable.setRestTimeSeconds(set.restTimeSeconds());

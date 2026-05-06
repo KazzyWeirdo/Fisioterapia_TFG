@@ -4,12 +4,8 @@ import java.time.LocalDate;
 
 public record TrainingSessionListWebModel(
         int id,
-        LocalDate date
+        LocalDate date,
+        String physiotherapistName,
+        String templateName
 ) {
-    static TrainingSessionListWebModel fromDomainModel(com.tfg.trainingsession.TrainingSession trainingSession) {
-        return new TrainingSessionListWebModel(
-                trainingSession.getId().value(),
-                trainingSession.getDate()
-        );
-    }
 }

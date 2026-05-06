@@ -1,9 +1,15 @@
 package com.tfg.adapter.in.rest.trainingsession;
 
 import com.tfg.model.patient.PatientFactory;
+import com.tfg.model.physiotherapist.PhysiotherapistFactory;
+import com.tfg.model.trainingsession.ExerciseTemplateFactory;
 import com.tfg.patient.Patient;
+import com.tfg.physiotherapist.Physiotherapist;
 import com.tfg.port.in.trainingsession.CreateTrainingSessionUseCase;
+import com.tfg.port.out.persistence.ExerciseTemplateRepository;
 import com.tfg.port.out.persistence.PatientRepository;
+import com.tfg.port.out.persistence.PhysiotherapistRepository;
+import com.tfg.trainingsession.ExerciseTemplate;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,12 +19,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -30,10 +35,18 @@ public class CreateTrainingSessionControllerTest {
     @Mock
     private PatientRepository patientRepository;
 
+    @Mock
+    private PhysiotherapistRepository physiotherapistRepository;
+
+    @Mock
+    private ExerciseTemplateRepository exerciseTemplateRepository;
+
     @InjectMocks
     private CreateTrainingSessionController createTrainingSessionController;
 
     private static final Patient TEST_PATIENT = PatientFactory.createTestPatient("hola@gmail.com", "85729487J");
+    private static final Physiotherapist TEST_PHYSIO = PhysiotherapistFactory.createTestPsychiatrist("test@example.com", "password");
+    private static final ExerciseTemplate TEST_TEMPLATE = ExerciseTemplateFactory.createTestExerciseTemplate();
 
     @BeforeEach
     void setUp() {
@@ -42,23 +55,20 @@ public class CreateTrainingSessionControllerTest {
 
     @Test
     void createTrainingSession_shouldReturnOk_whenInputIsValid() {
-        when(patientRepository.findById(any()))
-                .thenReturn(Optional.of(TEST_PATIENT));
+        when(patientRepository.findById(any())).thenReturn(Optional.of(TEST_PATIENT));
+        when(physiotherapistRepository.findById(any())).thenReturn(Optional.of(TEST_PHYSIO));
+        when(exerciseTemplateRepository.findById(anyInt())).thenReturn(Optional.of(TEST_TEMPLATE));
 
-        ExerciseCreationModel exercise1 = new ExerciseCreationModel("Squats", new ArrayList<>());
-
-        List<ExerciseCreationModel> exercises = new ArrayList<>();
-        exercises.add(exercise1);
-
-        TrainingSessionCreationModel trainingSessionCreationModel = new TrainingSessionCreationModel(
+        TrainingSessionCreationModel body = new TrainingSessionCreationModel(
                 TEST_PATIENT.getId().value(),
+                TEST_PHYSIO.getId().value(),
                 LocalDate.of(2024, 6, 1),
-                exercises
+                TEST_TEMPLATE.getId().value()
         );
 
         RestAssuredMockMvc.given()
                 .contentType("application/json")
-                .body(trainingSessionCreationModel)
+                .body(body)
                 .when()
                 .post("/training-session/create")
                 .then()
@@ -66,16 +76,16 @@ public class CreateTrainingSessionControllerTest {
     }
 
     @Test
-    void createTrainingSession_shouldReturnBadRequest_whenInputIsInvalid() {
-        TrainingSessionCreationModel trainingSessionCreationModel = new TrainingSessionCreationModel(
-                TEST_PATIENT.getId().value(),
-                LocalDate.of(2024, 6, 1),
-                new ArrayList<>()
+    void createTrainingSession_shouldReturnBadRequest_whenExerciseTemplateIdIsMissing() {
+        Map<String, Object> body = Map.of(
+                "patientId", TEST_PATIENT.getId().value(),
+                "physiotherapistId", TEST_PHYSIO.getId().value(),
+                "date", "2024-06-01"
         );
 
         RestAssuredMockMvc.given()
                 .contentType("application/json")
-                .body(trainingSessionCreationModel)
+                .body(body)
                 .when()
                 .post("/training-session/create")
                 .then()
@@ -84,9 +94,28 @@ public class CreateTrainingSessionControllerTest {
 
     @Test
     void createTrainingSession_shouldReturnBadRequest_whenPatientIdIsMissing() {
-        Map<String, Object> body = new java.util.HashMap<>();
-        body.put("date", "2024-06-01");
-        body.put("exercises", List.of(Map.of("name", "Squats", "exercises", List.of())));
+        Map<String, Object> body = Map.of(
+                "physiotherapistId", TEST_PHYSIO.getId().value(),
+                "date", "2024-06-01",
+                "exerciseTemplateId", 1
+        );
+
+        RestAssuredMockMvc.given()
+                .contentType("application/json")
+                .body(body)
+                .when()
+                .post("/training-session/create")
+                .then()
+                .statusCode(400);
+    }
+
+    @Test
+    void createTrainingSession_shouldReturnBadRequest_whenPhysiotherapistIdIsMissing() {
+        Map<String, Object> body = Map.of(
+                "patientId", TEST_PATIENT.getId().value(),
+                "date", "2024-06-01",
+                "exerciseTemplateId", 1
+        );
 
         RestAssuredMockMvc.given()
                 .contentType("application/json")

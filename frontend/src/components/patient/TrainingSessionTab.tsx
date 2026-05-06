@@ -21,7 +21,7 @@ export default function TrainingSessionTab({ patientId, patientName }: TrainingS
   const navigate = useNavigate()
   const { t, locale } = useLanguage()
   const localeTag = locale === 'es' ? 'es-ES' : 'en-US'
-  const [sessions, setSessions] = useState<{ id: number; date: string }[]>([])
+  const [sessions, setSessions] = useState<{ id: number; date: string; physiotherapistName: string; templateName: string | null }[]>([])
   const [totalElements, setTotalElements] = useState(0)
   const [totalPages, setTotalPages] = useState(0)
   const [currentPage, setCurrentPage] = useState(0)
@@ -89,22 +89,26 @@ export default function TrainingSessionTab({ patientId, patientName }: TrainingS
           <thead>
             <tr>
               <th>{t('training_col_date')}</th>
+              <th>{t('training_col_protocol')}</th>
+              <th>{t('training_col_physiotherapist')}</th>
               <th>{t('training_col_actions')}</th>
             </tr>
           </thead>
           <tbody>
             {loading && (
-              <tr><td colSpan={2} className={styles.stateCell}>{t('common_loading')}</td></tr>
+              <tr><td colSpan={4} className={styles.stateCell}>{t('common_loading')}</td></tr>
             )}
             {!loading && error && (
-              <tr><td colSpan={2} className={styles.errorCell}>{error}</td></tr>
+              <tr><td colSpan={4} className={styles.errorCell}>{error}</td></tr>
             )}
             {!loading && !error && filtered.length === 0 && (
-              <tr><td colSpan={2} className={styles.stateCell}>{t('training_empty')}</td></tr>
+              <tr><td colSpan={4} className={styles.stateCell}>{t('training_empty')}</td></tr>
             )}
             {!loading && !error && filtered.map(s => (
               <tr key={s.id}>
                 <td>{formatDate(s.date, localeTag)}</td>
+                <td>{s.templateName ?? '—'}</td>
+                <td>{s.physiotherapistName}</td>
                 <td className={styles.actionsCell}>
                   <button
                     type="button"

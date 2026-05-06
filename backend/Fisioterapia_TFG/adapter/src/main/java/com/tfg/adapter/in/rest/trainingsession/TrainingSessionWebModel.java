@@ -7,10 +7,18 @@ public record TrainingSessionWebModel(
         int id,
         int patientId,
         LocalDate date,
+        String physiotherapistName,
+        String templateName,
         List<ExerciseWebModel> exercises
 ) {
     static TrainingSessionWebModel fromDomainModel(com.tfg.trainingsession.TrainingSession trainingSession) {
-        List<ExerciseWebModel> exerciseWebModels = trainingSession.getExercises().stream()
+        String physioName = trainingSession.getPhysiotherapist().getName()
+                + " " + trainingSession.getPhysiotherapist().getSurname();
+        String templateName = trainingSession.getExerciseTemplates().isEmpty()
+                ? null
+                : trainingSession.getExerciseTemplates().get(0).getName();
+        List<ExerciseWebModel> exerciseWebModels = trainingSession.getExerciseTemplates().stream()
+                .flatMap(template -> template.getExercises().stream())
                 .map(ExerciseWebModel::fromDomainModel)
                 .toList();
 
@@ -18,6 +26,8 @@ public record TrainingSessionWebModel(
                 trainingSession.getId().value(),
                 trainingSession.getPatient().getId().value(),
                 trainingSession.getDate(),
+                physioName,
+                templateName,
                 exerciseWebModels
         );
     }

@@ -1,7 +1,7 @@
 import apiClient from '../api/client'
 
 export interface TrainingSessionsPage {
-  content: { id: number; date: string }[]
+  content: { id: number; date: string; physiotherapistName: string; templateName: string | null }[]
   totalElements: number
   totalPages: number
   pageNumber: number
@@ -30,26 +30,16 @@ export interface TrainingSessionDetail {
   id: number
   patientId: number
   date: string
+  physiotherapistName: string
+  templateName: string | null
   exercises: Exercise[]
-}
-
-export interface ExerciseSetInput {
-  setNumber: number
-  weightKg: number
-  reps: number
-  restTimeSeconds: number
-  rpe: number
-}
-
-export interface ExerciseInput {
-  name: string
-  exercises: ExerciseSetInput[]
 }
 
 export interface CreateTrainingSessionRequest {
   patientId: number
+  physiotherapistId: number
   date: string
-  exercises: ExerciseInput[]
+  exerciseTemplateId: number
 }
 
 export async function createTrainingSession(

@@ -24,19 +24,21 @@ public class GetAllTrainingSessionsForExportController {
         List<TrainingSession> sessions = getAllTrainingSessionsForExportUseCase.getAllTrainingSessionsForExport();
         if (sessions.isEmpty()) return ResponseEntity.noContent().build();
         List<TrainingSetExportWebModel> dto = sessions.stream()
-                .flatMap(session -> session.getExercises().stream()
-                        .flatMap(exercise -> exercise.getSets().stream()
-                                .map(set -> new TrainingSetExportWebModel(
-                                        session.getPatient().getId().value(),
-                                        session.getId().value(),
-                                        session.getDate().toString(),
-                                        exercise.getName(),
-                                        set.setNumber(),
-                                        set.weightKg(),
-                                        set.reps(),
-                                        set.restTimeSeconds(),
-                                        set.rpe()
-                                ))
+                .flatMap(session -> session.getExerciseTemplates().stream()
+                        .flatMap(template -> template.getExercises().stream()
+                                .flatMap(exercise -> exercise.getSets().stream()
+                                        .map(set -> new TrainingSetExportWebModel(
+                                                session.getPatient().getId().value(),
+                                                session.getId().value(),
+                                                session.getDate().toString(),
+                                                exercise.getName(),
+                                                set.setNumber(),
+                                                set.weightKg(),
+                                                set.reps(),
+                                                set.restTimeSeconds(),
+                                                set.rpe()
+                                        ))
+                                )
                         )
                 ).toList();
         return ResponseEntity.ok(dto);

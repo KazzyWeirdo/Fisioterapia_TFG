@@ -8,6 +8,9 @@
 .label { font-size: 0.65rem; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.08em; }
 .input { border: 1px solid #e5e7eb; border-radius: 8px; padding: 0.6rem 0.75rem; font-size: 0.9rem; color: #111827; outline: none; width: 100%; box-sizing: border-box; }
 .input:focus { border-color: #1a3a6b; }
+.autoFillBox { border: 1px solid #e5e7eb; border-radius: 8px; padding: 0.6rem 0.75rem; font-size: 0.9rem; color: #111827; background: #f9fafb; display: flex; align-items: center; justify-content: space-between; }
+.autoFillName { display: flex; align-items: center; gap: 0.5rem; font-weight: 600; }
+.autoFillBadge { background: #1a3a6b; color: white; font-size: 0.65rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
 .patientDisplay { border: 1px solid #e5e7eb; border-radius: 8px; padding: 0.6rem 0.75rem; font-size: 0.9rem; color: #111827; background: #f9fafb; }
 .exercisesHeader { display: flex; align-items: center; justify-content: space-between; }
 .exercisesTitle { display: flex; align-items: center; gap: 0.5rem; font-size: 1rem; font-weight: 700; color: #111827; }

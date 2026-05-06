@@ -3,6 +3,7 @@ package com.tfg.adapter.in.rest.trainingsession;
 import com.tfg.adapter.in.rest.common.GlobalExceptionHandler;
 import com.tfg.exceptions.InvalidIdException;
 import com.tfg.model.patient.PatientFactory;
+import com.tfg.model.trainingsession.TrainingSessionFactory;
 import com.tfg.patient.Patient;
 import com.tfg.port.in.trainingsession.GetTrainingSessionUseCase;
 import com.tfg.trainingsession.TrainingSession;
@@ -30,7 +31,7 @@ public class GetTrainingSessionControllerTest {
     private GetTrainingSessionController getTrainingSessionController;
 
     private static final Patient TEST_PATIENT = PatientFactory.createTestPatient("hola@gmail.com", "85729487J");
-    private static final TrainingSession TEST_TRAINING_SESSION_1 = new TrainingSession(TEST_PATIENT, LocalDate.of(2023, 11, 30));
+    private static final TrainingSession TEST_TRAINING_SESSION_1 = TrainingSessionFactory.createTestTrainingSession(TEST_PATIENT, LocalDate.of(2023, 11, 30));
 
     @BeforeEach
     void setUp() {

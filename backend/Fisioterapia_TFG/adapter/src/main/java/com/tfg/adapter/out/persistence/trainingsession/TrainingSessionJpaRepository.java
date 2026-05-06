@@ -2,6 +2,8 @@ package com.tfg.adapter.out.persistence.trainingsession;
 
 import com.tfg.adapter.out.persistence.patient.PatientJpaEntity;
 import com.tfg.adapter.out.persistence.patient.PatientJpaMapper;
+import com.tfg.adapter.out.persistence.physiotherapist.PhysiotherapistJpaEntity;
+import com.tfg.adapter.out.persistence.physiotherapist.PhysiotherapistJpaMapper;
 import com.tfg.patient.PatientId;
 import com.tfg.pojos.pagedpojos.PageQuery;
 import com.tfg.pojos.pagedpojos.PagedResponse;
@@ -30,7 +32,8 @@ public class TrainingSessionJpaRepository implements TrainingSessionRepository {
     @Transactional
     public void save(TrainingSession trainingSession) {
         PatientJpaEntity patientJpaEntity = PatientJpaMapper.toJpaEntity(trainingSession.getPatient());
-        TrainingSessionJpaEntity trainingSessionJpaEntity = TrainingSessionJpaMapper.toJpaEntity(trainingSession, patientJpaEntity);
+        PhysiotherapistJpaEntity physiotherapistJpaEntity = PhysiotherapistJpaMapper.toJpaEntity(trainingSession.getPhysiotherapist());
+        TrainingSessionJpaEntity trainingSessionJpaEntity = TrainingSessionJpaMapper.toJpaEntity(trainingSession, patientJpaEntity, physiotherapistJpaEntity);
         trainingSessionJpaDataRepository.save(trainingSessionJpaEntity);
     }
 
@@ -52,7 +55,12 @@ public class TrainingSessionJpaRepository implements TrainingSessionRepository {
         Page<TrainingSessionSummaryJpaProjection> page = trainingSessionJpaDataRepository.findAllByPatientId(patientId.value(), pageable);
 
         List<TrainingSessionSummaryElement> content = page.getContent().stream()
-                .map(proj -> new TrainingSessionSummaryElement(proj.id(), proj.date()))
+                .map(proj -> new TrainingSessionSummaryElement(
+                        proj.id(),
+                        proj.date(),
+                        proj.physiotherapistFirstName() + " " + proj.physiotherapistSurname(),
+                        proj.templateName()
+                ))
                 .toList();
 
         return new PagedResponse<>(

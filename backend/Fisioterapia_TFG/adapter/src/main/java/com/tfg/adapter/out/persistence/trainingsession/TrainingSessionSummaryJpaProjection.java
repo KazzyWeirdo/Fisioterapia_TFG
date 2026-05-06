@@ -4,6 +4,9 @@ import java.time.LocalDate;
 
 public record TrainingSessionSummaryJpaProjection(
         int id,
-        LocalDate date
+        LocalDate date,
+        String physiotherapistFirstName,
+        String physiotherapistSurname,
+        String templateName
 ) {
 }

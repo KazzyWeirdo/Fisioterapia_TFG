@@ -1,6 +1,8 @@
 package com.tfg;
 
 import com.tfg.port.in.auditlog.GetAllAuditLogsUseCase;
+import com.tfg.port.in.exercisetemplate.CreateExerciseTemplateUseCase;
+import com.tfg.port.in.exercisetemplate.GetAllExerciseTemplatesUseCase;
 import com.tfg.port.in.indiba.CreateIndibaSessionUseCase;
 import com.tfg.port.in.indiba.GetAllIndibaSessionsForExportUseCase;
 import com.tfg.port.in.indiba.GetIndibaSessionFromPatientUseCase;
@@ -34,6 +36,8 @@ import com.tfg.port.out.springsecurity.TokenGeneratorPort;
 import com.tfg.port.out.persistence.*;
 import com.tfg.port.out.polar.PolarRepository;
 import com.tfg.service.auditlog.GetAllAuditLogsService;
+import com.tfg.service.exercisetemplate.CreateExerciseTemplateService;
+import com.tfg.service.exercisetemplate.GetAllExerciseTemplatesService;
 import com.tfg.service.indiba.CreateIndibaSessionService;
 import com.tfg.service.indiba.GetAllIndibaSessionsForExportService;
 import com.tfg.service.indiba.GetIndibaSessionFromPatientService;
@@ -94,6 +98,9 @@ public class SpringAppConfig {
 
     @Autowired
     AuditLogRepository auditLogRepository;
+
+    @Autowired
+    ExerciseTemplateRepository exerciseTemplateRepository;
 
     @Autowired
     TokenGeneratorPort tokenGeneratorPort;
@@ -237,5 +244,15 @@ public class SpringAppConfig {
     @Bean
     RequestPasswordResetUseCase requestPasswordResetUseCase() {
         return new RequestPasswordResetService(psychiatristRepository, passwordResetTokenRepository, emailSenderPort);
+    }
+
+    @Bean
+    CreateExerciseTemplateUseCase createExerciseTemplateUseCase() {
+        return new CreateExerciseTemplateService(exerciseTemplateRepository);
+    }
+
+    @Bean
+    GetAllExerciseTemplatesUseCase getAllExerciseTemplatesUseCase() {
+        return new GetAllExerciseTemplatesService(exerciseTemplateRepository);
     }
 }
