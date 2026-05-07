@@ -129,6 +129,8 @@
   "training_register_subtitle": "Documenta el progreso del paciente con precisión.",
   "training_section_general": "Información general",
   "training_field_date": "FECHA DE SESIÓN",
+  "training_field_start_time": "HORA DE INICIO",
+  "training_field_end_time": "HORA DE FIN",
   "training_field_patient": "REFERENCIA DEL PACIENTE",
   "training_patient_placeholder": "— Selecciona un paciente —",
   "training_field_template": "PLANTILLA DE EJERCICIOS",

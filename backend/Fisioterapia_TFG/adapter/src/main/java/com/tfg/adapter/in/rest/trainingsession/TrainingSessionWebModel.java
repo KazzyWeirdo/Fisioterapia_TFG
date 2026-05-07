@@ -1,12 +1,13 @@
 package com.tfg.adapter.in.rest.trainingsession;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public record TrainingSessionWebModel(
         int id,
         int patientId,
-        LocalDate date,
+        LocalDateTime startDateTime,
+        LocalDateTime endDateTime,
         String physiotherapistName,
         String templateName,
         List<ExerciseWebModel> exercises
@@ -25,7 +26,8 @@ public record TrainingSessionWebModel(
         return new TrainingSessionWebModel(
                 trainingSession.getId().value(),
                 trainingSession.getPatient().getId().value(),
-                trainingSession.getDate(),
+                trainingSession.getStartDateTime(),
+                trainingSession.getEndDateTime(),
                 physioName,
                 templateName,
                 exerciseWebModels

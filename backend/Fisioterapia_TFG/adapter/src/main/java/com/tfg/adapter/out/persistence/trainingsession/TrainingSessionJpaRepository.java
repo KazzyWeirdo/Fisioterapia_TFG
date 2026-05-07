@@ -57,7 +57,8 @@ public class TrainingSessionJpaRepository implements TrainingSessionRepository {
         List<TrainingSessionSummaryElement> content = page.getContent().stream()
                 .map(proj -> new TrainingSessionSummaryElement(
                         proj.id(),
-                        proj.date(),
+                        proj.startDateTime(),
+                        proj.endDateTime(),
                         proj.physiotherapistFirstName() + " " + proj.physiotherapistSurname(),
                         proj.templateName()
                 ))

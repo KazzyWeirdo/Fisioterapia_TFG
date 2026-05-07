@@ -4,6 +4,7 @@
 .section { background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 1.5rem; }
 .sectionHeader { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; font-weight: 700; color: #1a3a6b; margin-bottom: 1.25rem; text-transform: uppercase; letter-spacing: 0.05em; }
 .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+.rowThree { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.25rem; }
 .field { display: flex; flex-direction: column; gap: 0.35rem; }
 .label { font-size: 0.65rem; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.08em; }
 .input { border: 1px solid #e5e7eb; border-radius: 8px; padding: 0.6rem 0.75rem; font-size: 0.9rem; color: #111827; outline: none; width: 100%; box-sizing: border-box; }
@@ -54,6 +55,7 @@
 @media (max-width: 640px) {
   .page { padding: 1rem; }
   .row { grid-template-columns: 1fr; }
+  .rowThree { grid-template-columns: 1fr; }
   .exerciseCard { padding: 1rem; }
   .exerciseCardHeader { flex-direction: column; align-items: stretch; gap: 0.5rem; }
   .exerciseCardHeaderLeft { margin-right: 0; }

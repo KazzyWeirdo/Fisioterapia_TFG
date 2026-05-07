@@ -8,7 +8,7 @@ import com.tfg.service.trainingsession.GetAllTrainingSessionsForExportService;
 import com.tfg.trainingsession.TrainingSession;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,8 +21,8 @@ public class GetAllTrainingSessionsForExportServiceTest {
             new GetAllTrainingSessionsForExportService(trainingSessionRepository);
 
     private static final Patient TEST_PATIENT = PatientFactory.createTestPatient("hola@gmail.com", "85729487J");
-    private static final TrainingSession SESSION_1 = TrainingSessionFactory.createTestTrainingSession(TEST_PATIENT, LocalDate.of(2024, 1, 10));
-    private static final TrainingSession SESSION_2 = TrainingSessionFactory.createTestTrainingSession(TEST_PATIENT, LocalDate.of(2024, 2, 15));
+    private static final TrainingSession SESSION_1 = TrainingSessionFactory.createTestTrainingSession(TEST_PATIENT, LocalDateTime.of(2024, 1, 10, 10, 0), LocalDateTime.of(2024, 1, 10, 11, 0));
+    private static final TrainingSession SESSION_2 = TrainingSessionFactory.createTestTrainingSession(TEST_PATIENT, LocalDateTime.of(2024, 2, 15, 10, 0), LocalDateTime.of(2024, 2, 15, 11, 0));
 
     @Test
     public void givenSessionsExist_whenGetAllForExport_returnList() {

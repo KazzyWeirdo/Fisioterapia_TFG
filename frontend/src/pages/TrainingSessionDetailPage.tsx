@@ -8,8 +8,14 @@ import { useLanguage } from '../contexts/LanguageContext'
 import styles from './TrainingSessionDetailPage.module.css'
 
 function formatDate(raw: string, locale: string): string {
-  return new Date(raw + 'T00:00:00').toLocaleDateString(locale, {
+  return new Date(raw).toLocaleDateString(locale, {
     year: 'numeric', month: 'long', day: 'numeric',
+  })
+}
+
+function formatTime(raw: string, locale: string): string {
+  return new Date(raw).toLocaleTimeString(locale, {
+    hour: '2-digit', minute: '2-digit',
   })
 }
 
@@ -88,7 +94,9 @@ export default function TrainingSessionDetailPage() {
             <span className={styles.breadcrumbSep}>›</span>
             <span className={styles.breadcrumbCurrent}>{t('training_breadcrumb_current')}</span>
           </nav>
-          <h1 className={styles.title}>{formatDate(session.date, localeTag)}</h1>
+          <h1 className={styles.title}>
+            {formatDate(session.startDateTime, localeTag)} · {formatTime(session.startDateTime, localeTag)}–{formatTime(session.endDateTime, localeTag)}
+          </h1>
           <p className={styles.subtitle}>{patientName}</p>
         </div>
       </div>

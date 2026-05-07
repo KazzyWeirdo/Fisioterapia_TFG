@@ -1,10 +1,11 @@
 package com.tfg.pojos.query;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public record TrainingSessionSummaryElement(
         int id,
-        LocalDate date,
+        LocalDateTime startDateTime,
+        LocalDateTime endDateTime,
         String physiotherapistName,
         String templateName
 ) {

@@ -1,5 +1,6 @@
 package com.tfg.adapter.in.rest.trainingsession;
 
+import com.tfg.adapter.in.rest.common.GlobalExceptionHandler;
 import com.tfg.model.patient.PatientFactory;
 import com.tfg.model.physiotherapist.PhysiotherapistFactory;
 import com.tfg.model.trainingsession.ExerciseTemplateFactory;
@@ -18,7 +19,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
 
@@ -50,7 +51,7 @@ public class CreateTrainingSessionControllerTest {
 
     @BeforeEach
     void setUp() {
-        RestAssuredMockMvc.standaloneSetup(createTrainingSessionController);
+        RestAssuredMockMvc.standaloneSetup(createTrainingSessionController, new GlobalExceptionHandler());
     }
 
     @Test
@@ -62,7 +63,8 @@ public class CreateTrainingSessionControllerTest {
         TrainingSessionCreationModel body = new TrainingSessionCreationModel(
                 TEST_PATIENT.getId().value(),
                 TEST_PHYSIO.getId().value(),
-                LocalDate.of(2024, 6, 1),
+                LocalDateTime.of(2024, 6, 1, 10, 0),
+                LocalDateTime.of(2024, 6, 1, 11, 0),
                 TEST_TEMPLATE.getId().value()
         );
 
@@ -80,7 +82,8 @@ public class CreateTrainingSessionControllerTest {
         Map<String, Object> body = Map.of(
                 "patientId", TEST_PATIENT.getId().value(),
                 "physiotherapistId", TEST_PHYSIO.getId().value(),
-                "date", "2024-06-01"
+                "startDateTime", "2024-06-01T10:00:00",
+                "endDateTime", "2024-06-01T11:00:00"
         );
 
         RestAssuredMockMvc.given()
@@ -96,7 +99,8 @@ public class CreateTrainingSessionControllerTest {
     void createTrainingSession_shouldReturnBadRequest_whenPatientIdIsMissing() {
         Map<String, Object> body = Map.of(
                 "physiotherapistId", TEST_PHYSIO.getId().value(),
-                "date", "2024-06-01",
+                "startDateTime", "2024-06-01T10:00:00",
+                "endDateTime", "2024-06-01T11:00:00",
                 "exerciseTemplateId", 1
         );
 
@@ -113,8 +117,32 @@ public class CreateTrainingSessionControllerTest {
     void createTrainingSession_shouldReturnBadRequest_whenPhysiotherapistIdIsMissing() {
         Map<String, Object> body = Map.of(
                 "patientId", TEST_PATIENT.getId().value(),
-                "date", "2024-06-01",
+                "startDateTime", "2024-06-01T10:00:00",
+                "endDateTime", "2024-06-01T11:00:00",
                 "exerciseTemplateId", 1
+        );
+
+        RestAssuredMockMvc.given()
+                .contentType("application/json")
+                .body(body)
+                .when()
+                .post("/training-session/create")
+                .then()
+                .statusCode(400);
+    }
+
+    @Test
+    void createTrainingSession_shouldReturnBadRequest_whenEndDateTimeIsNotAfterStartDateTime() {
+        when(patientRepository.findById(any())).thenReturn(Optional.of(TEST_PATIENT));
+        when(physiotherapistRepository.findById(any())).thenReturn(Optional.of(TEST_PHYSIO));
+        when(exerciseTemplateRepository.findById(anyInt())).thenReturn(Optional.of(TEST_TEMPLATE));
+
+        Map<String, Object> body = Map.of(
+                "patientId", TEST_PATIENT.getId().value(),
+                "physiotherapistId", TEST_PHYSIO.getId().value(),
+                "startDateTime", "2024-06-01T11:00:00",
+                "endDateTime", "2024-06-01T10:00:00",
+                "exerciseTemplateId", TEST_TEMPLATE.getId().value()
         );
 
         RestAssuredMockMvc.given()

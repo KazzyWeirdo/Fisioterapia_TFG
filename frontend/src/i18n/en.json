@@ -129,6 +129,8 @@
   "training_register_subtitle": "Document patient progress with precision.",
   "training_section_general": "General Information",
   "training_field_date": "SESSION DATE",
+  "training_field_start_time": "START TIME",
+  "training_field_end_time": "END TIME",
   "training_field_patient": "PATIENT REFERENCE",
   "training_patient_placeholder": "— Select patient —",
   "training_field_template": "EXERCISE TEMPLATE",

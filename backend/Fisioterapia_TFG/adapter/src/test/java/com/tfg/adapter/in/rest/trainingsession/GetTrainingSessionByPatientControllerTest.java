@@ -19,7 +19,7 @@ import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -36,7 +36,7 @@ public class GetTrainingSessionByPatientControllerTest {
     private GetTrainingSessionByPatientController getTrainingSessionByPatientController;
 
     private static final Patient TEST_PATIENT = PatientFactory.createTestPatient("hola@gmail.com", "85729487J");
-    private static final TrainingSessionSummaryElement TEST_TRAINING_SESSION_1 = new TrainingSessionSummaryElement(1, LocalDate.of(2023, 12, 15), "Laura Martínez", "Protocol A");
+    private static final TrainingSessionSummaryElement TEST_TRAINING_SESSION_1 = new TrainingSessionSummaryElement(1, LocalDateTime.of(2023, 12, 15, 10, 0), LocalDateTime.of(2023, 12, 15, 11, 0), "Laura Martínez", "Protocol A");
 
     @BeforeEach
     void setUp() {

@@ -30,7 +30,7 @@ public class GetAllTrainingSessionsForExportController {
                                         .map(set -> new TrainingSetExportWebModel(
                                                 session.getPatient().getId().value(),
                                                 session.getId().value(),
-                                                session.getDate().toString(),
+                                                session.getStartDateTime().toString(),
                                                 template.getName(),
                                                 exercise.getName(),
                                                 set.setNumber(),

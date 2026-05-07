@@ -7,33 +7,36 @@ import com.tfg.trainingsession.Exercise;
 import com.tfg.trainingsession.ExerciseTemplate;
 import com.tfg.trainingsession.TrainingSession;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class TrainingSessionFactory {
 
     public static TrainingSession createTestTrainingSession(
             Patient patient,
-            LocalDate date
+            LocalDateTime startDateTime,
+            LocalDateTime endDateTime
     ) {
         Physiotherapist physiotherapist = PhysiotherapistFactory.createTestPsychiatrist("test@example.com", "password");
-        return new TrainingSession(patient, date, physiotherapist);
+        return new TrainingSession(patient, startDateTime, endDateTime, physiotherapist);
     }
 
     public static TrainingSession createTestTrainingSession(
             Patient patient,
-            LocalDate date,
+            LocalDateTime startDateTime,
+            LocalDateTime endDateTime,
             Physiotherapist physiotherapist
     ) {
-        return new TrainingSession(patient, date, physiotherapist);
+        return new TrainingSession(patient, startDateTime, endDateTime, physiotherapist);
     }
 
     public static TrainingSession createTestTrainingSessionWithExercises(
             Patient patient,
-            LocalDate date,
+            LocalDateTime startDateTime,
+            LocalDateTime endDateTime,
             Exercise... exercises
     ) {
         Physiotherapist physiotherapist = PhysiotherapistFactory.createTestPsychiatrist("test@example.com", "password");
-        TrainingSession trainingSession = new TrainingSession(patient, date, physiotherapist);
+        TrainingSession trainingSession = new TrainingSession(patient, startDateTime, endDateTime, physiotherapist);
         for (Exercise exercise : exercises) {
             trainingSession.addExerciseTemplate(new ExerciseTemplate("Default Template"));
             trainingSession.getExerciseTemplates().get(0).addExercise(exercise);
@@ -43,11 +46,12 @@ public class TrainingSessionFactory {
 
     public static TrainingSession createTestTrainingSessionWithExerciseTemplates(
             Patient patient,
-            LocalDate date,
+            LocalDateTime startDateTime,
+            LocalDateTime endDateTime,
             ExerciseTemplate... exerciseTemplates
     ) {
         Physiotherapist physiotherapist = PhysiotherapistFactory.createTestPsychiatrist("test@example.com", "password");
-        TrainingSession trainingSession = new TrainingSession(patient, date, physiotherapist);
+        TrainingSession trainingSession = new TrainingSession(patient, startDateTime, endDateTime, physiotherapist);
         for (ExerciseTemplate exerciseTemplate : exerciseTemplates) {
             trainingSession.addExerciseTemplate(exerciseTemplate);
         }

@@ -48,7 +48,8 @@ public class GetTrainingSessionByPatientController {
         List<TrainingSessionListWebModel> dtoContent = domainPagedResponse.content().stream()
                 .map(e -> new TrainingSessionListWebModel(
                         e.id(),
-                        e.date(),
+                        e.startDateTime(),
+                        e.endDateTime(),
                         e.physiotherapistName(),
                         e.templateName()
                 ))

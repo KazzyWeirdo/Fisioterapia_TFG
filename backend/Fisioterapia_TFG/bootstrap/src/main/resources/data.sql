@@ -64,12 +64,12 @@ INSERT INTO pni_reports (
   (7, 5, '2026-03-08',  8.0,  68.0, 58, 88)
 ON CONFLICT (id) DO NOTHING;
 
--- Training sessions (now include physiotherapist_id)
-INSERT INTO training_sessions (id, patient_id, physiotherapist_id, date) VALUES
-  (1, 2, 1, '2026-01-14'),
-  (2, 2, 1, '2026-01-21'),
-  (3, 5, 2, '2026-03-03'),
-  (4, 5, 2, '2026-03-10')
+-- Training sessions
+INSERT INTO training_sessions (id, patient_id, physiotherapist_id, start_date_time, end_date_time) VALUES
+  (1, 2, 1, '2026-01-14 10:00:00', '2026-01-14 11:00:00'),
+  (2, 2, 1, '2026-01-21 10:00:00', '2026-01-21 11:00:00'),
+  (3, 5, 2, '2026-03-03 11:00:00', '2026-03-03 12:00:00'),
+  (4, 5, 2, '2026-03-10 11:00:00', '2026-03-10 12:00:00')
 ON CONFLICT (id) DO NOTHING;
 
 -- Standalone exercise templates (not linked to any session — reusable)
@@ -89,24 +89,80 @@ ON CONFLICT (id) DO NOTHING;
 
 -- Exercises (now linked to exercise_template_id)
 INSERT INTO exercises_jpa_entity (id, exercise_template_id, name) VALUES
+  -- Entrenament Cames (template 1)
   (1, 1, 'Sentadilla'),
   (2, 1, 'Press banca'),
+  -- Entrenament Pit (template 2)
   (3, 2, 'Peso muerto'),
+  -- Entrenament Esquena (template 3)
   (4, 3, 'Remo con barra'),
-  (5, 4, 'Extensió de quàdriceps')
+  -- Recuperació (template 4)
+  (5, 4, 'Extensió de quàdriceps'),
+  -- Protocol de Genoll (template 10)
+  (20, 10, 'Extensió de genoll'),
+  (21, 10, 'Flexió de genoll'),
+  (22, 10, 'Premsa de cames'),
+  -- Protocol Lumbar (template 11)
+  (30, 11, 'Pont gluti'),
+  (31, 11, 'Bird-dog'),
+  (32, 11, 'Planxa abdominal'),
+  -- Protocol d''Espatlla (template 12)
+  (40, 12, 'Elevació lateral'),
+  (41, 12, 'Press militar'),
+  (42, 12, 'Rotació externa')
 ON CONFLICT (id) DO NOTHING;
 
 -- Exercise sets (embeddable, stored in exercise_sets table)
 INSERT INTO exercise_sets (exercise_id, set_number, weight_kg, reps, rest_time_seconds, rpe) VALUES
+  -- Sentadilla
   (1, 1, 60.0,  10, 90,  7),
   (1, 2, 60.0,  10, 90,  7),
   (1, 3, 65.0,   8, 90,  8),
+  -- Press banca
   (2, 1, 50.0,  12, 60,  6),
   (2, 2, 50.0,  12, 60,  7),
+  -- Peso muerto
   (3, 1, 80.0,   6, 120, 8),
   (3, 2, 80.0,   6, 120, 9),
+  -- Remo con barra
   (4, 1, 40.0,  12, 60,  6),
   (4, 2, 42.5,  10, 60,  7),
+  -- Extensió de quàdriceps
   (5, 1, 30.0,  15, 60,  5),
-  (5, 2, 32.5,  12, 60,  6)
+  (5, 2, 32.5,  12, 60,  6),
+  -- Extensió de genoll
+  (20, 1, 20.0, 15, 60,  5),
+  (20, 2, 22.5, 12, 60,  6),
+  (20, 3, 25.0, 10, 60,  7),
+  -- Flexió de genoll
+  (21, 1, 15.0, 15, 60,  5),
+  (21, 2, 17.5, 12, 60,  6),
+  (21, 3, 20.0, 10, 60,  7),
+  -- Premsa de cames
+  (22, 1, 60.0, 12, 90,  6),
+  (22, 2, 70.0, 10, 90,  7),
+  (22, 3, 80.0,  8, 90,  8),
+  -- Pont gluti
+  (30, 1,  0.0, 15, 45,  5),
+  (30, 2,  0.0, 15, 45,  6),
+  (30, 3, 10.0, 12, 45,  7),
+  -- Bird-dog
+  (31, 1,  0.0, 10, 30,  4),
+  (31, 2,  0.0, 10, 30,  5),
+  -- Planxa abdominal
+  (32, 1,  0.0, 30, 60,  5),
+  (32, 2,  0.0, 40, 60,  6),
+  (32, 3,  0.0, 45, 60,  7),
+  -- Elevació lateral
+  (40, 1,  5.0, 15, 60,  5),
+  (40, 2,  6.0, 12, 60,  6),
+  (40, 3,  7.0, 10, 60,  7),
+  -- Press militar
+  (41, 1, 30.0, 10, 90,  6),
+  (41, 2, 35.0,  8, 90,  7),
+  (41, 3, 37.5,  6, 90,  8),
+  -- Rotació externa
+  (42, 1,  4.0, 15, 45,  5),
+  (42, 2,  5.0, 12, 45,  6),
+  (42, 3,  6.0, 10, 45,  7)
 ON CONFLICT DO NOTHING;

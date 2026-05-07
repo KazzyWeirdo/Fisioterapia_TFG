@@ -19,7 +19,9 @@ export default function RegisterTrainingSessionPage() {
   const [physio, setPhysio] = useState<{ id: number; name: string; surname: string } | null>(null)
 
   const today = new Date().toISOString().slice(0, 10)
-  const [date, setDate] = useState(today)
+  const [sessionDate, setSessionDate] = useState(today)
+  const [startTime, setStartTime] = useState('09:00')
+  const [endTime, setEndTime] = useState('10:00')
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
   const [submitted, setSubmitted] = useState(false)
@@ -46,7 +48,8 @@ export default function RegisterTrainingSessionPage() {
       await createTrainingSession({
         patientId,
         physiotherapistId: physio.id,
-        date,
+        startDateTime: `${sessionDate}T${startTime}:00`,
+        endDateTime: `${sessionDate}T${endTime}:00`,
         exerciseTemplateId: selectedTemplateId,
       })
       setSubmitted(true)
@@ -79,18 +82,42 @@ export default function RegisterTrainingSessionPage() {
         <div className={styles.sectionHeader}>
           <FontAwesomeIcon icon={faCalendarDays} /> {t('training_section_general')}
         </div>
-        <div className={styles.row}>
+        <div className={styles.rowThree}>
           <div className={styles.field}>
-            <label className={styles.label} htmlFor="date">{t('training_field_date')}</label>
+            <label className={styles.label} htmlFor="sessionDate">{t('training_field_date')}</label>
             <input
-              id="date"
+              id="sessionDate"
               type="date"
               className={styles.input}
-              value={date}
-              onChange={e => setDate(e.target.value)}
+              value={sessionDate}
+              onChange={e => setSessionDate(e.target.value)}
               required
             />
           </div>
+          <div className={styles.field}>
+            <label className={styles.label} htmlFor="startTime">{t('training_field_start_time')}</label>
+            <input
+              id="startTime"
+              type="time"
+              className={styles.input}
+              value={startTime}
+              onChange={e => setStartTime(e.target.value)}
+              required
+            />
+          </div>
+          <div className={styles.field}>
+            <label className={styles.label} htmlFor="endTime">{t('training_field_end_time')}</label>
+            <input
+              id="endTime"
+              type="time"
+              className={styles.input}
+              value={endTime}
+              onChange={e => setEndTime(e.target.value)}
+              required
+            />
+          </div>
+        </div>
+        <div className={styles.row}>
           <div className={styles.field}>
             <label className={styles.label}>{t('training_field_patient')}</label>
             <select
@@ -107,8 +134,6 @@ export default function RegisterTrainingSessionPage() {
               ))}
             </select>
           </div>
-        </div>
-        <div className={styles.row}>
           <div className={styles.field}>
             <label className={styles.label}>{t('training_field_template')}</label>
             <select
@@ -125,6 +150,8 @@ export default function RegisterTrainingSessionPage() {
               ))}
             </select>
           </div>
+        </div>
+        <div className={styles.row}>
           <div className={styles.field}>
             <label className={styles.label}>{t('training_field_physio')}</label>
             <div className={styles.autoFillBox}>

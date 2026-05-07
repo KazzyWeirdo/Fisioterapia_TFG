@@ -11,15 +11,17 @@ import com.tfg.trainingsession.ExerciseTemplate;
 import com.tfg.trainingsession.TrainingSession;
 import jakarta.validation.constraints.NotNull;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public record TrainingSessionCreationModel(
         @NotNull(message = "Patient ID is required")
         Integer patientId,
         @NotNull(message = "Physiotherapist ID is required")
         Integer physiotherapistId,
-        @NotNull(message = "Date is required")
-        LocalDate date,
+        @NotNull(message = "Start datetime is required")
+        LocalDateTime startDateTime,
+        @NotNull(message = "End datetime is required")
+        LocalDateTime endDateTime,
         @NotNull(message = "Exercise template ID is required")
         Integer exerciseTemplateId
 ) {
@@ -33,7 +35,7 @@ public record TrainingSessionCreationModel(
                 ExerciseTemplate template = exerciseTemplateRepository.findById(exerciseTemplateId)
                         .orElseThrow(() -> new IllegalArgumentException("Exercise template with id " + exerciseTemplateId + " not found"));
 
-                TrainingSession trainingSession = new TrainingSession(patient, date, physiotherapist);
+                TrainingSession trainingSession = new TrainingSession(patient, startDateTime, endDateTime, physiotherapist);
                 trainingSession.addExerciseTemplate(template);
 
                 return trainingSession;

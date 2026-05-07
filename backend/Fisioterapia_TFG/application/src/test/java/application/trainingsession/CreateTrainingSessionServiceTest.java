@@ -12,7 +12,7 @@ import com.tfg.trainingsession.ExerciseSet;
 import com.tfg.trainingsession.TrainingSession;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.mock;
@@ -24,7 +24,7 @@ public class CreateTrainingSessionServiceTest {
     private final CreateTrainingSessionService trainingSessionService = new CreateTrainingSessionService(trainingSessionRepository);
 
     private static final Patient TEST_PATIENT = PatientFactory.createTestPatient("hola@gmail.com", "85729487J");
-    private static final TrainingSession TEST_TRAINING_SESSION = TrainingSessionFactory.createTestTrainingSession(TEST_PATIENT, LocalDate.of(2024, 6, 1));
+    private static final TrainingSession TEST_TRAINING_SESSION = TrainingSessionFactory.createTestTrainingSession(TEST_PATIENT, LocalDateTime.of(2024, 6, 1, 10, 0), LocalDateTime.of(2024, 6, 1, 11, 0));
 
     @Test
     public void givenNewTrainingSession_createTrainingSession(){
@@ -32,7 +32,8 @@ public class CreateTrainingSessionServiceTest {
 
         verify(trainingSessionRepository).save(argThat(trainingSession ->
                  trainingSession.getPatient().equals(TEST_PATIENT) &&
-                 trainingSession.getDate().equals(LocalDate.of(2024, 6, 1))
+                 trainingSession.getStartDateTime().equals(LocalDateTime.of(2024, 6, 1, 10, 0)) &&
+                 trainingSession.getEndDateTime().equals(LocalDateTime.of(2024, 6, 1, 11, 0))
         ));
     }
 }

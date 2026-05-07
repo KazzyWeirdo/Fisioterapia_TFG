@@ -17,7 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static org.mockito.BDDMockito.given;
 
@@ -31,7 +31,7 @@ public class GetTrainingSessionControllerTest {
     private GetTrainingSessionController getTrainingSessionController;
 
     private static final Patient TEST_PATIENT = PatientFactory.createTestPatient("hola@gmail.com", "85729487J");
-    private static final TrainingSession TEST_TRAINING_SESSION_1 = TrainingSessionFactory.createTestTrainingSession(TEST_PATIENT, LocalDate.of(2023, 11, 30));
+    private static final TrainingSession TEST_TRAINING_SESSION_1 = TrainingSessionFactory.createTestTrainingSession(TEST_PATIENT, LocalDateTime.of(2023, 11, 30, 10, 0), LocalDateTime.of(2023, 11, 30, 11, 0));
 
     @BeforeEach
     void setUp() {

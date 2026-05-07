@@ -23,8 +23,8 @@ public class TrainingSessionJpaEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "physiotherapist_id", nullable = false)
     private PhysiotherapistJpaEntity physiotherapist;
-    @Temporal(TemporalType.DATE)
-    private java.time.LocalDate date;
+    private java.time.LocalDateTime startDateTime;
+    private java.time.LocalDateTime endDateTime;
     @OneToMany(mappedBy = "trainingSession", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ExerciseTemplateJpaEntity> exerciseTemplates = new ArrayList<>();
 

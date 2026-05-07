@@ -12,7 +12,8 @@ public interface TrainingSessionJpaDataRepository extends JpaRepository<Training
     @Query("""
         SELECT new com.tfg.adapter.out.persistence.trainingsession.TrainingSessionSummaryJpaProjection(
             s.id,
-            s.date,
+            s.startDateTime,
+            s.endDateTime,
             s.physiotherapist.name,
             s.physiotherapist.surname,
             MIN(et.name)
@@ -20,20 +21,20 @@ public interface TrainingSessionJpaDataRepository extends JpaRepository<Training
         FROM TrainingSessionJpaEntity s
         LEFT JOIN s.exerciseTemplates et
         WHERE s.patient.id = :patientId
-        GROUP BY s.id, s.date, s.physiotherapist.name, s.physiotherapist.surname
-        ORDER BY s.date ASC, s.id ASC
+        GROUP BY s.id, s.startDateTime, s.endDateTime, s.physiotherapist.name, s.physiotherapist.surname
+        ORDER BY s.startDateTime ASC, s.id ASC
     """)
     Page<TrainingSessionSummaryJpaProjection> findAllByPatientId(
             @Param("patientId") int patientId,
             Pageable pageable
     );
 
-    @Query("SELECT EXTRACT(MONTH FROM t.date) as month, COUNT(t.id) as count FROM TrainingSessionJpaEntity t WHERE t.patient.id = ?1 AND EXTRACT(YEAR FROM t.date) = ?2 GROUP BY month")
+    @Query("SELECT EXTRACT(MONTH FROM t.startDateTime) as month, COUNT(t.id) as count FROM TrainingSessionJpaEntity t WHERE t.patient.id = ?1 AND EXTRACT(YEAR FROM t.startDateTime) = ?2 GROUP BY month")
     List<Object[]> countSessionsByMonthForYear(Integer patientId, Integer year);
 
     @Query("""
     SELECT
-        CAST(t.date AS DATE) as sessionDate,
+        CAST(t.startDateTime AS DATE) as sessionDate,
         SUM(s.reps * s.weightKg) as totalVolume
     FROM TrainingSessionJpaEntity t
     JOIN t.exerciseTemplates et
@@ -41,8 +42,8 @@ public interface TrainingSessionJpaDataRepository extends JpaRepository<Training
     JOIN e.sets s
     WHERE t.patient.id = :patientId
       AND e.name = :exerciseName
-    GROUP BY CAST(t.date AS DATE)
-    ORDER BY CAST(t.date AS DATE) ASC
+    GROUP BY CAST(t.startDateTime AS DATE)
+    ORDER BY CAST(t.startDateTime AS DATE) ASC
     """)
     List<Object[]> calculateVolumeProgression(
             @Param("patientId") Integer patientId,

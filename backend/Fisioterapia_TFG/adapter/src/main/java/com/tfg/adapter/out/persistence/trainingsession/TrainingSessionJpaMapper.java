@@ -19,7 +19,8 @@ public class TrainingSessionJpaMapper {
                 entity.setId(trainingSession.getId().value());
                 entity.setPatient(patientJpaEntity);
                 entity.setPhysiotherapist(physiotherapistJpaEntity);
-                entity.setDate(trainingSession.getDate());
+                entity.setStartDateTime(trainingSession.getStartDateTime());
+                entity.setEndDateTime(trainingSession.getEndDateTime());
                 trainingSession.getExerciseTemplates().forEach(template -> {
                         ExerciseTemplateJpaEntity templateJpaEntity = ExerciseTemplateJpaMapper.toJpaEntity(template);
                         templateJpaEntity.setTrainingSession(entity);
@@ -32,7 +33,8 @@ public class TrainingSessionJpaMapper {
                 TrainingSession model = new TrainingSession(
                         new TrainingSessionId(trainingSession.getId()),
                         PatientJpaMapper.toModelEntity(trainingSession.getPatient()),
-                        trainingSession.getDate(),
+                        trainingSession.getStartDateTime(),
+                        trainingSession.getEndDateTime(),
                         PhysiotherapistJpaMapper.toModelEntity(trainingSession.getPhysiotherapist()),
                         new ArrayList<>()
                 );
