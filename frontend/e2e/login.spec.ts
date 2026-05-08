@@ -25,5 +25,5 @@ test('login happy path', async ({ page }) => {
   await page.click('button[type="submit"]')
 
   await expect(page).toHaveURL('/patients')
-  await expect(page.getByRole('heading', { name: 'Patient Records' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Patients' })).toBeVisible()
 })

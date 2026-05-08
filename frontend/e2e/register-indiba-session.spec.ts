@@ -22,8 +22,9 @@ test('register indiba session', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'Register INDIBA Session' })).toBeVisible()
   await expect(page.getByRole('main').getByText('Anna Garcia')).toBeVisible()
 
-  await page.fill('#beginSession', '2024-01-15T09:00')
-  await page.fill('#endSession', '2024-01-15T10:00')
+  await page.fill('#sessionDate', '2024-01-15')
+  await page.fill('#startTime', '09:00')
+  await page.fill('#endTime', '10:00')
   await page.selectOption('#patientId', '1')
   await page.fill('#treatedArea', 'Lumbar spine')
 
