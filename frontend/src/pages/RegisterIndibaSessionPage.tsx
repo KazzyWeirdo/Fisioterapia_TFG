@@ -19,8 +19,6 @@ const MODES = ['CAPACITIVE', 'RESISTIVE', 'DUAL']
 
 const EMPTY_FORM = {
   patientId: '' as number | '',
-  beginSession: '',
-  endSession: '',
   treatedArea: '',
   mode: 'CAPACITIVE',
   capacitiveIntensity: '40',
@@ -33,6 +31,10 @@ export default function RegisterIndibaSessionPage() {
   const navigate = useNavigate()
   const { token } = useAuth()
   const { t } = useLanguage()
+  const today = new Date().toISOString().slice(0, 10)
+  const [sessionDate, setSessionDate] = useState(today)
+  const [startTime, setStartTime] = useState('09:00')
+  const [endTime, setEndTime] = useState('10:00')
   const [form, setForm] = useState(EMPTY_FORM)
   const [physio, setPhysio] = useState<PhysiotherapistSummary | null>(null)
   const [patients, setPatients] = useState<PatientSummary[]>([])
@@ -60,8 +62,8 @@ export default function RegisterIndibaSessionPage() {
       const isCapacitive = form.mode === 'CAPACITIVE'
       await createIndibaSession({
         patientId: Number(form.patientId),
-        beginSession: new Date(form.beginSession).toISOString(),
-        endSession: new Date(form.endSession).toISOString(),
+        beginSession: new Date(`${sessionDate}T${startTime}:00`).toISOString(),
+        endSession: new Date(`${sessionDate}T${endTime}:00`).toISOString(),
         treatedArea: form.treatedArea,
         mode: form.mode,
         capacitiveIntensity: (isDual || isCapacitive) ? parseFloat(form.capacitiveIntensity) : null,
@@ -91,16 +93,24 @@ export default function RegisterIndibaSessionPage() {
         <div className={styles.sectionHeader}>
           <FontAwesomeIcon icon={faClock} /> {t('indiba_section_timing')}
         </div>
-        <div className={styles.row}>
+        <div className={styles.rowThree}>
           <div className={styles.field}>
-            <label className={styles.label} htmlFor="beginSession">{t('indiba_begin')}</label>
-            <input id="beginSession" name="beginSession" type="datetime-local"
-              className={styles.input} value={form.beginSession} onChange={handleChange} required />
+            <label className={styles.label} htmlFor="sessionDate">{t('training_field_date')}</label>
+            <input id="sessionDate" type="date"
+              className={styles.input} value={sessionDate}
+              onChange={e => setSessionDate(e.target.value)} required />
           </div>
           <div className={styles.field}>
-            <label className={styles.label} htmlFor="endSession">{t('indiba_end')}</label>
-            <input id="endSession" name="endSession" type="datetime-local"
-              className={styles.input} value={form.endSession} onChange={handleChange} required />
+            <label className={styles.label} htmlFor="startTime">{t('training_field_start_time')}</label>
+            <input id="startTime" type="time"
+              className={styles.input} value={startTime}
+              onChange={e => setStartTime(e.target.value)} required />
+          </div>
+          <div className={styles.field}>
+            <label className={styles.label} htmlFor="endTime">{t('training_field_end_time')}</label>
+            <input id="endTime" type="time"
+              className={styles.input} value={endTime}
+              onChange={e => setEndTime(e.target.value)} required />
           </div>
         </div>
       </div>

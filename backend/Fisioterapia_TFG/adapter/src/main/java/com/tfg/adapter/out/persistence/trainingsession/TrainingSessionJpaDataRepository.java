@@ -41,7 +41,7 @@ public interface TrainingSessionJpaDataRepository extends JpaRepository<Training
     JOIN et.exercises e
     JOIN e.sets s
     WHERE t.patient.id = :patientId
-      AND e.name = :exerciseName
+      AND LOWER(e.name) = LOWER(:exerciseName)
     GROUP BY CAST(t.startDateTime AS DATE)
     ORDER BY CAST(t.startDateTime AS DATE) ASC
     """)

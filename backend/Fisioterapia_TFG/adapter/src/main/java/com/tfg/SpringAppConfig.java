@@ -3,6 +3,7 @@ package com.tfg;
 import com.tfg.port.in.auditlog.GetAllAuditLogsUseCase;
 import com.tfg.port.in.exercisetemplate.CreateExerciseTemplateUseCase;
 import com.tfg.port.in.exercisetemplate.GetAllExerciseTemplatesUseCase;
+import com.tfg.port.in.exercisetemplate.GetExerciseTemplateByIdUseCase;
 import com.tfg.port.in.indiba.CreateIndibaSessionUseCase;
 import com.tfg.port.in.indiba.GetAllIndibaSessionsForExportUseCase;
 import com.tfg.port.in.indiba.GetIndibaSessionFromPatientUseCase;
@@ -38,6 +39,7 @@ import com.tfg.port.out.polar.PolarRepository;
 import com.tfg.service.auditlog.GetAllAuditLogsService;
 import com.tfg.service.exercisetemplate.CreateExerciseTemplateService;
 import com.tfg.service.exercisetemplate.GetAllExerciseTemplatesService;
+import com.tfg.service.exercisetemplate.GetExerciseTemplateByIdService;
 import com.tfg.service.indiba.CreateIndibaSessionService;
 import com.tfg.service.indiba.GetAllIndibaSessionsForExportService;
 import com.tfg.service.indiba.GetIndibaSessionFromPatientService;
@@ -254,5 +256,10 @@ public class SpringAppConfig {
     @Bean
     GetAllExerciseTemplatesUseCase getAllExerciseTemplatesUseCase() {
         return new GetAllExerciseTemplatesService(exerciseTemplateRepository);
+    }
+
+    @Bean
+    GetExerciseTemplateByIdUseCase getExerciseTemplateByIdUseCase() {
+        return new GetExerciseTemplateByIdService(exerciseTemplateRepository);
     }
 }

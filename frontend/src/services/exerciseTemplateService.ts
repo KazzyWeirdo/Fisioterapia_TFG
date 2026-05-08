@@ -10,7 +10,7 @@ export interface ExerciseSetInput {
 
 export interface ExerciseInput {
   name: string
-  exercises: ExerciseSetInput[]
+  sets: ExerciseSetInput[]
 }
 
 export interface ExerciseTemplateDetail {
@@ -47,4 +47,9 @@ export async function createExerciseTemplate(
 export async function getAllExerciseTemplates(): Promise<ExerciseTemplateDetail[]> {
   const response = await apiClient.get<ExerciseTemplateDetail[]>('/exercise-template')
   return response.data ?? []
+}
+
+export async function getExerciseTemplate(id: number): Promise<ExerciseTemplateDetail> {
+  const response = await apiClient.get<ExerciseTemplateDetail>(`/exercise-template/${id}`)
+  return response.data
 }

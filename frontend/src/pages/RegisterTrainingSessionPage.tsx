@@ -3,10 +3,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCalendarDays, faCheck, faShield } from '@fortawesome/free-solid-svg-icons'
 import { createTrainingSession } from '../services/trainingSessionService'
 import { getPatients, type PatientSummary } from '../services/patientService'
-import { getAllExerciseTemplates } from '../services/exerciseTemplateService'
+import { getAllExerciseTemplates, getExerciseTemplate } from '../services/exerciseTemplateService'
 import { useAuth } from '../contexts/AuthContext'
 import { decodeJwtPayload } from '../utils/jwt'
 import { useLanguage } from '../contexts/LanguageContext'
+import ExerciseList, { type ExerciseDraft } from '../components/ExerciseList'
 import styles from './RegisterTrainingSessionPage.module.css'
 
 export default function RegisterTrainingSessionPage() {
@@ -17,6 +18,8 @@ export default function RegisterTrainingSessionPage() {
   const [templates, setTemplates] = useState<{ id: number; name: string }[]>([])
   const [selectedTemplateId, setSelectedTemplateId] = useState<number | ''>('')
   const [physio, setPhysio] = useState<{ id: number; name: string; surname: string } | null>(null)
+  const [exercises, setExercises] = useState<ExerciseDraft[]>([])
+  const [loadingExercises, setLoadingExercises] = useState(false)
 
   const today = new Date().toISOString().slice(0, 10)
   const [sessionDate, setSessionDate] = useState(today)
@@ -39,18 +42,47 @@ export default function RegisterTrainingSessionPage() {
     }
   }, [token])
 
+  useEffect(() => {
+    if (!selectedTemplateId) { setExercises([]); return }
+    setLoadingExercises(true)
+    getExerciseTemplate(Number(selectedTemplateId))
+      .then(tmpl => setExercises(tmpl.exercises.map(ex => ({
+        name: ex.name,
+        fromTemplate: true,
+        sets: ex.sets.map(s => ({
+          weightKg: s.weightKg,
+          reps: s.reps,
+          restTimeSeconds: s.restTimeSeconds,
+          rpe: s.rpe,
+        })),
+      }))))
+      .catch(() => setExercises([]))
+      .finally(() => setLoadingExercises(false))
+  }, [selectedTemplateId])
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!patientId || !physio || !selectedTemplateId) return
     setSubmitting(true)
     setSubmitError(null)
     try {
+      const exercisePayload = exercises.map(ex => ({
+        name: ex.name,
+        sets: ex.sets.map((s, i) => ({
+          setNumber: i + 1,
+          weightKg: parseFloat(String(s.weightKg)) || 0,
+          reps: parseInt(String(s.reps)) || 0,
+          restTimeSeconds: parseInt(String(s.restTimeSeconds)) || 0,
+          rpe: s.rpe,
+        })),
+      }))
       await createTrainingSession({
         patientId,
         physiotherapistId: physio.id,
         startDateTime: `${sessionDate}T${startTime}:00`,
         endDateTime: `${sessionDate}T${endTime}:00`,
         exerciseTemplateId: selectedTemplateId,
+        exercises: exercisePayload.length > 0 ? exercisePayload : undefined,
       })
       setSubmitted(true)
     } catch {
@@ -163,6 +195,16 @@ export default function RegisterTrainingSessionPage() {
           </div>
         </div>
       </div>
+
+      {selectedTemplateId && (
+        <div className={styles.section}>
+          <div className={styles.sectionHeader}>
+            <span>{t('training_section_exercises')}</span>
+          </div>
+          {loadingExercises && <p>…</p>}
+          <ExerciseList exercises={exercises} onChange={setExercises} readonlyNames />
+        </div>
+      )}
 
       {submitError && <p className={styles.error}>{submitError}</p>}
 

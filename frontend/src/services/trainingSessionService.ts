@@ -1,5 +1,18 @@
 import apiClient from '../api/client'
 
+export interface ExerciseSetInput {
+  setNumber: number
+  weightKg: number
+  reps: number
+  restTimeSeconds: number
+  rpe: number
+}
+
+export interface ExerciseInput {
+  name: string
+  sets: ExerciseSetInput[]
+}
+
 export interface TrainingSessionsPage {
   content: { id: number; startDateTime: string; endDateTime: string; physiotherapistName: string; templateName: string | null }[]
   totalElements: number
@@ -42,6 +55,7 @@ export interface CreateTrainingSessionRequest {
   startDateTime: string
   endDateTime: string
   exerciseTemplateId: number
+  exercises?: ExerciseInput[]
 }
 
 export async function createTrainingSession(

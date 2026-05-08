@@ -20,6 +20,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -65,8 +66,34 @@ public class CreateTrainingSessionControllerTest {
                 TEST_PHYSIO.getId().value(),
                 LocalDateTime.of(2024, 6, 1, 10, 0),
                 LocalDateTime.of(2024, 6, 1, 11, 0),
-                TEST_TEMPLATE.getId().value()
+                TEST_TEMPLATE.getId().value(),
+                null
         );
+
+        RestAssuredMockMvc.given()
+                .contentType("application/json")
+                .body(body)
+                .when()
+                .post("/training-session/create")
+                .then()
+                .statusCode(200);
+    }
+
+    @Test
+    void createTrainingSession_shouldReturnOk_whenExercisesAreProvided() {
+        when(patientRepository.findById(any())).thenReturn(Optional.of(TEST_PATIENT));
+        when(physiotherapistRepository.findById(any())).thenReturn(Optional.of(TEST_PHYSIO));
+        when(exerciseTemplateRepository.findById(anyInt())).thenReturn(Optional.of(TEST_TEMPLATE));
+
+        Map<String, Object> set = Map.of("setNumber", 1, "weightKg", 60.0, "reps", 10, "restTimeSeconds", 90, "rpe", 7);
+        Map<String, Object> exercise = Map.of("name", "Sentadilla", "sets", List.of(set));
+        Map<String, Object> body = new java.util.HashMap<>();
+        body.put("patientId", TEST_PATIENT.getId().value());
+        body.put("physiotherapistId", TEST_PHYSIO.getId().value());
+        body.put("startDateTime", "2024-06-01T10:00:00");
+        body.put("endDateTime", "2024-06-01T11:00:00");
+        body.put("exerciseTemplateId", TEST_TEMPLATE.getId().value());
+        body.put("exercises", List.of(exercise));
 
         RestAssuredMockMvc.given()
                 .contentType("application/json")
