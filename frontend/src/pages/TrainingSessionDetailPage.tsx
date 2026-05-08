@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faDumbbell } from '@fortawesome/free-solid-svg-icons'
+import { faDumbbell, faShield, faClipboardList } from '@fortawesome/free-solid-svg-icons'
 import { useParams, useNavigate } from 'react-router-dom'
 import { getTrainingSession, type TrainingSessionDetail } from '../services/trainingSessionService'
 import { getPatient, type PatientDetail } from '../services/patientService'
@@ -8,8 +8,14 @@ import { useLanguage } from '../contexts/LanguageContext'
 import styles from './TrainingSessionDetailPage.module.css'
 
 function formatDate(raw: string, locale: string): string {
-  return new Date(raw + 'T00:00:00').toLocaleDateString(locale, {
+  return new Date(raw).toLocaleDateString(locale, {
     year: 'numeric', month: 'long', day: 'numeric',
+  })
+}
+
+function formatTime(raw: string, locale: string): string {
+  return new Date(raw).toLocaleTimeString(locale, {
+    hour: '2-digit', minute: '2-digit',
   })
 }
 
@@ -88,7 +94,9 @@ export default function TrainingSessionDetailPage() {
             <span className={styles.breadcrumbSep}>›</span>
             <span className={styles.breadcrumbCurrent}>{t('training_breadcrumb_current')}</span>
           </nav>
-          <h1 className={styles.title}>{formatDate(session.date, localeTag)}</h1>
+          <h1 className={styles.title}>
+            {formatDate(session.startDateTime, localeTag)} · {formatTime(session.startDateTime, localeTag)}–{formatTime(session.endDateTime, localeTag)}
+          </h1>
           <p className={styles.subtitle}>{patientName}</p>
         </div>
       </div>
@@ -117,6 +125,18 @@ export default function TrainingSessionDetailPage() {
         <div className={styles.stat}>
           <span className={styles.statLabel}>{t('training_stat_avg_rpe')}</span>
           <span className={styles.statValue}>{avgRpe !== null ? avgRpe.toFixed(1) : '—'}</span>
+        </div>
+        <div className={styles.stat}>
+          <span className={styles.statLabel}>
+            <FontAwesomeIcon icon={faClipboardList} /> {t('training_col_protocol')}
+          </span>
+          <span className={styles.statValue}>{session.templateName ?? '—'}</span>
+        </div>
+        <div className={styles.stat}>
+          <span className={styles.statLabel}>
+            <FontAwesomeIcon icon={faShield} /> {t('training_col_physiotherapist')}
+          </span>
+          <span className={styles.statValue}>{session.physiotherapistName}</span>
         </div>
       </div>
 

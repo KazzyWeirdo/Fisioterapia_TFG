@@ -8,7 +8,7 @@ import com.tfg.service.trainingsession.GetTrainingSessionService;
 import com.tfg.trainingsession.TrainingSession;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -19,7 +19,7 @@ public class GetTrainingSessionServiceTest {
     private final GetTrainingSessionService trainingSessionService = new GetTrainingSessionService(trainingSessionRepository);
 
     private static final Patient TEST_PATIENT = PatientFactory.createTestPatient("hola@gmail.com", "12345678D");
-    private static final TrainingSession TEST_TRAINING_SESSION = TrainingSessionFactory.createTestTrainingSession(TEST_PATIENT, LocalDate.of(2024, 6, 1));
+    private static final TrainingSession TEST_TRAINING_SESSION = TrainingSessionFactory.createTestTrainingSession(TEST_PATIENT, LocalDateTime.of(2024, 6, 1, 10, 0), LocalDateTime.of(2024, 6, 1, 11, 0));
 
     @Test
     public void givenExistingTrainingSession_getTrainingSession() {

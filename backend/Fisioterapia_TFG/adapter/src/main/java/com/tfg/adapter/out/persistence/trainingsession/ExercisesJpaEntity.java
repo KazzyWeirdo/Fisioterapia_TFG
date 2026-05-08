@@ -1,5 +1,6 @@
 package com.tfg.adapter.out.persistence.trainingsession;
 
+import com.tfg.adapter.out.persistence.exercisetemplate.ExerciseTemplateJpaEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,8 +15,8 @@ public class ExercisesJpaEntity {
     @Id
     private int id;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "training_session_id")
-    private TrainingSessionJpaEntity trainingSession;
+    @JoinColumn(name = "exercise_template_id")
+    private ExerciseTemplateJpaEntity exerciseTemplate;
     private String name;
     @ElementCollection
     @CollectionTable(

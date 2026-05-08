@@ -20,7 +20,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.mockito.BDDMockito.given;
@@ -38,7 +38,7 @@ public class GetAllTrainingSessionsForExportControllerTest {
     private static final ExerciseSet TEST_SET = ExerciseSetFactory.createTestExerciseSet(5);
     private static final Exercise TEST_EXERCISE = ExerciseFactory.createTestExerciseWithExerciseSets("Squat", TEST_SET);
     private static final TrainingSession TEST_SESSION = TrainingSessionFactory.createTestTrainingSessionWithExercises(
-            TEST_PATIENT, LocalDate.of(2024, 1, 10), TEST_EXERCISE);
+            TEST_PATIENT, LocalDateTime.of(2024, 1, 10, 10, 0), LocalDateTime.of(2024, 1, 10, 11, 0), TEST_EXERCISE);
 
     @BeforeEach
     void setUp() {

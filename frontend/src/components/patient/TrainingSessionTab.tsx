@@ -17,11 +17,17 @@ function formatDate(raw: string, locale: string): string {
   })
 }
 
+function formatTime(raw: string, locale: string): string {
+  return new Date(raw).toLocaleTimeString(locale, {
+    hour: '2-digit', minute: '2-digit',
+  })
+}
+
 export default function TrainingSessionTab({ patientId, patientName }: TrainingSessionTabProps) {
   const navigate = useNavigate()
   const { t, locale } = useLanguage()
   const localeTag = locale === 'es' ? 'es-ES' : 'en-US'
-  const [sessions, setSessions] = useState<{ id: number; date: string }[]>([])
+  const [sessions, setSessions] = useState<{ id: number; startDateTime: string; endDateTime: string; physiotherapistName: string; templateName: string | null }[]>([])
   const [totalElements, setTotalElements] = useState(0)
   const [totalPages, setTotalPages] = useState(0)
   const [currentPage, setCurrentPage] = useState(0)
@@ -46,7 +52,7 @@ export default function TrainingSessionTab({ patientId, patientName }: TrainingS
   }, [patientId, currentPage])
 
   const filtered = useMemo(() => sessions.filter(s => {
-    if (dateFrom && s.date.slice(0, 10) !== dateFrom) return false
+    if (dateFrom && s.startDateTime.slice(0, 10) !== dateFrom) return false
     return true
   }), [sessions, dateFrom])
 
@@ -89,22 +95,29 @@ export default function TrainingSessionTab({ patientId, patientName }: TrainingS
           <thead>
             <tr>
               <th>{t('training_col_date')}</th>
+              <th>{t('training_col_protocol')}</th>
+              <th>{t('training_col_physiotherapist')}</th>
               <th>{t('training_col_actions')}</th>
             </tr>
           </thead>
           <tbody>
             {loading && (
-              <tr><td colSpan={2} className={styles.stateCell}>{t('common_loading')}</td></tr>
+              <tr><td colSpan={4} className={styles.stateCell}>{t('common_loading')}</td></tr>
             )}
             {!loading && error && (
-              <tr><td colSpan={2} className={styles.errorCell}>{error}</td></tr>
+              <tr><td colSpan={4} className={styles.errorCell}>{error}</td></tr>
             )}
             {!loading && !error && filtered.length === 0 && (
-              <tr><td colSpan={2} className={styles.stateCell}>{t('training_empty')}</td></tr>
+              <tr><td colSpan={4} className={styles.stateCell}>{t('training_empty')}</td></tr>
             )}
             {!loading && !error && filtered.map(s => (
               <tr key={s.id}>
-                <td>{formatDate(s.date, localeTag)}</td>
+                <td>
+                  <div>{formatDate(s.startDateTime, localeTag)}</div>
+                  <div className={styles.timeRange}>{formatTime(s.startDateTime, localeTag)}–{formatTime(s.endDateTime, localeTag)}</div>
+                </td>
+                <td>{s.templateName ?? '—'}</td>
+                <td>{s.physiotherapistName}</td>
                 <td className={styles.actionsCell}>
                   <button
                     type="button"

@@ -1,7 +1,11 @@
 package com.tfg.adapter.out.persistence.trainingsession;
 
+import com.tfg.adapter.out.persistence.exercisetemplate.ExerciseTemplateJpaEntity;
+import com.tfg.adapter.out.persistence.exercisetemplate.ExerciseTemplateJpaMapper;
 import com.tfg.adapter.out.persistence.patient.PatientJpaEntity;
 import com.tfg.adapter.out.persistence.patient.PatientJpaMapper;
+import com.tfg.adapter.out.persistence.physiotherapist.PhysiotherapistJpaEntity;
+import com.tfg.adapter.out.persistence.physiotherapist.PhysiotherapistJpaMapper;
 import com.tfg.trainingsession.TrainingSession;
 import com.tfg.trainingsession.TrainingSessionId;
 
@@ -10,14 +14,18 @@ import java.util.List;
 
 public class TrainingSessionJpaMapper {
 
-        public static TrainingSessionJpaEntity toJpaEntity(TrainingSession trainingSession, PatientJpaEntity patientJpaEntity) {
+        public static TrainingSessionJpaEntity toJpaEntity(TrainingSession trainingSession, PatientJpaEntity patientJpaEntity, PhysiotherapistJpaEntity physiotherapistJpaEntity) {
                 TrainingSessionJpaEntity entity = new TrainingSessionJpaEntity();
                 entity.setId(trainingSession.getId().value());
                 entity.setPatient(patientJpaEntity);
-                entity.setDate(trainingSession.getDate());
-                entity.setExercises(trainingSession.getExercises().stream()
-                        .map(exercise -> ExercisesJpaMapper.toJpaEntity(exercise, entity))
-                        .toList());
+                entity.setPhysiotherapist(physiotherapistJpaEntity);
+                entity.setStartDateTime(trainingSession.getStartDateTime());
+                entity.setEndDateTime(trainingSession.getEndDateTime());
+                trainingSession.getExerciseTemplates().forEach(template -> {
+                        ExerciseTemplateJpaEntity templateJpaEntity = ExerciseTemplateJpaMapper.toJpaEntity(template);
+                        templateJpaEntity.setTrainingSession(entity);
+                        entity.addExerciseTemplate(templateJpaEntity);
+                });
                 return entity;
         }
 
@@ -25,10 +33,12 @@ public class TrainingSessionJpaMapper {
                 TrainingSession model = new TrainingSession(
                         new TrainingSessionId(trainingSession.getId()),
                         PatientJpaMapper.toModelEntity(trainingSession.getPatient()),
-                        trainingSession.getDate(),
+                        trainingSession.getStartDateTime(),
+                        trainingSession.getEndDateTime(),
+                        PhysiotherapistJpaMapper.toModelEntity(trainingSession.getPhysiotherapist()),
                         new ArrayList<>()
                 );
-                trainingSession.getExercises().forEach(exercise -> model.addExercise(ExercisesJpaMapper.toModelEntity(exercise)));
+                trainingSession.getExerciseTemplates().forEach(template -> model.addExerciseTemplate(ExerciseTemplateJpaMapper.toModel(template)));
                 return model;
         }
 }

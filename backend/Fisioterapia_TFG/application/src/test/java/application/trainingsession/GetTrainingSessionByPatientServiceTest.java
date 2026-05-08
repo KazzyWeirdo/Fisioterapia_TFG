@@ -12,7 +12,7 @@ import com.tfg.port.out.persistence.TrainingSessionRepository;
 import com.tfg.service.trainingsession.GetTrainingSessionByPatientService;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,8 +26,8 @@ public class GetTrainingSessionByPatientServiceTest {
     private final GetTrainingSessionByPatientService getTrainingSessionByPatientService = new GetTrainingSessionByPatientService(trainingSessionRepository, patientRepository);
 
     private static final Patient TEST_PATIENT = PatientFactory.createTestPatient("hola@gmail.com", "12345678D");
-    private static final TrainingSessionSummaryElement TEST_TRAINING_SESSION = new TrainingSessionSummaryElement(1, LocalDate.of(2024, 6, 1));
-    private static final TrainingSessionSummaryElement TEST_TRAINING_SESSION_2 = new TrainingSessionSummaryElement(2, LocalDate.of(2024, 6, 2));
+    private static final TrainingSessionSummaryElement TEST_TRAINING_SESSION = new TrainingSessionSummaryElement(1, LocalDateTime.of(2024, 6, 1, 10, 0), LocalDateTime.of(2024, 6, 1, 11, 0), "Laura Martínez", "Protocol A");
+    private static final TrainingSessionSummaryElement TEST_TRAINING_SESSION_2 = new TrainingSessionSummaryElement(2, LocalDateTime.of(2024, 6, 2, 10, 0), LocalDateTime.of(2024, 6, 2, 11, 0), "Carlos López", "Protocol B");
 
     @Test
     public void givenPatiendId_whenTrainingSessionsExists_giveDates() {

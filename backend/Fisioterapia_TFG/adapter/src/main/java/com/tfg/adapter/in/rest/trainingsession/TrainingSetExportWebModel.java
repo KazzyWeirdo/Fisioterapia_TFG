@@ -4,6 +4,7 @@ public record TrainingSetExportWebModel(
         int patientId,
         int sessionId,
         String sessionDate,
+        String templateName,
         String exerciseName,
         int setNumber,
         double weightKg,

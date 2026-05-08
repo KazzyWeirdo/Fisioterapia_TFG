@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUsers, faClipboardList, faUser, faPlus, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
+import { faUsers, faClipboardList, faUser, faPlus, faArrowRightFromBracket, faDumbbell, faListCheck } from '@fortawesome/free-solid-svg-icons'
 import { useAuth } from '../../contexts/AuthContext'
 import { useLanguage } from '../../contexts/LanguageContext'
 import { decodeJwtPayload } from '../../utils/jwt'
@@ -96,6 +96,12 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           </NavLink>
           <NavLink to="/indiba/register" className={linkClass}>
             <FontAwesomeIcon icon={faPlus} className={styles.icon} /> {t('nav_register_indiba')}
+          </NavLink>
+          <NavLink to="/training-session/register" className={linkClass}>
+            <FontAwesomeIcon icon={faDumbbell} className={styles.icon} /> {t('nav_register_training')}
+          </NavLink>
+          <NavLink to="/exercise-template/create" className={linkClass}>
+            <FontAwesomeIcon icon={faListCheck} className={styles.icon} /> {t('nav_create_template')}
           </NavLink>
           {showRegisterPhysio && (
             <NavLink to="/physiotherapist/register" className={linkClass}>

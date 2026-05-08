@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChartBar, faBolt, faClock, faUser } from '@fortawesome/free-solid-svg-icons'
 import { useParams, useNavigate } from 'react-router-dom'
 import { getIndibaSession, type IndibaSession } from '../services/indibaService'
-import { getPhysiotherapist, type PhysiotherapistSummary } from '../services/physiotherapistService'
 import { getPatient, type PatientDetail } from '../services/patientService'
 import { useLanguage } from '../contexts/LanguageContext'
 import styles from './IndibaDetailPage.module.css'
@@ -40,7 +39,6 @@ export default function IndibaDetailPage() {
   const { t, locale } = useLanguage()
   const localeTag = locale === 'es' ? 'es-ES' : 'en-US'
   const [session, setSession] = useState<IndibaSession | null>(null)
-  const [physio, setPhysio] = useState<PhysiotherapistSummary | null>(null)
   const [patient, setPatient] = useState<PatientDetail | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -58,12 +56,9 @@ export default function IndibaDetailPage() {
     getIndibaSession(Number(sessionId))
       .then(s => {
         setSession(s)
-        return Promise.all([
-          getPhysiotherapist(s.physiotherapistId),
-          getPatient(s.patiendId),
-        ])
+        return getPatient(s.patiendId)
       })
-      .then(([p, pat]) => { setPhysio(p); setPatient(pat) })
+      .then(pat => setPatient(pat))
       .catch(() => setError(t('indiba_load_error')))
       .finally(() => setLoading(false))
   }, [sessionId])
@@ -203,7 +198,7 @@ export default function IndibaDetailPage() {
               <div className={styles.physioAvatar}><FontAwesomeIcon icon={faUser} /></div>
               <div>
                 <div className={styles.physioName}>
-                  {physio ? `${physio.name} ${physio.surname}` : `Physiotherapist #${session.physiotherapistId}`}
+                  {`${session.physiotherapistName} ${session.physiotherapistSurname}`}
                 </div>
                 <div className={styles.physioRole}>{t('indiba_physio_role')}</div>
               </div>

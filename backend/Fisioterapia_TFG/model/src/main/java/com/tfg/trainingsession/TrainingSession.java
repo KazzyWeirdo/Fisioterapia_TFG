@@ -1,11 +1,12 @@
 package com.tfg.trainingsession;
 
 import com.tfg.patient.Patient;
+import com.tfg.physiotherapist.Physiotherapist;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,23 +18,30 @@ import java.util.concurrent.ThreadLocalRandom;
 public class TrainingSession {
     private final TrainingSessionId id;
     private final Patient patient;
-    private LocalDate date;
-    private List<Exercise> exercises;
+    private LocalDateTime startDateTime;
+    private LocalDateTime endDateTime;
+    private final Physiotherapist physiotherapist;
+    private List<ExerciseTemplate> exerciseTemplates;
 
-    public TrainingSession(Patient patient, LocalDate date) {
+    public TrainingSession(Patient patient, LocalDateTime startDateTime, LocalDateTime endDateTime, Physiotherapist physiotherapist) {
+        if (!endDateTime.isAfter(startDateTime)) {
+            throw new IllegalArgumentException("endDateTime must be after startDateTime");
+        }
         this.id = new TrainingSessionId(ThreadLocalRandom.current().nextInt(1_000_000));
         this.patient = patient;
-        this.date = date;
-        this.exercises = new ArrayList<>();
+        this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
+        this.physiotherapist = physiotherapist;
+        this.exerciseTemplates = new ArrayList<>();
     }
 
 
-    public void addExercise(Exercise exercise) {
-        if (exercise == null) throw new IllegalArgumentException("Exercise cannot be null");
-        this.exercises.add(exercise);
+    public void addExerciseTemplate(ExerciseTemplate exerciseTemplate) {
+        if (exerciseTemplate == null) throw new IllegalArgumentException("ExerciseTemplate cannot be null");
+        this.exerciseTemplates.add(exerciseTemplate);
     }
 
-    public List<Exercise> getExercises() {
-        return Collections.unmodifiableList(exercises);
+    public List<ExerciseTemplate> getExerciseTemplates() {
+        return Collections.unmodifiableList(exerciseTemplates);
     }
 }
