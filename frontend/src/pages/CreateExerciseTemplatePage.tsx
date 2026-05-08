@@ -35,7 +35,7 @@ export default function CreateExerciseTemplatePage() {
         name: templateName,
         exercises: exercises.map(ex => ({
           name: ex.name,
-          exercises: ex.sets.map((s, i) => ({
+          sets: ex.sets.map((s, i) => ({
             setNumber: i + 1,
             weightKg: parseFloat(String(s.weightKg)) || 0,
             reps: parseInt(String(s.reps)) || 0,

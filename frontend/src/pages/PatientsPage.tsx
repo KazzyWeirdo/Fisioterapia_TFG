@@ -139,8 +139,8 @@ export default function PatientsPage() {
               'indiba',
               getAllIndibaForExport,
               'indiba_sessions.csv',
-              ['patient_id', 'session_id', 'begin_session', 'end_session', 'treated_area', 'mode', 'intensity', 'objective', 'observations'],
-              (s) => [s.patientId, s.sessionId, s.beginSession, s.endSession, s.treatedArea, s.mode, s.intensity, s.objective, s.observations],
+              ['patient_id', 'session_id', 'begin_session', 'end_session', 'treated_area', 'mode', 'capacitive_intensity', 'resistive_intensity', 'objective', 'observations'],
+              (s) => [s.patientId, s.sessionId, s.beginSession, s.endSession, s.treatedArea, s.mode, s.capacitiveIntensity, s.resistiveIntensity, s.objective, s.observations],
             )}
           >
             {downloading.indiba ? t('patients_exporting') : <><FontAwesomeIcon icon={faDownload} /> {t('patients_export_indiba')}</>}
