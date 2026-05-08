@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useLocation, useNavigate } from 'react-router-dom'
 import { getPatient, type PatientDetail } from '../services/patientService'
+import { useLanguage } from '../contexts/LanguageContext'
 import PatientInfoCard from '../components/patient/PatientInfoCard'
 import TrainingSessionTab from '../components/patient/TrainingSessionTab'
 import IndibaSessionTab from '../components/patient/IndibaSessionTab'
@@ -10,23 +11,24 @@ import styles from './PatientDetailPage.module.css'
 
 type Tab = 'overview' | 'training' | 'indiba' | 'pni' | 'statistics'
 
-const TABS: { id: Tab; label: string }[] = [
-  { id: 'overview', label: 'Overview' },
-  { id: 'training', label: 'Training Sessions' },
-  { id: 'indiba', label: 'INDIBA Sessions' },
-  { id: 'pni', label: 'PNI Reports' },
-  { id: 'statistics', label: 'Statistics' },
-]
-
 export default function PatientDetailPage() {
   const { id } = useParams<{ id: string }>()
   const location = useLocation()
   const navigate = useNavigate()
+  const { t } = useLanguage()
   const [patient, setPatient] = useState<PatientDetail | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const initialTab = (location.state as { tab?: Tab } | null)?.tab ?? 'overview'
   const [activeTab, setActiveTab] = useState<Tab>(initialTab)
+
+  const TABS: { id: Tab; label: string }[] = [
+    { id: 'overview', label: t('tab_overview') },
+    { id: 'training', label: t('patient_tab_training') },
+    { id: 'indiba', label: t('patient_tab_indiba') },
+    { id: 'pni', label: t('patient_tab_pni') },
+    { id: 'statistics', label: t('patient_tab_stats') },
+  ]
 
   useEffect(() => {
     if (!id) return
@@ -34,11 +36,11 @@ export default function PatientDetailPage() {
     setError(null)
     getPatient(Number(id))
       .then(setPatient)
-      .catch(() => setError('Failed to load patient'))
+      .catch(() => setError(t('patient_load_error')))
       .finally(() => setLoading(false))
   }, [id])
 
-  if (loading) return <p className={styles.status}>Loading…</p>
+  if (loading) return <p className={styles.status}>{t('common_loading')}</p>
   if (error) return <p className={styles.error}>{error}</p>
   if (!patient) return null
 
@@ -46,7 +48,7 @@ export default function PatientDetailPage() {
     <div className={styles.page}>
       <nav className={styles.breadcrumb}>
         <button type="button" className={styles.breadcrumbLink} onClick={() => navigate('/patients')}>
-          Patients
+          {t('nav_patients')}
         </button>
         <span className={styles.breadcrumbSep}>›</span>
         <span className={styles.breadcrumbCurrent}>

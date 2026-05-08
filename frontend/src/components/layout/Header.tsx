@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 import { useAuth } from '../../contexts/AuthContext'
 import { decodeJwtPayload } from '../../utils/jwt'
+import LanguageSwitcher from './LanguageSwitcher'
 import styles from './Header.module.css'
 
 interface HeaderProps {
@@ -35,6 +36,7 @@ export default function Header({ onMenuToggle }: HeaderProps) {
         <FontAwesomeIcon icon={faBars} />
       </button>
       <div className={styles.user}>
+        <LanguageSwitcher />
         <span className={styles.name}>{displayName}</span>
       </div>
     </header>

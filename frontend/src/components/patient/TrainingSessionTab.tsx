@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDumbbell } from '@fortawesome/free-solid-svg-icons'
 import { getTrainingSessionsFromPatient } from '../../services/trainingSessionService'
+import { useLanguage } from '../../contexts/LanguageContext'
 import styles from './TrainingSessionTab.module.css'
 
 interface TrainingSessionTabProps {
@@ -10,15 +11,23 @@ interface TrainingSessionTabProps {
   patientName: string
 }
 
-function formatDate(raw: string): string {
-  return new Date(raw).toLocaleDateString('en-US', {
+function formatDate(raw: string, locale: string): string {
+  return new Date(raw).toLocaleDateString(locale, {
     year: 'numeric', month: 'long', day: '2-digit',
+  })
+}
+
+function formatTime(raw: string, locale: string): string {
+  return new Date(raw).toLocaleTimeString(locale, {
+    hour: '2-digit', minute: '2-digit',
   })
 }
 
 export default function TrainingSessionTab({ patientId, patientName }: TrainingSessionTabProps) {
   const navigate = useNavigate()
-  const [sessions, setSessions] = useState<{ id: number; date: string }[]>([])
+  const { t, locale } = useLanguage()
+  const localeTag = locale === 'es' ? 'es-ES' : 'en-US'
+  const [sessions, setSessions] = useState<{ id: number; startDateTime: string; endDateTime: string; physiotherapistName: string; templateName: string | null }[]>([])
   const [totalElements, setTotalElements] = useState(0)
   const [totalPages, setTotalPages] = useState(0)
   const [currentPage, setCurrentPage] = useState(0)
@@ -37,13 +46,13 @@ export default function TrainingSessionTab({ patientId, patientName }: TrainingS
         setTotalElements(data.totalElements)
         setTotalPages(data.totalPages)
       })
-      .catch(() => { if (!cancelled) setError('Failed to load sessions') })
+      .catch(() => { if (!cancelled) setError(t('common_error')) })
       .finally(() => { if (!cancelled) setLoading(false) })
     return () => { cancelled = true }
   }, [patientId, currentPage])
 
   const filtered = useMemo(() => sessions.filter(s => {
-    if (dateFrom && s.date.slice(0, 10) !== dateFrom) return false
+    if (dateFrom && s.startDateTime.slice(0, 10) !== dateFrom) return false
     return true
   }), [sessions, dateFrom])
 
@@ -56,22 +65,22 @@ export default function TrainingSessionTab({ patientId, patientName }: TrainingS
 
   return (
     <div className={styles.tab}>
-      <h2 className={styles.title}>Training Sessions</h2>
+      <h2 className={styles.title}>{t('patient_tab_training')}</h2>
       <p className={styles.subtitle}>
-        Training history for patient <strong>{patientName}</strong>.
+        {t('training_tab_subtitle')} <strong>{patientName}</strong>.
       </p>
 
       <div className={styles.statCard}>
         <div className={styles.statIcon}><FontAwesomeIcon icon={faDumbbell} /></div>
         <div>
-          <div className={styles.statLabel}>TOTAL SESSIONS</div>
+          <div className={styles.statLabel}>{t('training_stat_total')}</div>
           <div className={styles.statValue}>{totalElements}</div>
         </div>
       </div>
 
       <div className={styles.controls}>
         <label className={styles.dateLabel}>
-          Filter by date
+          {t('common_filter_by_date')}
           <input
             type="date"
             className={styles.dateInput}
@@ -85,30 +94,37 @@ export default function TrainingSessionTab({ patientId, patientName }: TrainingS
         <table className={styles.table}>
           <thead>
             <tr>
-              <th>SESSION DATE</th>
-              <th>ACTIONS</th>
+              <th>{t('training_col_date')}</th>
+              <th>{t('training_col_protocol')}</th>
+              <th>{t('training_col_physiotherapist')}</th>
+              <th>{t('training_col_actions')}</th>
             </tr>
           </thead>
           <tbody>
             {loading && (
-              <tr><td colSpan={2} className={styles.stateCell}>Loading…</td></tr>
+              <tr><td colSpan={4} className={styles.stateCell}>{t('common_loading')}</td></tr>
             )}
             {!loading && error && (
-              <tr><td colSpan={2} className={styles.errorCell}>{error}</td></tr>
+              <tr><td colSpan={4} className={styles.errorCell}>{error}</td></tr>
             )}
             {!loading && !error && filtered.length === 0 && (
-              <tr><td colSpan={2} className={styles.stateCell}>No sessions found</td></tr>
+              <tr><td colSpan={4} className={styles.stateCell}>{t('training_empty')}</td></tr>
             )}
             {!loading && !error && filtered.map(s => (
               <tr key={s.id}>
-                <td>{formatDate(s.date)}</td>
+                <td>
+                  <div>{formatDate(s.startDateTime, localeTag)}</div>
+                  <div className={styles.timeRange}>{formatTime(s.startDateTime, localeTag)}–{formatTime(s.endDateTime, localeTag)}</div>
+                </td>
+                <td>{s.templateName ?? '—'}</td>
+                <td>{s.physiotherapistName}</td>
                 <td className={styles.actionsCell}>
                   <button
                     type="button"
                     className={styles.viewLink}
                     onClick={() => navigate(`/training-session/${s.id}`)}
                   >
-                    View Details ›
+                    {t('common_view_details')}
                   </button>
                 </td>
               </tr>
@@ -118,7 +134,7 @@ export default function TrainingSessionTab({ patientId, patientName }: TrainingS
 
         <div className={styles.footer}>
           <span className={styles.footerText}>
-            Showing {filtered.length} of {totalElements} sessions
+            {t('training_tab_footer', { n: filtered.length, total: totalElements })}
           </span>
           <div className={styles.pagination}>
             <button

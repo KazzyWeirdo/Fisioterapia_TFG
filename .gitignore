@@ -59,3 +59,9 @@ node_modules/
 /playwright/.cache/
 /playwright/.auth/
 /frontend/dist
+docs/memoria/memoria_text.txt
+docs/memoria/Sugerencias.md
+docs/memoria/viabilitat_text.txt
+/.opencode
+docs/memoria/Memoria Intermèdia TFG.docx
+docs/memoria/annexos(DONTREADTHIS).md

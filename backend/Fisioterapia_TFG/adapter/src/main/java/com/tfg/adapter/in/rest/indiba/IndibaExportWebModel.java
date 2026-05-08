@@ -7,7 +7,8 @@ public record IndibaExportWebModel(
         String endSession,
         String treatedArea,
         String mode,
-        float intensity,
+        Float capacitiveIntensity,
+        Float resistiveIntensity,
         String objective,
         String observations
 ) {}

@@ -14,6 +14,7 @@ import PniReportDetailPage from './pages/PniReportDetailPage'
 import RegisterIndibaSessionPage from './pages/RegisterIndibaSessionPage'
 import TrainingSessionDetailPage from './pages/TrainingSessionDetailPage'
 import RegisterTrainingSessionPage from './pages/RegisterTrainingSessionPage'
+import CreateExerciseTemplatePage from './pages/CreateExerciseTemplatePage'
 
 function PrivateRoute() {
   const { token } = useAuth()
@@ -27,7 +28,6 @@ export default function App() {
         <Routes>
           {/* Public */}
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/training-session/register" element={<RegisterTrainingSessionPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
 
@@ -48,6 +48,8 @@ export default function App() {
               <Route path="/indiba/:sessionId" element={<IndibaDetailPage />} />
               <Route path="/pni/:reportId" element={<PniReportDetailPage />} />
               <Route path="/training-session/:sessionId" element={<TrainingSessionDetailPage />} />
+              <Route path="/training-session/register" element={<RegisterTrainingSessionPage />} />
+              <Route path="/exercise-template/create" element={<CreateExerciseTemplatePage />} />
             </Route>
           </Route>
 

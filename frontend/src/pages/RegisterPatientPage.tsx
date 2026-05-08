@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faIdCard, faAddressCard, faUsers, faHeart, faUser } from '@fortawesome/free-solid-svg-icons'
 import { createPatient } from '../services/patientService'
+import { useLanguage } from '../contexts/LanguageContext'
 import styles from './RegisterPatientPage.module.css'
 
 interface RegisterPatientForm {
@@ -40,6 +41,7 @@ const SEX_OPTIONS = ['FEMALE', 'MALE', 'COMPLEX', 'UNKNOWN']
 
 export default function RegisterPatientPage() {
   const navigate = useNavigate()
+  const { t } = useLanguage()
   const [form, setForm] = useState<RegisterPatientForm>(EMPTY_FORM)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -61,7 +63,7 @@ export default function RegisterPatientPage() {
       await createPatient({ ...form, phoneNumber: parseInt(form.phoneNumber, 10) })
       navigate('/patients')
     } catch {
-      setError('Failed to register patient. Please check the form and try again.')
+      setError(t('reg_patient_error'))
     } finally {
       setSubmitting(false)
     }
@@ -69,11 +71,8 @@ export default function RegisterPatientPage() {
 
   return (
     <div className={styles.page}>
-      <h1 className={styles.title}>Register Patient</h1>
-      <p className={styles.subtitle}>
-        Onboard a new patient to the clinical system. Ensure all legal information matches official
-        identification documents.
-      </p>
+      <h1 className={styles.title}>{t('register_patient_title')}</h1>
+      <p className={styles.subtitle}>{t('reg_patient_subtitle')}</p>
 
       <div className={styles.layout}>
         <form
@@ -85,44 +84,44 @@ export default function RegisterPatientPage() {
           {/* Personal Information */}
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>
-              <FontAwesomeIcon icon={faIdCard} /> Personal Information
+              <FontAwesomeIcon icon={faIdCard} /> {t('reg_patient_section_personal')}
             </h2>
 
             <div className={styles.field}>
-              <label htmlFor="legalName">Legal Name (Full)</label>
+              <label htmlFor="legalName">{t('reg_patient_legal_name')}</label>
               <input
                 id="legalName"
                 name="legalName"
                 type="text"
                 value={form.legalName}
                 onChange={handleChange}
-                placeholder="As it appears on official documents"
+                placeholder={t('reg_patient_legal_name_placeholder')}
                 required
               />
             </div>
 
             <div className={styles.row}>
               <div className={styles.field}>
-                <label htmlFor="nameToUse">Name to Use</label>
+                <label htmlFor="nameToUse">{t('reg_patient_name_to_use')}</label>
                 <input
                   id="nameToUse"
                   name="nameToUse"
                   type="text"
                   value={form.nameToUse}
                   onChange={handleChange}
-                  placeholder="Preferred first name"
+                  placeholder={t('reg_patient_name_to_use_placeholder')}
                   required
                 />
               </div>
               <div className={styles.field}>
-                <label htmlFor="pronouns">Pronouns</label>
+                <label htmlFor="pronouns">{t('reg_patient_pronouns')}</label>
                 <input
                   id="pronouns"
                   name="pronouns"
                   type="text"
                   value={form.pronouns}
                   onChange={handleChange}
-                  placeholder="e.g. He/Him, They/Them"
+                  placeholder={t('reg_patient_pronouns_placeholder')}
                   required
                 />
               </div>
@@ -130,7 +129,7 @@ export default function RegisterPatientPage() {
 
             <div className={styles.row}>
               <div className={styles.field}>
-                <label htmlFor="surname">Surname</label>
+                <label htmlFor="surname">{t('reg_patient_surname')}</label>
                 <input
                   id="surname"
                   name="surname"
@@ -141,7 +140,7 @@ export default function RegisterPatientPage() {
                 />
               </div>
               <div className={styles.field}>
-                <label htmlFor="secondSurname">Second Surname</label>
+                <label htmlFor="secondSurname">{t('reg_patient_second_surname')}</label>
                 <input
                   id="secondSurname"
                   name="secondSurname"
@@ -154,19 +153,19 @@ export default function RegisterPatientPage() {
 
             <div className={styles.row}>
               <div className={styles.field}>
-                <label htmlFor="dni">DNI / Identification</label>
+                <label htmlFor="dni">{t('reg_patient_dni')}</label>
                 <input
                   id="dni"
                   name="dni"
                   type="text"
                   value={form.dni}
                   onChange={handleChange}
-                  placeholder="ID Number"
+                  placeholder={t('reg_patient_dni_placeholder')}
                   required
                 />
               </div>
               <div className={styles.field}>
-                <label htmlFor="dateOfBirth">Date of Birth</label>
+                <label htmlFor="dateOfBirth">{t('reg_patient_dob')}</label>
                 <input
                   id="dateOfBirth"
                   name="dateOfBirth"
@@ -182,31 +181,31 @@ export default function RegisterPatientPage() {
           {/* Contact Details */}
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>
-              <FontAwesomeIcon icon={faAddressCard} /> Contact Details
+              <FontAwesomeIcon icon={faAddressCard} /> {t('reg_patient_section_contact')}
             </h2>
 
             <div className={styles.row}>
               <div className={styles.field}>
-                <label htmlFor="email">Email Address</label>
+                <label htmlFor="email">{t('reg_patient_email')}</label>
                 <input
                   id="email"
                   name="email"
                   type="email"
                   value={form.email}
                   onChange={handleChange}
-                  placeholder="patient@example.com"
+                  placeholder={t('reg_patient_email_placeholder')}
                   required
                 />
               </div>
               <div className={styles.field}>
-                <label htmlFor="phoneNumber">Phone Number</label>
+                <label htmlFor="phoneNumber">{t('reg_patient_phone')}</label>
                 <input
                   id="phoneNumber"
                   name="phoneNumber"
                   type="tel"
                   value={form.phoneNumber}
                   onChange={handleChange}
-                  placeholder="000000000"
+                  placeholder={t('reg_patient_phone_placeholder')}
                   required
                 />
               </div>
@@ -216,12 +215,12 @@ export default function RegisterPatientPage() {
           {/* Clinical & Administrative Identity */}
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>
-              <FontAwesomeIcon icon={faUsers} /> Clinical &amp; Administrative Identity
+              <FontAwesomeIcon icon={faUsers} /> {t('reg_patient_section_clinical')}
             </h2>
 
             <div className={styles.row}>
               <div className={styles.field}>
-                <label htmlFor="genderIdentity">Gender Identity</label>
+                <label htmlFor="genderIdentity">{t('reg_patient_gender')}</label>
                 <select
                   id="genderIdentity"
                   name="genderIdentity"
@@ -229,14 +228,14 @@ export default function RegisterPatientPage() {
                   onChange={handleChange}
                   required
                 >
-                  <option value="" disabled>Select Option</option>
+                  <option value="" disabled>{t('reg_patient_select_option')}</option>
                   {GENDER_OPTIONS.map(opt => (
                     <option key={opt} value={opt}>{opt}</option>
                   ))}
                 </select>
               </div>
               <div className={styles.field}>
-                <label htmlFor="clinicalUseSex">Clinical Use Sex</label>
+                <label htmlFor="clinicalUseSex">{t('reg_patient_clinical_sex')}</label>
                 <select
                   id="clinicalUseSex"
                   name="clinicalUseSex"
@@ -244,14 +243,14 @@ export default function RegisterPatientPage() {
                   onChange={handleChange}
                   required
                 >
-                  <option value="" disabled>Select Option</option>
+                  <option value="" disabled>{t('reg_patient_select_option')}</option>
                   {SEX_OPTIONS.map(opt => (
                     <option key={opt} value={opt}>{opt}</option>
                   ))}
                 </select>
               </div>
               <div className={styles.field}>
-                <label htmlFor="administrativeSex">Administrative Sex</label>
+                <label htmlFor="administrativeSex">{t('reg_patient_admin_sex')}</label>
                 <select
                   id="administrativeSex"
                   name="administrativeSex"
@@ -259,7 +258,7 @@ export default function RegisterPatientPage() {
                   onChange={handleChange}
                   required
                 >
-                  <option value="" disabled>Select Option</option>
+                  <option value="" disabled>{t('reg_patient_select_option')}</option>
                   {SEX_OPTIONS.map(opt => (
                     <option key={opt} value={opt}>{opt}</option>
                   ))}
@@ -279,21 +278,16 @@ export default function RegisterPatientPage() {
           <div className={styles.polarIconWrap}>
             <FontAwesomeIcon icon={faHeart} className={styles.polarIcon} />
           </div>
-          <h3 className={styles.polarTitle}>Polar Ecosystem</h3>
-          <p className={styles.polarDesc}>
-            Connect patient's biometric sensors to sync heart rate, sleep, and recovery metrics
-            automatically.
-          </p>
-          <p className={styles.polarNote}>
-            After saving, open the patient's profile to connect their Polar account.
-          </p>
-          <p className={styles.polarCaption}>ENCRYPTED POLAR API INTEGRATION</p>
+          <h3 className={styles.polarTitle}>{t('reg_patient_polar_title')}</h3>
+          <p className={styles.polarDesc}>{t('reg_patient_polar_desc')}</p>
+          <p className={styles.polarNote}>{t('reg_patient_polar_note')}</p>
+          <p className={styles.polarCaption}>{t('reg_patient_polar_caption')}</p>
         </aside>
       </div>
 
       <div className={styles.footer}>
         <button type="button" onClick={handleDiscard} className={styles.discardBtn}>
-          × Discard Entry
+          {t('reg_patient_discard')}
         </button>
         <button
           type="submit"
@@ -301,7 +295,7 @@ export default function RegisterPatientPage() {
           disabled={submitting}
           className={styles.submitBtn}
         >
-          {submitting ? 'Registering…' : <><FontAwesomeIcon icon={faUser} /> Register Patient</>}
+          {submitting ? t('common_loading') : <><FontAwesomeIcon icon={faUser} /> {t('register_patient_submit')}</>}
         </button>
       </div>
     </div>

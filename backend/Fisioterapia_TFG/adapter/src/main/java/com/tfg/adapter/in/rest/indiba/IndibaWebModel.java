@@ -9,9 +9,11 @@ public record IndibaWebModel(
         Date endSession,
         String treatedArea,
         String mode,
-        float intensity,
+        Float capacitiveIntensity,
+        Float resistiveIntensity,
         String objective,
-        int physiotherapistId,
+        String physiotherapistName,
+        String physiotherapistSurname,
         String observations
 ) {
     static IndibaWebModel fromDomainModel(com.tfg.indiba.IndibaSession indibaSession) {
@@ -22,9 +24,11 @@ public record IndibaWebModel(
                 indibaSession.getEndSession(),
                 indibaSession.getTreatedArea(),
                 indibaSession.getMode().toString(),
-                indibaSession.getIntensity(),
+                indibaSession.getCapacitiveIntensity(),
+                indibaSession.getResistiveIntensity(),
                 indibaSession.getObjective(),
-                indibaSession.getPhysiotherapist().getId().value(),
+                indibaSession.getPhysiotherapist().getName(),
+                indibaSession.getPhysiotherapist().getSurname(),
                 indibaSession.getObservations()
         );
     }

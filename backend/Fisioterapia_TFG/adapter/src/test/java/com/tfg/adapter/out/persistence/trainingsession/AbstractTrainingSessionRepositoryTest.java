@@ -1,17 +1,22 @@
 package com.tfg.adapter.out.persistence.trainingsession;
 
 import com.tfg.model.patient.PatientFactory;
+import com.tfg.model.physiotherapist.PhysiotherapistFactory;
 import com.tfg.model.trainingsession.ExerciseFactory;
 import com.tfg.model.trainingsession.ExerciseSetFactory;
+import com.tfg.model.trainingsession.ExerciseTemplateFactory;
 import com.tfg.model.trainingsession.TrainingSessionFactory;
 import com.tfg.patient.Patient;
+import com.tfg.physiotherapist.Physiotherapist;
 import com.tfg.pojos.pagedpojos.PageQuery;
 import com.tfg.pojos.pagedpojos.PagedResponse;
 import com.tfg.pojos.query.TrainingSessionSummaryElement;
 import com.tfg.port.out.persistence.PatientRepository;
+import com.tfg.port.out.persistence.PhysiotherapistRepository;
 import com.tfg.port.out.persistence.TrainingSessionRepository;
 import com.tfg.trainingsession.Exercise;
 import com.tfg.trainingsession.ExerciseSet;
+import com.tfg.trainingsession.ExerciseTemplate;
 import com.tfg.trainingsession.TrainingSession;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +24,7 @@ import org.junit.jupiter.api.Test;
 import com.tfg.adapter.out.persistence.BaseRepositoryIT;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +32,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public abstract class AbstractTrainingSessionRepositoryTest extends BaseRepositoryIT {
     private Patient testPatient;
+    private Physiotherapist testPhysiotherapist;
     private TrainingSession testTrainingSession1;
     private TrainingSession testTrainingSession2;
     private Exercise exercise1;
@@ -38,22 +44,36 @@ public abstract class AbstractTrainingSessionRepositoryTest extends BaseReposito
     @Autowired
     public PatientRepository patientRepository;
 
+    @Autowired
+    public PhysiotherapistRepository physiotherapistRepository;
+
     @BeforeEach
     void setUp() {
         testPatient = PatientFactory.createTestPatient("hola@gmail.com", "85729487J");
+        testPhysiotherapist = PhysiotherapistFactory.createTestPsychiatrist("test@example.com", "password");
 
         patientRepository.save(testPatient);
+        physiotherapistRepository.save(testPhysiotherapist);
 
         exerciseSet1 = ExerciseSetFactory.createTestExerciseSet(5);
         exercise1 = ExerciseFactory.createTestExerciseWithExerciseSets("Test Exercise", exerciseSet1);
-        testTrainingSession1 = TrainingSessionFactory.createTestTrainingSessionWithExercises(testPatient, LocalDate.of(2024, 6, 1), exercise1);
-        testTrainingSession2 = TrainingSessionFactory.createTestTrainingSessionWithExercises(testPatient, LocalDate.of(2024, 7, 2), exercise1);
+
+        ExerciseTemplate template1 = ExerciseTemplateFactory.createTestExerciseTemplateWithExercises("Test Template", exercise1);
+        testTrainingSession1 = TrainingSessionFactory.createTestTrainingSession(testPatient, LocalDateTime.of(2024, 6, 1, 10, 0), LocalDateTime.of(2024, 6, 1, 11, 0), testPhysiotherapist);
+        testTrainingSession1.addExerciseTemplate(template1);
+
+        ExerciseSet exerciseSet2 = ExerciseSetFactory.createTestExerciseSet(5);
+        Exercise exercise2 = ExerciseFactory.createTestExerciseWithExerciseSets("Test Exercise", exerciseSet2);
+        ExerciseTemplate template2 = ExerciseTemplateFactory.createTestExerciseTemplateWithExercises("Test Template", exercise2);
+        testTrainingSession2 = TrainingSessionFactory.createTestTrainingSession(testPatient, LocalDateTime.of(2024, 7, 2, 10, 0), LocalDateTime.of(2024, 7, 2, 11, 0), testPhysiotherapist);
+        testTrainingSession2.addExerciseTemplate(template2);
     }
 
     @AfterEach
     void tearDown() {
         trainingSessionRepository.deleteAll();
         patientRepository.deleteAll();
+        physiotherapistRepository.deleteAll();
     }
 
     @Test
@@ -74,9 +94,11 @@ public abstract class AbstractTrainingSessionRepositoryTest extends BaseReposito
 
         assertThat(trainingSessions).hasSize(2);
         assertThat(trainingSessions.get(0).id()).isEqualTo(testTrainingSession1.getId().value());
-        assertThat(trainingSessions.get(0).date()).isEqualTo(testTrainingSession1.getDate());
+        assertThat(trainingSessions.get(0).startDateTime()).isEqualTo(testTrainingSession1.getStartDateTime());
+        assertThat(trainingSessions.get(0).endDateTime()).isEqualTo(testTrainingSession1.getEndDateTime());
         assertThat(trainingSessions.get(1).id()).isEqualTo(testTrainingSession2.getId().value());
-        assertThat(trainingSessions.get(1).date()).isEqualTo(testTrainingSession2.getDate());
+        assertThat(trainingSessions.get(1).startDateTime()).isEqualTo(testTrainingSession2.getStartDateTime());
+        assertThat(trainingSessions.get(1).endDateTime()).isEqualTo(testTrainingSession2.getEndDateTime());
     }
 
     @Test
@@ -97,7 +119,8 @@ public abstract class AbstractTrainingSessionRepositoryTest extends BaseReposito
         var trainingSession = trainingSessionRepository.findById(testTrainingSession1.getId());
 
         assertThat(trainingSession).isPresent();
-        assertThat(trainingSession.get().getDate()).isEqualTo(testTrainingSession1.getDate());
+        assertThat(trainingSession.get().getStartDateTime()).isEqualTo(testTrainingSession1.getStartDateTime());
+        assertThat(trainingSession.get().getEndDateTime()).isEqualTo(testTrainingSession1.getEndDateTime());
     }
 
     @Test
@@ -130,7 +153,8 @@ public abstract class AbstractTrainingSessionRepositoryTest extends BaseReposito
         Optional<TrainingSession> retrievedTrainingSession = trainingSessionRepository.findById(testTrainingSession1.getId());
 
         assertThat(retrievedTrainingSession).isPresent();
-        assertThat(retrievedTrainingSession.get().getDate()).isEqualTo(testTrainingSession1.getDate());
+        assertThat(retrievedTrainingSession.get().getStartDateTime()).isEqualTo(testTrainingSession1.getStartDateTime());
+        assertThat(retrievedTrainingSession.get().getEndDateTime()).isEqualTo(testTrainingSession1.getEndDateTime());
     }
 
     @Test
@@ -138,7 +162,7 @@ public abstract class AbstractTrainingSessionRepositoryTest extends BaseReposito
         trainingSessionRepository.save(testTrainingSession1);
         trainingSessionRepository.save(testTrainingSession2);
 
-        List<Object[]> trainingSessions = trainingSessionRepository.countSessionByMonth(testPatient.getId(), testTrainingSession1.getDate().getYear());
+        List<Object[]> trainingSessions = trainingSessionRepository.countSessionByMonth(testPatient.getId(), testTrainingSession1.getStartDateTime().getYear());
 
         assertThat(trainingSessions).isNotEmpty();
         assertThat(trainingSessions.size()).isEqualTo(2);
@@ -146,7 +170,7 @@ public abstract class AbstractTrainingSessionRepositoryTest extends BaseReposito
 
     @Test
     public void givenNoTrainingSessions_whenFindByYear_returnEmptyList() {
-        List<Object[]> trainingSessions = trainingSessionRepository.countSessionByMonth(testPatient.getId(), testTrainingSession1.getDate().getYear());
+        List<Object[]> trainingSessions = trainingSessionRepository.countSessionByMonth(testPatient.getId(), testTrainingSession1.getStartDateTime().getYear());
 
         assertThat(trainingSessions).isEmpty();
     }
@@ -159,7 +183,7 @@ public abstract class AbstractTrainingSessionRepositoryTest extends BaseReposito
         List<Object[]> progression = trainingSessionRepository.calculateVolumeProgression(testPatient.getId(), "Test Exercise");
 
         assertThat(progression).isNotEmpty();
-        assertThat(progression.size()).isEqualTo(1);
+        assertThat(progression.size()).isEqualTo(2);
     }
 
     @Test
@@ -180,8 +204,8 @@ public abstract class AbstractTrainingSessionRepositoryTest extends BaseReposito
         assertThat(result).extracting(s -> s.getId().value())
                 .containsExactlyInAnyOrder(testTrainingSession1.getId().value(), testTrainingSession2.getId().value());
         assertThat(result).anySatisfy(session -> {
-            assertThat(session.getExercises()).isNotEmpty();
-            assertThat(session.getExercises().get(0).getSets()).isNotEmpty();
+            assertThat(session.getExerciseTemplates()).isNotEmpty();
+            assertThat(session.getExerciseTemplates().get(0).getExercises()).isNotEmpty();
         });
     }
 

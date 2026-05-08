@@ -24,9 +24,11 @@ export interface IndibaSession {
   endSession: string
   treatedArea: string
   mode: string
-  intensity: number
+  capacitiveIntensity: number | null
+  resistiveIntensity: number | null
   objective: string
-  physiotherapistId: number
+  physiotherapistName: string
+  physiotherapistSurname: string
   observations: string
 }
 
@@ -41,7 +43,8 @@ export interface CreateIndibaSessionRequest {
   endSession: string
   treatedArea: string
   mode: string
-  intensity: number
+  capacitiveIntensity: number | null
+  resistiveIntensity: number | null
   objective: string
   physiotherapistId: number
   observations: string
@@ -58,7 +61,8 @@ export interface IndibaExport {
   endSession: string
   treatedArea: string
   mode: string
-  intensity: number
+  capacitiveIntensity: number | null
+  resistiveIntensity: number | null
   objective: string
   observations: string
 }

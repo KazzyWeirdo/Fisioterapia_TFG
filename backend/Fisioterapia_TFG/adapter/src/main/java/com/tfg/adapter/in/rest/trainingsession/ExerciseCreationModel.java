@@ -13,7 +13,7 @@ public record ExerciseCreationModel(
         List<ExerciseSetCreationModel> exercises
 ) {
         public Exercise toDomainModel() {
-                Exercise exercise = new Exercise(name);
+                Exercise exercise = new Exercise(name.trim().toLowerCase());
                 exercises.forEach(exerciseSetCreationModel -> exercise.addSet(exerciseSetCreationModel.toDomain()));
                 return exercise;
         }

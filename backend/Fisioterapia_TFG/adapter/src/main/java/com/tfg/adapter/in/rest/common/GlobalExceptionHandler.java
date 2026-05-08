@@ -38,6 +38,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>("Invalid credentials", HttpStatus.UNAUTHORIZED);
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex, HttpServletRequest request) {
+        log.warn("Illegal argument at {}: {}", request.getRequestURI(), ex.getMessage());
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleGlobalException(Exception ex) {
         log.error("Unhandled exception occurred: {}", ex.getMessage(), ex);

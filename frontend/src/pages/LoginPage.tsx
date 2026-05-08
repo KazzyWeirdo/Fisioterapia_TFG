@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
+import { useLanguage } from '../contexts/LanguageContext'
 import { login } from '../services/authService'
 import AuthCard from '../components/auth/AuthCard'
 import AuthInput from '../components/auth/AuthInput'
@@ -12,6 +13,7 @@ import styles from './LoginPage.module.css'
 export default function LoginPage() {
   const navigate = useNavigate()
   const auth = useAuth()
+  const { t } = useLanguage()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -25,11 +27,11 @@ export default function LoginPage() {
     setPasswordError(null)
 
     if (!email.trim()) {
-      setError('Email is required')
+      setError(t('login_error_email_required'))
       return
     }
     if (!password) {
-      setPasswordError('Password is required')
+      setPasswordError(t('login_error_password_required'))
       return
     }
 
@@ -39,7 +41,7 @@ export default function LoginPage() {
       auth.login(token)
       navigate('/patients', { replace: true })
     } catch {
-      setError('Email non-existent or incorrect password')
+      setError(t('login_error_invalid'))
     } finally {
       setLoading(false)
     }
@@ -49,11 +51,11 @@ export default function LoginPage() {
     <div className={styles.page}>
       <AuthCard>
         <form className={styles.form} onSubmit={handleSubmit}>
-          <h1 className={styles.title}>Welcome back</h1>
+          <h1 className={styles.title}>{t('login_title')}</h1>
 
           <AuthInput
             id="email"
-            label="Practitioner Email"
+            label={t('login_email_label')}
             type="email"
             placeholder="fisio@example.com"
             value={email}
@@ -65,7 +67,7 @@ export default function LoginPage() {
 
           <PasswordInput
             id="password"
-            label="Password"
+            label={t('login_password_label')}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             error={passwordError}
@@ -74,14 +76,14 @@ export default function LoginPage() {
           />
 
           <AuthButton type="submit" loading={loading}>
-            Login
+            {t('login_submit')}
           </AuthButton>
 
-          <AuthLink to="/forgot-password">Change password &rsaquo;</AuthLink>
+          <AuthLink to="/forgot-password">{t('login_change_password')}</AuthLink>
         </form>
       </AuthCard>
 
-      <footer className={styles.footer}>Secure Access Point</footer>
+      <footer className={styles.footer}>{t('login_footer')}</footer>
     </div>
   )
 }

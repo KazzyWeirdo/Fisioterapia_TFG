@@ -1,7 +1,20 @@
 import apiClient from '../api/client'
 
+export interface ExerciseSetInput {
+  setNumber: number
+  weightKg: number
+  reps: number
+  restTimeSeconds: number
+  rpe: number
+}
+
+export interface ExerciseInput {
+  name: string
+  sets: ExerciseSetInput[]
+}
+
 export interface TrainingSessionsPage {
-  content: { id: number; date: string }[]
+  content: { id: number; startDateTime: string; endDateTime: string; physiotherapistName: string; templateName: string | null }[]
   totalElements: number
   totalPages: number
   pageNumber: number
@@ -29,33 +42,26 @@ export interface Exercise {
 export interface TrainingSessionDetail {
   id: number
   patientId: number
-  date: string
+  startDateTime: string
+  endDateTime: string
+  physiotherapistName: string
+  templateName: string | null
   exercises: Exercise[]
 }
 
-export interface ExerciseSetInput {
-  setNumber: number
-  weightKg: number
-  reps: number
-  restTimeSeconds: number
-  rpe: number
-}
-
-export interface ExerciseInput {
-  name: string
-  exercises: ExerciseSetInput[]
-}
-
 export interface CreateTrainingSessionRequest {
-  date: string
-  exercises: ExerciseInput[]
+  patientId: number
+  physiotherapistId: number
+  startDateTime: string
+  endDateTime: string
+  exerciseTemplateId: number
+  exercises?: ExerciseInput[]
 }
 
 export async function createTrainingSession(
-  patientId: number,
   body: CreateTrainingSessionRequest,
 ): Promise<void> {
-  await apiClient.post(`/training-session/${patientId}/create`, body)
+  await apiClient.post(`/training-session/create`, body)
 }
 
 export async function getTrainingSession(id: number): Promise<TrainingSessionDetail> {
@@ -67,6 +73,7 @@ export interface TrainingSetExport {
   patientId: number
   sessionId: number
   sessionDate: string
+  templateName: string
   exerciseName: string
   setNumber: number
   weightKg: number
