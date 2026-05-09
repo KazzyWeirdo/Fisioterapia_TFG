@@ -1,0 +1,38 @@
+erDiagram
+
+  PATIENT {
+    int id PK
+    string email
+    string dni
+    string legalName
+    string nameToUse
+    string surname
+    string secondSurname
+    string pronouns
+    string genderIdentity
+    string clinicalUseSex
+    string administrativeSex
+    date dateOfBirth
+    int phoneNumber
+    string polarAccessToken
+    long polarUserId
+  }
+
+  INDIBA_SESSION {
+    int id PK
+    int patientId FK
+  }
+
+  PNI_REPORT {
+    int id PK
+    int patientId FK
+  }
+
+  TRAINING_SESSION {
+    int id PK
+    int patientId FK
+  }
+
+  PATIENT ||--o{ INDIBA_SESSION : "rep"
+  PATIENT ||--o{ PNI_REPORT : "té"
+  PATIENT ||--o{ TRAINING_SESSION : "participa"

@@ -1,0 +1,33 @@
+erDiagram
+
+  TRAINING_SESSION {
+    int id PK
+    int patientId FK
+    int physiotherapistId FK
+    datetime startDateTime
+    datetime endDateTime
+  }
+
+  PATIENT {
+    int id PK
+    string email
+    string legalName
+    string surname
+  }
+
+  PHYSIOTHERAPIST {
+    int id PK
+    string email
+    string name
+    string surname
+  }
+
+  EXERCISE_TEMPLATE {
+    int id PK
+    int trainingSessionId FK
+    string name
+  }
+
+  PATIENT ||--o{ TRAINING_SESSION : "participa"
+  PHYSIOTHERAPIST ||--o{ TRAINING_SESSION : "dirigeix"
+  TRAINING_SESSION ||--|{ EXERCISE_TEMPLATE : "conté"

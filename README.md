@@ -42,6 +42,7 @@ DanielBarbancho_TFG/
 │       │       │   ├── auditaspect/  # Aspecte AOP per registrar auditoria automàticament
 │       │       │   ├── rest/         # Controladors REST, un per domini
 │       │       │   │   ├── auditlog/
+│       │       │   │   ├── exercisetemplate/
 │       │       │   │   ├── indiba/
 │       │       │   │   ├── patient/
 │       │       │   │   ├── physiotherapist/
@@ -70,9 +71,11 @@ DanielBarbancho_TFG/
 │       ├── api/                      # Client HTTP centralitzat (axios)
 │       ├── components/               # Components reutilitzables organitzats per domini
 │       │   ├── auth/                 # Botons, camps i targetes del flux d'autenticació
-│       │   ├── layout/               # DashboardLayout, Header i Sidebar
-│       │   └── patient/              # Tabs de detall (INDIBA, PNI, entrenament, estadístiques)
-│       ├── contexts/                 # Context d'autenticació (AuthContext)
+│       │   ├── layout/               # DashboardLayout, Header, Sidebar i LanguageSwitcher
+│       │   ├── patient/              # Tabs de detall (INDIBA, PNI, entrenament, estadístiques)
+│       │   └── ExerciseList.tsx      # Llista d'exercicis reutilitzable per a plantilles
+│       ├── contexts/                 # Contextos globals (AuthContext, LanguageContext)
+│       ├── i18n/                     # Fitxers de traducció (en.json, es.json) i configuració
 │       ├── pages/                    # Pàgines de l'aplicació, una per ruta
 │       ├── services/                 # Capa de servei per domini (crida a l'API backend)
 │       └── utils/                    # Utilitats transversals (JWT, exportació CSV)
@@ -83,17 +86,20 @@ DanielBarbancho_TFG/
 | Mòdul / Carpeta | Descripció |
 |-----------------|-----------|
 | `adapter/in/rest` | Controladors REST. Un controlador per cas d'ús, sense lògica de negoci |
+| `adapter/in/rest/exercisetemplate` | Controladors per crear i consultar plantilles d'exercicis |
 | `adapter/in/auditaspect` | Aspecte AOP que intercepta crides als serveis i persiteix logs d'auditoria a MongoDB |
 | `adapter/in/scheduler` | Scheduler de Spring que sincronitza dades de l'API Polar periòdicament |
 | `adapter/out/persistence` | Repositoris JPA per a PostgreSQL i repositoris MongoDB per als logs |
+| `adapter/out/persistence/exercisetemplate` | Entitat JPA, mapper i repositori de plantilles d'exercicis |
 | `adapter/out/springsecurity` | Implementació de `UserDetails` i filtre d'autenticació JWT |
 | `application/port/in` | Interfícies dels casos d'ús que el domini exposa cap enfora |
 | `application/port/out` | Interfícies de repositoris i serveis externs que el domini necessita |
 | `application/service` | Implementació de la lògica de negoci, sense dependències d'infraestructura |
 | `model` | Entitats pures de domini sense anotacions de framework |
 | `bootstrap` | Launcher principal, `application.properties` i fitxer `.env` |
-| `frontend/pages` | Login, registre, llistat de pacients, detall de pacient, sessions, auditoria |
-| `frontend/services` | Una capa de servei per domini: auth, patient, indiba, pni, training, statistics, auditLog |
+| `frontend/pages` | Login, registre, llistat de pacients, detall de pacient, sessions, auditoria, creació de plantilles d'exercicis |
+| `frontend/services` | Una capa de servei per domini: auth, patient, indiba, pni, training, statistics, auditLog, exerciseTemplate |
+| `frontend/i18n` | Fitxers de traducció en anglès i espanyol per a la internacionalització de la interfície |
 
 ## ✅ Prerequisites
 
@@ -327,6 +333,14 @@ Els endpoints estan protegits amb JWT excepte els marcats com a públics. La cap
 |--------|----------|-----------|------|
 | `GET` | `/auditlogs/list` | Llista tots els logs d'auditoria | 🔒 ADMIN |
 
+### Plantilles d'exercicis (`/exercise-template`)
+
+| Mètode | Endpoint | Descripció | Auth |
+|--------|----------|-----------|------|
+| `POST` | `/exercise-template` | Crea una nova plantilla d'exercicis | 🔒 USER |
+| `GET` | `/exercise-template` | Llista totes les plantilles disponibles | 🔒 USER |
+| `GET` | `/exercise-template/{id}` | Obté una plantilla per ID | 🔒 USER |
+
 ### Integració Polar (`/api/auth/polar`)
 
 | Mètode | Endpoint | Descripció | Auth |
@@ -383,6 +397,9 @@ Informe de psiconeuroimmunologia vinculat a un pacient. Recull indicadors de rec
 
 ### Sessió d'entrenament (`TrainingSession`)
 Sessió de rehabilitació esportiva amb un conjunt d'exercicis. Cada exercici té nom, sèries, repeticions i càrrega. Es registra manualment pel fisioterapeuta.
+
+### Plantilla d'exercicis (`ExerciseTemplate`)
+Catàleg de programes d'exercici estandarditzats que el fisiòleg pot definir de forma independent a qualsevol sessió. Cada plantilla té un nom i una llista d'exercicis associats, i pot ser reutilitzada en múltiples sessions d'entrenament.
 
 ### Log d'auditoria (`AuditLog`)
 Registre immutable de cada acció executada sobre el sistema (creació, modificació, eliminació). Es genera automàticament via AOP i es persisteix a MongoDB. Només visible per als usuaris amb rol `ADMIN`.

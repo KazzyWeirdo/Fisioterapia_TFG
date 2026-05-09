@@ -1,0 +1,30 @@
+erDiagram
+
+  PHYSIOTHERAPIST {
+    int id PK
+    string email
+    string password
+    string name
+    string surname
+    set_ERole roles
+  }
+
+  INDIBA_SESSION {
+    int id PK
+    int physiotherapistId FK
+  }
+
+  TRAINING_SESSION {
+    int id PK
+    int physiotherapistId FK
+  }
+
+  PASSWORD_RESET_TOKEN {
+    string token PK
+    int physiotherapistId FK
+    datetime expiresAt
+  }
+
+  PHYSIOTHERAPIST ||--o{ INDIBA_SESSION : "realitza"
+  PHYSIOTHERAPIST ||--o{ TRAINING_SESSION : "dirigeix"
+  PHYSIOTHERAPIST ||--o| PASSWORD_RESET_TOKEN : "té"

@@ -1,0 +1,17 @@
+erDiagram
+
+  EXERCISE_SET {
+    int setNumber PK
+    int exerciseId FK
+    double weightKg
+    int reps
+    int restTimeSeconds
+    int rpe
+  }
+
+  EXERCISE {
+    int id PK
+    string name
+  }
+
+  EXERCISE ||--|{ EXERCISE_SET : "conté"
