@@ -7,8 +7,7 @@
 -- Roles
 INSERT INTO roles (id, name) VALUES
   (1, 'ADMIN'),
-  (2, 'USER'),
-  (3, 'AUDITOR')
+  (2, 'USER')
 ON CONFLICT (id) DO NOTHING;
 
 -- Physiotherapists

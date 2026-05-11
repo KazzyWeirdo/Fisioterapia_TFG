@@ -16,6 +16,8 @@ public interface PniReportRepository {
 
     void deleteAll();
 
+    void deleteAllByPatientId(PatientId patientId);
+
     Optional<PniReport> findById (PniReportId id);
 
     PagedResponse<PniReportSummaryElement> findAllReportsByPatiendId (PageQuery query, PatientId patientId);

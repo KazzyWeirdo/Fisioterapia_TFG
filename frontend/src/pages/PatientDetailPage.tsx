@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { useParams, useLocation, useNavigate } from 'react-router-dom'
 import { getPatient, type PatientDetail } from '../services/patientService'
 import { useLanguage } from '../contexts/LanguageContext'
+import { useAuth } from '../contexts/AuthContext'
+import { decodeJwtPayload } from '../utils/jwt'
 import PatientInfoCard from '../components/patient/PatientInfoCard'
 import TrainingSessionTab from '../components/patient/TrainingSessionTab'
 import IndibaSessionTab from '../components/patient/IndibaSessionTab'
@@ -16,6 +18,13 @@ export default function PatientDetailPage() {
   const location = useLocation()
   const navigate = useNavigate()
   const { t } = useLanguage()
+  const { token } = useAuth()
+  const isAdmin = (() => {
+    try {
+      const payload = decodeJwtPayload(token!)
+      return (payload.scope as string)?.split(' ').includes('ADMIN') ?? false
+    } catch { return false }
+  })()
   const [patient, setPatient] = useState<PatientDetail | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -76,7 +85,7 @@ export default function PatientDetailPage() {
       <div className={styles.tabSeparator} />
 
       <div className={styles.content}>
-        {activeTab === 'overview' && <PatientInfoCard patient={patient} onPatientUpdated={p => setPatient(p)} />}
+        {activeTab === 'overview' && <PatientInfoCard patient={patient} onPatientUpdated={p => setPatient(p)} isAdmin={isAdmin} onPatientDeleted={() => navigate('/patients')} />}
         {activeTab === 'training' && (
           <TrainingSessionTab
             patientId={Number(id)}

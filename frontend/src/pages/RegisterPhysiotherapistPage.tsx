@@ -15,7 +15,6 @@ interface RegisterPhysiotherapistForm {
 }
 
 const ROLES = [
-  { value: 'AUDITOR', labelKey: 'reg_physio_role_auditor', captionKey: 'reg_physio_role_auditor_caption' },
   { value: 'USER',    labelKey: 'reg_physio_role_user',    captionKey: 'reg_physio_role_user_caption'    },
   { value: 'ADMIN',   labelKey: 'reg_physio_role_admin',   captionKey: 'reg_physio_role_admin_caption'   },
 ]

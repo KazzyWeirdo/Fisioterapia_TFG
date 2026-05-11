@@ -40,6 +40,12 @@ public class PatientJpaRepository implements PatientRepository {
     }
 
     @Override
+    @Transactional
+    public void deleteById(PatientId patientId) {
+        patientJpaDataRepository.deleteById(patientId.value());
+    }
+
+    @Override
     @org.springframework.transaction.annotation.Transactional
     public void update(PatientId patientId, Patient patient) {
         patientJpaDataRepository.updatePatientById(

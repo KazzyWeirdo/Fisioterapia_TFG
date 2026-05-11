@@ -29,4 +29,6 @@ public interface IndibaJpaDataRepository extends JpaRepository<IndibaJpaEntity, 
     List<Object[]> countSessionByMonthForYear(Integer patientId, Integer year);
 
     List<IndibaJpaEntity> findByPatientId(int patientId);
+
+    void deleteByPatientId(int patientId);
 }

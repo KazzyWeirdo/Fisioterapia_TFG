@@ -42,6 +42,12 @@ public class TrainingSessionJpaRepository implements TrainingSessionRepository {
         trainingSessionJpaDataRepository.deleteAll();
     }
 
+    @Override
+    @Transactional
+    public void deleteAllByPatientId(PatientId patientId) {
+        trainingSessionJpaDataRepository.deleteByPatientId(patientId.value());
+    }
+
     @Transactional(readOnly = true)
     @Override
     public Optional<TrainingSession> findById(TrainingSessionId id) {

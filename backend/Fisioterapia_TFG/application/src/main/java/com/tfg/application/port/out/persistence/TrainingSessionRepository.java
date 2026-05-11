@@ -16,6 +16,8 @@ public interface TrainingSessionRepository {
 
     void deleteAll();
 
+    void deleteAllByPatientId(PatientId patientId);
+
     Optional<TrainingSession> findById (TrainingSessionId id);
 
     PagedResponse<TrainingSessionSummaryElement> findAllByPatientId (PageQuery query, PatientId patientId);

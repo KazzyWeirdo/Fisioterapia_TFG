@@ -2,12 +2,15 @@ package com.tfg.adapter.out.persistence.patient;
 
 import com.tfg.model.patient.Patient;
 import com.tfg.model.patient.PatientFactory;
+import com.tfg.model.patient.Pathology;
 import com.tfg.application.pojos.pagedpojos.PageQuery;
 import com.tfg.application.pojos.pagedpojos.PagedResponse;
 import com.tfg.application.pojos.query.PatientSummaryElement;
 import com.tfg.application.port.out.persistence.PatientRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
 import com.tfg.adapter.out.persistence.BaseRepositoryIT;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -206,5 +209,63 @@ public abstract class AbstractPatientRepositoryTest extends BaseRepositoryIT {
         assertThat(patients.get(1).id()).isEqualTo(TEST_PATIENT2.getId().value());
         assertThat(patients.get(1).name()).isEqualTo(TEST_PATIENT2.getNameToUse());
         assertThat(patients.get(1).surname()).isEqualTo(TEST_PATIENT2.getSurname());
+    }
+
+    @Test
+    public void givenMixedPatients_whenFindAllDischarged_thenReturnOnlyDischarged() {
+        Patient active = PatientFactory.createTestPatient("active@test.com", "11111111A");
+        Patient discharged = PatientFactory.createTestPatient("discharged@test.com", "22222222B");
+        discharged.discharge(LocalDate.now());
+
+        patientRepository.save(active);
+        patientRepository.save(discharged);
+
+        List<Patient> result = patientRepository.findAllDischarged();
+
+        assertThat(result).hasSize(1);
+        assertThat(result.get(0).getEmail().value()).isEqualTo("discharged@test.com");
+        assertThat(result.get(0).getDischargeDate()).isNotNull();
+    }
+
+    @Test
+    public void givenNoDischargedPatients_whenFindAllDischarged_thenReturnEmptyList() {
+        patientRepository.save(PatientFactory.createTestPatient("only@test.com", "33333333C"));
+
+        List<Patient> result = patientRepository.findAllDischarged();
+
+        assertThat(result).isEmpty();
+    }
+
+    @Test
+    public void givenPatientWithPathology_whenSaveAndLoad_thenPathologyPersisted() {
+        Patient patient = PatientFactory.createTestPatient("patho@test.com", "44444444D");
+        patient.setPathology(Pathology.KNEE_OSTEOARTHRITIS);
+
+        patientRepository.save(patient);
+        Patient loaded = patientRepository.findByEmail(patient.getEmail()).orElseThrow();
+
+        assertThat(loaded.getPathology()).isEqualTo(Pathology.KNEE_OSTEOARTHRITIS);
+        assertThat(loaded.getRegistrationDate()).isNotNull();
+    }
+
+    @Test
+    public void givenExistingPatient_whenDeleteById_thenPatientIsNotFound() {
+        patientRepository.save(TEST_PATIENT);
+
+        patientRepository.deleteById(TEST_PATIENT.getId());
+
+        Optional<Patient> result = patientRepository.findById(TEST_PATIENT.getId());
+        assertThat(result).isNotPresent();
+    }
+
+    @Test
+    public void givenTwoPatients_whenDeleteById_thenOnlyTargetPatientIsRemoved() {
+        patientRepository.save(TEST_PATIENT);
+        patientRepository.save(TEST_PATIENT2);
+
+        patientRepository.deleteById(TEST_PATIENT.getId());
+
+        assertThat(patientRepository.findById(TEST_PATIENT.getId())).isNotPresent();
+        assertThat(patientRepository.findById(TEST_PATIENT2.getId())).isPresent();
     }
 }

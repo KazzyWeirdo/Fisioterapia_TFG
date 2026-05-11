@@ -45,6 +45,12 @@ public class IndibaJpaRepository implements IndibaSessionRepository {
     }
 
     @Override
+    @Transactional
+    public void deleteAllByPatientId(PatientId patientId) {
+        indibaJpaDataRepository.deleteByPatientId(patientId.value());
+    }
+
+    @Override
     public Optional<IndibaSession> findById(IndibaSessionId id) {
         Optional<IndibaJpaEntity> indibaJpaEntity = indibaJpaDataRepository.findById(id.value());
         return indibaJpaEntity.map(IndibaJpaMapper::toModelEntity);

@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import type { PatientDetail, CreatePatientRequest } from '../../services/patientService'
-import { updatePatient, updateFunctionalScore, dischargePatient } from '../../services/patientService'
+import { updatePatient, updateFunctionalScore, dischargePatient, deletePatient } from '../../services/patientService'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheck, faHeart, faPenToSquare, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faCheck, faHeart, faPenToSquare, faTrash, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { useLanguage } from '../../contexts/LanguageContext'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
@@ -63,6 +63,8 @@ function formatDateOfBirth(dateStr: string): string {
 interface Props {
   patient: PatientDetail
   onPatientUpdated: (updated: PatientDetail) => void
+  isAdmin?: boolean
+  onPatientDeleted?: () => void
 }
 
 interface FieldProps {
@@ -81,7 +83,7 @@ function Field({ label, value, isEditing, editNode }: FieldProps) {
   )
 }
 
-export default function PatientInfoCard({ patient, onPatientUpdated }: Props) {
+export default function PatientInfoCard({ patient, onPatientUpdated, isAdmin = false, onPatientDeleted }: Props) {
   const { t } = useLanguage()
   const [isEditing, setIsEditing] = useState(false)
   const [formData, setFormData] = useState<EditForm>(toEditForm(patient))
@@ -91,6 +93,8 @@ export default function PatientInfoCard({ patient, onPatientUpdated }: Props) {
   const [scoreError, setScoreError] = useState<string | null>(null)
   const [scoreUpdating, setScoreUpdating] = useState(false)
   const [discharging, setDischarging] = useState(false)
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const [deleteError, setDeleteError] = useState<string | null>(null)
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
@@ -162,6 +166,15 @@ export default function PatientInfoCard({ patient, onPatientUpdated }: Props) {
     }
   }
 
+  async function handleDeleteConfirm() {
+    try {
+      await deletePatient(patient.id)
+      onPatientDeleted?.()
+    } catch {
+      setDeleteError(t('patient_delete_error'))
+    }
+  }
+
   function select(name: keyof EditForm, options: string[]) {
     return (
       <select className={styles.fieldInput} name={name} value={formData[name]} onChange={handleChange} required>
@@ -175,9 +188,31 @@ export default function PatientInfoCard({ patient, onPatientUpdated }: Props) {
       <div className={styles.cardHeader}>
         <p className={styles.sectionTitle}>{t('patient_info_section')}</p>
         {!isEditing ? (
-          <button type="button" className={styles.editBtn} onClick={handleEdit}>
-            <FontAwesomeIcon icon={faPenToSquare} /> {t('common_edit')}
-          </button>
+          <div className="d-flex align-items-center gap-2 flex-wrap">
+            <button type="button" className={styles.editBtn} onClick={handleEdit}>
+              <FontAwesomeIcon icon={faPenToSquare} /> {t('common_edit')}
+            </button>
+            {isAdmin && (
+              showDeleteConfirm ? (
+                <div className="d-flex align-items-center gap-2 flex-wrap">
+                  <span className="text-muted small">{t('patient_delete_confirm_text')}</span>
+                  <Button variant="danger" size="sm" onClick={handleDeleteConfirm}>
+                    <FontAwesomeIcon icon={faTrash} className="me-1" />
+                    {t('patient_confirm_delete')}
+                  </Button>
+                  <Button variant="outline-secondary" size="sm" onClick={() => setShowDeleteConfirm(false)}>
+                    <FontAwesomeIcon icon={faXmark} className="me-1" />
+                    {t('common_cancel')}
+                  </Button>
+                </div>
+              ) : (
+                <Button variant="outline-danger" size="sm" onClick={() => setShowDeleteConfirm(true)}>
+                  <FontAwesomeIcon icon={faTrash} className="me-1" />
+                  {t('patient_delete_btn')}
+                </Button>
+              )
+            )}
+          </div>
         ) : (
           <div className={styles.actionRow}>
             <button type="button" className={styles.cancelBtn} onClick={handleCancel} disabled={saving}>
@@ -189,6 +224,11 @@ export default function PatientInfoCard({ patient, onPatientUpdated }: Props) {
           </div>
         )}
       </div>
+      {deleteError && (
+        <Alert variant="danger" className="mt-2 mb-0 py-1 px-2 small">
+          {deleteError}
+        </Alert>
+      )}
 
       <div className={styles.rowGroup}>
         <Field label={t('patient_info_legal_name')} value={patient.legalName} isEditing={isEditing} editNode={input('legalName')} />

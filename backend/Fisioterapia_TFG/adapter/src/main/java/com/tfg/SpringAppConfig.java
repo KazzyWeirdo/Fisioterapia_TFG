@@ -9,6 +9,7 @@ import com.tfg.application.port.in.indiba.GetAllIndibaSessionsForExportUseCase;
 import com.tfg.application.port.in.indiba.GetIndibaSessionFromPatientUseCase;
 import com.tfg.application.port.in.indiba.GetIndibaSessionUseCase;
 import com.tfg.application.port.in.patient.CreatePatientUseCase;
+import com.tfg.application.port.in.patient.DeletePatientUseCase;
 import com.tfg.application.port.in.patient.DischargePatientUseCase;
 import com.tfg.application.port.in.patient.GetAllPatientsForExportUseCase;
 import com.tfg.application.port.in.patient.GetAllPatientsUseCase;
@@ -53,6 +54,7 @@ import com.tfg.application.service.indiba.GetAllIndibaSessionsForExportService;
 import com.tfg.application.service.indiba.GetIndibaSessionFromPatientService;
 import com.tfg.application.service.indiba.GetIndibaSessionService;
 import com.tfg.application.service.patient.CreatePatientService;
+import com.tfg.application.service.patient.DeletePatientService;
 import com.tfg.application.service.patient.DischargePatientService;
 import com.tfg.application.service.patient.GetAllPatientsForExportService;
 import com.tfg.application.service.patient.GetAllPatientsService;
@@ -282,6 +284,15 @@ public class SpringAppConfig {
     @Bean
     DischargePatientUseCase dischargePatientUseCase() {
         return new DischargePatientService(patientRepository);
+    }
+
+    @Bean
+    DeletePatientUseCase deletePatientUseCase() {
+        return new DeletePatientService(
+                patientRepository,
+                indibaSessionRepository,
+                pniReportRepository,
+                trainingSessionRepository);
     }
 
     @Bean
