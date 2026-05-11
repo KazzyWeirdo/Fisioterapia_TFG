@@ -1,5 +1,16 @@
 import { useEffect, useState, useMemo } from 'react'
 import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
+  type ChartOptions,
+} from 'chart.js'
+import { Line } from 'react-chartjs-2'
+import {
   getWorkloadProgression,
   getIndibaSessionStats,
   getPathologyRehabStats,
@@ -12,32 +23,15 @@ import { getIndibaSessionsFromPatient } from '../../services/indibaService'
 import { useLanguage } from '../../contexts/LanguageContext'
 import styles from './StatisticsTab.module.css'
 
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Filler, Tooltip)
+
 interface StatisticsTabProps {
   patientId: number
-}
-
-const CHART_W = 500
-const CHART_H = 220
-const PAD_L = 100
-const PAD_R = 20
-const PAD_T = 20
-const PAD_B = 30
-const plotW = CHART_W - PAD_L - PAD_R
-const plotH = CHART_H - PAD_T - PAD_B
-
-function xFor(i: number, total: number) {
-  return PAD_L + (total <= 1 ? plotW / 2 : (i / (total - 1)) * plotW)
 }
 
 function fmtVolume(v: number): string {
   if (v >= 1000) return `${(v / 1000).toFixed(1)}k`
   return v.toFixed(0)
-}
-
-function fmtDate(raw: string): string {
-  return new Date(raw + 'T00:00:00')
-    .toLocaleDateString('en-US', { month: 'short', day: '2-digit' })
-    .toUpperCase()
 }
 
 export default function StatisticsTab({ patientId }: StatisticsTabProps) {
@@ -86,20 +80,63 @@ export default function StatisticsTab({ patientId }: StatisticsTabProps) {
     return total > 0 ? trainingCount / total : null
   }, [trainingCount, indibaCount])
 
-  const { ceiling, linePath } = useMemo(() => {
-    if (workload.length === 0) return { ceiling: 1, linePath: '' }
+  const ceiling = useMemo(() => {
+    if (workload.length === 0) return 1
     const maxW = Math.max(...workload.map(p => p.workload))
-    const ceil = maxW > 0 ? maxW * 1.1 : 1
-    const yF = (w: number) => PAD_T + plotH - (w / ceil) * plotH
-    const path = workload
-      .map((p, i) => `${i === 0 ? 'M' : 'L'} ${xFor(i, workload.length)},${yF(p.workload)}`)
-      .join(' ')
-    return { ceiling: ceil, linePath: path }
+    return maxW > 0 ? maxW * 1.1 : 1
   }, [workload])
 
-  function yFor(w: number) { return PAD_T + plotH - (w / ceiling) * plotH }
+  const chartData = {
+    labels: workload.map(p =>
+      new Date(p.sessionDate + 'T00:00:00')
+        .toLocaleDateString('en-US', { month: 'short', day: '2-digit' })
+        .toUpperCase()
+    ),
+    datasets: [
+      {
+        data: workload.map(p => p.workload),
+        borderColor: '#1a3a6b',
+        backgroundColor: 'rgba(26, 58, 107, 0.06)',
+        borderWidth: 2.5,
+        pointBackgroundColor: 'white',
+        pointBorderColor: '#1a3a6b',
+        pointBorderWidth: 2,
+        pointRadius: 4,
+        pointHoverRadius: 6,
+        fill: true,
+        tension: 0,
+      },
+    ],
+  }
 
-  const labelStep = Math.max(1, Math.floor(workload.length / 5))
+  const chartOptions: ChartOptions<'line'> = {
+    responsive: true,
+    maintainAspectRatio: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: ctx => `Volume: ${fmtVolume(ctx.parsed.y ?? 0)} kg`,
+        },
+      },
+    },
+    scales: {
+      x: {
+        grid: { color: '#e5e7eb' },
+        ticks: { color: '#9ca3af', font: { size: 10 } },
+      },
+      y: {
+        min: 0,
+        suggestedMax: ceiling,
+        grid: { color: '#e5e7eb' },
+        ticks: {
+          color: '#9ca3af',
+          font: { size: 10 },
+          callback: v => fmtVolume(v == null ? 0 : Number(v)),
+        },
+      },
+    },
+  }
 
   return (
     <div className={styles.tab}>
@@ -184,90 +221,7 @@ export default function StatisticsTab({ patientId }: StatisticsTabProps) {
             <p className={styles.chartState}>{t('stats_no_workload', { name: exerciseName })}</p>
           )}
           {!workloadLoading && !workloadError && workload.length > 0 && (
-            <svg viewBox={`0 0 ${CHART_W} ${CHART_H}`} className={styles.chart}>
-              {/* Y-axis ticks at 25 / 50 / 75 / 100% of ceiling */}
-              {[0.25, 0.5, 0.75, 1.0].map(pct => {
-                const val = ceiling * pct
-                const y = yFor(val)
-                return (
-                  <g key={pct}>
-                    <line
-                      x1={PAD_L} y1={y}
-                      x2={CHART_W - PAD_R} y2={y}
-                      stroke="#e5e7eb" strokeWidth="1" strokeDasharray="4 3"
-                    />
-                    <text
-                      x={PAD_L - 6} y={y + 4}
-                      textAnchor="end" fontSize="8" fill="#9ca3af"
-                      fontFamily="sans-serif" fontWeight="600"
-                    >
-                      {fmtVolume(val)}
-                    </text>
-                  </g>
-                )
-              })}
-
-              {/* Shaded area under line */}
-              <path
-                d={`${linePath} L ${xFor(workload.length - 1, workload.length)},${PAD_T + plotH} L ${PAD_L},${PAD_T + plotH} Z`}
-                fill="#1a3a6b" fillOpacity="0.06"
-              />
-
-              {/* Line */}
-              <path
-                d={linePath}
-                fill="none" stroke="#1a3a6b" strokeWidth="2.5" strokeLinejoin="round"
-              />
-
-              {/* Dots */}
-              {workload.map((p, i) => (
-                <circle
-                  key={i}
-                  cx={xFor(i, workload.length)}
-                  cy={yFor(p.workload)}
-                  r={4} fill="white" stroke="#1a3a6b" strokeWidth="2"
-                />
-              ))}
-
-              {/* Current intensity badge on last point */}
-              {(() => {
-                const last = workload[workload.length - 1]
-                const x = xFor(workload.length - 1, workload.length)
-                const y = yFor(last.workload)
-                const label = `VOLUME: ${fmtVolume(last.workload)} kg`
-                const bw = label.length * 5.5 + 16
-                return (
-                  <g>
-                    <rect x={x - bw + 10} y={y - 30} width={bw} height={18} rx={4} fill="#1a3a6b" />
-                    <text
-                      x={x - bw / 2 + 10} y={y - 18}
-                      textAnchor="middle" fontSize="8" fill="white"
-                      fontFamily="sans-serif" fontWeight="700"
-                    >
-                      {label}
-                    </text>
-                  </g>
-                )
-              })()}
-
-              {/* X-axis date labels */}
-              {workload
-                .filter((_, i) => i % labelStep === 0)
-                .map((p, idx) => {
-                  const origIdx = idx * labelStep
-                  return (
-                    <text
-                      key={origIdx}
-                      x={xFor(origIdx, workload.length)}
-                      y={CHART_H - 4}
-                      textAnchor="middle" fontSize="8" fill="#9ca3af"
-                      fontFamily="sans-serif"
-                    >
-                      {fmtDate(p.sessionDate)}
-                    </text>
-                  )
-                })}
-            </svg>
+            <Line data={chartData} options={chartOptions} className={styles.chart} />
           )}
         </div>
 
