@@ -7,9 +7,10 @@ import styles from './AuditLogPage.module.css'
 
 const PAGE_SIZE = 10
 
-const ACTION_BADGE_STYLES: Record<string, { bg: string; color: string }> = {
+const ACTION_BADGE_STYLES: Record<string, { bg: string; color: string; border?: string }> = {
   CREATE: { bg: '#dcfce7', color: '#166534' },
   UPDATE: { bg: '#fef9c3', color: '#854d0e' },
+  DELETE: { bg: '#fef2f2', color: '#b91c1c', border: '1.5px solid #dc2626' },
 }
 
 function ActionBadge({ action }: { action: string }) {
@@ -18,7 +19,7 @@ function ActionBadge({ action }: { action: string }) {
   return (
     <span
       className={styles.badge}
-      style={{ backgroundColor: badge.bg, color: badge.color }}
+      style={{ backgroundColor: badge.bg, color: badge.color, border: badge.border }}
     >
       {action}
     </span>
@@ -156,6 +157,7 @@ export default function AuditLogPage() {
                 <option value="">{t('audit_filter_all')}</option>
                 <option value="CREATE">CREATE</option>
                 <option value="UPDATE">UPDATE</option>
+                <option value="DELETE">DELETE</option>
               </select>
             </label>
 

@@ -17,6 +17,8 @@ public interface PatientRepository {
 
     void deleteAll();
 
+    void deleteById(PatientId patientId);
+
     void update(PatientId patientId, Patient patient);
 
     Optional<Patient> findById(PatientId id);

@@ -43,6 +43,12 @@ public class PniReportJpaRepository implements PniReportRepository {
     }
 
     @Override
+    @Transactional
+    public void deleteAllByPatientId(PatientId patientId) {
+        pniReportJpaDataRepository.deleteByPatientId(patientId.value());
+    }
+
+    @Override
     public Optional<PniReport> findById(PniReportId id) {
         Optional<PniReport> pniReport = pniReportJpaDataRepository.findById(id.value())
                 .map(PniReportJpaMapper::toModelEntity);

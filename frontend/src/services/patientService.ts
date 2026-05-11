@@ -103,3 +103,7 @@ export async function getAllPatientsForExport(): Promise<PatientExport[]> {
   const response = await apiClient.get<PatientExport[]>('/patients/export')
   return response.data ?? []
 }
+
+export async function deletePatient(id: number): Promise<void> {
+  await apiClient.delete(`/patients/${id}`)
+}

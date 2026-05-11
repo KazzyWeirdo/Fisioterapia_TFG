@@ -183,4 +183,43 @@ public abstract class AbstractIndibaRepositoryTest extends BaseRepositoryIT {
         List<IndibaSession> result = indibaSessionRepository.findAllForExport();
         assertThat(result).isEmpty();
     }
+
+    @Test
+    public void givenSessionsForTwoPatients_whenFindAllByPatientId_thenReturnOnlyTargetPatientSessions() {
+        Patient testPatient2 = PatientFactory.createTestPatient("p2@gmail.com", "12345678X");
+        patientRepository.save(testPatient2);
+
+        Date begin = new Date(System.currentTimeMillis() - 3600_000);
+        Date end = new Date(System.currentTimeMillis());
+        IndibaSession session1 = IndibaSessionFactory.createTestIndibaSession(testPatient, testPhysiotherapist, begin, end);
+        IndibaSession session2 = IndibaSessionFactory.createTestIndibaSession(testPatient2, testPhysiotherapist, begin, end);
+        indibaSessionRepository.save(session1);
+        indibaSessionRepository.save(session2);
+
+        List<IndibaSession> result = indibaSessionRepository.findAllByPatientId(testPatient.getId());
+
+        assertThat(result).hasSize(1);
+        assertThat(result.get(0).getId()).isEqualTo(session1.getId());
+    }
+
+    @Test
+    public void givenNoSessionsForPatient_whenFindAllByPatientId_thenReturnEmptyList() {
+        List<IndibaSession> result = indibaSessionRepository.findAllByPatientId(testPatient.getId());
+
+        assertThat(result).isEmpty();
+    }
+
+    @Test
+    public void givenSessionsForPatient_whenDeleteAllByPatientId_thenSessionsAreGone() {
+        indibaSessionRepository.save(testIndibaSession);
+        indibaSessionRepository.save(testIndibaSession2);
+
+        indibaSessionRepository.deleteAllByPatientId(testPatient.getId());
+
+        PageQuery query = new PageQuery(0, 10);
+        PagedResponse<IndibaSummaryElement> response = indibaSessionRepository.findAllByPatientId(query, testPatient.getId());
+
+        assertThat(response.content()).isEmpty();
+        assertThat(response.totalElements()).isZero();
+    }
 }

@@ -16,6 +16,8 @@ public interface IndibaSessionRepository {
 
     void deleteAll();
 
+    void deleteAllByPatientId(PatientId patientId);
+
     Optional<IndibaSession> findById (IndibaSessionId id);
 
     PagedResponse<IndibaSummaryElement> findAllByPatientId (PageQuery query, PatientId patientId);

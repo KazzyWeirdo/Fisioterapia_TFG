@@ -92,8 +92,6 @@
   "reg_physio_email_label": "Correo del fisioterapeuta",
   "reg_physio_email_placeholder": "fisio.nombre@clinicalatelier.com",
   "reg_physio_roles_label": "Roles",
-  "reg_physio_role_auditor": "Auditor",
-  "reg_physio_role_auditor_caption": "ACCESO DE AUDITORÍA",
   "reg_physio_role_user": "Fisioterapeuta",
   "reg_physio_role_user_caption": "SOLO REGISTROS CLÍNICOS",
   "reg_physio_role_admin": "Administrador",
@@ -337,5 +335,9 @@
   "stats_rehab_time_pathology": "Patología",
   "stats_rehab_time_avg_days": "Días medios",
   "stats_rehab_time_sample": "Pacientes",
-  "stats_rehab_time_empty": "Aún no hay datos de alta disponibles."
+  "stats_rehab_time_empty": "Aún no hay datos de alta disponibles.",
+  "patient_delete_btn": "Eliminar paciente",
+  "patient_delete_confirm_text": "¿Seguro? Esta acción es irreversible.",
+  "patient_confirm_delete": "Confirmar eliminación",
+  "patient_delete_error": "Error al eliminar el paciente. Inténtalo de nuevo."
 }
