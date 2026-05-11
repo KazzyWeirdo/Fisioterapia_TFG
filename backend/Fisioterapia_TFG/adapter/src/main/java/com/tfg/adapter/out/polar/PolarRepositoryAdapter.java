@@ -1,8 +1,8 @@
 package com.tfg.adapter.out.polar;
 
-import com.tfg.patient.Patient;
-import com.tfg.pni.PniReport;
-import com.tfg.port.out.polar.PolarRepository;
+import com.tfg.model.patient.Patient;
+import com.tfg.model.pni.PniReport;
+import com.tfg.application.port.out.polar.PolarRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;

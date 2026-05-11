@@ -1,8 +1,8 @@
 package com.tfg.adapter.in.rest.indiba;
 
-import com.tfg.port.in.indiba.CreateIndibaSessionUseCase;
-import com.tfg.port.out.persistence.PatientRepository;
-import com.tfg.port.out.persistence.PhysiotherapistRepository;
+import com.tfg.application.port.in.indiba.CreateIndibaSessionUseCase;
+import com.tfg.application.port.out.persistence.PatientRepository;
+import com.tfg.application.port.out.persistence.PhysiotherapistRepository;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;

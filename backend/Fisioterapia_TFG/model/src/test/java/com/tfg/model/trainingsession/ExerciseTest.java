@@ -1,7 +1,5 @@
 package com.tfg.model.trainingsession;
 
-import com.tfg.trainingsession.Exercise;
-import com.tfg.trainingsession.ExerciseSet;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

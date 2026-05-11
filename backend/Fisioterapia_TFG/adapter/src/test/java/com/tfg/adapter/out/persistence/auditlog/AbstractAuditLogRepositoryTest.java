@@ -1,10 +1,10 @@
 package com.tfg.adapter.out.persistence.auditlog;
 
-import com.tfg.auditlog.AuditLog;
+import com.tfg.model.auditlog.AuditLog;
 import com.tfg.model.auditlog.AuditLogFactory;
-import com.tfg.pojos.pagedpojos.PageQuery;
-import com.tfg.pojos.pagedpojos.PagedResponse;
-import com.tfg.port.out.persistence.AuditLogRepository;
+import com.tfg.application.pojos.pagedpojos.PageQuery;
+import com.tfg.application.pojos.pagedpojos.PagedResponse;
+import com.tfg.application.port.out.persistence.AuditLogRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import com.tfg.adapter.out.persistence.BaseRepositoryIT;

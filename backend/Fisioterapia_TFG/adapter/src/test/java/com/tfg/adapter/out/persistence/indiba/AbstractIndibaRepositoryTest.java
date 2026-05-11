@@ -1,18 +1,17 @@
 package com.tfg.adapter.out.persistence.indiba;
 
-import com.tfg.indiba.IndibaSession;
+import com.tfg.model.indiba.IndibaSession;
 import com.tfg.model.indiba.IndibaSessionFactory;
 import com.tfg.model.patient.PatientFactory;
 import com.tfg.model.physiotherapist.PhysiotherapistFactory;
-import com.tfg.patient.Patient;
-import com.tfg.physiotherapist.Physiotherapist;
-import com.tfg.pojos.pagedpojos.PageQuery;
-import com.tfg.pojos.pagedpojos.PagedResponse;
-import com.tfg.pojos.query.IndibaSummaryElement;
-import com.tfg.pojos.query.PatientSummaryElement;
-import com.tfg.port.out.persistence.IndibaSessionRepository;
-import com.tfg.port.out.persistence.PatientRepository;
-import com.tfg.port.out.persistence.PhysiotherapistRepository;
+import com.tfg.model.patient.Patient;
+import com.tfg.model.physiotherapist.Physiotherapist;
+import com.tfg.application.pojos.pagedpojos.PageQuery;
+import com.tfg.application.pojos.pagedpojos.PagedResponse;
+import com.tfg.application.pojos.query.IndibaSummaryElement;
+import com.tfg.application.port.out.persistence.IndibaSessionRepository;
+import com.tfg.application.port.out.persistence.PatientRepository;
+import com.tfg.application.port.out.persistence.PhysiotherapistRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

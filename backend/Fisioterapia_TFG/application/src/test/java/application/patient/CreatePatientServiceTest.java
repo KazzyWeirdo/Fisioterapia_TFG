@@ -1,8 +1,10 @@
 package application.patient;
 
-import com.tfg.patient.*;
-import com.tfg.port.out.persistence.PatientRepository;
-import com.tfg.service.patient.CreatePatientService;
+import com.tfg.model.patient.Patient;
+import com.tfg.model.patient.PatientDNI;
+import com.tfg.model.patient.PatientEmail;
+import com.tfg.application.port.out.persistence.PatientRepository;
+import com.tfg.application.service.patient.CreatePatientService;
 import com.tfg.model.patient.PatientFactory;
 import org.junit.jupiter.api.Test;
 

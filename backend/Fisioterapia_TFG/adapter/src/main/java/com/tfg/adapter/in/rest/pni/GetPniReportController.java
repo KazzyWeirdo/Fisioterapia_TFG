@@ -1,9 +1,9 @@
 package com.tfg.adapter.in.rest.pni;
 
 import com.tfg.adapter.in.rest.common.PniReportIdParser;
-import com.tfg.pni.PniReport;
-import com.tfg.pni.PniReportId;
-import com.tfg.port.in.pni.GetPniReportUseCase;
+import com.tfg.model.pni.PniReport;
+import com.tfg.model.pni.PniReportId;
+import com.tfg.application.port.in.pni.GetPniReportUseCase;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;

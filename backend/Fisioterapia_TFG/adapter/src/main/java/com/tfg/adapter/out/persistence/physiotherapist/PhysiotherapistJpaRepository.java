@@ -1,9 +1,9 @@
 package com.tfg.adapter.out.persistence.physiotherapist;
 
-import com.tfg.port.out.persistence.PhysiotherapistRepository;
-import com.tfg.physiotherapist.Physiotherapist;
-import com.tfg.physiotherapist.PhysiotherapistEmail;
-import com.tfg.physiotherapist.PhysiotherapistId;
+import com.tfg.application.port.out.persistence.PhysiotherapistRepository;
+import com.tfg.model.physiotherapist.Physiotherapist;
+import com.tfg.model.physiotherapist.PhysiotherapistEmail;
+import com.tfg.model.physiotherapist.PhysiotherapistId;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 

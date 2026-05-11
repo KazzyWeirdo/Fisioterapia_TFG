@@ -1,5 +1,7 @@
 package com.tfg.adapter.in.rest.trainingsession;
 
+import com.tfg.model.trainingsession.TrainingSession;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -12,7 +14,7 @@ public record TrainingSessionWebModel(
         String templateName,
         List<ExerciseWebModel> exercises
 ) {
-    static TrainingSessionWebModel fromDomainModel(com.tfg.trainingsession.TrainingSession trainingSession) {
+    static TrainingSessionWebModel fromDomainModel(TrainingSession trainingSession) {
         String physioName = trainingSession.getPhysiotherapist().getName()
                 + " " + trainingSession.getPhysiotherapist().getSurname();
         String templateName = trainingSession.getExerciseTemplates().isEmpty()

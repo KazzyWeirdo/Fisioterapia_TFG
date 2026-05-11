@@ -2,7 +2,7 @@ package com.tfg.adapter.out.springsecurity;
 
 import com.tfg.configuration.PhysiotherapistDetails;
 import com.tfg.model.physiotherapist.PhysiotherapistFactory;
-import com.tfg.pojos.springsecurity.AuthenticatedUser;
+import com.tfg.application.pojos.springsecurity.AuthenticatedUser;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

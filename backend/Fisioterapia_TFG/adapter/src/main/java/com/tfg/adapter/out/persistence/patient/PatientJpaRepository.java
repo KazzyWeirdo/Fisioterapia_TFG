@@ -1,11 +1,13 @@
 package com.tfg.adapter.out.persistence.patient;
 
-import com.tfg.patient.Patient;
-import com.tfg.patient.PatientId;
-import com.tfg.pojos.pagedpojos.PageQuery;
-import com.tfg.pojos.pagedpojos.PagedResponse;
-import com.tfg.pojos.query.PatientSummaryElement;
-import com.tfg.port.out.persistence.PatientRepository;
+import com.tfg.model.patient.PatientDNI;
+import com.tfg.model.patient.PatientEmail;
+import com.tfg.model.patient.Patient;
+import com.tfg.model.patient.PatientId;
+import com.tfg.application.pojos.pagedpojos.PageQuery;
+import com.tfg.application.pojos.pagedpojos.PagedResponse;
+import com.tfg.application.pojos.query.PatientSummaryElement;
+import com.tfg.application.port.out.persistence.PatientRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -63,13 +65,13 @@ public class PatientJpaRepository implements PatientRepository {
     }
 
     @Override
-    public Optional<Patient> findByEmail(com.tfg.patient.PatientEmail email) {
+    public Optional<Patient> findByEmail(PatientEmail email) {
         Optional<PatientJpaEntity> patientJpaEntity = patientJpaDataRepository.findByEmail(email.value());
         return patientJpaEntity.map(PatientJpaMapper::toModelEntity);
     }
 
     @Override
-    public Optional<Patient> findByDni(com.tfg.patient.PatientDNI dni) {
+    public Optional<Patient> findByDni(PatientDNI dni) {
         Optional<PatientJpaEntity> patientJpaEntity = patientJpaDataRepository.findByDni(dni.value());
         return patientJpaEntity.map(PatientJpaMapper::toModelEntity);
     }
@@ -85,7 +87,8 @@ public class PatientJpaRepository implements PatientRepository {
         Page<PatientSummaryJpaProjection> page = patientJpaDataRepository.findSummaries(pageable);
 
         List<PatientSummaryElement> content = page.getContent().stream()
-                .map(proj -> new PatientSummaryElement(proj.id(), proj.name(), proj.surname(), proj.secondSurname()))
+                .map(proj -> new PatientSummaryElement(proj.id(), proj.name(), proj.surname(), proj.secondSurname(),
+                        proj.pathology() != null ? proj.pathology().name() : null, proj.functionalScore(), proj.dischargeDate()))
                 .toList();
 
         return new PagedResponse<>(
@@ -106,6 +109,14 @@ public class PatientJpaRepository implements PatientRepository {
     @Override
     public List<Patient> findAll() {
         return patientJpaDataRepository.findAll().stream()
+                .map(PatientJpaMapper::toModelEntity)
+                .toList();
+    }
+
+    @Override
+    public List<Patient> findAllDischarged() {
+        return patientJpaDataRepository.findByDischargeDateIsNotNull()
+                .stream()
                 .map(PatientJpaMapper::toModelEntity)
                 .toList();
     }

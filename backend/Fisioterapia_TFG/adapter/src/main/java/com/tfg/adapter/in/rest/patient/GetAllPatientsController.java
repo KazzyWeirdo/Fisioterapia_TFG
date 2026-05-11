@@ -1,9 +1,9 @@
 package com.tfg.adapter.in.rest.patient;
 
-import com.tfg.pojos.pagedpojos.PageQuery;
-import com.tfg.pojos.pagedpojos.PagedResponse;
-import com.tfg.pojos.query.PatientSummaryElement;
-import com.tfg.port.in.patient.GetAllPatientsUseCase;
+import com.tfg.application.pojos.pagedpojos.PageQuery;
+import com.tfg.application.pojos.pagedpojos.PagedResponse;
+import com.tfg.application.pojos.query.PatientSummaryElement;
+import com.tfg.application.port.in.patient.GetAllPatientsUseCase;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.data.domain.Pageable;
@@ -50,7 +50,10 @@ public class GetAllPatientsController {
                         patientSummaryElement.id(),
                         patientSummaryElement.name(),
                         patientSummaryElement.surname(),
-                        patientSummaryElement.secondSurname()
+                        patientSummaryElement.secondSurname(),
+                        patientSummaryElement.pathology(),
+                        patientSummaryElement.functionalScore(),
+                        patientSummaryElement.dischargeDate()
                 ))
                 .toList();
 

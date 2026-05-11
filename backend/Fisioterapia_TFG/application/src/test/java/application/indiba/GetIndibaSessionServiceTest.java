@@ -1,14 +1,14 @@
 package application.indiba;
 
-import com.tfg.indiba.IndibaSession;
-import com.tfg.indiba.IndibaSessionId;
+import com.tfg.model.indiba.IndibaSession;
+import com.tfg.model.indiba.IndibaSessionId;
 import com.tfg.model.indiba.IndibaSessionFactory;
 import com.tfg.model.patient.PatientFactory;
 import com.tfg.model.physiotherapist.PhysiotherapistFactory;
-import com.tfg.patient.Patient;
-import com.tfg.physiotherapist.Physiotherapist;
-import com.tfg.port.out.persistence.IndibaSessionRepository;
-import com.tfg.service.indiba.GetIndibaSessionService;
+import com.tfg.model.patient.Patient;
+import com.tfg.model.physiotherapist.Physiotherapist;
+import com.tfg.application.port.out.persistence.IndibaSessionRepository;
+import com.tfg.application.service.indiba.GetIndibaSessionService;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;

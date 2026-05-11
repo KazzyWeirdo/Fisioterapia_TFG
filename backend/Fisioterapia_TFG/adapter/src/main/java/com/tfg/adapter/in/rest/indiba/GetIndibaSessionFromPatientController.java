@@ -1,11 +1,11 @@
 package com.tfg.adapter.in.rest.indiba;
 
 import com.tfg.adapter.in.rest.common.PatientIdParser;
-import com.tfg.patient.PatientId;
-import com.tfg.pojos.pagedpojos.PageQuery;
-import com.tfg.pojos.pagedpojos.PagedResponse;
-import com.tfg.pojos.query.IndibaSummaryElement;
-import com.tfg.port.in.indiba.GetIndibaSessionFromPatientUseCase;
+import com.tfg.model.patient.PatientId;
+import com.tfg.application.pojos.pagedpojos.PageQuery;
+import com.tfg.application.pojos.pagedpojos.PagedResponse;
+import com.tfg.application.pojos.query.IndibaSummaryElement;
+import com.tfg.application.port.in.indiba.GetIndibaSessionFromPatientUseCase;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.data.domain.Pageable;

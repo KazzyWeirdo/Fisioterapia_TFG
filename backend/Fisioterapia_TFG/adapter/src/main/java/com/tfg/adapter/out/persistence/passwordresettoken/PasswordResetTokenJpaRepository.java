@@ -2,8 +2,8 @@ package com.tfg.adapter.out.persistence.passwordresettoken;
 
 import com.tfg.adapter.out.persistence.physiotherapist.PhysiotherapistJpaEntity;
 import com.tfg.adapter.out.persistence.physiotherapist.PhysiotherapistJpaMapper;
-import com.tfg.passwordresettoken.PasswordResetToken;
-import com.tfg.port.out.persistence.PasswordResetTokenRepository;
+import com.tfg.model.passwordresettoken.PasswordResetToken;
+import com.tfg.application.port.out.persistence.PasswordResetTokenRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;

@@ -1,8 +1,8 @@
 package com.tfg.adapter.in.rest.polar;
 
 import com.tfg.adapter.in.rest.common.PatientIdParser;
-import com.tfg.patient.PatientId;
-import com.tfg.port.in.polar.ManagePolarConnectionUseCase;
+import com.tfg.model.patient.PatientId;
+import com.tfg.application.port.in.polar.ManagePolarConnectionUseCase;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;

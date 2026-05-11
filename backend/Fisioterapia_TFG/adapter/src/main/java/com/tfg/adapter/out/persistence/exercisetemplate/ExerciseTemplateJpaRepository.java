@@ -1,7 +1,7 @@
 package com.tfg.adapter.out.persistence.exercisetemplate;
 
-import com.tfg.port.out.persistence.ExerciseTemplateRepository;
-import com.tfg.trainingsession.ExerciseTemplate;
+import com.tfg.application.port.out.persistence.ExerciseTemplateRepository;
+import com.tfg.model.trainingsession.ExerciseTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 

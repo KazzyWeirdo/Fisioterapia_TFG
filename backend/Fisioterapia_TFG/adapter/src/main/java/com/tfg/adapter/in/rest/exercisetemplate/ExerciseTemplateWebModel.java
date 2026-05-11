@@ -1,6 +1,8 @@
 package com.tfg.adapter.in.rest.exercisetemplate;
 
-import com.tfg.trainingsession.ExerciseTemplate;
+import com.tfg.model.trainingsession.Exercise;
+import com.tfg.model.trainingsession.ExerciseSet;
+import com.tfg.model.trainingsession.ExerciseTemplate;
 
 import java.util.List;
 
@@ -18,7 +20,7 @@ public record ExerciseTemplateWebModel(
     }
 
     public record ExerciseWebModel(int id, String name, List<ExerciseSetWebModel> sets) {
-        public static ExerciseWebModel from(com.tfg.trainingsession.Exercise ex) {
+        public static ExerciseWebModel from(Exercise ex) {
             return new ExerciseWebModel(
                     ex.getId().value(),
                     ex.getName(),
@@ -28,7 +30,7 @@ public record ExerciseTemplateWebModel(
     }
 
     public record ExerciseSetWebModel(int setNumber, double weightKg, int reps, int restTimeSeconds, int rpe) {
-        public static ExerciseSetWebModel from(com.tfg.trainingsession.ExerciseSet s) {
+        public static ExerciseSetWebModel from(ExerciseSet s) {
             return new ExerciseSetWebModel(s.setNumber(), s.weightKg(), s.reps(), s.restTimeSeconds(), s.rpe());
         }
     }

@@ -3,11 +3,11 @@ package application.exercisetemplate;
 import com.tfg.model.trainingsession.ExerciseFactory;
 import com.tfg.model.trainingsession.ExerciseSetFactory;
 import com.tfg.model.trainingsession.ExerciseTemplateFactory;
-import com.tfg.port.out.persistence.ExerciseTemplateRepository;
-import com.tfg.service.exercisetemplate.CreateExerciseTemplateService;
-import com.tfg.trainingsession.Exercise;
-import com.tfg.trainingsession.ExerciseSet;
-import com.tfg.trainingsession.ExerciseTemplate;
+import com.tfg.application.port.out.persistence.ExerciseTemplateRepository;
+import com.tfg.application.service.exercisetemplate.CreateExerciseTemplateService;
+import com.tfg.model.trainingsession.Exercise;
+import com.tfg.model.trainingsession.ExerciseSet;
+import com.tfg.model.trainingsession.ExerciseTemplate;
 import org.junit.jupiter.api.Test;
 
 import static org.mockito.ArgumentMatchers.argThat;

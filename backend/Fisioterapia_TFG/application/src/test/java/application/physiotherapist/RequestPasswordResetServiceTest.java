@@ -1,12 +1,12 @@
 package application.physiotherapist;
 
-import com.tfg.passwordresettoken.PasswordResetToken;
-import com.tfg.physiotherapist.Physiotherapist;
-import com.tfg.physiotherapist.PhysiotherapistEmail;
-import com.tfg.port.out.mail.EmailSenderPort;
-import com.tfg.port.out.persistence.PasswordResetTokenRepository;
-import com.tfg.port.out.persistence.PhysiotherapistRepository;
-import com.tfg.service.physiotherapist.RequestPasswordResetService;
+import com.tfg.model.passwordresettoken.PasswordResetToken;
+import com.tfg.model.physiotherapist.Physiotherapist;
+import com.tfg.model.physiotherapist.PhysiotherapistEmail;
+import com.tfg.application.port.out.mail.EmailSenderPort;
+import com.tfg.application.port.out.persistence.PasswordResetTokenRepository;
+import com.tfg.application.port.out.persistence.PhysiotherapistRepository;
+import com.tfg.application.service.physiotherapist.RequestPasswordResetService;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 

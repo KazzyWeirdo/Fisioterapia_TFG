@@ -1,7 +1,7 @@
 package com.tfg.adapter.in.rest.pni;
 
-import com.tfg.pni.PniReport;
-import com.tfg.port.in.pni.GetAllPniReportsForExportUseCase;
+import com.tfg.model.pni.PniReport;
+import com.tfg.application.port.in.pni.GetAllPniReportsForExportUseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

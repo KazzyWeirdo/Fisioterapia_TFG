@@ -1,15 +1,11 @@
 package application.trainingsession;
 
 import com.tfg.model.patient.PatientFactory;
-import com.tfg.model.trainingsession.ExerciseFactory;
-import com.tfg.model.trainingsession.ExerciseSetFactory;
 import com.tfg.model.trainingsession.TrainingSessionFactory;
-import com.tfg.patient.Patient;
-import com.tfg.port.out.persistence.TrainingSessionRepository;
-import com.tfg.service.trainingsession.CreateTrainingSessionService;
-import com.tfg.trainingsession.Exercise;
-import com.tfg.trainingsession.ExerciseSet;
-import com.tfg.trainingsession.TrainingSession;
+import com.tfg.model.patient.Patient;
+import com.tfg.application.port.out.persistence.TrainingSessionRepository;
+import com.tfg.application.service.trainingsession.CreateTrainingSessionService;
+import com.tfg.model.trainingsession.TrainingSession;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;

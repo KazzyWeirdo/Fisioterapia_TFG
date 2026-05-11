@@ -30,25 +30,26 @@ INSERT INTO patients (
     id, legal_name, name_to_use, surname, second_surname,
     gender_identity, administrative_sex, clinical_use_sex,
     dni, pronouns, email, phone_number, date_of_birth,
-    polar_access_token, polar_user_id
+    polar_access_token, polar_user_id,
+    pathology, registration_date, functional_score, discharge_date
 ) VALUES
-  (1,  'Ana',    'Ana',    'García',    'Ruiz',   'FEMALE',    'FEMALE',  'FEMALE',  '12345678A', 'ella/sus',  'ana.garcia@email.com',     612345678, '1990-03-15', NULL, NULL),
-  (2,  'Miquel', 'Miquel', 'Puig',      'Torres', 'MALE',      'MALE',    'MALE',    '23456789B', 'ell/seu',   'miquel.puig@email.com',    623456789, '1985-07-22', NULL, NULL),
-  (3,  'Alex',   'Alex',   'Fernández',  NULL,    'NONBINARY', 'COMPLEX', 'COMPLEX', '34567890C', 'ell/ells',  'alex.fernandez@email.com', 634567890, '1995-11-08', NULL, NULL),
-  (4,  'Sara',   'Sara',   'Gómez',     'Molina', 'FEMALE',    'FEMALE',  'FEMALE',  '45678901D', 'ella/sus',  'sara.gomez@email.com',     645678901, '2000-01-30', NULL, NULL),
-  (5,  'David',  'David',  'Navarro',   'Blanco', 'MALE',      'MALE',    'MALE',    '56789012E', 'ell/seu',   'david.navarro@email.com',  656789012, '1978-05-12', NULL, NULL)
+  (1,  'Ana',    'Ana',    'García',    'Ruiz',   'FEMALE',    'FEMALE',  'FEMALE',  '12345678A', 'ella/sus',  'ana.garcia@email.com',     612345678, '1990-03-15', NULL, NULL, 'LUMBAR_PAIN',              '2025-11-01', 85,   '2026-02-15'),
+  (2,  'Miquel', 'Miquel', 'Puig',      'Torres', 'MALE',      'MALE',    'MALE',    '23456789B', 'ell/seu',   'miquel.puig@email.com',    623456789, '1985-07-22', NULL, NULL, 'KNEE_OSTEOARTHRITIS',      '2025-12-10', 60,   NULL),
+  (3,  'Alex',   'Alex',   'Fernández',  NULL,    'NONBINARY', 'COMPLEX', 'COMPLEX', '34567890C', 'ell/ells',  'alex.fernandez@email.com', 634567890, '1995-11-08', NULL, NULL, 'ROTATOR_CUFF_INJURY',      '2026-01-05', 45,   NULL),
+  (4,  'Sara',   'Sara',   'Gómez',     'Molina', 'FEMALE',    'FEMALE',  'FEMALE',  '45678901D', 'ella/sus',  'sara.gomez@email.com',     645678901, '2000-01-30', NULL, NULL, 'CERVICAL_PAIN',            '2026-02-20', 72,   NULL),
+  (5,  'David',  'David',  'Navarro',   'Blanco', 'MALE',      'MALE',    'MALE',    '56789012E', 'ell/seu',   'david.navarro@email.com',  656789012, '1978-05-12', NULL, NULL, 'PLANTAR_FASCIITIS',        '2025-10-15', 91,   '2026-03-20')
 ON CONFLICT (id) DO NOTHING;
 
 -- INDIBA sessions
 INSERT INTO indiba_sessions (
     id, patient_id, begin_session, end_session,
-    treated_area, mode, capacitive_intensity, resistive_intensity, objective, physiotherapist_id, observations
+    treated_area, mode, capacitive_intensity, resistive_intensity, physiotherapist_id, observations
 ) VALUES
-  (1, 1, '2026-01-10 09:00:00', '2026-01-10 09:45:00', 'Lumbar',      'CAPACITIVE', 3.5,  NULL, 'Reducció del dolor',        1, 'El pacient respon bé'),
-  (2, 1, '2026-01-17 09:00:00', '2026-01-17 09:45:00', 'Lumbar',      'RESISTIVE',  NULL, 4.0,  'Millora mobilitat',         1, NULL),
-  (3, 2, '2026-01-12 10:00:00', '2026-01-12 10:45:00', 'Genoll dret', 'DUAL',       3.0,  3.0,  'Recuperació post-cirurgia', 2, 'Seguiment setmanal'),
-  (4, 3, '2026-02-05 11:00:00', '2026-02-05 11:45:00', 'Espatlla',    'CAPACITIVE', 2.5,  NULL, 'Tendinitis rotadors',       1, NULL),
-  (5, 4, '2026-02-18 16:00:00', '2026-02-18 16:45:00', 'Cervical',    'RESISTIVE',  NULL, 3.0,  'Contractura cervical',      2, 'Millora notable')
+  (1, 1, '2026-01-10 09:00:00', '2026-01-10 09:45:00', 'Lumbar',      'CAPACITIVE', 3.5,  NULL, 1, 'El pacient respon bé'),
+  (2, 1, '2026-01-17 09:00:00', '2026-01-17 09:45:00', 'Lumbar',      'RESISTIVE',  NULL, 4.0,  1, NULL),
+  (3, 2, '2026-01-12 10:00:00', '2026-01-12 10:45:00', 'Genoll dret', 'DUAL',       3.0,  3.0,  2, 'Seguiment setmanal'),
+  (4, 3, '2026-02-05 11:00:00', '2026-02-05 11:45:00', 'Espatlla',    'CAPACITIVE', 2.5,  NULL, 1, NULL),
+  (5, 4, '2026-02-18 16:00:00', '2026-02-18 16:45:00', 'Cervical',    'RESISTIVE',  NULL, 3.0,  2, 'Millora notable')
 ON CONFLICT (id) DO NOTHING;
 
 -- PNI reports

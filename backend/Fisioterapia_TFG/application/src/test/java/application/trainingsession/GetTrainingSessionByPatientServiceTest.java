@@ -1,15 +1,15 @@
 package application.trainingsession;
 
-import com.tfg.exceptions.InvalidIdException;
+import com.tfg.application.exceptions.InvalidIdException;
 import com.tfg.model.patient.PatientFactory;
-import com.tfg.patient.Patient;
-import com.tfg.patient.PatientId;
-import com.tfg.pojos.pagedpojos.PageQuery;
-import com.tfg.pojos.pagedpojos.PagedResponse;
-import com.tfg.pojos.query.TrainingSessionSummaryElement;
-import com.tfg.port.out.persistence.PatientRepository;
-import com.tfg.port.out.persistence.TrainingSessionRepository;
-import com.tfg.service.trainingsession.GetTrainingSessionByPatientService;
+import com.tfg.model.patient.Patient;
+import com.tfg.model.patient.PatientId;
+import com.tfg.application.pojos.pagedpojos.PageQuery;
+import com.tfg.application.pojos.pagedpojos.PagedResponse;
+import com.tfg.application.pojos.query.TrainingSessionSummaryElement;
+import com.tfg.application.port.out.persistence.PatientRepository;
+import com.tfg.application.port.out.persistence.TrainingSessionRepository;
+import com.tfg.application.service.trainingsession.GetTrainingSessionByPatientService;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;

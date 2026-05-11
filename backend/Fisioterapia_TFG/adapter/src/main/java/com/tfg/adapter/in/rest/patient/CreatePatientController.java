@@ -1,7 +1,6 @@
 package com.tfg.adapter.in.rest.patient;
 
-import com.tfg.patient.PatientGender;
-import com.tfg.port.in.patient.CreatePatientUseCase;
+import com.tfg.application.port.in.patient.CreatePatientUseCase;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;

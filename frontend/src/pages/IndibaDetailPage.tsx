@@ -29,9 +29,6 @@ function computeDuration(begin: string, end: string): number {
 }
 
 
-function formatMode(mode: string): string {
-  return mode.charAt(0).toUpperCase() + mode.slice(1).toLowerCase()
-}
 
 export default function IndibaDetailPage() {
   const { sessionId } = useParams<{ sessionId: string }>()
@@ -119,16 +116,12 @@ export default function IndibaDetailPage() {
               <span className={styles.fieldLabel}>{t('indiba_field_treated_area')}</span>
               <span className={styles.fieldValue}>{session.treatedArea}</span>
             </div>
-            <div className={styles.field}>
-              <span className={styles.fieldLabel}>{t('indiba_field_objective')}</span>
-              <span className={styles.fieldValue}>{session.objective}</span>
-            </div>
           </div>
 
           <div className={styles.miniCards}>
             <div className={styles.miniCard}>
               <span className={styles.miniLabel}>{t('indiba_field_mode')}</span>
-              <span className={styles.miniValue}><FontAwesomeIcon icon={faBolt} /> {formatMode(session.mode)}</span>
+              <span className={styles.miniValue}><FontAwesomeIcon icon={faBolt} /> {t('indiba_mode_' + session.mode.toLowerCase())}</span>
             </div>
             {session.mode === 'DUAL' ? (
               <>

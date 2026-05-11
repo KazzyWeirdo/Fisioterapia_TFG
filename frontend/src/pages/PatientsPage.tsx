@@ -125,8 +125,8 @@ export default function PatientsPage() {
               'patients',
               getAllPatientsForExport,
               'patients.csv',
-              ['id', 'date_of_birth', 'clinical_sex'],
-              (p) => [p.id, p.dateOfBirth, p.clinicalUseSex],
+              ['id', 'date_of_birth', 'clinical_sex', 'pathology'],
+              (p) => [p.id, p.dateOfBirth, p.clinicalUseSex, p.pathology ?? ''],
             )}
           >
             {downloading.patients ? t('patients_exporting') : <><FontAwesomeIcon icon={faDownload} /> {t('patients_export_patients')}</>}
@@ -139,8 +139,8 @@ export default function PatientsPage() {
               'indiba',
               getAllIndibaForExport,
               'indiba_sessions.csv',
-              ['patient_id', 'session_id', 'begin_session', 'end_session', 'treated_area', 'mode', 'capacitive_intensity', 'resistive_intensity', 'objective', 'observations'],
-              (s) => [s.patientId, s.sessionId, s.beginSession, s.endSession, s.treatedArea, s.mode, s.capacitiveIntensity, s.resistiveIntensity, s.objective, s.observations],
+              ['patient_id', 'session_id', 'begin_session', 'end_session', 'treated_area', 'mode', 'capacitive_intensity', 'resistive_intensity', 'observations'],
+              (s) => [s.patientId, s.sessionId, s.beginSession, s.endSession, s.treatedArea, s.mode, s.capacitiveIntensity, s.resistiveIntensity, s.observations],
             )}
           >
             {downloading.indiba ? t('patients_exporting') : <><FontAwesomeIcon icon={faDownload} /> {t('patients_export_indiba')}</>}
@@ -212,7 +212,31 @@ export default function PatientsPage() {
               !error &&
               filteredPatients.map((p) => (
                 <tr key={p.id}>
-                  <td className={styles.nameCell}>{[p.name, p.surname, p.secondSurname].filter(Boolean).join(' ')}</td>
+                  <td className={styles.nameCell}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      {[p.name, p.surname, p.secondSurname].filter(Boolean).join(' ')}
+                      {p.dischargeDate && (
+                        <span style={{ fontSize: 11, fontWeight: 700, background: '#dcfce7', color: '#15803d', borderRadius: 4, padding: '1px 6px', letterSpacing: '0.04em' }}>
+                          ALTA
+                        </span>
+                      )}
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4 }}>
+                      {p.pathology && (
+                        <span style={{ fontSize: 11, fontWeight: 600, background: '#e0e7ff', color: '#3730a3', borderRadius: 4, padding: '1px 6px' }}>
+                          {p.pathology.replace(/_/g, ' ')}
+                        </span>
+                      )}
+                      {p.functionalScore != null && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                          <div style={{ background: '#e5e7eb', borderRadius: 3, height: 6, width: 60 }}>
+                            <div style={{ width: `${p.functionalScore}%`, backgroundColor: `hsl(${p.functionalScore * 1.2}, 85%, 42%)`, height: '100%', borderRadius: 3 }} />
+                          </div>
+                          <span style={{ fontSize: 11, color: '#6b7280' }}>{p.functionalScore}/100</span>
+                        </div>
+                      )}
+                    </div>
+                  </td>
                   <td className={styles.actionCol}>
                     <button
                       type="button"

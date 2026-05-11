@@ -1,11 +1,11 @@
 package com.tfg.adapter.in.rest.pni;
 
 import com.tfg.adapter.in.rest.common.PatientIdParser;
-import com.tfg.patient.PatientId;
-import com.tfg.pojos.pagedpojos.PageQuery;
-import com.tfg.pojos.pagedpojos.PagedResponse;
-import com.tfg.pojos.query.PniReportSummaryElement;
-import com.tfg.port.in.pni.GetPniReportsFromPatientUseCase;
+import com.tfg.model.patient.PatientId;
+import com.tfg.application.pojos.pagedpojos.PageQuery;
+import com.tfg.application.pojos.pagedpojos.PagedResponse;
+import com.tfg.application.pojos.query.PniReportSummaryElement;
+import com.tfg.application.port.in.pni.GetPniReportsFromPatientUseCase;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.data.domain.Pageable;

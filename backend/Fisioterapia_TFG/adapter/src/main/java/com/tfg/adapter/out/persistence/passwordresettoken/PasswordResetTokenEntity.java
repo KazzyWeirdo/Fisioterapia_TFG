@@ -1,8 +1,6 @@
 package com.tfg.adapter.out.persistence.passwordresettoken;
 
 import com.tfg.adapter.out.persistence.physiotherapist.PhysiotherapistJpaEntity;
-import com.tfg.physiotherapist.Physiotherapist;
-import com.tfg.physiotherapist.PhysiotherapistId;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
