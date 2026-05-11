@@ -1,8 +1,5 @@
 package com.tfg.model.physiotherapist;
 
-import com.tfg.physiotherapist.Physiotherapist;
-import com.tfg.physiotherapist.ERole;
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;

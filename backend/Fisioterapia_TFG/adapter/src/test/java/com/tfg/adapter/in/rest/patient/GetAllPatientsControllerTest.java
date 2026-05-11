@@ -1,13 +1,10 @@
 package com.tfg.adapter.in.rest.patient;
 
 import com.tfg.adapter.in.rest.common.GlobalExceptionHandler;
-import com.tfg.auditlog.AuditLog;
-import com.tfg.model.patient.PatientFactory;
-import com.tfg.patient.Patient;
-import com.tfg.pojos.pagedpojos.PageQuery;
-import com.tfg.pojos.pagedpojos.PagedResponse;
-import com.tfg.pojos.query.PatientSummaryElement;
-import com.tfg.port.in.patient.GetAllPatientsUseCase;
+import com.tfg.application.pojos.pagedpojos.PageQuery;
+import com.tfg.application.pojos.pagedpojos.PagedResponse;
+import com.tfg.application.pojos.query.PatientSummaryElement;
+import com.tfg.application.port.in.patient.GetAllPatientsUseCase;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +32,7 @@ public class GetAllPatientsControllerTest {
     @InjectMocks
     private GetAllPatientsController getAllPatientsController;
 
-    private final PatientSummaryElement TEST_PATIENT = new PatientSummaryElement(1, "Jane", "Doe", "");
+    private final PatientSummaryElement TEST_PATIENT = new PatientSummaryElement(1, "Jane", "Doe", "", null, null, null);
 
     @BeforeEach
     void setUp() {

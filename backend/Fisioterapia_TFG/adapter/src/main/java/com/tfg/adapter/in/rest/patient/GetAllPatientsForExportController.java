@@ -1,7 +1,7 @@
 package com.tfg.adapter.in.rest.patient;
 
-import com.tfg.patient.Patient;
-import com.tfg.port.in.patient.GetAllPatientsForExportUseCase;
+import com.tfg.model.patient.Patient;
+import com.tfg.application.port.in.patient.GetAllPatientsForExportUseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +26,8 @@ public class GetAllPatientsForExportController {
         List<PatientExportWebModel> dto = patients.stream().map(p -> new PatientExportWebModel(
                 p.getId().value(),
                 p.getDateOfBirth().toString(),
-                p.getClinicalUseSex().name()
+                p.getClinicalUseSex().name(),
+                p.getPathology() != null ? p.getPathology().name() : null
         )).toList();
         return ResponseEntity.ok(dto);
     }

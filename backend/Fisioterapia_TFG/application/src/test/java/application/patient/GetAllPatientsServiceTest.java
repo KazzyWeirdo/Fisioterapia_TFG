@@ -1,10 +1,10 @@
 package application.patient;
 
-import com.tfg.pojos.pagedpojos.PageQuery;
-import com.tfg.pojos.pagedpojos.PagedResponse;
-import com.tfg.pojos.query.PatientSummaryElement;
-import com.tfg.port.out.persistence.PatientRepository;
-import com.tfg.service.patient.GetAllPatientsService;
+import com.tfg.application.pojos.pagedpojos.PageQuery;
+import com.tfg.application.pojos.pagedpojos.PagedResponse;
+import com.tfg.application.pojos.query.PatientSummaryElement;
+import com.tfg.application.port.out.persistence.PatientRepository;
+import com.tfg.application.service.patient.GetAllPatientsService;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -17,17 +17,11 @@ public class GetAllPatientsServiceTest {
     private final GetAllPatientsService getAllPatientsService = new GetAllPatientsService(patientRepository);
 
     private static final PatientSummaryElement TEST_PATIENT_1 = new PatientSummaryElement(
-            1,
-            "John",
-            "Doe",
-            ""
+            1, "John", "Doe", "", null, null, null
     );
 
     private static final PatientSummaryElement TEST_PATIENT_2 = new PatientSummaryElement(
-            2,
-            "Jane",
-            "Doe",
-            ""
+            2, "Jane", "Doe", "", null, null, null
     );
 
     @Test

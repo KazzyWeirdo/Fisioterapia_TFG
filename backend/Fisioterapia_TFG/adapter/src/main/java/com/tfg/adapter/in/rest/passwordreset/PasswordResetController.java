@@ -1,7 +1,7 @@
 package com.tfg.adapter.in.rest.passwordreset;
 
-import com.tfg.port.in.physiotherapist.RequestPasswordResetUseCase;
-import com.tfg.port.in.physiotherapist.ResetPasswordUseCase;
+import com.tfg.application.port.in.physiotherapist.RequestPasswordResetUseCase;
+import com.tfg.application.port.in.physiotherapist.ResetPasswordUseCase;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.web.bind.annotation.PostMapping;

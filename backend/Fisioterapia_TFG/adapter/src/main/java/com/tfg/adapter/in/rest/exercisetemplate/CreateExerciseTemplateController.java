@@ -1,6 +1,6 @@
 package com.tfg.adapter.in.rest.exercisetemplate;
 
-import com.tfg.port.in.exercisetemplate.CreateExerciseTemplateUseCase;
+import com.tfg.application.port.in.exercisetemplate.CreateExerciseTemplateUseCase;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;

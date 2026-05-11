@@ -23,7 +23,6 @@ const EMPTY_FORM = {
   mode: 'CAPACITIVE',
   capacitiveIntensity: '40',
   resistiveIntensity: '40',
-  objective: '',
   observations: '',
 }
 
@@ -68,7 +67,6 @@ export default function RegisterIndibaSessionPage() {
         mode: form.mode,
         capacitiveIntensity: (isDual || isCapacitive) ? parseFloat(form.capacitiveIntensity) : null,
         resistiveIntensity: (isDual || !isCapacitive) ? parseFloat(form.resistiveIntensity) : null,
-        objective: form.objective,
         physiotherapistId: physio.id,
         observations: form.observations,
       })
@@ -147,7 +145,7 @@ export default function RegisterIndibaSessionPage() {
               value={form.mode} onChange={handleChange} required>
               {MODES.map(m => (
                 <option key={m} value={m}>
-                  {m.charAt(0) + m.slice(1).toLowerCase()}
+                  {t('indiba_mode_' + m.toLowerCase())}
                 </option>
               ))}
             </select>
@@ -202,12 +200,6 @@ export default function RegisterIndibaSessionPage() {
           </div>
         </div>
 
-        <div className={styles.field}>
-          <label className={styles.label} htmlFor="objective">{t('indiba_objective')}</label>
-          <input id="objective" name="objective" type="text"
-            className={styles.input} placeholder={t('indiba_objective_placeholder')}
-            value={form.objective} onChange={handleChange} />
-        </div>
       </div>
 
       {/* CLINICAL OBSERVATIONS */}

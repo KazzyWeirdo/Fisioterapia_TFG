@@ -1,9 +1,9 @@
 package com.tfg.adapter.in.rest.patient;
 
 import com.tfg.adapter.in.rest.common.PatientIdParser;
-import com.tfg.patient.Patient;
-import com.tfg.patient.PatientId;
-import com.tfg.port.in.patient.GetPatientUseCase;
+import com.tfg.model.patient.Patient;
+import com.tfg.model.patient.PatientId;
+import com.tfg.application.port.in.patient.GetPatientUseCase;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;

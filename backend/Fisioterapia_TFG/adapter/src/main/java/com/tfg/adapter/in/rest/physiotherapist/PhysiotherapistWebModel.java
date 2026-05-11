@@ -1,6 +1,6 @@
 package com.tfg.adapter.in.rest.physiotherapist;
 
-import com.tfg.physiotherapist.Physiotherapist;
+import com.tfg.model.physiotherapist.Physiotherapist;
 
 public record PhysiotherapistWebModel(int id, String name, String surname) {
 

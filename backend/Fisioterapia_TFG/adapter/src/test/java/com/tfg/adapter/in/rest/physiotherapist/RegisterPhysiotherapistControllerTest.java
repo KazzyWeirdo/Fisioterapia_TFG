@@ -1,6 +1,6 @@
 package com.tfg.adapter.in.rest.physiotherapist;
 
-import com.tfg.port.in.physiotherapist.RegisterPhysiotherapistUseCase;
+import com.tfg.application.port.in.physiotherapist.RegisterPhysiotherapistUseCase;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

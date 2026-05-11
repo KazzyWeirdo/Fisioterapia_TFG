@@ -1,8 +1,8 @@
 package com.tfg.adapter.in.rest.statistics;
 
 import com.tfg.adapter.in.rest.common.PatientIdParser;
-import com.tfg.patient.PatientId;
-import com.tfg.port.in.statistics.GetPatientTransitionRatioUseCase;
+import com.tfg.model.patient.PatientId;
+import com.tfg.application.port.in.statistics.GetPatientTransitionRatioUseCase;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;

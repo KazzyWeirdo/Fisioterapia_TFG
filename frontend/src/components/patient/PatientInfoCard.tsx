@@ -1,9 +1,15 @@
 import { useState } from 'react'
 import type { PatientDetail, CreatePatientRequest } from '../../services/patientService'
-import { updatePatient } from '../../services/patientService'
+import { updatePatient, updateFunctionalScore, dischargePatient } from '../../services/patientService'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck, faHeart, faPenToSquare, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { useLanguage } from '../../contexts/LanguageContext'
+import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
+import ProgressBar from 'react-bootstrap/ProgressBar'
+import Alert from 'react-bootstrap/Alert'
+import Badge from 'react-bootstrap/Badge'
+import 'bootstrap/dist/css/bootstrap.min.css'
 import styles from './PatientInfoCard.module.css'
 
 const GENDER_OPTIONS = ['MALE', 'FEMALE', 'OTHER', 'NONBINARY', 'UNKNOWN']
@@ -22,6 +28,7 @@ interface EditForm {
   genderIdentity: string
   clinicalUseSex: string
   administrativeSex: string
+  pathology: string
 }
 
 function toEditForm(patient: PatientDetail): EditForm {
@@ -38,6 +45,7 @@ function toEditForm(patient: PatientDetail): EditForm {
     genderIdentity: patient.genderIdentity,
     clinicalUseSex: patient.clinicalUseSex,
     administrativeSex: patient.administrativeSex,
+    pathology: patient.pathology ?? '',
   }
 }
 
@@ -79,6 +87,10 @@ export default function PatientInfoCard({ patient, onPatientUpdated }: Props) {
   const [formData, setFormData] = useState<EditForm>(toEditForm(patient))
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState<string | null>(null)
+  const [scoreInput, setScoreInput] = useState(String(patient.functionalScore ?? ''))
+  const [scoreError, setScoreError] = useState<string | null>(null)
+  const [scoreUpdating, setScoreUpdating] = useState(false)
+  const [discharging, setDischarging] = useState(false)
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
@@ -120,6 +132,34 @@ export default function PatientInfoCard({ patient, onPatientUpdated }: Props) {
         required
       />
     )
+  }
+
+  async function handleUpdateScore() {
+    const score = parseInt(scoreInput, 10)
+    if (isNaN(score) || score < 0 || score > 100) {
+      setScoreError('Score must be 0-100')
+      return
+    }
+    setScoreUpdating(true)
+    setScoreError(null)
+    try {
+      await updateFunctionalScore(patient.id, score)
+      onPatientUpdated({ ...patient, functionalScore: score })
+    } catch {
+      setScoreError(t('patient_info_save_error'))
+    } finally {
+      setScoreUpdating(false)
+    }
+  }
+
+  async function handleConfirmDischarge() {
+    setDischarging(true)
+    try {
+      await dischargePatient(patient.id)
+      onPatientUpdated({ ...patient, dischargeDate: new Date().toISOString().slice(0, 10) })
+    } finally {
+      setDischarging(false)
+    }
   }
 
   function select(name: keyof EditForm, options: string[]) {
@@ -173,7 +213,7 @@ export default function PatientInfoCard({ patient, onPatientUpdated }: Props) {
         <Field label={t('patient_info_gender')} value={patient.genderIdentity} isEditing={isEditing} editNode={select('genderIdentity', GENDER_OPTIONS)} />
       </div>
 
-      <div className={styles.rowGroupLast}>
+      <div className={styles.rowGroup}>
         <Field label={t('patient_info_clinical_sex')} value={patient.clinicalUseSex} isEditing={isEditing} editNode={select('clinicalUseSex', SEX_OPTIONS)} />
         <Field label={t('patient_info_admin_sex')} value={patient.administrativeSex} isEditing={isEditing} editNode={select('administrativeSex', SEX_OPTIONS)} />
         <Field label={t('patient_info_pronouns')} value={patient.pronouns} isEditing={isEditing} editNode={input('pronouns')} />
@@ -182,6 +222,80 @@ export default function PatientInfoCard({ patient, onPatientUpdated }: Props) {
       {isEditing && saveError && (
         <p className={styles.saveError} role="alert">{saveError}</p>
       )}
+
+      {/* Pathology & Registration */}
+      {(patient.pathology || patient.registrationDate) && (
+        <div className={styles.rowGroupLast}>
+          {patient.pathology && (
+            <div className={styles.field}>
+              <span className={styles.label}>{t('patient_pathology')}</span>
+              <span className={styles.value}>{t('pathology_' + patient.pathology.toLowerCase())}</span>
+            </div>
+          )}
+          {patient.registrationDate && (
+            <div className={styles.field}>
+              <span className={styles.label}>{t('patient_registration_date')}</span>
+              <span className={styles.value}>{patient.registrationDate}</span>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Functional Score */}
+      <div className={styles.polarSection}>
+        <p className={styles.sectionTitle}>{t('patient_functional_score')}</p>
+        {(() => {
+          const score = patient.functionalScore ?? 0
+          const variant = score >= 80 ? 'success' : score >= 50 ? 'warning' : 'danger'
+          return (
+            <>
+              <ProgressBar
+                now={score}
+                label={`${score}/100`}
+                variant={variant}
+                style={{ height: 18, marginBottom: 8 }}
+              />
+              {score >= 80 && !patient.dischargeDate && (
+                <Alert variant="success" className="d-flex align-items-center gap-2 py-2 px-3 mb-2">
+                  <span className="fw-semibold">{t('patient_functional_advisory')}</span>
+                  <Button
+                    variant="success"
+                    size="sm"
+                    onClick={handleConfirmDischarge}
+                    disabled={discharging}
+                  >
+                    {t('patient_confirm_discharge')}
+                  </Button>
+                </Alert>
+              )}
+              {patient.dischargeDate && (
+                <div className="mb-2">
+                  <Badge bg="success" className="fs-6">
+                    {t('patient_discharged_badge')} · {patient.dischargeDate}
+                  </Badge>
+                </div>
+              )}
+              {!patient.dischargeDate && (
+                <div style={{ maxWidth: 180 }}>
+                  <Form.Control
+                    type="number"
+                    min={0}
+                    max={100}
+                    value={scoreInput}
+                    onChange={e => setScoreInput(e.target.value)}
+                    isInvalid={!!scoreError}
+                    size="sm"
+                  />
+                  <Form.Control.Feedback type="invalid">{scoreError}</Form.Control.Feedback>
+                  <Button variant="primary" size="sm" className="mt-2 w-100 rounded-pill" onClick={handleUpdateScore} disabled={scoreUpdating}>
+                    {t('patient_score_update_btn')}
+                  </Button>
+                </div>
+              )}
+            </>
+          )
+        })()}
+      </div>
 
       <div className={styles.polarSection}>
         <p className={styles.sectionTitle}>{t('polar_section')}</p>

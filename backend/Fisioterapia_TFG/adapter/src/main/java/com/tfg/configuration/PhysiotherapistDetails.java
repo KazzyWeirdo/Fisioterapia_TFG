@@ -1,6 +1,6 @@
 package com.tfg.configuration;
 
-import com.tfg.physiotherapist.Physiotherapist;
+import com.tfg.model.physiotherapist.Physiotherapist;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

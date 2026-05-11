@@ -1,9 +1,12 @@
 package com.tfg.adapter.out.persistence.trainingsession;
 
 import com.tfg.adapter.out.persistence.exercisetemplate.ExerciseTemplateJpaEntity;
+import com.tfg.model.trainingsession.Exercise;
+import com.tfg.model.trainingsession.ExerciseId;
+import com.tfg.model.trainingsession.ExerciseSet;
 
 public class ExercisesJpaMapper {
-    public static ExercisesJpaEntity toJpaEntity(com.tfg.trainingsession.Exercise exercise, ExerciseTemplateJpaEntity exerciseTemplateJpaEntity) {
+    public static ExercisesJpaEntity toJpaEntity(Exercise exercise, ExerciseTemplateJpaEntity exerciseTemplateJpaEntity) {
         ExercisesJpaEntity entity = new ExercisesJpaEntity();
         entity.setId(exercise.getId().value());
         entity.setName(exercise.getName());
@@ -20,13 +23,13 @@ public class ExercisesJpaMapper {
         return entity;
     }
 
-    public static com.tfg.trainingsession.Exercise toModelEntity(ExercisesJpaEntity exercise) {
-        com.tfg.trainingsession.Exercise model = new com.tfg.trainingsession.Exercise(
-                new com.tfg.trainingsession.ExerciseId(exercise.getId()),
+    public static Exercise toModelEntity(ExercisesJpaEntity exercise) {
+        Exercise model = new Exercise(
+                new ExerciseId(exercise.getId()),
                 exercise.getName(),
                 new java.util.ArrayList<>()
         );
-        exercise.getSets().forEach(set -> model.addSet(new com.tfg.trainingsession.ExerciseSet(
+        exercise.getSets().forEach(set -> model.addSet(new ExerciseSet(
                 set.getSetNumber(),
                 set.getWeightKg(),
                 set.getReps(),

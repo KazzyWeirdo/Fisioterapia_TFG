@@ -38,11 +38,17 @@ const EMPTY_FORM: RegisterPatientForm = {
 
 const GENDER_OPTIONS = ['MALE', 'FEMALE', 'OTHER', 'NONBINARY', 'UNKNOWN']
 const SEX_OPTIONS = ['FEMALE', 'MALE', 'COMPLEX', 'UNKNOWN']
+const PATHOLOGIES = [
+  'TENDINOPATHY', 'LUMBAR_PAIN', 'CERVICAL_PAIN', 'PLANTAR_FASCIITIS',
+  'ROTATOR_CUFF_INJURY', 'KNEE_OSTEOARTHRITIS', 'ANKLE_SPRAIN',
+  'FIBROMYALGIA', 'SPORT_INJURY', 'POST_SURGICAL_RECOVERY',
+]
 
 export default function RegisterPatientPage() {
   const navigate = useNavigate()
   const { t } = useLanguage()
   const [form, setForm] = useState<RegisterPatientForm>(EMPTY_FORM)
+  const [pathology, setPathology] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -60,7 +66,7 @@ export default function RegisterPatientPage() {
     setSubmitting(true)
     setError(null)
     try {
-      await createPatient({ ...form, phoneNumber: parseInt(form.phoneNumber, 10) })
+      await createPatient({ ...form, phoneNumber: parseInt(form.phoneNumber, 10), pathology: pathology || undefined })
       navigate('/patients')
     } catch {
       setError(t('reg_patient_error'))
@@ -264,6 +270,26 @@ export default function RegisterPatientPage() {
                   ))}
                 </select>
               </div>
+            </div>
+          </section>
+
+          {/* Pathology */}
+          <section className={styles.section}>
+            <h2 className={styles.sectionTitle}>
+              <FontAwesomeIcon icon={faHeart} /> {t('patient_pathology')}
+            </h2>
+            <div className={styles.field}>
+              <label htmlFor="pathology">{t('patient_pathology')}</label>
+              <select
+                id="pathology"
+                value={pathology}
+                onChange={e => setPathology(e.target.value)}
+              >
+                <option value="">{t('patient_pathology_placeholder')}</option>
+                {PATHOLOGIES.map(p => (
+                  <option key={p} value={p}>{t('pathology_' + p.toLowerCase())}</option>
+                ))}
+              </select>
             </div>
           </section>
 

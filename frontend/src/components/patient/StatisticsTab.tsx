@@ -1,7 +1,11 @@
 import { useEffect, useState, useMemo } from 'react'
 import {
   getWorkloadProgression,
+  getIndibaSessionStats,
+  getPathologyRehabStats,
   type WorkloadPoint,
+  type IndibaSessionStats,
+  type PathologyRehabStats,
 } from '../../services/statisticsService'
 import { getTrainingSessionsFromPatient } from '../../services/trainingSessionService'
 import { getIndibaSessionsFromPatient } from '../../services/indibaService'
@@ -42,6 +46,8 @@ export default function StatisticsTab({ patientId }: StatisticsTabProps) {
   const [indibaCount, setIndibaCount] = useState(0)
   const [statsLoading, setStatsLoading] = useState(true)
   const [statsError, setStatsError] = useState<string | null>(null)
+  const [indibaStats, setIndibaStats] = useState<IndibaSessionStats | null>(null)
+  const [rehabStats, setRehabStats] = useState<PathologyRehabStats[]>([])
   const [exerciseInput, setExerciseInput] = useState('')
   const [exerciseName, setExerciseName] = useState('')
   const [workload, setWorkload] = useState<WorkloadPoint[]>([])
@@ -52,10 +58,14 @@ export default function StatisticsTab({ patientId }: StatisticsTabProps) {
     Promise.all([
       getTrainingSessionsFromPatient(patientId, 0, 1),
       getIndibaSessionsFromPatient(patientId, 0, 1),
+      getIndibaSessionStats(patientId),
+      getPathologyRehabStats(),
     ])
-      .then(([training, indiba]) => {
+      .then(([training, indiba, iStats, rStats]) => {
         setTrainingCount(training.totalElements)
         setIndibaCount(indiba.totalElements)
+        setIndibaStats(iStats)
+        setRehabStats(rStats)
       })
       .catch(() => setStatsError(t('stats_load_error')))
       .finally(() => setStatsLoading(false))
@@ -262,6 +272,97 @@ export default function StatisticsTab({ patientId }: StatisticsTabProps) {
         </div>
 
       </div>
+
+      {/* INDIBA Protocol Summary */}
+      {!statsLoading && !statsError && indibaStats && (
+        <div className={styles.ratioCard} style={{ marginTop: 24 }}>
+          <h3 className={styles.cardTitle}>{t('stats_indiba_title')}</h3>
+          <p className={styles.cardSub}>{t('stats_indiba_subtitle')}</p>
+          <div className={styles.counters}>
+            <div className={styles.counter}>
+              <div>
+                <div className={styles.counterLabel}>{t('stats_indiba_total')}</div>
+                <div className={styles.counterValue}>{indibaStats.totalSessions}</div>
+              </div>
+            </div>
+            <div className={styles.counter}>
+              <div>
+                <div className={styles.counterLabel}>{t('stats_indiba_avg_duration')}</div>
+                <div className={styles.counterValue}>{indibaStats.avgDurationMinutes.toFixed(1)}</div>
+              </div>
+            </div>
+            {indibaStats.mostTreatedArea && (
+              <div className={styles.counter}>
+                <div>
+                  <div className={styles.counterLabel}>{t('stats_indiba_most_area')}</div>
+                  <div className={styles.counterValue}>{indibaStats.mostTreatedArea}</div>
+                </div>
+              </div>
+            )}
+            {indibaStats.avgCapacitiveIntensity != null && (
+              <div className={styles.counter}>
+                <div>
+                  <div className={styles.counterLabel}>{t('stats_indiba_avg_cap')}</div>
+                  <div className={styles.counterValue}>{indibaStats.avgCapacitiveIntensity.toFixed(1)}%</div>
+                </div>
+              </div>
+            )}
+            {indibaStats.avgResistiveIntensity != null && (
+              <div className={styles.counter}>
+                <div>
+                  <div className={styles.counterLabel}>{t('stats_indiba_avg_res')}</div>
+                  <div className={styles.counterValue}>{indibaStats.avgResistiveIntensity.toFixed(1)}%</div>
+                </div>
+              </div>
+            )}
+          </div>
+          {Object.keys(indibaStats.modeDistribution).length > 0 && (
+            <div style={{ marginTop: 8 }}>
+              <div className={styles.counterLabel}>{t('stats_indiba_modes')}</div>
+              <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 4 }}>
+                {Object.entries(indibaStats.modeDistribution).map(([mode, count]) => (
+                  <span key={mode} style={{ fontSize: 13, fontWeight: 600 }}>{t('indiba_mode_' + mode.toLowerCase())}: {count}</span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Pathology Rehab Time Table */}
+      {!statsLoading && !statsError && (
+        <div className={styles.workloadCard} style={{ marginTop: 24 }}>
+          <div className={styles.workloadHeader}>
+            <div>
+              <h3 className={styles.cardTitle}>{t('stats_rehab_time_title')}</h3>
+              <p className={styles.cardSub}>{t('stats_rehab_time_subtitle')}</p>
+            </div>
+          </div>
+          {rehabStats.length === 0 ? (
+            <p className={styles.chartState}>{t('stats_rehab_time_empty')}</p>
+          ) : (
+            <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: 8, fontSize: 13 }}>
+              <thead>
+                <tr>
+                  <th style={{ textAlign: 'left', padding: '6px 8px', borderBottom: '1px solid #e5e7eb' }}>{t('stats_rehab_time_pathology')}</th>
+                  <th style={{ textAlign: 'right', padding: '6px 8px', borderBottom: '1px solid #e5e7eb' }}>{t('stats_rehab_time_avg_days')}</th>
+                  <th style={{ textAlign: 'right', padding: '6px 8px', borderBottom: '1px solid #e5e7eb' }}>{t('stats_rehab_time_sample')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rehabStats.map(row => (
+                  <tr key={row.pathology}>
+                    <td style={{ padding: '6px 8px', borderBottom: '1px solid #f3f4f6' }}>{t('pathology_' + row.pathology.toLowerCase())}</td>
+                    <td style={{ textAlign: 'right', padding: '6px 8px', borderBottom: '1px solid #f3f4f6' }}>{row.averageDaysToDischarge.toFixed(0)}</td>
+                    <td style={{ textAlign: 'right', padding: '6px 8px', borderBottom: '1px solid #f3f4f6' }}>{row.sampleSize}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      )}
+
     </div>
   )
 }

@@ -1,6 +1,6 @@
 package com.tfg.adapter.out.mail;
 
-import com.tfg.port.out.mail.EmailSenderPort;
+import com.tfg.application.port.out.mail.EmailSenderPort;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.beans.factory.annotation.Value;

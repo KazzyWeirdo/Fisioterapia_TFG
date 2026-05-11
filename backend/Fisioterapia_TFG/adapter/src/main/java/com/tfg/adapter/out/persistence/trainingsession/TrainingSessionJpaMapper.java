@@ -6,11 +6,10 @@ import com.tfg.adapter.out.persistence.patient.PatientJpaEntity;
 import com.tfg.adapter.out.persistence.patient.PatientJpaMapper;
 import com.tfg.adapter.out.persistence.physiotherapist.PhysiotherapistJpaEntity;
 import com.tfg.adapter.out.persistence.physiotherapist.PhysiotherapistJpaMapper;
-import com.tfg.trainingsession.TrainingSession;
-import com.tfg.trainingsession.TrainingSessionId;
+import com.tfg.model.trainingsession.TrainingSession;
+import com.tfg.model.trainingsession.TrainingSessionId;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class TrainingSessionJpaMapper {
 

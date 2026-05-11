@@ -1,8 +1,8 @@
 package com.tfg.adapter.in.rest.exercisetemplate;
 
 import com.tfg.model.trainingsession.ExerciseTemplateFactory;
-import com.tfg.port.in.exercisetemplate.GetAllExerciseTemplatesUseCase;
-import com.tfg.trainingsession.ExerciseTemplate;
+import com.tfg.application.port.in.exercisetemplate.GetAllExerciseTemplatesUseCase;
+import com.tfg.model.trainingsession.ExerciseTemplate;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

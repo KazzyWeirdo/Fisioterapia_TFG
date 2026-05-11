@@ -1,7 +1,7 @@
 package com.tfg.adapter.out.persistence.patient;
 
-import com.tfg.patient.PatientGender;
-import com.tfg.patient.PatientSex;
+import com.tfg.model.patient.PatientGender;
+import com.tfg.model.patient.PatientSex;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -39,6 +39,8 @@ public interface PatientJpaDataRepository extends JpaRepository<PatientJpaEntity
     @Query("SELECT p FROM PatientJpaEntity p WHERE p.polarAccessToken IS NOT NULL")
     List<PatientJpaEntity> findAllWithPolarToken();
 
-    @Query("SELECT new com.tfg.adapter.out.persistence.patient.PatientSummaryJpaProjection(p.id, p.nameToUse, p.surname, p.secondSurname) FROM PatientJpaEntity p")
+    List<PatientJpaEntity> findByDischargeDateIsNotNull();
+
+    @Query("SELECT new com.tfg.adapter.out.persistence.patient.PatientSummaryJpaProjection(p.id, p.nameToUse, p.surname, p.secondSurname, p.pathology, p.functionalScore, p.dischargeDate) FROM PatientJpaEntity p")
     Page<PatientSummaryJpaProjection> findSummaries(Pageable pageable);
 }
