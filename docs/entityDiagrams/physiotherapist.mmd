@@ -6,7 +6,11 @@ erDiagram
     string password
     string name
     string surname
-    set_ERole roles
+  }
+
+  ROLE {
+    int id PK
+    string name
   }
 
   INDIBA_SESSION {
@@ -25,6 +29,7 @@ erDiagram
     datetime expiresAt
   }
 
+  PHYSIOTHERAPIST }o--o{ ROLE : "té"
   PHYSIOTHERAPIST ||--o{ INDIBA_SESSION : "realitza"
   PHYSIOTHERAPIST ||--o{ TRAINING_SESSION : "dirigeix"
   PHYSIOTHERAPIST ||--o| PASSWORD_RESET_TOKEN : "té"

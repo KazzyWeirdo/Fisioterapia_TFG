@@ -229,6 +229,12 @@
   }
 }
 
+@media (max-width: 768px) {
+  .page {
+    padding: 1.25rem;
+  }
+}
+
 @media (max-width: 640px) {
   .page {
     padding: 1rem;

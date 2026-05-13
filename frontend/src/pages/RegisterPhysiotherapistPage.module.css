@@ -203,6 +203,16 @@
   cursor: not-allowed;
 }
 
+@media (max-width: 768px) {
+  .page {
+    padding: 1.25rem;
+  }
+
+  .card {
+    padding: 1.5rem;
+  }
+}
+
 @media (max-width: 640px) {
   .page {
     padding: 1rem;

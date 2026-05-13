@@ -42,6 +42,15 @@
 .submitBtn:hover:not(:disabled) { background: #15306b; }
 .error { text-align: center; color: #dc2626; font-size: 0.875rem; }
 
+@media (max-width: 1024px) {
+  .row { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .page { padding: 1.25rem; }
+  .section { padding: 1.25rem; }
+}
+
 @media (max-width: 640px) {
   .page { padding: 1rem; }
   .row { grid-template-columns: 1fr; }
