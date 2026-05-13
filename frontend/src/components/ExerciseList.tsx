@@ -93,6 +93,7 @@ export default function ExerciseList({ exercises, onChange, readonlyNames = fals
             )}
           </div>
 
+          <div className={styles.tableWrapper}>
           <table className={styles.setsTable}>
             <thead>
               <tr>
@@ -106,33 +107,33 @@ export default function ExerciseList({ exercises, onChange, readonlyNames = fals
             </thead>
             <tbody>
               {ex.sets.map((set, sIdx) => (
-                <tr key={sIdx}>
+                <tr key={sIdx} className={styles.setRow}>
                   <td className={styles.setNum}>{String(sIdx + 1).padStart(2, '0')}</td>
-                  <td>
+                  <td className={styles.tdInput} data-label={t('training_col_weight')}>
                     <input type="number" min="0" step="0.5" className={styles.setInput}
                       value={set.weightKg}
                       onChange={e => updateSet(exIdx, sIdx, 'weightKg', e.target.value)}
                       required />
                   </td>
-                  <td>
+                  <td className={styles.tdInput} data-label={t('training_col_reps')}>
                     <input type="number" min="1" className={styles.setInput}
                       value={set.reps}
                       onChange={e => updateSet(exIdx, sIdx, 'reps', e.target.value)}
                       required />
                   </td>
-                  <td>
+                  <td className={styles.tdInput} data-label={t('training_col_rest')}>
                     <input type="number" min="0" className={styles.setInput}
                       value={set.restTimeSeconds}
                       onChange={e => updateSet(exIdx, sIdx, 'restTimeSeconds', e.target.value)}
                       required />
                   </td>
-                  <td className={styles.rpeCell}>
+                  <td className={`${styles.rpeCell} ${styles.tdRpe}`} data-label={t('template_col_rpe')}>
                     <input type="range" min="1" max="10" className={styles.rpeSlider}
                       value={set.rpe}
                       onChange={e => updateSet(exIdx, sIdx, 'rpe', Number(e.target.value))} />
                     <span className={styles.rpeValue}>{set.rpe}</span>
                   </td>
-                  <td>
+                  <td className={styles.tdAction}>
                     {ex.sets.length > 1 && (
                       <button type="button" className={styles.removeSetBtn}
                         onClick={() => removeSet(exIdx, sIdx)}>
@@ -144,6 +145,7 @@ export default function ExerciseList({ exercises, onChange, readonlyNames = fals
               ))}
             </tbody>
           </table>
+          </div>
 
           <button type="button" className={styles.addSetBtn} onClick={() => addSet(exIdx)}>
             {t('template_add_set')}

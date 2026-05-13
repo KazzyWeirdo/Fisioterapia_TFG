@@ -6,6 +6,8 @@ import { getIndibaSession, type IndibaSession } from '../services/indibaService'
 import { getPatient, type PatientDetail } from '../services/patientService'
 import { useLanguage } from '../contexts/LanguageContext'
 import styles from './IndibaDetailPage.module.css'
+import TabBar from '../components/TabBar'
+import Breadcrumb from '../components/Breadcrumb'
 
 function formatHeaderDate(raw: string, locale: string): string {
   return new Date(raw).toLocaleDateString(locale, {
@@ -69,38 +71,23 @@ export default function IndibaDetailPage() {
       {/* Header */}
       <div className={styles.header}>
         <div className={styles.headerLeft}>
-          <nav className={styles.breadcrumb}>
-            <button type="button" className={styles.breadcrumbLink} onClick={() => navigate('/patients')}>
-              {t('nav_patients')}
-            </button>
-            <span className={styles.breadcrumbSep}>›</span>
-            <button type="button" className={styles.breadcrumbLink} onClick={() => navigate(`/patients/${session.patiendId}`)}>
-              {patient
-                ? [patient.nameToUse, patient.surname, patient.secondSurname].filter(Boolean).join(' ')
-                : `Patient #${session.patiendId}`}
-            </button>
-            <span className={styles.breadcrumbSep}>›</span>
-            <span className={styles.breadcrumbCurrent}>{t('indiba_breadcrumb_current')}</span>
-          </nav>
+          <Breadcrumb items={[
+            { label: t('nav_patients'), onClick: () => navigate('/patients') },
+            { label: patient ? [patient.nameToUse, patient.surname, patient.secondSurname].filter(Boolean).join(' ') : `Patient #${session.patiendId}`, onClick: () => navigate(`/patients/${session.patiendId}`) },
+            { label: t('indiba_breadcrumb_current') },
+          ]} />
           <h1 className={styles.title}>{formatHeaderDate(session.beginSession, localeTag)}</h1>
           <p className={styles.sessionId}>{t('indiba_session_id_label')} {formatSessionId(session.id, session.beginSession)}</p>
         </div>
       </div>
 
       {/* Tab bar */}
-      <nav className={styles.tabBar} aria-label="Patient sections">
-        {TABS.map(({ label, tab }) => (
-          <button
-            key={tab}
-            type="button"
-            className={`${styles.tab} ${tab === 'indiba' ? styles.tabActive : ''}`}
-            onClick={() => navigate(`/patients/${session.patiendId}`, { state: { tab } })}
-          >
-            {label}
-          </button>
-        ))}
-      </nav>
-      <div className={styles.tabSeparator} />
+      <TabBar
+        tabs={TABS.map(({ label, tab }) => ({ id: tab, label }))}
+        activeTab="indiba"
+        onTabChange={tab => navigate(`/patients/${session.patiendId}`, { state: { tab } })}
+        ariaLabel="Patient sections"
+      />
 
       {/* Body */}
       <div className={styles.body}>

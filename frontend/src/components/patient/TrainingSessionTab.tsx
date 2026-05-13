@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDumbbell } from '@fortawesome/free-solid-svg-icons'
 import { getTrainingSessionsFromPatient } from '../../services/trainingSessionService'
@@ -24,7 +23,6 @@ function formatTime(raw: string, locale: string): string {
 }
 
 export default function TrainingSessionTab({ patientId, patientName }: TrainingSessionTabProps) {
-  const navigate = useNavigate()
   const { t, locale } = useLanguage()
   const localeTag = locale === 'es' ? 'es-ES' : 'en-US'
   const [sessions, setSessions] = useState<{ id: number; startDateTime: string; endDateTime: string; physiotherapistName: string; templateName: string | null }[]>([])
@@ -112,20 +110,11 @@ export default function TrainingSessionTab({ patientId, patientName }: TrainingS
             )}
             {!loading && !error && filtered.map(s => (
               <tr key={s.id}>
-                <td>
-                  <div>{formatDate(s.startDateTime, localeTag)}</div>
-                  <div className={styles.timeRange}>{formatTime(s.startDateTime, localeTag)}–{formatTime(s.endDateTime, localeTag)}</div>
-                </td>
+                <td>{formatDate(s.startDateTime, localeTag)}</td>
                 <td>{s.templateName ?? '—'}</td>
                 <td>{s.physiotherapistName}</td>
                 <td className={styles.actionsCell}>
-                  <button
-                    type="button"
-                    className={styles.viewLink}
-                    onClick={() => navigate(`/training-session/${s.id}`)}
-                  >
-                    {t('common_view_details')}
-                  </button>
+                  <a href={`/training-session/${s.id}`} className={styles.viewLink}>{t('common_view_details')}</a>
                 </td>
               </tr>
             ))}

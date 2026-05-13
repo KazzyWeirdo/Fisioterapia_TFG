@@ -7,6 +7,8 @@ import { getPniReport, type PniReport } from '../services/pniReportService'
 import { getPatient, type PatientDetail } from '../services/patientService'
 import { useLanguage } from '../contexts/LanguageContext'
 import styles from './PniReportDetailPage.module.css'
+import TabBar from '../components/TabBar'
+import Breadcrumb from '../components/Breadcrumb'
 
 function formatDate(raw: string, locale: string): string {
   return new Date(raw + 'T00:00:00').toLocaleDateString(locale, {
@@ -63,17 +65,11 @@ export default function PniReportDetailPage() {
       {/* Header */}
       <div className={styles.header}>
         <div className={styles.headerLeft}>
-          <nav className={styles.breadcrumb}>
-            <button type="button" className={styles.breadcrumbLink} onClick={() => navigate('/patients')}>
-              {t('nav_patients')}
-            </button>
-            <span className={styles.breadcrumbSep}>›</span>
-            <button type="button" className={styles.breadcrumbLink} onClick={() => navigate(`/patients/${report.patientId}`)}>
-              {patientName}
-            </button>
-            <span className={styles.breadcrumbSep}>›</span>
-            <span className={styles.breadcrumbCurrent}>{t('pni_breadcrumb_current')}</span>
-          </nav>
+          <Breadcrumb items={[
+            { label: t('nav_patients'), onClick: () => navigate('/patients') },
+            { label: patientName, onClick: () => navigate(`/patients/${report.patientId}`) },
+            { label: t('pni_breadcrumb_current') },
+          ]} />
           <h1 className={styles.title}>{formatDate(report.reportDate, localeTag)}</h1>
           <p className={styles.subtitle}>
             {t('pni_assessment_subtitle')} {patientName}
@@ -82,19 +78,12 @@ export default function PniReportDetailPage() {
       </div>
 
       {/* Tab bar */}
-      <nav className={styles.tabBar} aria-label="Patient sections">
-        {TABS.map(({ label, tab }) => (
-          <button
-            key={tab}
-            type="button"
-            className={`${styles.tab} ${tab === 'pni' ? styles.tabActive : ''}`}
-            onClick={() => navigate(`/patients/${report.patientId}`, { state: { tab } })}
-          >
-            {label}
-          </button>
-        ))}
-      </nav>
-      <div className={styles.tabSeparator} />
+      <TabBar
+        tabs={TABS.map(({ label, tab }) => ({ id: tab, label }))}
+        activeTab="pni"
+        onTabChange={tab => navigate(`/patients/${report.patientId}`, { state: { tab } })}
+        ariaLabel="Patient sections"
+      />
 
       {/* Top row */}
       <div className={styles.topRow}>

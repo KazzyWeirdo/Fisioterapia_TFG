@@ -5,6 +5,7 @@ import { faXmark, faUserPlus } from '@fortawesome/free-solid-svg-icons'
 import { registerPhysiotherapist } from '../services/physiotherapistService'
 import { useLanguage } from '../contexts/LanguageContext'
 import styles from './RegisterPhysiotherapistPage.module.css'
+import PageTitle from '../components/PageTitle'
 
 interface RegisterPhysiotherapistForm {
   firstName: string
@@ -63,10 +64,9 @@ export default function RegisterPhysiotherapistPage() {
   return (
     <div className={styles.page}>
       <p className={styles.adminLabel}>{t('reg_physio_admin_label')}</p>
-      <h1 className={styles.title}>{t('register_physio_title')}</h1>
-      <p className={styles.subtitle}>{t('reg_physio_subtitle')}</p>
+      <PageTitle title={t('register_physio_title')} subtitle={t('reg_physio_subtitle')} />
 
-      <form aria-label="Register physiotherapist" onSubmit={handleSubmit}>
+      <form aria-label="Register physiotherapist" onSubmit={handleSubmit} className={styles.form}>
 
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>{t('reg_physio_section_personal')}</h2>

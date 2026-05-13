@@ -5,6 +5,7 @@ import { faIdCard, faAddressCard, faUsers, faHeart, faUser } from '@fortawesome/
 import { createPatient } from '../services/patientService'
 import { useLanguage } from '../contexts/LanguageContext'
 import styles from './RegisterPatientPage.module.css'
+import PageTitle from '../components/PageTitle'
 
 interface RegisterPatientForm {
   legalName: string
@@ -77,8 +78,7 @@ export default function RegisterPatientPage() {
 
   return (
     <div className={styles.page}>
-      <h1 className={styles.title}>{t('register_patient_title')}</h1>
-      <p className={styles.subtitle}>{t('reg_patient_subtitle')}</p>
+      <PageTitle title={t('register_patient_title')} subtitle={t('reg_patient_subtitle')} />
 
       <div className={styles.layout}>
         <form

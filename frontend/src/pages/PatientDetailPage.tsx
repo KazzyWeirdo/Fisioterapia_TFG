@@ -10,6 +10,8 @@ import IndibaSessionTab from '../components/patient/IndibaSessionTab'
 import PniReportTab from '../components/patient/PniReportTab'
 import StatisticsTab from '../components/patient/StatisticsTab'
 import styles from './PatientDetailPage.module.css'
+import TabBar from '../components/TabBar'
+import Breadcrumb from '../components/Breadcrumb'
 
 type Tab = 'overview' | 'training' | 'indiba' | 'pni' | 'statistics'
 
@@ -55,34 +57,21 @@ export default function PatientDetailPage() {
 
   return (
     <div className={styles.page}>
-      <nav className={styles.breadcrumb}>
-        <button type="button" className={styles.breadcrumbLink} onClick={() => navigate('/patients')}>
-          {t('nav_patients')}
-        </button>
-        <span className={styles.breadcrumbSep}>›</span>
-        <span className={styles.breadcrumbCurrent}>
-          {[patient.nameToUse, patient.surname, patient.secondSurname].filter(Boolean).join(' ')}
-        </span>
-      </nav>
+      <Breadcrumb items={[
+        { label: t('nav_patients'), onClick: () => navigate('/patients') },
+        { label: [patient.nameToUse, patient.surname, patient.secondSurname].filter(Boolean).join(' ') },
+      ]} />
 
       <h1 className={styles.heading}>
         {[patient.nameToUse, patient.surname, patient.secondSurname].filter(Boolean).join(' ')}
       </h1>
 
-      <nav role="tablist" className={styles.tabBar} aria-label="Patient sections">
-        {TABS.map((tab) => (
-          <button
-            key={tab.id}
-            role="tab"
-            aria-selected={activeTab === tab.id}
-            className={`${styles.tab} ${activeTab === tab.id ? styles.tabActive : ''}`}
-            onClick={() => setActiveTab(tab.id)}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </nav>
-      <div className={styles.tabSeparator} />
+      <TabBar
+        tabs={TABS.map(tab => ({ id: tab.id, label: tab.label }))}
+        activeTab={activeTab}
+        onTabChange={id => setActiveTab(id as Tab)}
+        ariaLabel="Patient sections"
+      />
 
       <div className={styles.content}>
         {activeTab === 'overview' && <PatientInfoCard patient={patient} onPatientUpdated={p => setPatient(p)} isAdmin={isAdmin} onPatientDeleted={() => navigate('/patients')} />}

@@ -2,18 +2,6 @@
   padding: 2rem;
 }
 
-.title {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: #111827;
-  margin: 0 0 0.4rem;
-}
-
-.subtitle {
-  font-size: 0.875rem;
-  color: #6b7280;
-  margin: 0 0 2rem;
-}
 
 .layout {
   display: flex;

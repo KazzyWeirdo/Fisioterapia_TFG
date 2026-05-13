@@ -14,6 +14,7 @@ import { getAllPniForExport, type PniExport } from '../services/pniReportService
 import { getAllTrainingForExport, type TrainingSetExport } from '../services/trainingSessionService'
 import { downloadCsv } from '../utils/csvUtils'
 import styles from './PatientsPage.module.css'
+import PageTitle from '../components/PageTitle'
 
 const PAGE_SIZE = 10
 
@@ -97,8 +98,7 @@ export default function PatientsPage() {
 
   return (
     <div className={styles.page}>
-      <h1 className={styles.title}>{t('patients_title')}</h1>
-      <p className={styles.subtitle}>{t('patients_page_subtitle')}</p>
+      <PageTitle title={t('patients_title')} subtitle={t('patients_page_subtitle')} />
 
       <div className={styles.statCard}>
         <div className={styles.statLabel}>{t('patients_stat_active')}</div>

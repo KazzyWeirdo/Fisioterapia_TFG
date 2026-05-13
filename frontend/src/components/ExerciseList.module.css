@@ -26,9 +26,69 @@
 
 @media (max-width: 640px) {
   .exerciseCard { padding: 1rem; }
-  .exerciseCardHeader { flex-direction: column; align-items: stretch; gap: 0.5rem; }
-  .exerciseCardHeaderLeft { margin-right: 0; }
-  .setsTable thead th,
-  .setsTable tbody td { padding: 0.4rem 0.35rem; }
-  .setInput { width: 60px; }
+  .exerciseCardHeader { flex-direction: row; align-items: flex-end; gap: 0.5rem; }
+  .exerciseCardHeaderLeft { margin-right: 0; flex: 1; min-width: 0; }
+
+  .tableWrapper { width: 100%; }
+
+  /* Convert each row to a flex wrap layout */
+  .setsTable thead { display: none; }
+  .setsTable, .setsTable tbody { display: block; width: 100%; }
+
+  .setRow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem 0.5rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #f3f4f6;
+  }
+  .setRow:last-child { border-bottom: none; }
+
+  .setsTable tbody td { display: block; padding: 0; border: none; vertical-align: middle; }
+
+  /* Set number: small, auto width */
+  .setNum { min-width: 1.5rem; flex-shrink: 0; }
+
+  /* Inputs: shrink equally, label above via ::before */
+  .tdInput {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex !important;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  .tdInput::before {
+    content: attr(data-label);
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .tdInput .setInput { width: 100%; box-sizing: border-box; }
+
+  /* Delete button */
+  .tdAction { flex-shrink: 0; }
+
+  /* RPE: full width on its own line */
+  /* Uses flex-wrap so ::before (label) takes first row, slider+value share second row */
+  .tdRpe {
+    flex: 0 0 100%;
+    display: flex !important;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.2rem 0.5rem;
+    padding: 0.25rem 0 !important;
+  }
+  .tdRpe::before {
+    content: attr(data-label);
+    flex: 0 0 100%;
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .tdRpe .rpeSlider { flex: 1; }
 }

@@ -146,6 +146,20 @@
 
 .chart { width: 100%; overflow: visible; }
 
+@media (max-width: 640px) {
+  .panels {
+    grid-template-columns: 1fr;
+  }
+
+  .ratioCard {
+    order: 1;
+  }
+
+  .workloadCard {
+    order: 2;
+  }
+}
+
 .chartState {
   font-size: 0.875rem;
   color: #9ca3af;

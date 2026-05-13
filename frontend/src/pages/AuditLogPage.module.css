@@ -8,20 +8,6 @@
   margin-bottom: 28px;
 }
 
-.title {
-  font-size: 32px;
-  font-weight: 800;
-  color: #0f172a;
-  margin: 0 0 10px 0;
-}
-
-.subtitle {
-  font-size: 14px;
-  color: #6b7280;
-  margin: 0;
-  line-height: 1.6;
-  max-width: 560px;
-}
 
 .statCardWrap {
   display: flex;
@@ -354,18 +340,11 @@
     padding: 1.5rem;
   }
 
-  .title {
-    font-size: 1.5rem;
-  }
 }
 
 @media (max-width: 640px) {
   .page {
     padding: 1rem;
-  }
-
-  .title {
-    font-size: 1.75rem;
   }
 
   .statCard {

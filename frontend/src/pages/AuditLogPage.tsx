@@ -4,6 +4,7 @@ import { faClipboardList } from '@fortawesome/free-solid-svg-icons'
 import { getAuditLogs, type AuditLogSummary } from '../services/auditLogService'
 import { useLanguage } from '../contexts/LanguageContext'
 import styles from './AuditLogPage.module.css'
+import PageTitle from '../components/PageTitle'
 
 const PAGE_SIZE = 10
 
@@ -101,8 +102,7 @@ export default function AuditLogPage() {
   return (
     <div className={styles.page}>
       <div className={styles.titleArea}>
-        <h1 className={styles.title}>{t('audit_title')}</h1>
-        <p className={styles.subtitle}>{t('audit_subtitle')}</p>
+        <PageTitle title={t('audit_title')} subtitle={t('audit_subtitle')} />
       </div>
 
       <div className={styles.statCardWrap}>

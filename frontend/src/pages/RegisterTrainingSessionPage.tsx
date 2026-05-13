@@ -9,6 +9,7 @@ import { decodeJwtPayload } from '../utils/jwt'
 import { useLanguage } from '../contexts/LanguageContext'
 import ExerciseList, { type ExerciseDraft } from '../components/ExerciseList'
 import styles from './RegisterTrainingSessionPage.module.css'
+import PageTitle from '../components/PageTitle'
 
 export default function RegisterTrainingSessionPage() {
   const { t } = useLanguage()
@@ -106,8 +107,7 @@ export default function RegisterTrainingSessionPage() {
     <form className={styles.page} onSubmit={handleSubmit}>
 
       <div>
-        <h1 className={styles.heading}>{t('training_register_title')}</h1>
-        <p className={styles.subtitle}>{t('training_register_subtitle')}</p>
+        <PageTitle title={t('training_register_title')} subtitle={t('training_register_subtitle')} />
       </div>
 
       <div className={styles.section}>

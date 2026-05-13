@@ -6,6 +6,7 @@ import { createExerciseTemplate } from '../services/exerciseTemplateService'
 import { useLanguage } from '../contexts/LanguageContext'
 import ExerciseList, { type ExerciseDraft, type SetDraft } from '../components/ExerciseList'
 import styles from './CreateExerciseTemplatePage.module.css'
+import PageTitle from '../components/PageTitle'
 
 function newSet(): SetDraft {
   return { weightKg: '', reps: '', restTimeSeconds: '', rpe: 7 }
@@ -56,8 +57,7 @@ export default function CreateExerciseTemplatePage() {
     <form className={styles.page} onSubmit={handleSubmit}>
 
       <div>
-        <h1 className={styles.heading}>{t('template_register_title')}</h1>
-        <p className={styles.subtitle}>{t('template_register_subtitle')}</p>
+        <PageTitle title={t('template_register_title')} subtitle={t('template_register_subtitle')} />
       </div>
 
       <div className={styles.section}>

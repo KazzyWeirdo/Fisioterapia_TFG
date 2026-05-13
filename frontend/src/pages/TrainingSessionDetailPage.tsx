@@ -6,6 +6,8 @@ import { getTrainingSession, type TrainingSessionDetail } from '../services/trai
 import { getPatient, type PatientDetail } from '../services/patientService'
 import { useLanguage } from '../contexts/LanguageContext'
 import styles from './TrainingSessionDetailPage.module.css'
+import TabBar from '../components/TabBar'
+import Breadcrumb from '../components/Breadcrumb'
 
 function formatDate(raw: string, locale: string): string {
   return new Date(raw).toLocaleDateString(locale, {
@@ -79,21 +81,11 @@ export default function TrainingSessionDetailPage() {
 
       <div className={styles.header}>
         <div className={styles.headerLeft}>
-          <nav className={styles.breadcrumb}>
-            <button type="button" className={styles.breadcrumbLink} onClick={() => navigate('/patients')}>
-              {t('nav_patients')}
-            </button>
-            <span className={styles.breadcrumbSep}>›</span>
-            <button
-              type="button"
-              className={styles.breadcrumbLink}
-              onClick={() => navigate(`/patients/${session.patientId}`, { state: { tab: 'training' } })}
-            >
-              {patientName}
-            </button>
-            <span className={styles.breadcrumbSep}>›</span>
-            <span className={styles.breadcrumbCurrent}>{t('training_breadcrumb_current')}</span>
-          </nav>
+          <Breadcrumb items={[
+            { label: t('nav_patients'), onClick: () => navigate('/patients') },
+            { label: patientName, onClick: () => navigate(`/patients/${session.patientId}`, { state: { tab: 'training' } }) },
+            { label: t('training_breadcrumb_current') },
+          ]} />
           <h1 className={styles.title}>
             {formatDate(session.startDateTime, localeTag)} · {formatTime(session.startDateTime, localeTag)}–{formatTime(session.endDateTime, localeTag)}
           </h1>
@@ -101,19 +93,12 @@ export default function TrainingSessionDetailPage() {
         </div>
       </div>
 
-      <nav className={styles.tabBar} aria-label="Patient sections">
-        {TABS.map(({ label, tab }) => (
-          <button
-            key={tab}
-            type="button"
-            className={`${styles.tab} ${tab === 'training' ? styles.tabActive : ''}`}
-            onClick={() => navigate(`/patients/${session.patientId}`, { state: { tab } })}
-          >
-            {label}
-          </button>
-        ))}
-      </nav>
-      <div className={styles.tabSeparator} />
+      <TabBar
+        tabs={TABS.map(({ label, tab }) => ({ id: tab, label }))}
+        activeTab="training"
+        onTabChange={tab => navigate(`/patients/${session.patientId}`, { state: { tab } })}
+        ariaLabel="Patient sections"
+      />
 
       <div className={styles.statsCard}>
         <div className={styles.stat}>

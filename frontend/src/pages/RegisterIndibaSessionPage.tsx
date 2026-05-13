@@ -8,6 +8,7 @@ import { createIndibaSession } from '../services/indibaService'
 import type { PhysiotherapistSummary } from '../services/physiotherapistService'
 import { getPatients, type PatientSummary } from '../services/patientService'
 import styles from './RegisterIndibaSessionPage.module.css'
+import PageTitle from '../components/PageTitle'
 
 function parseTokenPayload(token: string): { sub: string; name: string; surname: string } {
   const base64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')
@@ -82,8 +83,7 @@ export default function RegisterIndibaSessionPage() {
     <form className={styles.page} onSubmit={handleSubmit}>
 
       <div>
-        <h1 className={styles.heading}>{t('indiba_register_title')}</h1>
-        <p className={styles.subtitle}>{t('indiba_register_subtitle')}</p>
+        <PageTitle title={t('indiba_register_title')} subtitle={t('indiba_register_subtitle')} />
       </div>
 
       {/* SESSION TIMING */}
