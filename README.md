@@ -1,6 +1,6 @@
 # Bones pràctiques en enginyeria de software: DDD, TDD, Clean/Hexagonal, CI/CD
 
-## 📖 Table of contents
+## Table of contents
 
 - [Context](context)
 - [Project Structure](project_structure)
@@ -13,7 +13,7 @@
 - [Domain Concepts](domain_concepts)
 - [Test Coverage](test_coverage)
 
-## 📓 Context
+## Context
 
 Aquest Treball de Fi de Grau (TFG) tracta sobre el disseny i la creació d’un sistema per a professionals de la fisioteràpia que permet registrar de manera digital i centralitzada els tractaments de rehabilitació a llarg termini, usant la tendinopatia crònica com a exemple.
 
@@ -29,7 +29,7 @@ A més de la funcionalitat en salut, aquest TFG es basa en l'ús d'un conjunt d'
 - Principis SOLID: Per garantir un disseny de codi net i flexible.
 - CI/CD: Per establir un flux de treball automatitzat d'integració i desplegament.
 
-## 🏠 Project structure
+## Project structure
 
 ```
 DanielBarbancho_TFG/
