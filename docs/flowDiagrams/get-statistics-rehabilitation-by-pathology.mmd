@@ -1,0 +1,26 @@
+sequenceDiagram
+  actor Client
+  participant JWTFilter
+  participant GetPathologyRehabilitationStatsController
+  participant GetPathologyRehabilitationStatsService
+  participant PatientRepository
+
+  Client->>JWTFilter: GET /statistics/rehabilitation-by-pathology + Bearer token
+  JWTFilter->>JWTFilter: validateToken()
+  alt Token invàlid
+    JWTFilter-->>Client: 401 Unauthorized
+  else Token vàlid
+    JWTFilter->>GetPathologyRehabilitationStatsController: forward request
+    GetPathologyRehabilitationStatsController->>GetPathologyRehabilitationStatsService: getPathologyRehabilitationStats()
+    GetPathologyRehabilitationStatsService->>PatientRepository: findAllDischarged()
+    PatientRepository-->>GetPathologyRehabilitationStatsService: List[Patient]
+    alt Sense pacients donats d'alta
+      GetPathologyRehabilitationStatsService-->>GetPathologyRehabilitationStatsController: List[] (buit)
+    else Amb pacients donats d'alta
+      GetPathologyRehabilitationStatsService->>GetPathologyRehabilitationStatsService: agrupar per pathology
+      GetPathologyRehabilitationStatsService->>GetPathologyRehabilitationStatsService: calcular avgDays (registrationDate → dischargeDate)
+      GetPathologyRehabilitationStatsService->>GetPathologyRehabilitationStatsService: ordenar alfabèticament per pathology
+      GetPathologyRehabilitationStatsService-->>GetPathologyRehabilitationStatsController: List[PathologyRehabilitationStats]
+    end
+    GetPathologyRehabilitationStatsController-->>Client: 200 OK [PathologyRehabilitationStatsWebModel]
+  end

@@ -1,12 +1,11 @@
 package com.tfg.adapter.out.persistence.passwordresettoken;
 
 import com.tfg.model.physiotherapist.PhysiotherapistFactory;
-import com.tfg.passwordresettoken.PasswordResetToken;
-import com.tfg.physiotherapist.Physiotherapist;
-import com.tfg.port.out.persistence.PasswordResetTokenRepository;
-import com.tfg.port.out.persistence.PhysiotherapistRepository;
+import com.tfg.model.passwordresettoken.PasswordResetToken;
+import com.tfg.model.physiotherapist.Physiotherapist;
+import com.tfg.application.port.out.persistence.PasswordResetTokenRepository;
+import com.tfg.application.port.out.persistence.PhysiotherapistRepository;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import com.tfg.adapter.out.persistence.BaseRepositoryIT;
 import org.springframework.beans.factory.annotation.Autowired;

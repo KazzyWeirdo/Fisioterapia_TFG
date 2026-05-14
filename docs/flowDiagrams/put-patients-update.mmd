@@ -1,0 +1,43 @@
+sequenceDiagram
+  actor Client
+  participant JWTFilter
+  participant UpdatePatientController
+  participant UpdatePatientService
+  participant PatientRepository
+
+  Client->>JWTFilter: PUT /patients/{patientId} {PatientCreationModel} + Bearer token
+  JWTFilter->>JWTFilter: validateToken()
+  alt Token invàlid
+    JWTFilter-->>Client: 401 Unauthorized
+  else Token vàlid
+    JWTFilter->>UpdatePatientController: forward request
+    UpdatePatientController->>UpdatePatientService: updatePatient(patientId, patient)
+    UpdatePatientService->>PatientRepository: findById(patientId)
+    alt Pacient no trobat
+      PatientRepository-->>UpdatePatientService: Optional.empty()
+      UpdatePatientService-->>UpdatePatientController: throw InvalidIdException
+      UpdatePatientController-->>Client: 404 Not Found
+    else Pacient trobat
+      PatientRepository-->>UpdatePatientService: Optional[existingPatient]
+      UpdatePatientService->>PatientRepository: findByEmail(newEmail)
+      alt Email en ús per un altre pacient
+        PatientRepository-->>UpdatePatientService: Optional[otherPatient]
+        UpdatePatientService-->>UpdatePatientController: throw DuplicateEmailException
+        UpdatePatientController-->>Client: 409 Conflict
+      else Email lliure
+        PatientRepository-->>UpdatePatientService: Optional.empty()
+        UpdatePatientService->>PatientRepository: findByDni(newDni)
+        alt DNI en ús per un altre pacient
+          PatientRepository-->>UpdatePatientService: Optional[otherPatient]
+          UpdatePatientService-->>UpdatePatientController: throw DuplicateDniException
+          UpdatePatientController-->>Client: 409 Conflict
+        else DNI lliure
+          PatientRepository-->>UpdatePatientService: Optional.empty()
+          UpdatePatientService->>PatientRepository: update(patient)
+          PatientRepository-->>UpdatePatientService: updated
+          UpdatePatientService-->>UpdatePatientController: void
+          UpdatePatientController-->>Client: 200 OK
+        end
+      end
+    end
+  end

@@ -5,6 +5,9 @@ export interface PatientSummary {
   name: string
   surname: string
   secondSurname: string
+  pathology: string | null
+  functionalScore: number | null
+  dischargeDate: string | null
 }
 
 export interface PatientsPage {
@@ -46,6 +49,10 @@ export interface PatientDetail {
   phoneNumber: number
   dateOfBirth: string
   hasPolarConnection: boolean
+  pathology: string | null
+  registrationDate: string | null
+  functionalScore: number | null
+  dischargeDate: string | null
 }
 
 export async function getPatient(id: number): Promise<PatientDetail> {
@@ -66,6 +73,7 @@ export interface CreatePatientRequest {
   genderIdentity: string
   clinicalUseSex: string
   administrativeSex: string
+  pathology?: string
 }
 
 export async function createPatient(data: CreatePatientRequest): Promise<void> {
@@ -76,13 +84,26 @@ export async function updatePatient(id: number, data: CreatePatientRequest): Pro
   await apiClient.put(`/patients/${id}`, data)
 }
 
+export async function updateFunctionalScore(patientId: number, score: number): Promise<void> {
+  await apiClient.patch(`/patients/${patientId}/functional-score`, { score })
+}
+
+export async function dischargePatient(patientId: number): Promise<void> {
+  await apiClient.patch(`/patients/${patientId}/discharge`)
+}
+
 export interface PatientExport {
   id: number
   dateOfBirth: string
   clinicalUseSex: string
+  pathology: string | null
 }
 
 export async function getAllPatientsForExport(): Promise<PatientExport[]> {
   const response = await apiClient.get<PatientExport[]>('/patients/export')
   return response.data ?? []
+}
+
+export async function deletePatient(id: number): Promise<void> {
+  await apiClient.delete(`/patients/${id}`)
 }

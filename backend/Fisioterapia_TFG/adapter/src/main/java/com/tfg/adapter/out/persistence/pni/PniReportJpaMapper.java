@@ -2,10 +2,12 @@ package com.tfg.adapter.out.persistence.pni;
 
 import com.tfg.adapter.out.persistence.patient.PatientJpaEntity;
 import com.tfg.adapter.out.persistence.patient.PatientJpaMapper;
+import com.tfg.model.pni.PniReport;
+import com.tfg.model.pni.PniReportId;
 
 public class PniReportJpaMapper {
 
-    public static PniReportJpaEntity toJpaEntity(com.tfg.pni.PniReport pniReport, PatientJpaEntity patientJpaEntity) {
+    public static PniReportJpaEntity toJpaEntity(PniReport pniReport, PatientJpaEntity patientJpaEntity) {
         PniReportJpaEntity entity = new PniReportJpaEntity();
         entity.setId(pniReport.getId().value());
         entity.setPatient(patientJpaEntity);
@@ -17,9 +19,9 @@ public class PniReportJpaMapper {
         return entity;
     }
 
-    public static com.tfg.pni.PniReport toModelEntity(PniReportJpaEntity entity) {
-        return new com.tfg.pni.PniReport(
-                new com.tfg.pni.PniReportId(entity.getId()),
+    public static PniReport toModelEntity(PniReportJpaEntity entity) {
+        return new PniReport(
+                new PniReportId(entity.getId()),
                 PatientJpaMapper.toModelEntity(entity.getPatient()),
                 entity.getReportDate(),
                 entity.getHoursAsleep(),

@@ -1,5 +1,7 @@
 package com.tfg.adapter.in.rest.pni;
 
+import com.tfg.model.pni.PniReport;
+
 import java.time.LocalDate;
 
 public record PniReportWebModel(
@@ -11,7 +13,7 @@ public record PniReportWebModel(
         int stress,
         int ntrs
 ) {
-    static PniReportWebModel fromDomainModel(com.tfg.pni.PniReport pniReport) {
+    static PniReportWebModel fromDomainModel(PniReport pniReport) {
         return new PniReportWebModel(
                 pniReport.getId().value(),
                 pniReport.getPatient().getId().value(),

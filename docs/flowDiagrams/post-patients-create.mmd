@@ -1,0 +1,35 @@
+sequenceDiagram
+  actor Client
+  participant JWTFilter
+  participant CreatePatientController
+  participant CreatePatientService
+  participant PatientRepository
+
+  Client->>JWTFilter: POST /patients/create + Bearer token
+  JWTFilter->>JWTFilter: validateToken()
+  alt Token invàlid
+    JWTFilter-->>Client: 401 Unauthorized
+  else Token vàlid
+    JWTFilter->>CreatePatientController: forward request {PatientCreationModel}
+    CreatePatientController->>CreatePatientService: createPatient(patient)
+    CreatePatientService->>PatientRepository: findByEmail(email)
+    alt Email ja existeix
+      PatientRepository-->>CreatePatientService: Optional[patient]
+      CreatePatientService-->>CreatePatientController: throw DuplicateEmailException
+      CreatePatientController-->>Client: 409 Conflict
+    else Email lliure
+      PatientRepository-->>CreatePatientService: Optional.empty()
+      CreatePatientService->>PatientRepository: findByDni(dni)
+      alt DNI ja existeix
+        PatientRepository-->>CreatePatientService: Optional[patient]
+        CreatePatientService-->>CreatePatientController: throw DuplicateDniException
+        CreatePatientController-->>Client: 409 Conflict
+      else DNI lliure
+        PatientRepository-->>CreatePatientService: Optional.empty()
+        CreatePatientService->>PatientRepository: save(patient)
+        PatientRepository-->>CreatePatientService: saved
+        CreatePatientService-->>CreatePatientController: void
+        CreatePatientController-->>Client: 200 OK
+      end
+    end
+  end

@@ -1,0 +1,27 @@
+sequenceDiagram
+  participant Scheduler
+  participant SyncPolarDataService
+  participant PatientRepository
+  participant PolarRepository
+  participant PolarAPI
+  participant PniReportRepository
+
+  Scheduler->>SyncPolarDataService: syncPolarData() [scheduled task]
+  SyncPolarDataService->>PatientRepository: findAllWithPolarToken()
+  PatientRepository-->>SyncPolarDataService: List[Patient with polarAccessToken]
+  loop Per cada pacient amb token Polar
+    SyncPolarDataService->>PolarRepository: getDailyData(polarUserId, accessToken)
+    PolarRepository->>PolarAPI: GET /v3/users/{polarUserId}/activity-transactions
+    PolarAPI-->>PolarRepository: dailyActivityData
+    PolarRepository-->>SyncPolarDataService: List[DailyData{hoursAsleep, hrv, ansCharge, sleepScore}]
+    alt Error en la crida
+      PolarAPI-->>PolarRepository: Exception
+      Note over SyncPolarDataService: Excepció capturada, continua amb el seguent pacient
+    else Dades rebudes
+      loop Per cada registre diari
+        SyncPolarDataService->>PniReportRepository: save(PniReport{patientId, date, data})
+        PniReportRepository-->>SyncPolarDataService: saved
+      end
+    end
+  end
+  SyncPolarDataService-->>Scheduler: sync completed

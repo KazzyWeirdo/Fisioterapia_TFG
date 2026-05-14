@@ -1,11 +1,9 @@
 package com.tfg.model.indiba;
 
-import com.tfg.indiba.IndibaSession;
-import com.tfg.indiba.IndibaSessionModes;
 import com.tfg.model.patient.PatientFactory;
 import com.tfg.model.physiotherapist.PhysiotherapistFactory;
-import com.tfg.patient.Patient;
-import com.tfg.physiotherapist.Physiotherapist;
+import com.tfg.model.patient.Patient;
+import com.tfg.model.physiotherapist.Physiotherapist;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
@@ -34,7 +32,7 @@ public class IndibaSessionTest {
         assertThat(indibaSession.getTreatedArea()).isEqualTo(INDIBA_SESSION.getTreatedArea());
         assertThat(indibaSession.getMode()).isEqualTo(INDIBA_SESSION.getMode());
         assertThat(indibaSession.getCapacitiveIntensity()).isEqualTo(INDIBA_SESSION.getCapacitiveIntensity());
-        assertThat(indibaSession.getObjective()).isEqualTo(INDIBA_SESSION.getObjective());
+        assertThat(indibaSession.getPhysiotherapist()).isEqualTo(INDIBA_SESSION.getPhysiotherapist());
         assertThat(indibaSession.getPhysiotherapist()).isEqualTo(INDIBA_SESSION.getPhysiotherapist());
         assertThat(indibaSession.getObservations()).isEqualTo(INDIBA_SESSION.getObservations());
     }
@@ -44,7 +42,7 @@ public class IndibaSessionTest {
         assertThatThrownBy(() -> new IndibaSession(
                 TEST_PATIENT, new Date("2023/01/01"), new Date("2023/01/02"),
                 "Lower Back", IndibaSessionModes.DUAL, -1.0f, 5.0f,
-                "Objective", TEST_PHYSIOTHERAPIST, null))
+                TEST_PHYSIOTHERAPIST, null))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -53,7 +51,7 @@ public class IndibaSessionTest {
         assertThatThrownBy(() -> new IndibaSession(
                 TEST_PATIENT, new Date("2023/01/01"), new Date("2023/01/02"),
                 "Lower Back", IndibaSessionModes.DUAL, 5.0f, -1.0f,
-                "Objective", TEST_PHYSIOTHERAPIST, null))
+                TEST_PHYSIOTHERAPIST, null))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -62,7 +60,7 @@ public class IndibaSessionTest {
         IndibaSession session = new IndibaSession(
                 TEST_PATIENT, new Date("2023/01/01"), new Date("2023/01/02"),
                 "Lower Back", IndibaSessionModes.CAPACITIVE, 5.0f, 0.0f,
-                "Objective", TEST_PHYSIOTHERAPIST, null);
+                TEST_PHYSIOTHERAPIST, null);
         assertThat(session.getCapacitiveIntensity()).isEqualTo(5.0f);
     }
 
@@ -71,7 +69,7 @@ public class IndibaSessionTest {
         IndibaSession session = new IndibaSession(
                 TEST_PATIENT, new Date("2023/01/01"), new Date("2023/01/02"),
                 "Lower Back", IndibaSessionModes.RESISTIVE, 0.0f, 5.0f,
-                "Objective", TEST_PHYSIOTHERAPIST, null);
+                TEST_PHYSIOTHERAPIST, null);
         assertThat(session.getResistiveIntensity()).isEqualTo(5.0f);
     }
 }

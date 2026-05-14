@@ -118,7 +118,7 @@ export default function PniReportTab({ patientId, patientName }: PniReportTabPro
           <div className={styles.pagination}>
             <button
               type="button"
-              className={styles.pageBtn}
+              className="btn btn-outline-secondary btn-sm"
               disabled={currentPage === 0}
               onClick={() => goToPage(currentPage - 1)}
               aria-label="Previous page"
@@ -127,7 +127,7 @@ export default function PniReportTab({ patientId, patientName }: PniReportTabPro
               <button
                 key={n}
                 type="button"
-                className={`${styles.pageBtn} ${n === currentPage ? styles.pageBtnActive : ''}`}
+                className={n === currentPage ? 'btn btn-secondary btn-sm' : 'btn btn-outline-secondary btn-sm'}
                 onClick={() => goToPage(n)}
                 aria-label={`Page ${n + 1}`}
                 aria-current={n === currentPage ? 'true' : undefined}
@@ -135,7 +135,7 @@ export default function PniReportTab({ patientId, patientName }: PniReportTabPro
             ))}
             <button
               type="button"
-              className={styles.pageBtn}
+              className="btn btn-outline-secondary btn-sm"
               disabled={currentPage >= totalPages - 1}
               onClick={() => goToPage(currentPage + 1)}
               aria-label="Next page"

@@ -1,0 +1,25 @@
+sequenceDiagram
+  actor Client
+  participant JWTFilter
+  participant GetPniReportController
+  participant GetPniReportService
+  participant PniReportRepository
+
+  Client->>JWTFilter: GET /pni/report/{reportId} + Bearer token
+  JWTFilter->>JWTFilter: validateToken()
+  alt Token invàlid
+    JWTFilter-->>Client: 401 Unauthorized
+  else Token vàlid
+    JWTFilter->>GetPniReportController: forward request
+    GetPniReportController->>GetPniReportService: getPniReport(reportId)
+    GetPniReportService->>PniReportRepository: findById(reportId)
+    alt Report no trobat
+      PniReportRepository-->>GetPniReportService: Optional.empty()
+      GetPniReportService-->>GetPniReportController: throw InvalidIdException
+      GetPniReportController-->>Client: 404 Not Found
+    else Report trobat
+      PniReportRepository-->>GetPniReportService: Optional[pniReport]
+      GetPniReportService-->>GetPniReportController: pniReport
+      GetPniReportController-->>Client: 200 OK {PniReportWebModel}
+    end
+  end

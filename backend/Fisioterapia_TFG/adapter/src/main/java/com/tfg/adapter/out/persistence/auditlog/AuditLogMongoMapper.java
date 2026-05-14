@@ -1,7 +1,7 @@
 package com.tfg.adapter.out.persistence.auditlog;
 
-import com.tfg.auditlog.AuditLog;
-import com.tfg.auditlog.AuditLogId;
+import com.tfg.model.auditlog.AuditLog;
+import com.tfg.model.auditlog.AuditLogId;
 
 public class AuditLogMongoMapper {
 

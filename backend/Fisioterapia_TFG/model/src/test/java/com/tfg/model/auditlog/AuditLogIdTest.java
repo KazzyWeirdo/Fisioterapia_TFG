@@ -1,6 +1,5 @@
 package com.tfg.model.auditlog;
 
-import com.tfg.auditlog.AuditLogId;
 import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;

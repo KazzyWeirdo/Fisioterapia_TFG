@@ -4,19 +4,6 @@
   margin: 0 auto;
 }
 
-.title {
-  font-size: 32px;
-  font-weight: 800;
-  color: #0f172a;
-  margin: 0 0 8px 0;
-}
-
-.subtitle {
-  font-size: 14px;
-  color: #6b7280;
-  margin: 0 0 24px 0;
-  line-height: 1.5;
-}
 
 .statCard {
   background: #dce8f7;
@@ -90,40 +77,6 @@
   font-family: inherit;
 }
 
-.filterBtn {
-  height: 40px;
-  padding: 0 16px;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  background: #ffffff;
-  color: #374151;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: inherit;
-}
-
-.filterBtn:hover {
-  background: #f4f6f9;
-}
-
-.downloadBtn {
-  height: 40px;
-  padding: 0 18px;
-  border: none;
-  border-radius: 8px;
-  background: #1a3a6b;
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: inherit;
-}
-
-.downloadBtn:hover {
-  background: #142d54;
-}
-
 .exportGroup {
   display: flex;
   flex-wrap: wrap;
@@ -170,22 +123,6 @@
   width: 160px;
 }
 
-.viewBtn {
-  background: #1a3a6b;
-  color: #ffffff;
-  border: none;
-  border-radius: 6px;
-  padding: 8px 16px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: inherit;
-}
-
-.viewBtn:hover {
-  background: #142d54;
-}
-
 .stateCell {
   text-align: center;
   padding: 32px;
@@ -218,39 +155,6 @@
   align-items: center;
 }
 
-.pageBtn {
-  min-width: 32px;
-  height: 32px;
-  border: 1px solid #e5e7eb;
-  border-radius: 6px;
-  background: #ffffff;
-  color: #374151;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: inherit;
-  padding: 0 8px;
-}
-
-.pageBtn:hover:not(:disabled) {
-  background: #f4f6f9;
-}
-
-.pageBtn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-.pageBtnActive {
-  background: #1a3a6b;
-  color: #ffffff;
-  border-color: #1a3a6b;
-}
-
-.pageBtnActive:hover:not(:disabled) {
-  background: #142d54;
-}
-
 .sortableHeader {
   cursor: pointer;
   user-select: none;
@@ -258,6 +162,13 @@
 
 .sortableHeader:hover {
   color: #1a3a6b;
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding: 1.5rem;
+  }
+
 }
 
 @media (max-width: 640px) {

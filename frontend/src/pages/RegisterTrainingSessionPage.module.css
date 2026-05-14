@@ -1,6 +1,4 @@
-.page { max-width: 960px; margin: 0 auto; padding: 1.5rem 0; display: flex; flex-direction: column; gap: 1.5rem; }
-.heading { font-size: 2rem; font-weight: 800; color: #111827; margin: 0; }
-.subtitle { font-size: 0.875rem; color: #6b7280; margin: 0; }
+.page { max-width: 960px; padding: 1.5rem 2rem; display: flex; flex-direction: column; gap: 1.5rem; }
 .section { background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 1.5rem; }
 .sectionHeader { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; font-weight: 700; color: #1a3a6b; margin-bottom: 1.25rem; text-transform: uppercase; letter-spacing: 0.05em; }
 .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
@@ -39,18 +37,20 @@
 .removeSetBtn:hover { color: #ef4444; }
 .addSetBtn { width: 100%; border: 1px dashed #d1d5db; border-radius: 8px; background: none; padding: 0.5rem; font-size: 0.875rem; color: #6b7280; cursor: pointer; }
 .addSetBtn:hover { border-color: #1a3a6b; color: #1a3a6b; }
-.footer { display: flex; justify-content: flex-end; align-items: center; gap: 1rem; padding-top: 0.5rem; }
+.footer { display: flex; justify-content: flex-start; align-items: center; gap: 1rem; padding-top: 0.5rem; }
 .draftBtn { background: none; border: none; font-size: 0.9rem; font-weight: 600; color: #374151; cursor: pointer; padding: 0.65rem 1rem; }
 .draftBtn:hover { color: #111827; }
-.submitBtn { background: #1a3a6b; color: white; border: none; border-radius: 10px; padding: 0.75rem 2rem; font-size: 0.9rem; font-weight: 700; cursor: pointer; }
-.submitBtn:disabled { opacity: 0.6; cursor: not-allowed; }
-.submitBtn:hover:not(:disabled) { background: #15306b; }
 .error { text-align: center; color: #dc2626; font-size: 0.875rem; }
 .loadError { text-align: center; padding: 3rem; color: #dc2626; }
 .successPage { max-width: 480px; margin: 6rem auto; display: flex; flex-direction: column; align-items: center; gap: 1rem; text-align: center; }
 .successIcon { width: 4rem; height: 4rem; border-radius: 50%; background: #dcfce7; color: #166534; font-size: 2rem; display: flex; align-items: center; justify-content: center; }
 .successTitle { font-size: 1.5rem; font-weight: 800; color: #111827; margin: 0; }
 .successMsg { font-size: 0.9rem; color: #6b7280; margin: 0; }
+
+@media (max-width: 768px) {
+  .page { padding: 1.25rem; }
+  .section { padding: 1.25rem; }
+}
 
 @media (max-width: 640px) {
   .page { padding: 1rem; }

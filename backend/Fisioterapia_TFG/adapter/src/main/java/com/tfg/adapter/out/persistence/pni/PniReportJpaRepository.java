@@ -1,16 +1,14 @@
 package com.tfg.adapter.out.persistence.pni;
 
-import com.tfg.adapter.out.persistence.indiba.IndibaSummaryJpaProjection;
 import com.tfg.adapter.out.persistence.patient.PatientJpaEntity;
 import com.tfg.adapter.out.persistence.patient.PatientJpaMapper;
-import com.tfg.patient.PatientId;
-import com.tfg.pni.PniReport;
-import com.tfg.pni.PniReportId;
-import com.tfg.pojos.pagedpojos.PageQuery;
-import com.tfg.pojos.pagedpojos.PagedResponse;
-import com.tfg.pojos.query.IndibaSummaryElement;
-import com.tfg.pojos.query.PniReportSummaryElement;
-import com.tfg.port.out.persistence.PniReportRepository;
+import com.tfg.model.patient.PatientId;
+import com.tfg.model.pni.PniReport;
+import com.tfg.model.pni.PniReportId;
+import com.tfg.application.pojos.pagedpojos.PageQuery;
+import com.tfg.application.pojos.pagedpojos.PagedResponse;
+import com.tfg.application.pojos.query.PniReportSummaryElement;
+import com.tfg.application.port.out.persistence.PniReportRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,6 +40,12 @@ public class PniReportJpaRepository implements PniReportRepository {
     @Override
     public void deleteAll() {
         pniReportJpaDataRepository.deleteAll();
+    }
+
+    @Override
+    @Transactional
+    public void deleteAllByPatientId(PatientId patientId) {
+        pniReportJpaDataRepository.deleteByPatientId(patientId.value());
     }
 
     @Override

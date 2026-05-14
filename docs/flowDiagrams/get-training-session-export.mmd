@@ -1,0 +1,20 @@
+sequenceDiagram
+  actor Client
+  participant JWTFilter
+  participant GetAllTrainingSessionsForExportController
+  participant GetAllTrainingSessionsForExportService
+  participant TrainingSessionRepository
+
+  Client->>JWTFilter: GET /training-session/export + Bearer token
+  JWTFilter->>JWTFilter: validateToken()
+  alt Token invàlid
+    JWTFilter-->>Client: 401 Unauthorized
+  else Token vàlid
+    JWTFilter->>GetAllTrainingSessionsForExportController: forward request
+    GetAllTrainingSessionsForExportController->>GetAllTrainingSessionsForExportService: getAllTrainingSessionsForExport()
+    GetAllTrainingSessionsForExportService->>TrainingSessionRepository: findAll()
+    TrainingSessionRepository-->>GetAllTrainingSessionsForExportService: List[TrainingSession]
+    GetAllTrainingSessionsForExportService-->>GetAllTrainingSessionsForExportController: List[TrainingSession]
+    Note over GetAllTrainingSessionsForExportController: flatMap sessions → templates → exercises → sets
+    GetAllTrainingSessionsForExportController-->>Client: 200 OK {List[TrainingSetExportWebModel]}
+  end

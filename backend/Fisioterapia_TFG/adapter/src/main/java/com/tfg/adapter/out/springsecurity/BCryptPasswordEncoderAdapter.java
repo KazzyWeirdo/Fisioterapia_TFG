@@ -1,6 +1,6 @@
 package com.tfg.adapter.out.springsecurity;
 
-import com.tfg.port.out.springsecurity.PasswordEncoderPort;
+import com.tfg.application.port.out.springsecurity.PasswordEncoderPort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 

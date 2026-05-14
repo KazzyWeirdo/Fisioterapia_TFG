@@ -1,9 +1,9 @@
 package application.patient;
 
 import com.tfg.model.patient.PatientFactory;
-import com.tfg.patient.Patient;
-import com.tfg.port.out.persistence.PatientRepository;
-import com.tfg.service.patient.GetAllPatientsForExportService;
+import com.tfg.model.patient.Patient;
+import com.tfg.application.port.out.persistence.PatientRepository;
+import com.tfg.application.service.patient.GetAllPatientsForExportService;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

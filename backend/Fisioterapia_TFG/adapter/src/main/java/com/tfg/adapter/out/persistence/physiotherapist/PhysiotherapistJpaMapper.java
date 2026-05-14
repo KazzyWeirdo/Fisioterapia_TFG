@@ -1,9 +1,9 @@
 package com.tfg.adapter.out.persistence.physiotherapist;
 
-import com.tfg.physiotherapist.ERole;
-import com.tfg.physiotherapist.Physiotherapist;
-import com.tfg.physiotherapist.PhysiotherapistEmail;
-import com.tfg.physiotherapist.PhysiotherapistId;
+import com.tfg.model.physiotherapist.ERole;
+import com.tfg.model.physiotherapist.Physiotherapist;
+import com.tfg.model.physiotherapist.PhysiotherapistEmail;
+import com.tfg.model.physiotherapist.PhysiotherapistId;
 
 import java.util.Set;
 

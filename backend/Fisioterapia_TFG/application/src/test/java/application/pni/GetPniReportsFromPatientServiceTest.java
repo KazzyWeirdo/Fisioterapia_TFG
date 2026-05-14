@@ -1,15 +1,15 @@
 package application.pni;
 
-import com.tfg.exceptions.InvalidIdException;
+import com.tfg.application.exceptions.InvalidIdException;
 import com.tfg.model.patient.PatientFactory;
-import com.tfg.patient.Patient;
-import com.tfg.patient.PatientId;
-import com.tfg.pojos.pagedpojos.PageQuery;
-import com.tfg.pojos.pagedpojos.PagedResponse;
-import com.tfg.pojos.query.PniReportSummaryElement;
-import com.tfg.port.out.persistence.PatientRepository;
-import com.tfg.port.out.persistence.PniReportRepository;
-import com.tfg.service.pni.GetPniReportsFromPatientService;
+import com.tfg.model.patient.Patient;
+import com.tfg.model.patient.PatientId;
+import com.tfg.application.pojos.pagedpojos.PageQuery;
+import com.tfg.application.pojos.pagedpojos.PagedResponse;
+import com.tfg.application.pojos.query.PniReportSummaryElement;
+import com.tfg.application.port.out.persistence.PatientRepository;
+import com.tfg.application.port.out.persistence.PniReportRepository;
+import com.tfg.application.service.pni.GetPniReportsFromPatientService;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;

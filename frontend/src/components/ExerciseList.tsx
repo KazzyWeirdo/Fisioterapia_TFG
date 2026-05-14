@@ -12,6 +12,7 @@ export interface SetDraft {
 
 export interface ExerciseDraft {
   id?: number
+  uid?: string
   name: string
   sets: SetDraft[]
   fromTemplate?: boolean
@@ -60,13 +61,13 @@ export default function ExerciseList({ exercises, onChange, readonlyNames = fals
   }
 
   function addExercise() {
-    onChange([...exercises, { name: '', sets: [newSet()] }])
+    onChange([...exercises, { uid: crypto.randomUUID(), name: '', sets: [newSet()] }])
   }
 
   return (
     <>
       {exercises.map((ex, exIdx) => (
-        <div key={ex.id ?? exIdx} className={styles.exerciseCard}>
+        <div key={ex.uid ?? ex.id ?? exIdx} className={styles.exerciseCard}>
           <div className={styles.exerciseCardHeader}>
             <div className={styles.exerciseCardHeaderLeft}>
               <label className={styles.exerciseNameLabel}>{t('template_exercise_name_label')}</label>
@@ -85,7 +86,7 @@ export default function ExerciseList({ exercises, onChange, readonlyNames = fals
             {exercises.length > 1 && (
               <button
                 type="button"
-                className={styles.deleteExerciseBtn}
+                className="btn btn-danger btn-sm p-1"
                 onClick={() => removeExercise(exIdx)}
               >
                 <FontAwesomeIcon icon={faTrash} />
@@ -93,6 +94,7 @@ export default function ExerciseList({ exercises, onChange, readonlyNames = fals
             )}
           </div>
 
+          <div className={styles.tableWrapper}>
           <table className={styles.setsTable}>
             <thead>
               <tr>
@@ -106,35 +108,35 @@ export default function ExerciseList({ exercises, onChange, readonlyNames = fals
             </thead>
             <tbody>
               {ex.sets.map((set, sIdx) => (
-                <tr key={sIdx}>
+                <tr key={sIdx} className={styles.setRow}>
                   <td className={styles.setNum}>{String(sIdx + 1).padStart(2, '0')}</td>
-                  <td>
+                  <td className={styles.tdInput} data-label={t('training_col_weight')}>
                     <input type="number" min="0" step="0.5" className={styles.setInput}
                       value={set.weightKg}
                       onChange={e => updateSet(exIdx, sIdx, 'weightKg', e.target.value)}
                       required />
                   </td>
-                  <td>
+                  <td className={styles.tdInput} data-label={t('training_col_reps')}>
                     <input type="number" min="1" className={styles.setInput}
                       value={set.reps}
                       onChange={e => updateSet(exIdx, sIdx, 'reps', e.target.value)}
                       required />
                   </td>
-                  <td>
+                  <td className={styles.tdInput} data-label={t('training_col_rest')}>
                     <input type="number" min="0" className={styles.setInput}
                       value={set.restTimeSeconds}
                       onChange={e => updateSet(exIdx, sIdx, 'restTimeSeconds', e.target.value)}
                       required />
                   </td>
-                  <td className={styles.rpeCell}>
+                  <td className={`${styles.rpeCell} ${styles.tdRpe}`} data-label={t('template_col_rpe')}>
                     <input type="range" min="1" max="10" className={styles.rpeSlider}
                       value={set.rpe}
                       onChange={e => updateSet(exIdx, sIdx, 'rpe', Number(e.target.value))} />
                     <span className={styles.rpeValue}>{set.rpe}</span>
                   </td>
-                  <td>
+                  <td className={styles.tdAction}>
                     {ex.sets.length > 1 && (
-                      <button type="button" className={styles.removeSetBtn}
+                      <button type="button" className="btn btn-danger btn-sm p-1"
                         onClick={() => removeSet(exIdx, sIdx)}>
                         <FontAwesomeIcon icon={faXmark} />
                       </button>
@@ -144,14 +146,15 @@ export default function ExerciseList({ exercises, onChange, readonlyNames = fals
               ))}
             </tbody>
           </table>
+          </div>
 
-          <button type="button" className={styles.addSetBtn} onClick={() => addSet(exIdx)}>
+          <button type="button" className="btn btn-outline-primary btn-sm w-100" onClick={() => addSet(exIdx)}>
             {t('template_add_set')}
           </button>
         </div>
       ))}
 
-      <button type="button" className={styles.addExerciseBtn} onClick={addExercise}>
+      <button type="button" className="btn btn-outline-primary btn-sm" onClick={addExercise}>
         <FontAwesomeIcon icon={faCirclePlus} /> {t('training_add_exercise')}
       </button>
     </>

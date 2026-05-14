@@ -1,12 +1,12 @@
 package com.tfg.adapter.in.rest.indiba;
 
+import com.tfg.application.port.out.persistence.PatientRepository;
 import com.tfg.model.patient.PatientFactory;
 import com.tfg.model.physiotherapist.PhysiotherapistFactory;
-import com.tfg.patient.Patient;
-import com.tfg.patient.PatientId;
-import com.tfg.physiotherapist.Physiotherapist;
-import com.tfg.port.in.indiba.CreateIndibaSessionUseCase;
-import com.tfg.port.out.persistence.PhysiotherapistRepository;
+import com.tfg.model.patient.Patient;
+import com.tfg.model.physiotherapist.Physiotherapist;
+import com.tfg.application.port.in.indiba.CreateIndibaSessionUseCase;
+import com.tfg.application.port.out.persistence.PhysiotherapistRepository;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -28,7 +27,7 @@ public class CreateIndibaSessionControllerTest {
     private CreateIndibaSessionUseCase createIndibaSessionUseCase;
 
     @Mock
-    private com.tfg.port.out.persistence.PatientRepository patientRepository;
+    private PatientRepository patientRepository;
 
     @Mock
     private PhysiotherapistRepository physiotherapistRepository;
@@ -60,7 +59,6 @@ public class CreateIndibaSessionControllerTest {
                 "CAPACITIVE",
                 5.0f,
                 null,
-                "Pain Relief",
                 TEST_PHYSIOTHERAPIST.getId().value(),
                 "No observations"
         );
@@ -89,7 +87,6 @@ public class CreateIndibaSessionControllerTest {
                 "DUAL",
                 5.0f,
                 4.0f,
-                "Pain Relief",
                 TEST_PHYSIOTHERAPIST.getId().value(),
                 "No observations"
         );
@@ -112,7 +109,6 @@ public class CreateIndibaSessionControllerTest {
                 "CAPACITIVE",
                 5.0f,
                 null,
-                "Pain Relief",
                 TEST_PHYSIOTHERAPIST.getId().value(),
                 "No observations"
         );

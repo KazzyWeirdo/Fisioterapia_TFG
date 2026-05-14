@@ -1,6 +1,5 @@
 package com.tfg.model.physiotherapist;
 
-import com.tfg.physiotherapist.Physiotherapist;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
