@@ -1,7 +1,5 @@
 package com.tfg.adapter.in.rest.trainingsession;
 
-import com.tfg.model.trainingsession.Exercise;
-
 import java.util.List;
 
 public record ExerciseWebModel(
@@ -9,7 +7,7 @@ public record ExerciseWebModel(
         String name,
         List<ExerciseSetWebModel> sets
 ) {
-        static ExerciseWebModel fromDomainModel(Exercise exercise) {
+        static ExerciseWebModel fromDomainModel(com.tfg.trainingsession.Exercise exercise) {
             List<ExerciseSetWebModel> exerciseSetWebModels = exercise.getSets().stream()
                     .map(ExerciseSetWebModel::fromDomainModel)
                     .toList();

@@ -1,15 +1,15 @@
 package com.tfg.adapter.in.rest.indiba;
 
 import com.tfg.adapter.in.rest.common.GlobalExceptionHandler;
-import com.tfg.application.exceptions.InvalidIdException;
-import com.tfg.model.indiba.IndibaSession;
-import com.tfg.model.indiba.IndibaSessionId;
+import com.tfg.exceptions.InvalidIdException;
+import com.tfg.indiba.IndibaSession;
+import com.tfg.indiba.IndibaSessionId;
 import com.tfg.model.indiba.IndibaSessionFactory;
 import com.tfg.model.patient.PatientFactory;
 import com.tfg.model.physiotherapist.PhysiotherapistFactory;
-import com.tfg.model.patient.Patient;
-import com.tfg.model.physiotherapist.Physiotherapist;
-import com.tfg.application.port.in.indiba.GetIndibaSessionUseCase;
+import com.tfg.patient.Patient;
+import com.tfg.physiotherapist.Physiotherapist;
+import com.tfg.port.in.indiba.GetIndibaSessionUseCase;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,8 +1,12 @@
 package com.tfg.model.patient;
 
-import com.tfg.model.patient.*;
+import com.tfg.patient.*;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
+
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class PatientTest {
 

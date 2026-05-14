@@ -1,7 +1,7 @@
 package com.tfg.adapter.in.rest.indiba;
 
-import com.tfg.model.indiba.IndibaSession;
-import com.tfg.application.port.in.indiba.GetAllIndibaSessionsForExportUseCase;
+import com.tfg.indiba.IndibaSession;
+import com.tfg.port.in.indiba.GetAllIndibaSessionsForExportUseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +32,7 @@ public class GetAllIndibaSessionsForExportController {
                 s.getMode().name(),
                 s.getCapacitiveIntensity(),
                 s.getResistiveIntensity(),
+                s.getObjective(),
                 s.getObservations()
         )).toList();
         return ResponseEntity.ok(dto);

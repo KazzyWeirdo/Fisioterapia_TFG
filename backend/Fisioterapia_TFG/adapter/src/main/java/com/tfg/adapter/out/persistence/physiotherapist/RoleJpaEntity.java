@@ -1,6 +1,6 @@
 package com.tfg.adapter.out.persistence.physiotherapist;
 
-import com.tfg.model.physiotherapist.ERole;
+import com.tfg.physiotherapist.ERole;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

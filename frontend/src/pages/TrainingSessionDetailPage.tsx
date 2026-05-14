@@ -6,8 +6,6 @@ import { getTrainingSession, type TrainingSessionDetail } from '../services/trai
 import { getPatient, type PatientDetail } from '../services/patientService'
 import { useLanguage } from '../contexts/LanguageContext'
 import styles from './TrainingSessionDetailPage.module.css'
-import TabBar from '../components/TabBar'
-import Breadcrumb from '../components/Breadcrumb'
 
 function formatDate(raw: string, locale: string): string {
   return new Date(raw).toLocaleDateString(locale, {
@@ -21,11 +19,11 @@ function formatTime(raw: string, locale: string): string {
   })
 }
 
-function rpeBadgeClass(rpe: number): string {
-  if (rpe <= 6) return 'badge bg-success'
-  if (rpe <= 8) return 'badge bg-warning text-dark'
-  if (rpe === 9) return 'badge bg-danger bg-opacity-75'
-  return 'badge bg-danger'
+function rpeBadgeStyle(rpe: number): { bg: string; color: string } {
+  if (rpe <= 6) return { bg: '#dcfce7', color: '#166534' }
+  if (rpe <= 8) return { bg: '#fef9c3', color: '#854d0e' }
+  if (rpe === 9) return { bg: '#ffedd5', color: '#9a3412' }
+  return { bg: '#fee2e2', color: '#b91c1c' }
 }
 
 export default function TrainingSessionDetailPage() {
@@ -81,11 +79,21 @@ export default function TrainingSessionDetailPage() {
 
       <div className={styles.header}>
         <div className={styles.headerLeft}>
-          <Breadcrumb items={[
-            { label: t('nav_patients'), onClick: () => navigate('/patients') },
-            { label: patientName, onClick: () => navigate(`/patients/${session.patientId}`, { state: { tab: 'training' } }) },
-            { label: t('training_breadcrumb_current') },
-          ]} />
+          <nav className={styles.breadcrumb}>
+            <button type="button" className={styles.breadcrumbLink} onClick={() => navigate('/patients')}>
+              {t('nav_patients')}
+            </button>
+            <span className={styles.breadcrumbSep}>›</span>
+            <button
+              type="button"
+              className={styles.breadcrumbLink}
+              onClick={() => navigate(`/patients/${session.patientId}`, { state: { tab: 'training' } })}
+            >
+              {patientName}
+            </button>
+            <span className={styles.breadcrumbSep}>›</span>
+            <span className={styles.breadcrumbCurrent}>{t('training_breadcrumb_current')}</span>
+          </nav>
           <h1 className={styles.title}>
             {formatDate(session.startDateTime, localeTag)} · {formatTime(session.startDateTime, localeTag)}–{formatTime(session.endDateTime, localeTag)}
           </h1>
@@ -93,12 +101,19 @@ export default function TrainingSessionDetailPage() {
         </div>
       </div>
 
-      <TabBar
-        tabs={TABS.map(({ label, tab }) => ({ id: tab, label }))}
-        activeTab="training"
-        onTabChange={tab => navigate(`/patients/${session.patientId}`, { state: { tab } })}
-        ariaLabel="Patient sections"
-      />
+      <nav className={styles.tabBar} aria-label="Patient sections">
+        {TABS.map(({ label, tab }) => (
+          <button
+            key={tab}
+            type="button"
+            className={`${styles.tab} ${tab === 'training' ? styles.tabActive : ''}`}
+            onClick={() => navigate(`/patients/${session.patientId}`, { state: { tab } })}
+          >
+            {label}
+          </button>
+        ))}
+      </nav>
+      <div className={styles.tabSeparator} />
 
       <div className={styles.statsCard}>
         <div className={styles.stat}>
@@ -147,6 +162,7 @@ export default function TrainingSessionDetailPage() {
             </thead>
             <tbody>
               {exercise.sets.map(set => {
+                const badge = rpeBadgeStyle(set.rpe)
                 return (
                   <tr key={set.setNumber}>
                     <td className={styles.setNum}>{set.setNumber}</td>
@@ -155,8 +171,8 @@ export default function TrainingSessionDetailPage() {
                     <td>{set.restTimeSeconds}</td>
                     <td>
                       <span
-                        className={`${rpeBadgeClass(set.rpe)} rounded-circle`}
-                        style={{ width: '1.75rem', height: '1.75rem', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
+                        className={styles.rpeBadge}
+                        style={{ backgroundColor: badge.bg, color: badge.color }}
                       >
                         {set.rpe}
                       </span>

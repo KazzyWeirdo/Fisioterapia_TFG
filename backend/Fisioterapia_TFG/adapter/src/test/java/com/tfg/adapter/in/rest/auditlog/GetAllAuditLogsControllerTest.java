@@ -1,11 +1,11 @@
 package com.tfg.adapter.in.rest.auditlog;
 
 import com.tfg.adapter.in.rest.common.GlobalExceptionHandler;
-import com.tfg.model.auditlog.AuditLog;
+import com.tfg.auditlog.AuditLog;
 import com.tfg.model.auditlog.AuditLogFactory;
-import com.tfg.application.pojos.pagedpojos.PageQuery;
-import com.tfg.application.pojos.pagedpojos.PagedResponse;
-import com.tfg.application.port.in.auditlog.GetAllAuditLogsUseCase;
+import com.tfg.pojos.pagedpojos.PageQuery;
+import com.tfg.pojos.pagedpojos.PagedResponse;
+import com.tfg.port.in.auditlog.GetAllAuditLogsUseCase;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

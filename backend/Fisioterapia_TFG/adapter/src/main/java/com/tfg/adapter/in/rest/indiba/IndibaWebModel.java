@@ -1,7 +1,5 @@
 package com.tfg.adapter.in.rest.indiba;
 
-import com.tfg.model.indiba.IndibaSession;
-
 import java.util.Date;
 
 public record IndibaWebModel(
@@ -13,11 +11,12 @@ public record IndibaWebModel(
         String mode,
         Float capacitiveIntensity,
         Float resistiveIntensity,
+        String objective,
         String physiotherapistName,
         String physiotherapistSurname,
         String observations
 ) {
-    static IndibaWebModel fromDomainModel(IndibaSession indibaSession) {
+    static IndibaWebModel fromDomainModel(com.tfg.indiba.IndibaSession indibaSession) {
         return new IndibaWebModel(
                 indibaSession.getId().value(),
                 indibaSession.getPatient().getId().value(),
@@ -27,6 +26,7 @@ public record IndibaWebModel(
                 indibaSession.getMode().toString(),
                 indibaSession.getCapacitiveIntensity(),
                 indibaSession.getResistiveIntensity(),
+                indibaSession.getObjective(),
                 indibaSession.getPhysiotherapist().getName(),
                 indibaSession.getPhysiotherapist().getSurname(),
                 indibaSession.getObservations()

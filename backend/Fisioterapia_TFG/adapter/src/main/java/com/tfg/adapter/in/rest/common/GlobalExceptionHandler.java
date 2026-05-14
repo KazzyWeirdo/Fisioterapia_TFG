@@ -1,7 +1,7 @@
 package com.tfg.adapter.in.rest.common;
 
-import com.tfg.application.exceptions.InvalidIdException;
-import com.tfg.application.exceptions.InvalidTokenException;
+import com.tfg.exceptions.InvalidIdException;
+import com.tfg.exceptions.InvalidTokenException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

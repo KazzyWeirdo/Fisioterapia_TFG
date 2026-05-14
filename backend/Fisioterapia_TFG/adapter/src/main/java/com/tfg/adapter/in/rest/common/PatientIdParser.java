@@ -1,6 +1,6 @@
 package com.tfg.adapter.in.rest.common;
 
-import com.tfg.model.patient.PatientId;
+import com.tfg.patient.PatientId;
 
 public class PatientIdParser {
     private PatientIdParser() {}

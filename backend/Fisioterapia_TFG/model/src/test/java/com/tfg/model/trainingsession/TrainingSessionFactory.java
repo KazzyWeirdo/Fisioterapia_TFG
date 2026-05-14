@@ -1,8 +1,11 @@
 package com.tfg.model.trainingsession;
 
 import com.tfg.model.physiotherapist.PhysiotherapistFactory;
-import com.tfg.model.patient.Patient;
-import com.tfg.model.physiotherapist.Physiotherapist;
+import com.tfg.patient.Patient;
+import com.tfg.physiotherapist.Physiotherapist;
+import com.tfg.trainingsession.Exercise;
+import com.tfg.trainingsession.ExerciseTemplate;
+import com.tfg.trainingsession.TrainingSession;
 
 import java.time.LocalDateTime;
 

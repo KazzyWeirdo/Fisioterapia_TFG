@@ -126,7 +126,7 @@ export default function IndibaSessionTab({ patientId, patientName }: IndibaSessi
           <div className={styles.pagination}>
             <button
               type="button"
-              className="btn btn-outline-secondary btn-sm"
+              className={styles.pageBtn}
               disabled={currentPage === 0}
               onClick={() => goToPage(currentPage - 1)}
               aria-label="Previous page"
@@ -135,7 +135,7 @@ export default function IndibaSessionTab({ patientId, patientName }: IndibaSessi
               <button
                 key={n}
                 type="button"
-                className={n === currentPage ? 'btn btn-secondary btn-sm' : 'btn btn-outline-secondary btn-sm'}
+                className={`${styles.pageBtn} ${n === currentPage ? styles.pageBtnActive : ''}`}
                 onClick={() => goToPage(n)}
                 aria-label={`Page ${n + 1}`}
                 aria-current={n === currentPage ? 'true' : undefined}
@@ -143,7 +143,7 @@ export default function IndibaSessionTab({ patientId, patientName }: IndibaSessi
             ))}
             <button
               type="button"
-              className="btn btn-outline-secondary btn-sm"
+              className={styles.pageBtn}
               disabled={currentPage >= totalPages - 1}
               onClick={() => goToPage(currentPage + 1)}
               aria-label="Next page"

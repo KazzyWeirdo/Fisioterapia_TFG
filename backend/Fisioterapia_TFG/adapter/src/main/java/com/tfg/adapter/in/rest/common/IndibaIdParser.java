@@ -1,6 +1,6 @@
 package com.tfg.adapter.in.rest.common;
 
-import com.tfg.model.indiba.IndibaSessionId;
+import com.tfg.indiba.IndibaSessionId;
 
 public class IndibaIdParser {
     private IndibaIdParser() {}

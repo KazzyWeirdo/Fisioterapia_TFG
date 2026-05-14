@@ -1,9 +1,9 @@
 package com.tfg.adapter.in.rest.indiba;
 
 import com.tfg.adapter.in.rest.common.IndibaIdParser;
-import com.tfg.model.indiba.IndibaSession;
-import com.tfg.model.indiba.IndibaSessionId;
-import com.tfg.application.port.in.indiba.GetIndibaSessionUseCase;
+import com.tfg.indiba.IndibaSession;
+import com.tfg.indiba.IndibaSessionId;
+import com.tfg.port.in.indiba.GetIndibaSessionUseCase;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;

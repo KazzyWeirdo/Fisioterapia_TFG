@@ -1,5 +1,6 @@
 package com.tfg.model.trainingsession;
 
+import com.tfg.trainingsession.ExerciseId;
 import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;

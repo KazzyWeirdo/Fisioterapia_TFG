@@ -2,16 +2,12 @@ import { useState, useEffect } from 'react'
 import { useParams, useLocation, useNavigate } from 'react-router-dom'
 import { getPatient, type PatientDetail } from '../services/patientService'
 import { useLanguage } from '../contexts/LanguageContext'
-import { useAuth } from '../contexts/AuthContext'
-import { decodeJwtPayload } from '../utils/jwt'
 import PatientInfoCard from '../components/patient/PatientInfoCard'
 import TrainingSessionTab from '../components/patient/TrainingSessionTab'
 import IndibaSessionTab from '../components/patient/IndibaSessionTab'
 import PniReportTab from '../components/patient/PniReportTab'
 import StatisticsTab from '../components/patient/StatisticsTab'
 import styles from './PatientDetailPage.module.css'
-import TabBar from '../components/TabBar'
-import Breadcrumb from '../components/Breadcrumb'
 
 type Tab = 'overview' | 'training' | 'indiba' | 'pni' | 'statistics'
 
@@ -20,13 +16,6 @@ export default function PatientDetailPage() {
   const location = useLocation()
   const navigate = useNavigate()
   const { t } = useLanguage()
-  const { token } = useAuth()
-  const isAdmin = (() => {
-    try {
-      const payload = decodeJwtPayload(token!)
-      return (payload.scope as string)?.split(' ').includes('ADMIN') ?? false
-    } catch { return false }
-  })()
   const [patient, setPatient] = useState<PatientDetail | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -57,24 +46,37 @@ export default function PatientDetailPage() {
 
   return (
     <div className={styles.page}>
-      <Breadcrumb items={[
-        { label: t('nav_patients'), onClick: () => navigate('/patients') },
-        { label: [patient.nameToUse, patient.surname, patient.secondSurname].filter(Boolean).join(' ') },
-      ]} />
+      <nav className={styles.breadcrumb}>
+        <button type="button" className={styles.breadcrumbLink} onClick={() => navigate('/patients')}>
+          {t('nav_patients')}
+        </button>
+        <span className={styles.breadcrumbSep}>›</span>
+        <span className={styles.breadcrumbCurrent}>
+          {[patient.nameToUse, patient.surname, patient.secondSurname].filter(Boolean).join(' ')}
+        </span>
+      </nav>
 
       <h1 className={styles.heading}>
         {[patient.nameToUse, patient.surname, patient.secondSurname].filter(Boolean).join(' ')}
       </h1>
 
-      <TabBar
-        tabs={TABS.map(tab => ({ id: tab.id, label: tab.label }))}
-        activeTab={activeTab}
-        onTabChange={id => setActiveTab(id as Tab)}
-        ariaLabel="Patient sections"
-      />
+      <nav role="tablist" className={styles.tabBar} aria-label="Patient sections">
+        {TABS.map((tab) => (
+          <button
+            key={tab.id}
+            role="tab"
+            aria-selected={activeTab === tab.id}
+            className={`${styles.tab} ${activeTab === tab.id ? styles.tabActive : ''}`}
+            onClick={() => setActiveTab(tab.id)}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </nav>
+      <div className={styles.tabSeparator} />
 
       <div className={styles.content}>
-        {activeTab === 'overview' && <PatientInfoCard patient={patient} onPatientUpdated={p => setPatient(p)} isAdmin={isAdmin} onPatientDeleted={() => navigate('/patients')} />}
+        {activeTab === 'overview' && <PatientInfoCard patient={patient} onPatientUpdated={p => setPatient(p)} />}
         {activeTab === 'training' && (
           <TrainingSessionTab
             patientId={Number(id)}

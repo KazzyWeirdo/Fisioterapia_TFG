@@ -1,6 +1,6 @@
 package com.tfg.adapter.in.rest.indiba;
 
-import com.tfg.model.indiba.IndibaSession;
+import com.tfg.indiba.IndibaSession;
 
 import java.util.Date;
 

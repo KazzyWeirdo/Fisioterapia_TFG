@@ -4,13 +4,13 @@ import com.tfg.adapter.out.persistence.patient.PatientJpaEntity;
 import com.tfg.adapter.out.persistence.patient.PatientJpaMapper;
 import com.tfg.adapter.out.persistence.physiotherapist.PhysiotherapistJpaEntity;
 import com.tfg.adapter.out.persistence.physiotherapist.PhysiotherapistJpaMapper;
-import com.tfg.model.patient.PatientId;
-import com.tfg.application.pojos.pagedpojos.PageQuery;
-import com.tfg.application.pojos.pagedpojos.PagedResponse;
-import com.tfg.application.pojos.query.TrainingSessionSummaryElement;
-import com.tfg.application.port.out.persistence.TrainingSessionRepository;
-import com.tfg.model.trainingsession.TrainingSession;
-import com.tfg.model.trainingsession.TrainingSessionId;
+import com.tfg.patient.PatientId;
+import com.tfg.pojos.pagedpojos.PageQuery;
+import com.tfg.pojos.pagedpojos.PagedResponse;
+import com.tfg.pojos.query.TrainingSessionSummaryElement;
+import com.tfg.port.out.persistence.TrainingSessionRepository;
+import com.tfg.trainingsession.TrainingSession;
+import com.tfg.trainingsession.TrainingSessionId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -40,12 +40,6 @@ public class TrainingSessionJpaRepository implements TrainingSessionRepository {
     @Override
     public void deleteAll() {
         trainingSessionJpaDataRepository.deleteAll();
-    }
-
-    @Override
-    @Transactional
-    public void deleteAllByPatientId(PatientId patientId) {
-        trainingSessionJpaDataRepository.deleteByPatientId(patientId.value());
     }
 
     @Transactional(readOnly = true)

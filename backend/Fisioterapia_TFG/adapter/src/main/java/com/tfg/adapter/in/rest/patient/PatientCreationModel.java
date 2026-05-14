@@ -1,6 +1,6 @@
 package com.tfg.adapter.in.rest.patient;
 
-import com.tfg.model.patient.Patient;
+import com.tfg.patient.Patient;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -33,12 +33,10 @@ public record PatientCreationModel(
         int phoneNumber,
         @NotNull(message = "Date of birth is required")
         @Past(message = "Date of birth must be in the past")
-        LocalDate dateOfBirth,
-        @NotBlank(message = "Pathology is required")
-        String pathology
+        LocalDate dateOfBirth
 ) {
         public Patient toDomainModel(){
-                Patient patient = new Patient(email,
+                return new Patient(email,
                         dni,
                         genderIdentity,
                         clinicalUseSex,
@@ -49,8 +47,6 @@ public record PatientCreationModel(
                         secondSurname,
                         pronouns,
                         dateOfBirth,
-                        phoneNumber,
-                        pathology);
-                return patient;
+                        phoneNumber);
         }
 }

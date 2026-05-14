@@ -20,6 +20,4 @@ public interface PniReportJpaDataRepository extends JpaRepository <PniReportJpaE
             @Param("patientId") int patientId,
             Pageable pageable
     );
-
-    void deleteByPatientId(int patientId);
 }

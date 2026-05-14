@@ -1,13 +1,13 @@
 package com.tfg.adapter.in.rest.pni;
 
 import com.tfg.adapter.in.rest.common.GlobalExceptionHandler;
-import com.tfg.application.exceptions.InvalidIdException;
+import com.tfg.exceptions.InvalidIdException;
 import com.tfg.model.patient.PatientFactory;
-import com.tfg.model.patient.Patient;
-import com.tfg.application.pojos.pagedpojos.PageQuery;
-import com.tfg.application.pojos.pagedpojos.PagedResponse;
-import com.tfg.application.pojos.query.PniReportSummaryElement;
-import com.tfg.application.port.in.pni.GetPniReportsFromPatientUseCase;
+import com.tfg.patient.Patient;
+import com.tfg.pojos.pagedpojos.PageQuery;
+import com.tfg.pojos.pagedpojos.PagedResponse;
+import com.tfg.pojos.query.PniReportSummaryElement;
+import com.tfg.port.in.pni.GetPniReportsFromPatientUseCase;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

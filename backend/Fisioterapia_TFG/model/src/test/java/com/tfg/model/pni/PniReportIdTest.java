@@ -1,5 +1,7 @@
 package com.tfg.model.pni;
 
+import com.tfg.indiba.IndibaSessionId;
+import com.tfg.pni.PniReportId;
 import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;

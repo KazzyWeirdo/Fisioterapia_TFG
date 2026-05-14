@@ -1,12 +1,12 @@
 package application.polar;
 
-import com.tfg.application.exceptions.InvalidIdException;
+import com.tfg.exceptions.InvalidIdException;
 import com.tfg.model.patient.PatientFactory;
-import com.tfg.model.patient.Patient;
-import com.tfg.model.patient.PatientId;
-import com.tfg.application.port.out.persistence.PatientRepository;
-import com.tfg.application.port.out.polar.PolarRepository;
-import com.tfg.application.service.polar.ManagePolarConnectionService;
+import com.tfg.patient.Patient;
+import com.tfg.patient.PatientId;
+import com.tfg.port.out.persistence.PatientRepository;
+import com.tfg.port.out.polar.PolarRepository;
+import com.tfg.service.polar.ManagePolarConnectionService;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;

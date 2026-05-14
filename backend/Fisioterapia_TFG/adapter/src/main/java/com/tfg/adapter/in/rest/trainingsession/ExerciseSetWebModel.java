@@ -1,7 +1,5 @@
 package com.tfg.adapter.in.rest.trainingsession;
 
-import com.tfg.model.trainingsession.ExerciseSet;
-
 public record ExerciseSetWebModel(
         int setNumber,
         double weightKg,
@@ -9,7 +7,7 @@ public record ExerciseSetWebModel(
         int restTimeSeconds,
         int rpe
 ) {
-    static ExerciseSetWebModel fromDomainModel(ExerciseSet exerciseSet) {
+    static ExerciseSetWebModel fromDomainModel(com.tfg.trainingsession.ExerciseSet exerciseSet) {
         return new ExerciseSetWebModel(
                 exerciseSet.setNumber(),
                 exerciseSet.weightKg(),

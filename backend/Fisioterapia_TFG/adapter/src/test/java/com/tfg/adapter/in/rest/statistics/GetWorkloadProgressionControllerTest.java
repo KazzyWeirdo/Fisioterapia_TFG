@@ -1,11 +1,11 @@
 package com.tfg.adapter.in.rest.statistics;
 
 import com.tfg.adapter.in.rest.common.GlobalExceptionHandler;
-import com.tfg.application.exceptions.InvalidIdException;
+import com.tfg.exceptions.InvalidIdException;
 import com.tfg.model.patient.PatientFactory;
-import com.tfg.model.patient.Patient;
-import com.tfg.application.port.in.statistics.GetWorkloadProgressionUseCase;
-import com.tfg.model.statistics.WorkloadProgression;
+import com.tfg.patient.Patient;
+import com.tfg.port.in.statistics.GetWorkloadProgressionUseCase;
+import com.tfg.statistics.WorkloadProgression;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

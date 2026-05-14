@@ -1,8 +1,8 @@
 package application.exercisetemplate;
 
-import com.tfg.application.port.out.persistence.ExerciseTemplateRepository;
-import com.tfg.application.service.exercisetemplate.GetAllExerciseTemplatesService;
-import com.tfg.model.trainingsession.ExerciseTemplate;
+import com.tfg.port.out.persistence.ExerciseTemplateRepository;
+import com.tfg.service.exercisetemplate.GetAllExerciseTemplatesService;
+import com.tfg.trainingsession.ExerciseTemplate;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

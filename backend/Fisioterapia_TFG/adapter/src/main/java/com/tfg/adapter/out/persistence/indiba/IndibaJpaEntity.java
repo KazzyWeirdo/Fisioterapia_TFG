@@ -2,7 +2,7 @@ package com.tfg.adapter.out.persistence.indiba;
 
 import com.tfg.adapter.out.persistence.patient.PatientJpaEntity;
 import com.tfg.adapter.out.persistence.physiotherapist.PhysiotherapistJpaEntity;
-import com.tfg.model.indiba.IndibaSessionModes;
+import com.tfg.indiba.IndibaSessionModes;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,6 +32,7 @@ public class IndibaJpaEntity {
     private Float capacitiveIntensity;
     @Column
     private Float resistiveIntensity;
+    private String objective;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "physiotherapist_id", nullable = false)
     private PhysiotherapistJpaEntity physiotherapist;

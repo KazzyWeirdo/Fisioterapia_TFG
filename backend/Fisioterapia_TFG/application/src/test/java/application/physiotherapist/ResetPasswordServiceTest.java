@@ -1,12 +1,12 @@
 package application.physiotherapist;
 
-import com.tfg.application.exceptions.InvalidTokenException;
-import com.tfg.model.passwordresettoken.PasswordResetToken;
-import com.tfg.model.physiotherapist.Physiotherapist;
-import com.tfg.application.port.out.persistence.PasswordResetTokenRepository;
-import com.tfg.application.port.out.persistence.PhysiotherapistRepository;
-import com.tfg.application.port.out.springsecurity.PasswordEncoderPort;
-import com.tfg.application.service.physiotherapist.ResetPasswordService;
+import com.tfg.exceptions.InvalidTokenException;
+import com.tfg.passwordresettoken.PasswordResetToken;
+import com.tfg.physiotherapist.Physiotherapist;
+import com.tfg.port.out.persistence.PasswordResetTokenRepository;
+import com.tfg.port.out.persistence.PhysiotherapistRepository;
+import com.tfg.port.out.springsecurity.PasswordEncoderPort;
+import com.tfg.service.physiotherapist.ResetPasswordService;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;

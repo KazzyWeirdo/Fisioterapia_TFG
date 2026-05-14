@@ -1,6 +1,6 @@
 package com.tfg.adapter.in.rest.patient;
 
-import com.tfg.application.port.in.patient.CreatePatientUseCase;
+import com.tfg.port.in.patient.CreatePatientUseCase;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,8 +42,8 @@ public class CreatePatientControllerTest {
                 "Smith",
                 "She/Her",
                 987654321,
-                LocalDate.of(1985, 5, 15),
-                "TENDINOPATHY"
+                LocalDate.of(1985, 5, 15)
+
         );
 
         given()
@@ -69,8 +69,7 @@ public class CreatePatientControllerTest {
                 "Smith",
                 "She/Her",
                 987654321,
-                LocalDate.of(1985, 5, 15),
-                "TENDINOPATHY"
+                LocalDate.of(1985, 5, 15)
         );
 
         given()

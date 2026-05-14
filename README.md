@@ -6,7 +6,6 @@
 - [Project Structure](project_structure)
 - [Prerequisites](prerequisites)
 - [Getting Started](getting_started)
-- [Seed Data](seed_data)
 - [API Keys Configuration](api_keys_configuration)
 - [Application Calls](application_calls)
 - [Arquitecture Overview](arquitecture_overview)
@@ -15,11 +14,13 @@
 
 ## 📓 Context
 
-Aquest Treball de Fi de Grau (TFG) tracta sobre el disseny i la creació d’un sistema per a professionals de la fisioteràpia que permet registrar de manera digital i centralitzada els tractaments de rehabilitació a llarg termini, usant la tendinopatia crònica com a exemple.
+Aquest Treball de Fi de Grau (TFG) se centra en crear un sistema backend perquè els professionals de la fisioteràpia puguin registrar de manera digital i centralitzada les rehabilitacions de llarga durada, com la tendinopatia rotuliana crònica. El sistema inclou tant les sessions de radiofreqüència amb la màquina INDIBA com aspectes de psiconeuroimmunologia (PNI) i rehabilitació esportiva.
 
-El sistema combina dades de tres tipus de tractament: sessions de radiofreqüència amb la màquina INDIBA, indicadors de recuperació basats en la psiconeuroimmunologia (PNI) obtinguts amb dispositius Polar, i sessions d’entrenament de rehabilitació esportiva que els fisioterapeutes introdueixen manualment.
+L'aplicació vol cobrir la necessitat de registrar dades d'aquestes tres àrees de la rehabilitació. Mitjançant una API de les màquines INDIBA i dels dispositius de PNI, la base de dades de l'aplicació es pot omplir amb aquesta informació.
 
-L’objectiu principal d’aquesta elecció és no només facilitar el seguiment clínic de cada pacient, sinó també crear un conjunt de dades que es recull al llarg del temps, que sigui organitzat, fiable i fàcil de repetir, per permetre l’anàlisi i la creació d’estudis científics de qualitat sobre l’eficàcia de protocols de rehabilitació complexos. Quan es registren prou casos amb la mateixa estructura, el sistema passa de ser una eina de gestió a una font d’evidència clínica.
+Si no es pot accedir a les API o cal afegir informació sobre la rehabilitació esportiva, els fisioterapeutes poden introduir els detalls de cada sessió, com els paràmetres de tractament, notes o durada, a través d'un formulari al frontend. Aquestes dades s'enviaran al sistema backend per guardar-les.
+
+El sistema també permet consultar l'historial complet d'un pacient, incloent les sessions, la PNI i la rehabilitació esportiva. Això facilita un seguiment detallat del procés i ajuda a prendre decisions clíniques basades en dades.
 
 A més de la funcionalitat en salut, aquest TFG es basa en l'ús d'un conjunt d'arquitectures i bones pràctiques de desenvolupament:
 
@@ -41,7 +42,6 @@ DanielBarbancho_TFG/
 │       │       │   ├── auditaspect/  # Aspecte AOP per registrar auditoria automàticament
 │       │       │   ├── rest/         # Controladors REST, un per domini
 │       │       │   │   ├── auditlog/
-│       │       │   │   ├── exercisetemplate/
 │       │       │   │   ├── indiba/
 │       │       │   │   ├── patient/
 │       │       │   │   ├── physiotherapist/
@@ -70,12 +70,9 @@ DanielBarbancho_TFG/
 │       ├── api/                      # Client HTTP centralitzat (axios)
 │       ├── components/               # Components reutilitzables organitzats per domini
 │       │   ├── auth/                 # Botons, camps i targetes del flux d'autenticació
-│       │   ├── auditlog/             # Components per a la pàgina de logs d'auditoria
-│       │   ├── layout/               # DashboardLayout, Header, Sidebar i LanguageSwitcher
-│       │   ├── patient/              # Tabs de detall (INDIBA, PNI, entrenament, estadístiques) i PatientInfoCard
-│       │   └── ExerciseList.tsx      # Llista d'exercicis reutilitzable per a plantilles
-│       ├── contexts/                 # Contextos globals (AuthContext, LanguageContext)
-│       ├── i18n/                     # Fitxers de traducció (en.json, es.json) i configuració
+│       │   ├── layout/               # DashboardLayout, Header i Sidebar
+│       │   └── patient/              # Tabs de detall (INDIBA, PNI, entrenament, estadístiques)
+│       ├── contexts/                 # Context d'autenticació (AuthContext)
 │       ├── pages/                    # Pàgines de l'aplicació, una per ruta
 │       ├── services/                 # Capa de servei per domini (crida a l'API backend)
 │       └── utils/                    # Utilitats transversals (JWT, exportació CSV)
@@ -86,20 +83,17 @@ DanielBarbancho_TFG/
 | Mòdul / Carpeta | Descripció |
 |-----------------|-----------|
 | `adapter/in/rest` | Controladors REST. Un controlador per cas d'ús, sense lògica de negoci |
-| `adapter/in/rest/exercisetemplate` | Controladors per crear i consultar plantilles d'exercicis |
 | `adapter/in/auditaspect` | Aspecte AOP que intercepta crides als serveis i persiteix logs d'auditoria a MongoDB |
 | `adapter/in/scheduler` | Scheduler de Spring que sincronitza dades de l'API Polar periòdicament |
 | `adapter/out/persistence` | Repositoris JPA per a PostgreSQL i repositoris MongoDB per als logs |
-| `adapter/out/persistence/exercisetemplate` | Entitat JPA, mapper i repositori de plantilles d'exercicis |
 | `adapter/out/springsecurity` | Implementació de `UserDetails` i filtre d'autenticació JWT |
 | `application/port/in` | Interfícies dels casos d'ús que el domini exposa cap enfora |
 | `application/port/out` | Interfícies de repositoris i serveis externs que el domini necessita |
 | `application/service` | Implementació de la lògica de negoci, sense dependències d'infraestructura |
 | `model` | Entitats pures de domini sense anotacions de framework |
 | `bootstrap` | Launcher principal, `application.properties` i fitxer `.env` |
-| `frontend/pages` | Login, registre de pacient, registre de fisioterapeuta, llistat de pacients, detall de pacient, registre i detall de sessions INDIBA, registre i detall de sessions d'entrenament, detall d'informe PNI, recuperació de contrasenya, auditoria, creació de plantilles d'exercicis |
-| `frontend/services` | Una capa de servei per domini: auth, patient, physiotherapist, indiba, pniReport, training, statistics, auditLog, exerciseTemplate |
-| `frontend/i18n` | Fitxers de traducció en anglès i espanyol per a la internacionalització de la interfície |
+| `frontend/pages` | Login, registre, llistat de pacients, detall de pacient, sessions, auditoria |
+| `frontend/services` | Una capa de servei per domini: auth, patient, indiba, pni, training, statistics, auditLog |
 
 ## ✅ Prerequisites
 
@@ -333,14 +327,6 @@ Els endpoints estan protegits amb JWT excepte els marcats com a públics. La cap
 |--------|----------|-----------|------|
 | `GET` | `/auditlogs/list` | Llista tots els logs d'auditoria | 🔒 ADMIN |
 
-### Plantilles d'exercicis (`/exercise-template`)
-
-| Mètode | Endpoint | Descripció | Auth |
-|--------|----------|-----------|------|
-| `POST` | `/exercise-template` | Crea una nova plantilla d'exercicis | 🔒 USER |
-| `GET` | `/exercise-template` | Llista totes les plantilles disponibles | 🔒 USER |
-| `GET` | `/exercise-template/{id}` | Obté una plantilla per ID | 🔒 USER |
-
 ### Integració Polar (`/api/auth/polar`)
 
 | Mètode | Endpoint | Descripció | Auth |
@@ -397,9 +383,6 @@ Informe de psiconeuroimmunologia vinculat a un pacient. Recull indicadors de rec
 
 ### Sessió d'entrenament (`TrainingSession`)
 Sessió de rehabilitació esportiva amb un conjunt d'exercicis. Cada exercici té nom, sèries, repeticions i càrrega. Es registra manualment pel fisioterapeuta.
-
-### Plantilla d'exercicis (`ExerciseTemplate`)
-Catàleg de programes d'exercici estandarditzats que el fisiòleg pot definir de forma independent a qualsevol sessió. Cada plantilla té un nom i una llista d'exercicis associats, i pot ser reutilitzada en múltiples sessions d'entrenament.
 
 ### Log d'auditoria (`AuditLog`)
 Registre immutable de cada acció executada sobre el sistema (creació, modificació, eliminació). Es genera automàticament via AOP i es persisteix a MongoDB. Només visible per als usuaris amb rol `ADMIN`.

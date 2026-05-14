@@ -9,7 +9,6 @@ import { decodeJwtPayload } from '../utils/jwt'
 import { useLanguage } from '../contexts/LanguageContext'
 import ExerciseList, { type ExerciseDraft } from '../components/ExerciseList'
 import styles from './RegisterTrainingSessionPage.module.css'
-import PageTitle from '../components/PageTitle'
 
 export default function RegisterTrainingSessionPage() {
   const { t } = useLanguage()
@@ -48,7 +47,6 @@ export default function RegisterTrainingSessionPage() {
     setLoadingExercises(true)
     getExerciseTemplate(Number(selectedTemplateId))
       .then(tmpl => setExercises(tmpl.exercises.map(ex => ({
-        uid: crypto.randomUUID(),
         name: ex.name,
         fromTemplate: true,
         sets: ex.sets.map(s => ({
@@ -108,7 +106,8 @@ export default function RegisterTrainingSessionPage() {
     <form className={styles.page} onSubmit={handleSubmit}>
 
       <div>
-        <PageTitle title={t('training_register_title')} subtitle={t('training_register_subtitle')} />
+        <h1 className={styles.heading}>{t('training_register_title')}</h1>
+        <p className={styles.subtitle}>{t('training_register_subtitle')}</p>
       </div>
 
       <div className={styles.section}>
@@ -210,7 +209,7 @@ export default function RegisterTrainingSessionPage() {
       {submitError && <p className={styles.error}>{submitError}</p>}
 
       <div className={styles.footer}>
-        <button type="submit" className="btn btn-primary" disabled={submitting || !physio || !selectedTemplateId}>
+        <button type="submit" className={styles.submitBtn} disabled={submitting || !physio || !selectedTemplateId}>
           {t('training_complete_registration')}
         </button>
       </div>

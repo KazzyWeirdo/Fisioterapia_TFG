@@ -1,16 +1,16 @@
 package com.tfg.adapter.in.rest.trainingsession;
 
-import com.tfg.model.patient.Patient;
-import com.tfg.model.patient.PatientId;
-import com.tfg.model.physiotherapist.Physiotherapist;
-import com.tfg.model.physiotherapist.PhysiotherapistId;
-import com.tfg.application.port.out.persistence.ExerciseTemplateRepository;
-import com.tfg.application.port.out.persistence.PatientRepository;
-import com.tfg.application.port.out.persistence.PhysiotherapistRepository;
-import com.tfg.model.trainingsession.Exercise;
-import com.tfg.model.trainingsession.ExerciseSet;
-import com.tfg.model.trainingsession.ExerciseTemplate;
-import com.tfg.model.trainingsession.TrainingSession;
+import com.tfg.patient.Patient;
+import com.tfg.patient.PatientId;
+import com.tfg.physiotherapist.Physiotherapist;
+import com.tfg.physiotherapist.PhysiotherapistId;
+import com.tfg.port.out.persistence.ExerciseTemplateRepository;
+import com.tfg.port.out.persistence.PatientRepository;
+import com.tfg.port.out.persistence.PhysiotherapistRepository;
+import com.tfg.trainingsession.Exercise;
+import com.tfg.trainingsession.ExerciseSet;
+import com.tfg.trainingsession.ExerciseTemplate;
+import com.tfg.trainingsession.TrainingSession;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

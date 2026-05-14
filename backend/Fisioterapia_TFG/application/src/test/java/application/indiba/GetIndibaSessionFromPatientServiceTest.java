@@ -1,14 +1,14 @@
 package application.indiba;
 
 import com.tfg.model.patient.PatientFactory;
-import com.tfg.model.patient.Patient;
-import com.tfg.model.patient.PatientId;
-import com.tfg.application.pojos.pagedpojos.PageQuery;
-import com.tfg.application.pojos.pagedpojos.PagedResponse;
-import com.tfg.application.pojos.query.IndibaSummaryElement;
-import com.tfg.application.port.out.persistence.IndibaSessionRepository;
-import com.tfg.application.port.out.persistence.PatientRepository;
-import com.tfg.application.service.indiba.GetIndibaSessionFromPatientService;
+import com.tfg.patient.Patient;
+import com.tfg.patient.PatientId;
+import com.tfg.pojos.pagedpojos.PageQuery;
+import com.tfg.pojos.pagedpojos.PagedResponse;
+import com.tfg.pojos.query.IndibaSummaryElement;
+import com.tfg.port.out.persistence.IndibaSessionRepository;
+import com.tfg.port.out.persistence.PatientRepository;
+import com.tfg.service.indiba.GetIndibaSessionFromPatientService;
 import org.junit.jupiter.api.Test;
 
 import java.util.Calendar;

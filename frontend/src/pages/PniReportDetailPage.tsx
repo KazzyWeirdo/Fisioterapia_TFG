@@ -7,8 +7,6 @@ import { getPniReport, type PniReport } from '../services/pniReportService'
 import { getPatient, type PatientDetail } from '../services/patientService'
 import { useLanguage } from '../contexts/LanguageContext'
 import styles from './PniReportDetailPage.module.css'
-import TabBar from '../components/TabBar'
-import Breadcrumb from '../components/Breadcrumb'
 
 function formatDate(raw: string, locale: string): string {
   return new Date(raw + 'T00:00:00').toLocaleDateString(locale, {
@@ -65,11 +63,17 @@ export default function PniReportDetailPage() {
       {/* Header */}
       <div className={styles.header}>
         <div className={styles.headerLeft}>
-          <Breadcrumb items={[
-            { label: t('nav_patients'), onClick: () => navigate('/patients') },
-            { label: patientName, onClick: () => navigate(`/patients/${report.patientId}`) },
-            { label: t('pni_breadcrumb_current') },
-          ]} />
+          <nav className={styles.breadcrumb}>
+            <button type="button" className={styles.breadcrumbLink} onClick={() => navigate('/patients')}>
+              {t('nav_patients')}
+            </button>
+            <span className={styles.breadcrumbSep}>›</span>
+            <button type="button" className={styles.breadcrumbLink} onClick={() => navigate(`/patients/${report.patientId}`)}>
+              {patientName}
+            </button>
+            <span className={styles.breadcrumbSep}>›</span>
+            <span className={styles.breadcrumbCurrent}>{t('pni_breadcrumb_current')}</span>
+          </nav>
           <h1 className={styles.title}>{formatDate(report.reportDate, localeTag)}</h1>
           <p className={styles.subtitle}>
             {t('pni_assessment_subtitle')} {patientName}
@@ -78,12 +82,19 @@ export default function PniReportDetailPage() {
       </div>
 
       {/* Tab bar */}
-      <TabBar
-        tabs={TABS.map(({ label, tab }) => ({ id: tab, label }))}
-        activeTab="pni"
-        onTabChange={tab => navigate(`/patients/${report.patientId}`, { state: { tab } })}
-        ariaLabel="Patient sections"
-      />
+      <nav className={styles.tabBar} aria-label="Patient sections">
+        {TABS.map(({ label, tab }) => (
+          <button
+            key={tab}
+            type="button"
+            className={`${styles.tab} ${tab === 'pni' ? styles.tabActive : ''}`}
+            onClick={() => navigate(`/patients/${report.patientId}`, { state: { tab } })}
+          >
+            {label}
+          </button>
+        ))}
+      </nav>
+      <div className={styles.tabSeparator} />
 
       {/* Top row */}
       <div className={styles.topRow}>
@@ -111,10 +122,9 @@ export default function PniReportDetailPage() {
               <div className={styles.metricValue}>
                 {report.hours_asleep}<span className={styles.metricUnit}>h</span>
               </div>
-              <div className="progress mt-2" style={{ height: '6px' }}>
+              <div className={styles.progressBar}>
                 <div
-                  className="progress-bar"
-                  role="progressbar"
+                  className={styles.progressFill}
                   style={{ width: `${Math.min((report.hours_asleep / 10) * 100, 100)}%` }}
                 />
               </div>

@@ -29,7 +29,7 @@ export default function Header({ onMenuToggle }: HeaderProps) {
     <header className={styles.header}>
       <button
         type="button"
-        className={`btn btn-outline-secondary btn-sm ${styles.menuBtn}`}
+        className={styles.menuBtn}
         onClick={onMenuToggle}
         aria-label="Toggle menu"
       >

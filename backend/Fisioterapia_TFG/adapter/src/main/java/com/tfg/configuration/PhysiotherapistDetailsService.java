@@ -1,9 +1,9 @@
 package com.tfg.configuration;
 
-import com.tfg.application.exceptions.InvalidIdException;
-import com.tfg.model.physiotherapist.Physiotherapist;
-import com.tfg.model.physiotherapist.PhysiotherapistEmail;
-import com.tfg.application.port.out.persistence.PhysiotherapistRepository;
+import com.tfg.exceptions.InvalidIdException;
+import com.tfg.physiotherapist.Physiotherapist;
+import com.tfg.physiotherapist.PhysiotherapistEmail;
+import com.tfg.port.out.persistence.PhysiotherapistRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

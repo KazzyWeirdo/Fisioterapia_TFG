@@ -1,8 +1,11 @@
 package com.tfg.model.pni;
 
 import com.tfg.model.patient.PatientFactory;
-import com.tfg.model.patient.Patient;
+import com.tfg.patient.Patient;
+import com.tfg.pni.PniReport;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

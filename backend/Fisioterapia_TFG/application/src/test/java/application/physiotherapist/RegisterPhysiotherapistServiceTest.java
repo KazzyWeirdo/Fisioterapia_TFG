@@ -1,12 +1,12 @@
 package application.physiotherapist;
 
 import com.tfg.model.physiotherapist.PhysiotherapistFactory;
-import com.tfg.application.port.in.physiotherapist.RequestPasswordResetUseCase;
-import com.tfg.application.port.out.persistence.PhysiotherapistRepository;
-import com.tfg.model.physiotherapist.Physiotherapist;
-import com.tfg.model.physiotherapist.PhysiotherapistEmail;
-import com.tfg.application.port.out.springsecurity.PasswordEncoderPort;
-import com.tfg.application.service.physiotherapist.RegisterPhysiotherapistService;
+import com.tfg.port.in.physiotherapist.RequestPasswordResetUseCase;
+import com.tfg.port.out.persistence.PhysiotherapistRepository;
+import com.tfg.physiotherapist.Physiotherapist;
+import com.tfg.physiotherapist.PhysiotherapistEmail;
+import com.tfg.port.out.springsecurity.PasswordEncoderPort;
+import com.tfg.service.physiotherapist.RegisterPhysiotherapistService;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;

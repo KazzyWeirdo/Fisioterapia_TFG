@@ -1,7 +1,7 @@
 package com.tfg.adapter.in.rest.trainingsession;
 
-import com.tfg.application.port.in.trainingsession.GetAllTrainingSessionsForExportUseCase;
-import com.tfg.model.trainingsession.TrainingSession;
+import com.tfg.port.in.trainingsession.GetAllTrainingSessionsForExportUseCase;
+import com.tfg.trainingsession.TrainingSession;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

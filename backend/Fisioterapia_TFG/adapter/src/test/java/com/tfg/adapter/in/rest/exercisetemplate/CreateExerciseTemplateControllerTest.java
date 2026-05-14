@@ -2,7 +2,7 @@ package com.tfg.adapter.in.rest.exercisetemplate;
 
 import com.tfg.adapter.in.rest.trainingsession.ExerciseCreationModel;
 import com.tfg.adapter.in.rest.trainingsession.ExerciseSetCreationModel;
-import com.tfg.application.port.in.exercisetemplate.CreateExerciseTemplateUseCase;
+import com.tfg.port.in.exercisetemplate.CreateExerciseTemplateUseCase;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

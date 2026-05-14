@@ -7,7 +7,7 @@ export default function LanguageSwitcher() {
   return (
     <button
       type="button"
-      className={`btn ${styles.pill}`}
+      className={styles.pill}
       onClick={toggleLanguage}
       aria-label={`Switch to ${locale === 'en' ? 'Spanish' : 'English'}`}
       title={`Switch to ${locale === 'en' ? 'Español' : 'English'}`}

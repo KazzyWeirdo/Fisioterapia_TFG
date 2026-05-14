@@ -1,8 +1,8 @@
 package com.tfg.adapter.out.springsecurity;
 
 import com.tfg.configuration.PhysiotherapistDetails;
-import com.tfg.application.pojos.springsecurity.AuthenticatedUser;
-import com.tfg.application.port.out.springsecurity.CredentialsValidatorPort;
+import com.tfg.pojos.springsecurity.AuthenticatedUser;
+import com.tfg.port.out.springsecurity.CredentialsValidatorPort;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

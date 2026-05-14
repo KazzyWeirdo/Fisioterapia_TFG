@@ -1,5 +1,6 @@
 package com.tfg.model.auditlog;
 
+import com.tfg.auditlog.AuditLog;
 import org.junit.jupiter.api.Test;
 
 public class AuditLogTest {

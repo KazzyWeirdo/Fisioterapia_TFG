@@ -1,5 +1,8 @@
 package com.tfg.model.auditlog;
 
+import com.tfg.auditlog.AuditLog;
+import com.tfg.auditlog.AuditLogId;
+
 import java.util.concurrent.ThreadLocalRandom;
 
 public class AuditLogFactory {

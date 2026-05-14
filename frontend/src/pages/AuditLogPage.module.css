@@ -8,6 +8,20 @@
   margin-bottom: 28px;
 }
 
+.title {
+  font-size: 32px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 10px 0;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.6;
+  max-width: 560px;
+}
 
 .statCardWrap {
   display: flex;
@@ -60,6 +74,63 @@
   margin-bottom: 8px;
   flex-wrap: wrap;
   justify-content: flex-end;
+}
+
+.filterBtn {
+  height: 40px;
+  padding: 0 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filterBtn:hover {
+  background: #f4f6f9;
+}
+
+.filterBtnActive {
+  border-color: #1a3a6b;
+  color: #1a3a6b;
+  background: #f0f4fb;
+}
+
+.filterBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #1a3a6b;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.exportBtn {
+  height: 40px;
+  padding: 0 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.exportBtn:hover {
+  background: #f4f6f9;
 }
 
 /* ── Filter panel ── */
@@ -116,6 +187,24 @@
   margin-left: auto;
   display: flex;
   align-items: flex-end;
+}
+
+.clearBtn {
+  height: 36px;
+  padding: 0 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #6b7280;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.clearBtn:hover {
+  background: #f4f6f9;
+  color: #374151;
 }
 
 /* ── Table ── */
@@ -183,6 +272,16 @@
   white-space: nowrap;
 }
 
+.badge {
+  border-radius: 6px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  display: inline-block;
+}
+
 .stateCell {
   text-align: center;
   padding: 32px;
@@ -217,16 +316,46 @@
   align-items: center;
 }
 
-@media (max-width: 768px) {
-  .page {
-    padding: 1.5rem;
-  }
+.pageBtn {
+  min-width: 32px;
+  height: 32px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #374151;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 0 8px;
+}
 
+.pageBtn:hover:not(:disabled) {
+  background: #f4f6f9;
+}
+
+.pageBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pageBtnActive {
+  background: #1a3a6b;
+  color: #ffffff;
+  border-color: #1a3a6b;
+}
+
+.pageBtnActive:hover:not(:disabled) {
+  background: #142d54;
 }
 
 @media (max-width: 640px) {
   .page {
     padding: 1rem;
+  }
+
+  .title {
+    font-size: 1.75rem;
   }
 
   .statCard {

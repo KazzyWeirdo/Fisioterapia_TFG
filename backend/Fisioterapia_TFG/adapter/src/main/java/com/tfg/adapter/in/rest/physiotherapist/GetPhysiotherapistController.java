@@ -1,8 +1,8 @@
 package com.tfg.adapter.in.rest.physiotherapist;
 
-import com.tfg.model.physiotherapist.Physiotherapist;
-import com.tfg.model.physiotherapist.PhysiotherapistId;
-import com.tfg.application.port.in.physiotherapist.GetPhysiotherapistUseCase;
+import com.tfg.physiotherapist.Physiotherapist;
+import com.tfg.physiotherapist.PhysiotherapistId;
+import com.tfg.port.in.physiotherapist.GetPhysiotherapistUseCase;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;

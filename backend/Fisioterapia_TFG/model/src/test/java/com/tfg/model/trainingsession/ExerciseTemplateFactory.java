@@ -1,5 +1,8 @@
 package com.tfg.model.trainingsession;
 
+import com.tfg.trainingsession.Exercise;
+import com.tfg.trainingsession.ExerciseTemplate;
+
 public class ExerciseTemplateFactory {
 
     public static final String DEFAULT_NAME = "Test Template";

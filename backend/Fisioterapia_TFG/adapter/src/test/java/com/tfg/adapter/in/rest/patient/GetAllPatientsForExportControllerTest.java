@@ -2,8 +2,8 @@ package com.tfg.adapter.in.rest.patient;
 
 import com.tfg.adapter.in.rest.common.GlobalExceptionHandler;
 import com.tfg.model.patient.PatientFactory;
-import com.tfg.model.patient.Patient;
-import com.tfg.application.port.in.patient.GetAllPatientsForExportUseCase;
+import com.tfg.patient.Patient;
+import com.tfg.port.in.patient.GetAllPatientsForExportUseCase;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

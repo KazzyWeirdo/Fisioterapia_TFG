@@ -2,7 +2,7 @@ package com.tfg.adapter.configuration;
 
 
 import com.tfg.adapter.out.persistence.JpaTestContainerConfig;
-import com.tfg.application.service.physiotherapist.LogPhysiotherapistService;
+import com.tfg.service.physiotherapist.LogPhysiotherapistService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

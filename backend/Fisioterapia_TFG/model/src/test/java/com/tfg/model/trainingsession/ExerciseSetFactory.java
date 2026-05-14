@@ -1,5 +1,7 @@
 package com.tfg.model.trainingsession;
 
+import com.tfg.trainingsession.ExerciseSet;
+
 public class ExerciseSetFactory {
 
     public static double WEIGHT_KG = 20.0;

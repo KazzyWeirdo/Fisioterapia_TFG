@@ -1,11 +1,13 @@
 package com.tfg.adapter.in.rest.trainingsession;
 
 import com.tfg.adapter.in.rest.common.PatientIdParser;
-import com.tfg.model.patient.PatientId;
-import com.tfg.application.pojos.pagedpojos.PageQuery;
-import com.tfg.application.pojos.pagedpojos.PagedResponse;
-import com.tfg.application.pojos.query.TrainingSessionSummaryElement;
-import com.tfg.application.port.in.trainingsession.GetTrainingSessionByPatientUseCase;
+import com.tfg.adapter.in.rest.pni.PniReportListWebModel;
+import com.tfg.patient.PatientId;
+import com.tfg.pojos.pagedpojos.PageQuery;
+import com.tfg.pojos.pagedpojos.PagedResponse;
+import com.tfg.pojos.query.PniReportSummaryElement;
+import com.tfg.pojos.query.TrainingSessionSummaryElement;
+import com.tfg.port.in.trainingsession.GetTrainingSessionByPatientUseCase;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController

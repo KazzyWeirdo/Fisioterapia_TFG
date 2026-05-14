@@ -1,12 +1,11 @@
 import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faDumbbell, faCheck } from '@fortawesome/free-solid-svg-icons'
+import { faDumbbell } from '@fortawesome/free-solid-svg-icons'
 import { createExerciseTemplate } from '../services/exerciseTemplateService'
 import { useLanguage } from '../contexts/LanguageContext'
 import ExerciseList, { type ExerciseDraft, type SetDraft } from '../components/ExerciseList'
 import styles from './CreateExerciseTemplatePage.module.css'
-import PageTitle from '../components/PageTitle'
 
 function newSet(): SetDraft {
   return { weightKg: '', reps: '', restTimeSeconds: '', rpe: 7 }
@@ -57,7 +56,8 @@ export default function CreateExerciseTemplatePage() {
     <form className={styles.page} onSubmit={handleSubmit}>
 
       <div>
-        <PageTitle title={t('template_register_title')} subtitle={t('template_register_subtitle')} />
+        <h1 className={styles.heading}>{t('template_register_title')}</h1>
+        <p className={styles.subtitle}>{t('template_register_subtitle')}</p>
       </div>
 
       <div className={styles.section}>
@@ -87,8 +87,15 @@ export default function CreateExerciseTemplatePage() {
       {submitError && <p className={styles.error}>{submitError}</p>}
 
       <div className={styles.footer}>
-        <button type="submit" className="btn btn-primary" disabled={submitting}>
-          <FontAwesomeIcon icon={faCheck} /> {t('template_submit')}
+        <button
+          type="button"
+          className={styles.discardBtn}
+          onClick={() => navigate(-1)}
+        >
+          {t('template_discard')}
+        </button>
+        <button type="submit" className={styles.submitBtn} disabled={submitting}>
+          {t('template_submit')}
         </button>
       </div>
 

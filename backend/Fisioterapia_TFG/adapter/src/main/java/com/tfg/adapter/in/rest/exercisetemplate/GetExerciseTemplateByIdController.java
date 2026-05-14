@@ -1,7 +1,7 @@
 package com.tfg.adapter.in.rest.exercisetemplate;
 
-import com.tfg.application.exceptions.InvalidIdException;
-import com.tfg.application.port.in.exercisetemplate.GetExerciseTemplateByIdUseCase;
+import com.tfg.exceptions.InvalidIdException;
+import com.tfg.port.in.exercisetemplate.GetExerciseTemplateByIdUseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

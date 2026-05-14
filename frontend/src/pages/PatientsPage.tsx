@@ -14,7 +14,6 @@ import { getAllPniForExport, type PniExport } from '../services/pniReportService
 import { getAllTrainingForExport, type TrainingSetExport } from '../services/trainingSessionService'
 import { downloadCsv } from '../utils/csvUtils'
 import styles from './PatientsPage.module.css'
-import PageTitle from '../components/PageTitle'
 
 const PAGE_SIZE = 10
 
@@ -98,7 +97,8 @@ export default function PatientsPage() {
 
   return (
     <div className={styles.page}>
-      <PageTitle title={t('patients_title')} subtitle={t('patients_page_subtitle')} />
+      <h1 className={styles.title}>{t('patients_title')}</h1>
+      <p className={styles.subtitle}>{t('patients_page_subtitle')}</p>
 
       <div className={styles.statCard}>
         <div className={styles.statLabel}>{t('patients_stat_active')}</div>
@@ -119,35 +119,35 @@ export default function PatientsPage() {
         <div className={styles.exportGroup}>
           <button
             type="button"
-            className="btn btn-outline-secondary btn-sm"
+            className={styles.downloadBtn}
             disabled={downloading.patients}
             onClick={() => handleExport<PatientExport>(
               'patients',
               getAllPatientsForExport,
               'patients.csv',
-              ['id', 'date_of_birth', 'clinical_sex', 'pathology'],
-              (p) => [p.id, p.dateOfBirth, p.clinicalUseSex, p.pathology ?? ''],
+              ['id', 'date_of_birth', 'clinical_sex'],
+              (p) => [p.id, p.dateOfBirth, p.clinicalUseSex],
             )}
           >
             {downloading.patients ? t('patients_exporting') : <><FontAwesomeIcon icon={faDownload} /> {t('patients_export_patients')}</>}
           </button>
           <button
             type="button"
-            className="btn btn-outline-secondary btn-sm"
+            className={styles.downloadBtn}
             disabled={downloading.indiba}
             onClick={() => handleExport<IndibaExport>(
               'indiba',
               getAllIndibaForExport,
               'indiba_sessions.csv',
-              ['patient_id', 'session_id', 'begin_session', 'end_session', 'treated_area', 'mode', 'capacitive_intensity', 'resistive_intensity', 'observations'],
-              (s) => [s.patientId, s.sessionId, s.beginSession, s.endSession, s.treatedArea, s.mode, s.capacitiveIntensity, s.resistiveIntensity, s.observations],
+              ['patient_id', 'session_id', 'begin_session', 'end_session', 'treated_area', 'mode', 'capacitive_intensity', 'resistive_intensity', 'objective', 'observations'],
+              (s) => [s.patientId, s.sessionId, s.beginSession, s.endSession, s.treatedArea, s.mode, s.capacitiveIntensity, s.resistiveIntensity, s.objective, s.observations],
             )}
           >
             {downloading.indiba ? t('patients_exporting') : <><FontAwesomeIcon icon={faDownload} /> {t('patients_export_indiba')}</>}
           </button>
           <button
             type="button"
-            className="btn btn-outline-secondary btn-sm"
+            className={styles.downloadBtn}
             disabled={downloading.pni}
             onClick={() => handleExport<PniExport>(
               'pni',
@@ -161,7 +161,7 @@ export default function PatientsPage() {
           </button>
           <button
             type="button"
-            className="btn btn-outline-secondary btn-sm"
+            className={styles.downloadBtn}
             disabled={downloading.training}
             onClick={() => handleExport<TrainingSetExport>(
               'training',
@@ -212,35 +212,11 @@ export default function PatientsPage() {
               !error &&
               filteredPatients.map((p) => (
                 <tr key={p.id}>
-                  <td className={styles.nameCell}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      {[p.name, p.surname, p.secondSurname].filter(Boolean).join(' ')}
-                      {p.dischargeDate && (
-                        <span style={{ fontSize: 11, fontWeight: 700, background: '#dcfce7', color: '#15803d', borderRadius: 4, padding: '1px 6px', letterSpacing: '0.04em' }}>
-                          ALTA
-                        </span>
-                      )}
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4 }}>
-                      {p.pathology && (
-                        <span style={{ fontSize: 11, fontWeight: 600, background: '#e0e7ff', color: '#3730a3', borderRadius: 4, padding: '1px 6px' }}>
-                          {p.pathology.replace(/_/g, ' ')}
-                        </span>
-                      )}
-                      {p.functionalScore != null && (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                          <div style={{ background: '#e5e7eb', borderRadius: 3, height: 6, width: 60 }}>
-                            <div style={{ width: `${p.functionalScore}%`, backgroundColor: `hsl(${p.functionalScore * 1.2}, 85%, 42%)`, height: '100%', borderRadius: 3 }} />
-                          </div>
-                          <span style={{ fontSize: 11, color: '#6b7280' }}>{p.functionalScore}/100</span>
-                        </div>
-                      )}
-                    </div>
-                  </td>
+                  <td className={styles.nameCell}>{[p.name, p.surname, p.secondSurname].filter(Boolean).join(' ')}</td>
                   <td className={styles.actionCol}>
                     <button
                       type="button"
-                      className="btn btn-primary btn-sm"
+                      className={styles.viewBtn}
                       onClick={() => navigate(`/patients/${p.id}`)}
                     >
                       {t('common_view_details')}
@@ -258,7 +234,7 @@ export default function PatientsPage() {
           <div className={styles.pagination}>
             <button
               type="button"
-              className="btn btn-outline-secondary btn-sm"
+              className={styles.pageBtn}
               disabled={currentPage === 0}
               onClick={() => goToPage(currentPage - 1)}
               aria-label="Previous page"
@@ -269,7 +245,11 @@ export default function PatientsPage() {
               <button
                 key={n}
                 type="button"
-                className={n === currentPage ? 'btn btn-secondary btn-sm' : 'btn btn-outline-secondary btn-sm'}
+                className={
+                  n === currentPage
+                    ? `${styles.pageBtn} ${styles.pageBtnActive}`
+                    : styles.pageBtn
+                }
                 onClick={() => goToPage(n)}
               >
                 {n + 1}
@@ -277,7 +257,7 @@ export default function PatientsPage() {
             ))}
             <button
               type="button"
-              className="btn btn-outline-secondary btn-sm"
+              className={styles.pageBtn}
               disabled={currentPage >= totalPages - 1}
               onClick={() => goToPage(currentPage + 1)}
               aria-label="Next page"

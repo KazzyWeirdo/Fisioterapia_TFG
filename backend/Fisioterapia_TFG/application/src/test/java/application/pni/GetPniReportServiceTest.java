@@ -2,13 +2,14 @@ package application.pni;
 
 import com.tfg.model.patient.PatientFactory;
 import com.tfg.model.pni.PniReportFactory;
-import com.tfg.model.patient.Patient;
-import com.tfg.model.pni.PniReport;
-import com.tfg.model.pni.PniReportId;
-import com.tfg.application.port.out.persistence.PniReportRepository;
-import com.tfg.application.service.pni.GetPniReportService;
+import com.tfg.patient.Patient;
+import com.tfg.pni.PniReport;
+import com.tfg.pni.PniReportId;
+import com.tfg.port.out.persistence.PniReportRepository;
+import com.tfg.service.pni.GetPniReportService;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;

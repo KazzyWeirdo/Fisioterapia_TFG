@@ -4,21 +4,22 @@ import { faClipboardList } from '@fortawesome/free-solid-svg-icons'
 import { getAuditLogs, type AuditLogSummary } from '../services/auditLogService'
 import { useLanguage } from '../contexts/LanguageContext'
 import styles from './AuditLogPage.module.css'
-import PageTitle from '../components/PageTitle'
 
 const PAGE_SIZE = 10
 
-const ACTION_BADGE_CLASSES: Record<string, string> = {
-  CREATE: 'badge bg-success',
-  UPDATE: 'badge bg-warning text-dark',
-  DELETE: 'badge bg-danger',
+const ACTION_BADGE_STYLES: Record<string, { bg: string; color: string }> = {
+  CREATE: { bg: '#dcfce7', color: '#166534' },
+  UPDATE: { bg: '#fef9c3', color: '#854d0e' },
 }
 
 function ActionBadge({ action }: { action: string }) {
   const key = action.toUpperCase()
-  const badgeClass = ACTION_BADGE_CLASSES[key] ?? 'badge bg-secondary'
+  const badge = ACTION_BADGE_STYLES[key] ?? { bg: '#f3f4f6', color: '#374151' }
   return (
-    <span className={badgeClass}>
+    <span
+      className={styles.badge}
+      style={{ backgroundColor: badge.bg, color: badge.color }}
+    >
       {action}
     </span>
   )
@@ -99,7 +100,8 @@ export default function AuditLogPage() {
   return (
     <div className={styles.page}>
       <div className={styles.titleArea}>
-        <PageTitle title={t('audit_title')} subtitle={t('audit_subtitle')} />
+        <h1 className={styles.title}>{t('audit_title')}</h1>
+        <p className={styles.subtitle}>{t('audit_subtitle')}</p>
       </div>
 
       <div className={styles.statCardWrap}>
@@ -113,13 +115,13 @@ export default function AuditLogPage() {
       <div className={styles.controls}>
         <button
           type="button"
-          className={`btn btn-outline-secondary btn-sm${filtersOpen ? ' active' : ''}`}
+          className={`${styles.filterBtn} ${filtersOpen ? styles.filterBtnActive : ''}`}
           onClick={() => setFiltersOpen(o => !o)}
           aria-expanded={filtersOpen}
         >
           {t('audit_filters_btn')}
           {activeFilterCount > 0 && (
-            <span className="badge bg-primary rounded-pill ms-1">{activeFilterCount}</span>
+            <span className={styles.filterBadge}>{activeFilterCount}</span>
           )}
         </button>
       </div>
@@ -154,7 +156,6 @@ export default function AuditLogPage() {
                 <option value="">{t('audit_filter_all')}</option>
                 <option value="CREATE">CREATE</option>
                 <option value="UPDATE">UPDATE</option>
-                <option value="DELETE">DELETE</option>
               </select>
             </label>
 
@@ -192,7 +193,7 @@ export default function AuditLogPage() {
             </label>
 
             <div className={styles.filterClearWrap}>
-              <button type="button" className="btn btn-outline-secondary btn-sm" onClick={clearFilters}>
+              <button type="button" className={styles.clearBtn} onClick={clearFilters}>
                 {t('audit_filter_clear')}
               </button>
             </div>
@@ -254,7 +255,7 @@ export default function AuditLogPage() {
           <div className={styles.pagination}>
             <button
               type="button"
-              className="btn btn-outline-secondary btn-sm"
+              className={styles.pageBtn}
               disabled={currentPage === 0}
               onClick={() => goToPage(currentPage - 1)}
               aria-label="Previous page"
@@ -265,7 +266,11 @@ export default function AuditLogPage() {
               <button
                 key={n}
                 type="button"
-                className={n === currentPage ? 'btn btn-secondary btn-sm' : 'btn btn-outline-secondary btn-sm'}
+                className={
+                  n === currentPage
+                    ? `${styles.pageBtn} ${styles.pageBtnActive}`
+                    : styles.pageBtn
+                }
                 onClick={() => goToPage(n)}
                 aria-label={`Page ${n + 1}`}
                 aria-current={n === currentPage ? 'true' : undefined}
@@ -275,7 +280,7 @@ export default function AuditLogPage() {
             ))}
             <button
               type="button"
-              className="btn btn-outline-secondary btn-sm"
+              className={styles.pageBtn}
               disabled={currentPage >= totalPages - 1}
               onClick={() => goToPage(currentPage + 1)}
               aria-label="Next page"

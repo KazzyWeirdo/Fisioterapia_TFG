@@ -1,7 +1,7 @@
 package com.tfg.adapter.in.rest.exercisetemplate;
 
 import com.tfg.adapter.in.rest.trainingsession.ExerciseCreationModel;
-import com.tfg.model.trainingsession.ExerciseTemplate;
+import com.tfg.trainingsession.ExerciseTemplate;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;

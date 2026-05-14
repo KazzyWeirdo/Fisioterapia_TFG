@@ -1,7 +1,9 @@
 package com.tfg.adapter.in.rest.polar;
 
 import com.tfg.adapter.in.rest.common.PatientIdParser;
-import com.tfg.application.port.in.polar.ManagePolarConnectionUseCase;
+import com.tfg.model.patient.PatientFactory;
+import com.tfg.patient.Patient;
+import com.tfg.port.in.polar.ManagePolarConnectionUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

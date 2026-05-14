@@ -1,10 +1,10 @@
 package application.physiotherapist;
 
-import com.tfg.application.exceptions.InvalidCredentialsException;
-import com.tfg.application.pojos.springsecurity.AuthenticatedUser;
-import com.tfg.application.port.out.springsecurity.CredentialsValidatorPort;
-import com.tfg.application.port.out.springsecurity.TokenGeneratorPort;
-import com.tfg.application.service.physiotherapist.LogPhysiotherapistService;
+import com.tfg.exceptions.InvalidCredentialsException;
+import com.tfg.pojos.springsecurity.AuthenticatedUser;
+import com.tfg.port.out.springsecurity.CredentialsValidatorPort;
+import com.tfg.port.out.springsecurity.TokenGeneratorPort;
+import com.tfg.service.physiotherapist.LogPhysiotherapistService;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

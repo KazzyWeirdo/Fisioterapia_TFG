@@ -1,13 +1,13 @@
 package com.tfg.adapter.in.auditaspect;
 
-import com.tfg.model.auditlog.AuditLog;
-import com.tfg.model.indiba.IndibaSession;
-import com.tfg.model.patient.Patient;
-import com.tfg.model.patient.PatientId;
-import com.tfg.model.physiotherapist.Physiotherapist;
-import com.tfg.model.pni.PniReport;
-import com.tfg.application.port.out.persistence.AuditLogRepository;
-import com.tfg.model.trainingsession.TrainingSession;
+import com.tfg.auditlog.AuditLog;
+import com.tfg.indiba.IndibaSession;
+import com.tfg.patient.Patient;
+import com.tfg.patient.PatientId;
+import com.tfg.physiotherapist.Physiotherapist;
+import com.tfg.pni.PniReport;
+import com.tfg.port.out.persistence.AuditLogRepository;
+import com.tfg.trainingsession.TrainingSession;
 import org.aspectj.lang.JoinPoint;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;

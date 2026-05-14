@@ -9,5 +9,6 @@ public record IndibaExportWebModel(
         String mode,
         Float capacitiveIntensity,
         Float resistiveIntensity,
+        String objective,
         String observations
 ) {}

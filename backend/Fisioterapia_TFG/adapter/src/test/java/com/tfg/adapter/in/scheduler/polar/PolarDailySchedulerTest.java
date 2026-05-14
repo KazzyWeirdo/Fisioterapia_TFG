@@ -1,6 +1,6 @@
 package com.tfg.adapter.in.scheduler.polar;
 
-import com.tfg.application.port.in.polar.SyncPolarDataUseCase;
+import com.tfg.port.in.polar.SyncPolarDataUseCase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

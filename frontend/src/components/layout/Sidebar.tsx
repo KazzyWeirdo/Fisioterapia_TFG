@@ -114,7 +114,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           <button
             type="button"
             onClick={logout}
-            className={`btn btn-link ${styles.link} ${styles.logout}`}
+            className={`${styles.link} ${styles.logout}`}
           >
             <FontAwesomeIcon icon={faArrowRightFromBracket} className={styles.icon} /> {t('logout')}
           </button>

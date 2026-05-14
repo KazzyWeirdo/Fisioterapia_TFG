@@ -1,19 +1,19 @@
 package application.statistics;
 
-import com.tfg.model.indiba.IndibaSession;
+import com.tfg.indiba.IndibaSession;
 import com.tfg.model.indiba.IndibaSessionFactory;
 import com.tfg.model.patient.PatientFactory;
 import com.tfg.model.physiotherapist.PhysiotherapistFactory;
 import com.tfg.model.trainingsession.TrainingSessionFactory;
-import com.tfg.model.patient.Patient;
-import com.tfg.model.patient.PatientId;
-import com.tfg.model.physiotherapist.Physiotherapist;
-import com.tfg.application.port.out.persistence.IndibaSessionRepository;
-import com.tfg.application.port.out.persistence.PatientRepository;
-import com.tfg.application.port.out.persistence.TrainingSessionRepository;
-import com.tfg.application.service.statistics.GetPatientTransitionRatioService;
-import com.tfg.model.statistics.PatientMonthTransitionRatio;
-import com.tfg.model.trainingsession.TrainingSession;
+import com.tfg.patient.Patient;
+import com.tfg.patient.PatientId;
+import com.tfg.physiotherapist.Physiotherapist;
+import com.tfg.port.out.persistence.IndibaSessionRepository;
+import com.tfg.port.out.persistence.PatientRepository;
+import com.tfg.port.out.persistence.TrainingSessionRepository;
+import com.tfg.service.statistics.GetPatientTransitionRatioService;
+import com.tfg.statistics.PatientMonthTransitionRatio;
+import com.tfg.trainingsession.TrainingSession;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;

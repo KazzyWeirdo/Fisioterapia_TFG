@@ -1,6 +1,6 @@
 package com.tfg.adapter.in.rest.physiotherapist;
 
-import com.tfg.application.port.in.physiotherapist.LogPhysiotherapistUseCase;
+import com.tfg.port.in.physiotherapist.LogPhysiotherapistUseCase;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;

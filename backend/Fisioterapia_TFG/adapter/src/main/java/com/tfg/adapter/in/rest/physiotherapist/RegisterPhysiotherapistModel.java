@@ -1,7 +1,7 @@
 package com.tfg.adapter.in.rest.physiotherapist;
 
-import com.tfg.model.physiotherapist.ERole;
-import com.tfg.model.physiotherapist.Physiotherapist;
+import com.tfg.physiotherapist.ERole;
+import com.tfg.physiotherapist.Physiotherapist;
 import jakarta.validation.constraints.*;
 
 import java.util.List;

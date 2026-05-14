@@ -1,8 +1,8 @@
 package com.tfg.adapter.in.rest.patient;
 
 import com.tfg.adapter.in.rest.common.GlobalExceptionHandler;
-import com.tfg.application.exceptions.InvalidIdException;
-import com.tfg.application.port.in.patient.UpdatePatientUseCase;
+import com.tfg.exceptions.InvalidIdException;
+import com.tfg.port.in.patient.UpdatePatientUseCase;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,8 +50,7 @@ public class UpdatePatientControllerTest {
                 "Smith",
                 "She/Her",
                 987654321,
-                LocalDate.of(1985, 5, 15),
-                "TENDINOPATHY"
+                LocalDate.of(1985, 5, 15)
         );
 
         given()
@@ -77,8 +76,7 @@ public class UpdatePatientControllerTest {
                 "Smith",
                 "She/Her",
                 987654321,
-                LocalDate.of(1985, 5, 15),
-                "TENDINOPATHY"
+                LocalDate.of(1985, 5, 15)
         );
 
         given()
@@ -104,8 +102,7 @@ public class UpdatePatientControllerTest {
                 "Smith",
                 "She/Her",
                 987654321,
-                LocalDate.of(1985, 5, 15),
-                "TENDINOPATHY"
+                LocalDate.of(1985, 5, 15)
         );
 
         doThrow(new InvalidIdException())

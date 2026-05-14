@@ -1,9 +1,9 @@
 package com.tfg.adapter.in.rest.auditlog;
 
-import com.tfg.model.auditlog.AuditLog;
-import com.tfg.application.pojos.pagedpojos.PageQuery;
-import com.tfg.application.pojos.pagedpojos.PagedResponse;
-import com.tfg.application.port.in.auditlog.GetAllAuditLogsUseCase;
+import com.tfg.auditlog.AuditLog;
+import com.tfg.pojos.pagedpojos.PageQuery;
+import com.tfg.pojos.pagedpojos.PagedResponse;
+import com.tfg.port.in.auditlog.GetAllAuditLogsUseCase;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.data.domain.Pageable;

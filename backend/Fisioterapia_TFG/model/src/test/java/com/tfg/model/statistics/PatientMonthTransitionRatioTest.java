@@ -1,5 +1,6 @@
 package com.tfg.model.statistics;
 
+import com.tfg.statistics.PatientMonthTransitionRatio;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 

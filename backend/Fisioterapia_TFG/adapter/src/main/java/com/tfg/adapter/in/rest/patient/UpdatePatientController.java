@@ -1,8 +1,8 @@
 package com.tfg.adapter.in.rest.patient;
 
 import com.tfg.adapter.in.rest.common.PatientIdParser;
-import com.tfg.model.patient.PatientId;
-import com.tfg.application.port.in.patient.UpdatePatientUseCase;
+import com.tfg.patient.PatientId;
+import com.tfg.port.in.patient.UpdatePatientUseCase;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
