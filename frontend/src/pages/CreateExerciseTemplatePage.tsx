@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faDumbbell } from '@fortawesome/free-solid-svg-icons'
+import { faDumbbell, faCheck } from '@fortawesome/free-solid-svg-icons'
 import { createExerciseTemplate } from '../services/exerciseTemplateService'
 import { useLanguage } from '../contexts/LanguageContext'
 import ExerciseList, { type ExerciseDraft, type SetDraft } from '../components/ExerciseList'
@@ -87,15 +87,8 @@ export default function CreateExerciseTemplatePage() {
       {submitError && <p className={styles.error}>{submitError}</p>}
 
       <div className={styles.footer}>
-        <button
-          type="button"
-          className={styles.discardBtn}
-          onClick={() => navigate(-1)}
-        >
-          {t('template_discard')}
-        </button>
-        <button type="submit" className={styles.submitBtn} disabled={submitting}>
-          {t('template_submit')}
+        <button type="submit" className="btn btn-primary" disabled={submitting}>
+          <FontAwesomeIcon icon={faCheck} /> {t('template_submit')}
         </button>
       </div>
 

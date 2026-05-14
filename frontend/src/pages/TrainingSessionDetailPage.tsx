@@ -21,11 +21,11 @@ function formatTime(raw: string, locale: string): string {
   })
 }
 
-function rpeBadgeStyle(rpe: number): { bg: string; color: string } {
-  if (rpe <= 6) return { bg: '#dcfce7', color: '#166534' }
-  if (rpe <= 8) return { bg: '#fef9c3', color: '#854d0e' }
-  if (rpe === 9) return { bg: '#ffedd5', color: '#9a3412' }
-  return { bg: '#fee2e2', color: '#b91c1c' }
+function rpeBadgeClass(rpe: number): string {
+  if (rpe <= 6) return 'badge bg-success'
+  if (rpe <= 8) return 'badge bg-warning text-dark'
+  if (rpe === 9) return 'badge bg-danger bg-opacity-75'
+  return 'badge bg-danger'
 }
 
 export default function TrainingSessionDetailPage() {
@@ -147,7 +147,6 @@ export default function TrainingSessionDetailPage() {
             </thead>
             <tbody>
               {exercise.sets.map(set => {
-                const badge = rpeBadgeStyle(set.rpe)
                 return (
                   <tr key={set.setNumber}>
                     <td className={styles.setNum}>{set.setNumber}</td>
@@ -156,8 +155,8 @@ export default function TrainingSessionDetailPage() {
                     <td>{set.restTimeSeconds}</td>
                     <td>
                       <span
-                        className={styles.rpeBadge}
-                        style={{ backgroundColor: badge.bg, color: badge.color }}
+                        className={`${rpeBadgeClass(set.rpe)} rounded-circle`}
+                        style={{ width: '1.75rem', height: '1.75rem', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
                       >
                         {set.rpe}
                       </span>

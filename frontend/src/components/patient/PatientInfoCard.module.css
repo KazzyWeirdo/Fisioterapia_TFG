@@ -92,21 +92,6 @@
   line-height: 1.5;
 }
 
-.polarBtn {
-  background: #c0392b;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 0.65rem 1.25rem;
-  font-weight: 700;
-  font-size: 0.875rem;
-  cursor: pointer;
-  width: fit-content;
-}
-
-.polarBtn:hover {
-  background: #a93226;
-}
 
 .cardHeader {
   display: flex;

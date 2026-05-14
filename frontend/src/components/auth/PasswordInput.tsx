@@ -23,7 +23,7 @@ export default function PasswordInput({ label, error, id, ...inputProps }: Passw
       suffix={
         <button
           type="button"
-          className={styles.toggle}
+          className={`btn btn-link p-0 ${styles.toggle}`}
           onClick={() => setVisible((v) => !v)}
           aria-label="Toggle password visibility"
         >

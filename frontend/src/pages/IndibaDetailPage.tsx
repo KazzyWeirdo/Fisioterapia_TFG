@@ -166,7 +166,7 @@ export default function IndibaDetailPage() {
             </div>
             <div className={styles.durationRow}>
               <span className={styles.durationLabel}>{t('indiba_duration_label')}</span>
-              <span className={styles.durationBadge}>
+              <span className="badge rounded-pill bg-primary-subtle text-primary-emphasis fs-6 fw-semibold px-3 py-2">
                 {computeDuration(session.beginSession, session.endSession)} {t('indiba_duration_unit')}
               </span>
             </div>

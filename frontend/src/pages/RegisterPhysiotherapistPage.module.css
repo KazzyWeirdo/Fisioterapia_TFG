@@ -151,48 +151,9 @@
 
 .footer {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   margin-top: 2rem;
-}
-
-.discardBtn {
-  background: none;
-  border: none;
-  color: #6b7280;
-  cursor: pointer;
-  font-size: 0.9rem;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-}
-
-.discardBtn:hover {
-  color: #374151;
-}
-
-.submitBtn {
-  background: #1a3a6b;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 0.7rem 1.5rem;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-
-.submitBtn:hover:not(:disabled) {
-  background: #152e57;
-}
-
-.submitBtn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
 }
 
 @media (max-width: 768px) {

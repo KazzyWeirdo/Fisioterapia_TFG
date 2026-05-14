@@ -111,9 +111,10 @@ export default function PniReportDetailPage() {
               <div className={styles.metricValue}>
                 {report.hours_asleep}<span className={styles.metricUnit}>h</span>
               </div>
-              <div className={styles.progressBar}>
+              <div className="progress mt-2" style={{ height: '6px' }}>
                 <div
-                  className={styles.progressFill}
+                  className="progress-bar"
+                  role="progressbar"
                   style={{ width: `${Math.min((report.hours_asleep / 10) * 100, 100)}%` }}
                 />
               </div>

@@ -43,22 +43,6 @@
   margin: 0;
 }
 
-.exportBtn {
-  background: #1a3a6b;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  padding: 0.75rem 1.25rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-.exportBtn:hover {
-  background: #1e40af;
-}
-
 /* Tab bar */
 
 /* Body */
@@ -272,15 +256,6 @@
   color: #374151;
 }
 
-.durationBadge {
-  background: #dbeafe;
-  color: #1e40af;
-  border-radius: 20px;
-  padding: 0.25rem 0.75rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-}
-
 /* Physiotherapist */
 
 .physioRow {
@@ -310,22 +285,6 @@
 .physioRole {
   font-size: 0.8rem;
   color: #6b7280;
-}
-
-.clinicalBtn {
-  width: 100%;
-  background: white;
-  border: 1.5px solid #e5e7eb;
-  border-radius: 10px;
-  padding: 0.6rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #111827;
-  cursor: pointer;
-}
-
-.clinicalBtn:hover {
-  background: #f9fafb;
 }
 
 /* Footer */

@@ -57,11 +57,6 @@ export default function RegisterPatientPage() {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
-  const handleDiscard = () => {
-    setForm(EMPTY_FORM)
-    navigate('/patients')
-  }
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setSubmitting(true)
@@ -312,14 +307,11 @@ export default function RegisterPatientPage() {
       </div>
 
       <div className={styles.footer}>
-        <button type="button" onClick={handleDiscard} className={styles.discardBtn}>
-          {t('reg_patient_discard')}
-        </button>
         <button
           type="submit"
           form="register-patient-form"
           disabled={submitting}
-          className={styles.submitBtn}
+          className="btn btn-primary"
         >
           {submitting ? t('common_loading') : <><FontAwesomeIcon icon={faUser} /> {t('register_patient_submit')}</>}
         </button>

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faXmark, faUserPlus } from '@fortawesome/free-solid-svg-icons'
+import { faUserPlus } from '@fortawesome/free-solid-svg-icons'
 import { registerPhysiotherapist } from '../services/physiotherapistService'
 import { useLanguage } from '../contexts/LanguageContext'
 import styles from './RegisterPhysiotherapistPage.module.css'
@@ -31,11 +31,6 @@ export default function RegisterPhysiotherapistPage() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
-
-  const handleCancel = () => {
-    setForm({ firstName: '', surname: '', secondSurname: '', email: '', role: '' })
-    navigate('/patients')
-  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -156,10 +151,7 @@ export default function RegisterPhysiotherapistPage() {
         {error && <p role="alert" className={styles.error}>{error}</p>}
 
         <div className={styles.footer}>
-          <button type="button" onClick={handleCancel} className={styles.discardBtn}>
-            <FontAwesomeIcon icon={faXmark} /> {t('reg_physio_discard')}
-          </button>
-          <button type="submit" disabled={submitting} className={styles.submitBtn}>
+          <button type="submit" disabled={submitting} className="btn btn-primary">
             {submitting ? t('common_loading') : <><FontAwesomeIcon icon={faUserPlus} /> {t('register_physio_submit')}</>}
           </button>
         </div>

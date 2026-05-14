@@ -22,7 +22,6 @@
 .setsTable tbody tr:last-child { border-bottom: none; }
 .setsTable tbody td { padding: 0.75rem 0.75rem; font-size: 0.9rem; color: #374151; }
 .setNum { color: #1a3a6b; font-weight: 700; }
-.rpeBadge { display: inline-flex; align-items: center; justify-content: center; width: 1.75rem; height: 1.75rem; border-radius: 50%; font-size: 0.8rem; font-weight: 700; }
 .progressCell { color: #9ca3af; font-size: 1rem; }
 .status { text-align: center; padding: 3rem; color: #6b7280; }
 .error { text-align: center; padding: 3rem; color: #dc2626; }

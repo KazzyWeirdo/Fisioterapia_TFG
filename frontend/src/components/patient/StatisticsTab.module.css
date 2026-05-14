@@ -100,17 +100,6 @@
   margin-bottom: 1rem;
 }
 
-.badge {
-  background: #f3f4f6;
-  border: 1px solid #e5e7eb;
-  border-radius: 999px;
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: #374151;
-  padding: 0.25rem 0.75rem;
-  white-space: nowrap;
-}
-
 .exerciseForm {
   display: flex;
   gap: 0.5rem;
@@ -130,19 +119,6 @@
   outline-offset: 2px;
   border-color: transparent;
 }
-
-.exerciseBtn {
-  background: #1a3a6b;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 0.4rem 0.9rem;
-  font-size: 0.875rem;
-  cursor: pointer;
-  font-weight: 600;
-}
-
-.exerciseBtn:hover { background: #1e40af; }
 
 .chart { width: 100%; overflow: visible; }
 

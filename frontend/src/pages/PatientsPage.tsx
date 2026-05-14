@@ -119,7 +119,7 @@ export default function PatientsPage() {
         <div className={styles.exportGroup}>
           <button
             type="button"
-            className={styles.downloadBtn}
+            className="btn btn-outline-secondary btn-sm"
             disabled={downloading.patients}
             onClick={() => handleExport<PatientExport>(
               'patients',
@@ -133,7 +133,7 @@ export default function PatientsPage() {
           </button>
           <button
             type="button"
-            className={styles.downloadBtn}
+            className="btn btn-outline-secondary btn-sm"
             disabled={downloading.indiba}
             onClick={() => handleExport<IndibaExport>(
               'indiba',
@@ -147,7 +147,7 @@ export default function PatientsPage() {
           </button>
           <button
             type="button"
-            className={styles.downloadBtn}
+            className="btn btn-outline-secondary btn-sm"
             disabled={downloading.pni}
             onClick={() => handleExport<PniExport>(
               'pni',
@@ -161,7 +161,7 @@ export default function PatientsPage() {
           </button>
           <button
             type="button"
-            className={styles.downloadBtn}
+            className="btn btn-outline-secondary btn-sm"
             disabled={downloading.training}
             onClick={() => handleExport<TrainingSetExport>(
               'training',
@@ -240,7 +240,7 @@ export default function PatientsPage() {
                   <td className={styles.actionCol}>
                     <button
                       type="button"
-                      className={styles.viewBtn}
+                      className="btn btn-primary btn-sm"
                       onClick={() => navigate(`/patients/${p.id}`)}
                     >
                       {t('common_view_details')}
@@ -258,7 +258,7 @@ export default function PatientsPage() {
           <div className={styles.pagination}>
             <button
               type="button"
-              className={styles.pageBtn}
+              className="btn btn-outline-secondary btn-sm"
               disabled={currentPage === 0}
               onClick={() => goToPage(currentPage - 1)}
               aria-label="Previous page"
@@ -269,11 +269,7 @@ export default function PatientsPage() {
               <button
                 key={n}
                 type="button"
-                className={
-                  n === currentPage
-                    ? `${styles.pageBtn} ${styles.pageBtnActive}`
-                    : styles.pageBtn
-                }
+                className={n === currentPage ? 'btn btn-secondary btn-sm' : 'btn btn-outline-secondary btn-sm'}
                 onClick={() => goToPage(n)}
               >
                 {n + 1}
@@ -281,7 +277,7 @@ export default function PatientsPage() {
             ))}
             <button
               type="button"
-              className={styles.pageBtn}
+              className="btn btn-outline-secondary btn-sm"
               disabled={currentPage >= totalPages - 1}
               onClick={() => goToPage(currentPage + 1)}
               aria-label="Next page"

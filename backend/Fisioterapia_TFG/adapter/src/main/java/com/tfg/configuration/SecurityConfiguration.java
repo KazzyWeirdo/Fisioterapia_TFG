@@ -1,5 +1,6 @@
 package com.tfg.configuration;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -12,6 +13,9 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.List;
 
 import static org.springframework.security.oauth2.core.authorization.OAuth2AuthorizationManagers.hasScope;
 
@@ -20,6 +24,9 @@ import static org.springframework.security.oauth2.core.authorization.OAuth2Autho
 @EnableMethodSecurity
 public class SecurityConfiguration {
     private final JwtDecoder jwtDecoder;
+
+    @Value("${cors.allowed-origin:}")
+    private String corsAllowedOrigin;
     private static final String[] WHITE_LIST_URL = {
             "/physiotherapist/login",
             "/password/forgot",
@@ -54,13 +61,25 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         return http
-                .cors(AbstractHttpConfigurer::disable)
+                .cors(cors -> {
+                    if (corsAllowedOrigin == null || corsAllowedOrigin.isBlank()) {
+                        cors.disable();
+                    } else {
+                        cors.configurationSource(request -> {
+                            CorsConfiguration config = new CorsConfiguration();
+                            config.setAllowedOrigins(List.of(corsAllowedOrigin));
+                            config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+                            config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+                            return config;
+                        });
+                    }
+                })
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers(WHITE_LIST_URL).permitAll();
                     auth.requestMatchers(HttpMethod.DELETE, "/patients/{id}").access(hasScope("ADMIN"));
                     auth.requestMatchers("/indiba/**").access(hasScope("USER"));
-                    auth.requestMatchers("/patient/**").access(hasScope("USER"));
+                    auth.requestMatchers("/patients/**").access(hasScope("USER"));
                     auth.requestMatchers("/pni/**").access(hasScope("USER"));
                     auth.requestMatchers("/statistics/**").access(hasScope("USER"));
                     auth.requestMatchers("/training-session/**").access(hasScope("USER"));

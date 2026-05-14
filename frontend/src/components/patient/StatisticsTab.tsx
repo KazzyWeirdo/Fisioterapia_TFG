@@ -192,7 +192,7 @@ export default function StatisticsTab({ patientId }: StatisticsTabProps) {
               <h3 className={styles.cardTitle}>{t('stats_workload_title')}</h3>
               <p className={styles.cardSub}>{t('stats_workload_subtitle')}</p>
             </div>
-            <span className={styles.badge}>{t('stats_last_30_days')}</span>
+            <span className="badge bg-secondary">{t('stats_last_30_days')}</span>
           </div>
 
           <form
@@ -209,7 +209,7 @@ export default function StatisticsTab({ patientId }: StatisticsTabProps) {
               value={exerciseInput}
               onChange={e => setExerciseInput(e.target.value)}
             />
-            <button type="submit" className={styles.exerciseBtn}>{t('stats_load_btn')}</button>
+            <button type="submit" className="btn btn-primary btn-sm">{t('stats_load_btn')}</button>
           </form>
 
           {workloadLoading && <p className={styles.chartState}>{t('common_loading')}</p>}

@@ -12,6 +12,7 @@ export interface SetDraft {
 
 export interface ExerciseDraft {
   id?: number
+  uid?: string
   name: string
   sets: SetDraft[]
   fromTemplate?: boolean
@@ -60,13 +61,13 @@ export default function ExerciseList({ exercises, onChange, readonlyNames = fals
   }
 
   function addExercise() {
-    onChange([...exercises, { name: '', sets: [newSet()] }])
+    onChange([...exercises, { uid: crypto.randomUUID(), name: '', sets: [newSet()] }])
   }
 
   return (
     <>
       {exercises.map((ex, exIdx) => (
-        <div key={ex.id ?? exIdx} className={styles.exerciseCard}>
+        <div key={ex.uid ?? ex.id ?? exIdx} className={styles.exerciseCard}>
           <div className={styles.exerciseCardHeader}>
             <div className={styles.exerciseCardHeaderLeft}>
               <label className={styles.exerciseNameLabel}>{t('template_exercise_name_label')}</label>
@@ -85,7 +86,7 @@ export default function ExerciseList({ exercises, onChange, readonlyNames = fals
             {exercises.length > 1 && (
               <button
                 type="button"
-                className={styles.deleteExerciseBtn}
+                className="btn btn-danger btn-sm p-1"
                 onClick={() => removeExercise(exIdx)}
               >
                 <FontAwesomeIcon icon={faTrash} />
@@ -135,7 +136,7 @@ export default function ExerciseList({ exercises, onChange, readonlyNames = fals
                   </td>
                   <td className={styles.tdAction}>
                     {ex.sets.length > 1 && (
-                      <button type="button" className={styles.removeSetBtn}
+                      <button type="button" className="btn btn-danger btn-sm p-1"
                         onClick={() => removeSet(exIdx, sIdx)}>
                         <FontAwesomeIcon icon={faXmark} />
                       </button>
@@ -147,13 +148,13 @@ export default function ExerciseList({ exercises, onChange, readonlyNames = fals
           </table>
           </div>
 
-          <button type="button" className={styles.addSetBtn} onClick={() => addSet(exIdx)}>
+          <button type="button" className="btn btn-outline-primary btn-sm w-100" onClick={() => addSet(exIdx)}>
             {t('template_add_set')}
           </button>
         </div>
       ))}
 
-      <button type="button" className={styles.addExerciseBtn} onClick={addExercise}>
+      <button type="button" className="btn btn-outline-primary btn-sm" onClick={addExercise}>
         <FontAwesomeIcon icon={faCirclePlus} /> {t('training_add_exercise')}
       </button>
     </>

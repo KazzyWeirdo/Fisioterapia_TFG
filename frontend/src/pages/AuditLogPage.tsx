@@ -8,20 +8,17 @@ import PageTitle from '../components/PageTitle'
 
 const PAGE_SIZE = 10
 
-const ACTION_BADGE_STYLES: Record<string, { bg: string; color: string; border?: string }> = {
-  CREATE: { bg: '#dcfce7', color: '#166534' },
-  UPDATE: { bg: '#fef9c3', color: '#854d0e' },
-  DELETE: { bg: '#fef2f2', color: '#b91c1c', border: '1.5px solid #dc2626' },
+const ACTION_BADGE_CLASSES: Record<string, string> = {
+  CREATE: 'badge bg-success',
+  UPDATE: 'badge bg-warning text-dark',
+  DELETE: 'badge bg-danger',
 }
 
 function ActionBadge({ action }: { action: string }) {
   const key = action.toUpperCase()
-  const badge = ACTION_BADGE_STYLES[key] ?? { bg: '#f3f4f6', color: '#374151' }
+  const badgeClass = ACTION_BADGE_CLASSES[key] ?? 'badge bg-secondary'
   return (
-    <span
-      className={styles.badge}
-      style={{ backgroundColor: badge.bg, color: badge.color, border: badge.border }}
-    >
+    <span className={badgeClass}>
       {action}
     </span>
   )
@@ -116,13 +113,13 @@ export default function AuditLogPage() {
       <div className={styles.controls}>
         <button
           type="button"
-          className={`${styles.filterBtn} ${filtersOpen ? styles.filterBtnActive : ''}`}
+          className={`btn btn-outline-secondary btn-sm${filtersOpen ? ' active' : ''}`}
           onClick={() => setFiltersOpen(o => !o)}
           aria-expanded={filtersOpen}
         >
           {t('audit_filters_btn')}
           {activeFilterCount > 0 && (
-            <span className={styles.filterBadge}>{activeFilterCount}</span>
+            <span className="badge bg-primary rounded-pill ms-1">{activeFilterCount}</span>
           )}
         </button>
       </div>
@@ -195,7 +192,7 @@ export default function AuditLogPage() {
             </label>
 
             <div className={styles.filterClearWrap}>
-              <button type="button" className={styles.clearBtn} onClick={clearFilters}>
+              <button type="button" className="btn btn-outline-secondary btn-sm" onClick={clearFilters}>
                 {t('audit_filter_clear')}
               </button>
             </div>
@@ -257,7 +254,7 @@ export default function AuditLogPage() {
           <div className={styles.pagination}>
             <button
               type="button"
-              className={styles.pageBtn}
+              className="btn btn-outline-secondary btn-sm"
               disabled={currentPage === 0}
               onClick={() => goToPage(currentPage - 1)}
               aria-label="Previous page"
@@ -268,11 +265,7 @@ export default function AuditLogPage() {
               <button
                 key={n}
                 type="button"
-                className={
-                  n === currentPage
-                    ? `${styles.pageBtn} ${styles.pageBtnActive}`
-                    : styles.pageBtn
-                }
+                className={n === currentPage ? 'btn btn-secondary btn-sm' : 'btn btn-outline-secondary btn-sm'}
                 onClick={() => goToPage(n)}
                 aria-label={`Page ${n + 1}`}
                 aria-current={n === currentPage ? 'true' : undefined}
@@ -282,7 +275,7 @@ export default function AuditLogPage() {
             ))}
             <button
               type="button"
-              className={styles.pageBtn}
+              className="btn btn-outline-secondary btn-sm"
               disabled={currentPage >= totalPages - 1}
               onClick={() => goToPage(currentPage + 1)}
               aria-label="Next page"

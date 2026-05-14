@@ -173,48 +173,9 @@
 
 .footer {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   padding-top: 0.5rem;
-}
-
-.discardBtn {
-  background: none;
-  border: none;
-  color: #dc2626;
-  font-size: 0.875rem;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-
-.discardBtn:hover {
-  text-decoration: underline;
-}
-
-.submitBtn {
-  background: #1a3a6b;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  padding: 0.75rem 1.5rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.submitBtn:hover:not(:disabled) {
-  background: #1e40af;
-}
-
-.submitBtn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
 }
 
 /* Error */

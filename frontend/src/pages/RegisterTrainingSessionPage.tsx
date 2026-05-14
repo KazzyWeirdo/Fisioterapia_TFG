@@ -48,6 +48,7 @@ export default function RegisterTrainingSessionPage() {
     setLoadingExercises(true)
     getExerciseTemplate(Number(selectedTemplateId))
       .then(tmpl => setExercises(tmpl.exercises.map(ex => ({
+        uid: crypto.randomUUID(),
         name: ex.name,
         fromTemplate: true,
         sets: ex.sets.map(s => ({
@@ -209,7 +210,7 @@ export default function RegisterTrainingSessionPage() {
       {submitError && <p className={styles.error}>{submitError}</p>}
 
       <div className={styles.footer}>
-        <button type="submit" className={styles.submitBtn} disabled={submitting || !physio || !selectedTemplateId}>
+        <button type="submit" className="btn btn-primary" disabled={submitting || !physio || !selectedTemplateId}>
           {t('training_complete_registration')}
         </button>
       </div>

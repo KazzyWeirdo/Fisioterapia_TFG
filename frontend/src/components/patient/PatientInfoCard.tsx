@@ -9,7 +9,6 @@ import Form from 'react-bootstrap/Form'
 import ProgressBar from 'react-bootstrap/ProgressBar'
 import Alert from 'react-bootstrap/Alert'
 import Badge from 'react-bootstrap/Badge'
-import 'bootstrap/dist/css/bootstrap.min.css'
 import styles from './PatientInfoCard.module.css'
 
 const GENDER_OPTIONS = ['MALE', 'FEMALE', 'OTHER', 'NONBINARY', 'UNKNOWN']
@@ -351,7 +350,7 @@ export default function PatientInfoCard({ patient, onPatientUpdated, isAdmin = f
             </p>
             <button
               type="button"
-              className={styles.polarBtn}
+              className="btn btn-danger fw-bold align-self-start"
               onClick={() => window.open(`${import.meta.env.VITE_API_BASE_URL}/api/auth/polar/authorize?patientId=${patient.id}`, '_blank')}
             >
               <FontAwesomeIcon icon={faHeart} /> {t('polar_connect_btn')}

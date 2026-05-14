@@ -16,12 +16,6 @@ function formatDate(raw: string, locale: string): string {
   })
 }
 
-function formatTime(raw: string, locale: string): string {
-  return new Date(raw).toLocaleTimeString(locale, {
-    hour: '2-digit', minute: '2-digit',
-  })
-}
-
 export default function TrainingSessionTab({ patientId, patientName }: TrainingSessionTabProps) {
   const { t, locale } = useLanguage()
   const localeTag = locale === 'es' ? 'es-ES' : 'en-US'
@@ -128,7 +122,7 @@ export default function TrainingSessionTab({ patientId, patientName }: TrainingS
           <div className={styles.pagination}>
             <button
               type="button"
-              className={styles.pageBtn}
+              className="btn btn-outline-secondary btn-sm"
               disabled={currentPage === 0}
               onClick={() => goToPage(currentPage - 1)}
               aria-label="Previous page"
@@ -137,7 +131,7 @@ export default function TrainingSessionTab({ patientId, patientName }: TrainingS
               <button
                 key={n}
                 type="button"
-                className={`${styles.pageBtn} ${n === currentPage ? styles.pageBtnActive : ''}`}
+                className={n === currentPage ? 'btn btn-secondary btn-sm' : 'btn btn-outline-secondary btn-sm'}
                 onClick={() => goToPage(n)}
                 aria-label={`Page ${n + 1}`}
                 aria-current={n === currentPage ? 'true' : undefined}
@@ -145,7 +139,7 @@ export default function TrainingSessionTab({ patientId, patientName }: TrainingS
             ))}
             <button
               type="button"
-              className={styles.pageBtn}
+              className="btn btn-outline-secondary btn-sm"
               disabled={currentPage >= totalPages - 1}
               onClick={() => goToPage(currentPage + 1)}
               aria-label="Next page"

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faClock, faGear, faShield, faEye, faTrash, faCheck } from '@fortawesome/free-solid-svg-icons'
+import { faClock, faGear, faShield, faEye, faCheck } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import { useLanguage } from '../contexts/LanguageContext'
@@ -218,10 +218,7 @@ export default function RegisterIndibaSessionPage() {
       {error && <p className={styles.error}>{error}</p>}
 
       <div className={styles.footer}>
-        <button type="button" className={styles.discardBtn} onClick={() => navigate(-1)}>
-          <FontAwesomeIcon icon={faTrash} /> {t('indiba_discard')}
-        </button>
-        <button type="submit" className={styles.submitBtn} disabled={submitting || !physio}>
+        <button type="submit" className="btn btn-primary" disabled={submitting || !physio}>
           <FontAwesomeIcon icon={faCheck} /> {t('indiba_submit')}
         </button>
       </div>
