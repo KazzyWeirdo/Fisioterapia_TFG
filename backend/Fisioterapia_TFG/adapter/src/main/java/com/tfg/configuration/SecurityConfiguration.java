@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -31,7 +30,6 @@ public class SecurityConfiguration {
             "/physiotherapist/login",
             "/password/forgot",
             "/password/reset",
-            "/h2-console/**",
             "/api-docs",
             "/api-docs/**",
             "/api-docs/swagger-config",
@@ -89,7 +87,6 @@ public class SecurityConfiguration {
                 })
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer((oauth2) -> oauth2.jwt((jwt) -> jwt.decoder(jwtDecoder)))
-                .httpBasic(Customizer.withDefaults())
                 .build();
     }
 }
