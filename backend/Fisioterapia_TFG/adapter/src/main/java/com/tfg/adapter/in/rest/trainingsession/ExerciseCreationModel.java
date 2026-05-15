@@ -10,11 +10,13 @@ public record ExerciseCreationModel(
         @NotNull(message = "Name for the exercise is required")
         String name,
         @Valid
-        List<ExerciseSetCreationModel> exercises
+        List<ExerciseSetCreationModel> sets
 ) {
         public Exercise toDomainModel() {
                 Exercise exercise = new Exercise(name.trim().toLowerCase());
-                exercises.forEach(exerciseSetCreationModel -> exercise.addSet(exerciseSetCreationModel.toDomain()));
+                if (sets != null) {
+                        sets.forEach(s -> exercise.addSet(s.toDomain()));
+                }
                 return exercise;
         }
 }
