@@ -3,6 +3,7 @@ package com.tfg.model.trainingsession;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 public class ExerciseTemplateTest {
 
@@ -18,13 +19,17 @@ public class ExerciseTemplateTest {
     }
 
     @Test
-    public void givenInvalidName_throwsException() {
-        try {
-            new ExerciseTemplate("");
+    public void givenBlankName_throwsException() {
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> new ExerciseTemplate(""))
+                .withMessage("Template name cannot be blank");
+    }
 
-        } catch (IllegalArgumentException e) {
-            assertThat(e.getMessage()).isEqualTo("Template name cannot be blank");
-        }
+    @Test
+    public void givenNullName_throwsException() {
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> new ExerciseTemplate(null))
+                .withMessage("Template name cannot be blank");
     }
 
     @Test
@@ -37,11 +42,8 @@ public class ExerciseTemplateTest {
 
     @Test
     public void whenAddingExercise_exerciseIsNull_ThrowException() {
-        try {
-            TEST_TEMPLATE.addExercise(null);
-
-        } catch (IllegalArgumentException e) {
-            assertThat(e.getMessage()).isEqualTo("Exercise cannot be null");
-        }
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> TEST_TEMPLATE.addExercise(null))
+                .withMessage("Exercise cannot be null");
     }
 }
