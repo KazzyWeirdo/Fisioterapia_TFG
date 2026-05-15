@@ -30,37 +30,6 @@
   gap: 0.25rem;
 }
 
-.breadcrumb {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.8rem;
-  color: #6b7280;
-  margin-bottom: 0.25rem;
-}
-
-.breadcrumbLink {
-  background: none;
-  border: none;
-  padding: 0;
-  color: #2563eb;
-  font-size: 0.8rem;
-  cursor: pointer;
-}
-
-.breadcrumbLink:hover {
-  text-decoration: underline;
-}
-
-.breadcrumbSep {
-  color: #9ca3af;
-}
-
-.breadcrumbCurrent {
-  color: #374151;
-  font-weight: 500;
-}
-
 .title {
   font-size: 2.5rem;
   font-weight: 700;
@@ -74,58 +43,7 @@
   margin: 0;
 }
 
-.exportBtn {
-  background: #1a3a6b;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  padding: 0.75rem 1.25rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-.exportBtn:hover {
-  background: #1e40af;
-}
-
 /* Tab bar */
-
-.tabBar {
-  display: flex;
-  gap: 0;
-  padding: 0;
-  margin: 0;
-}
-
-.tab {
-  padding: 0.625rem 1.25rem;
-  font-size: 0.9rem;
-  font-weight: 400;
-  color: #6b7280;
-  border: none;
-  border-bottom: 2px solid transparent;
-  background: none;
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-.tab:hover {
-  color: #1a3a6b;
-}
-
-.tabActive {
-  font-weight: 700;
-  color: #1a3a6b;
-  border-bottom-color: #1a3a6b;
-}
-
-.tabSeparator {
-  height: 1px;
-  background: #e5e7eb;
-  margin-bottom: 1.5rem;
-}
 
 /* Body */
 
@@ -338,15 +256,6 @@
   color: #374151;
 }
 
-.durationBadge {
-  background: #dbeafe;
-  color: #1e40af;
-  border-radius: 20px;
-  padding: 0.25rem 0.75rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-}
-
 /* Physiotherapist */
 
 .physioRow {
@@ -376,22 +285,6 @@
 .physioRole {
   font-size: 0.8rem;
   color: #6b7280;
-}
-
-.clinicalBtn {
-  width: 100%;
-  background: white;
-  border: 1.5px solid #e5e7eb;
-  border-radius: 10px;
-  padding: 0.6rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #111827;
-  cursor: pointer;
-}
-
-.clinicalBtn:hover {
-  background: #f9fafb;
 }
 
 /* Footer */
@@ -425,8 +318,19 @@
     flex-direction: column;
   }
 
+  .mainCard {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
   .sidebar {
     width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding: 1.25rem;
   }
 }
 
@@ -445,14 +349,6 @@
     font-size: 1.75rem;
   }
 
-  .tabBar {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-
-  .tabBar::-webkit-scrollbar { display: none; }
-
   .mainCard {
     padding: 1.25rem;
   }
@@ -463,7 +359,17 @@
   }
 
   .miniCards {
-    flex-direction: column;
+    flex-direction: row;
+  }
+
+  .miniCard {
+    padding: 1rem;
+    align-items: center;
+    text-align: center;
+  }
+
+  .miniValueLarge {
+    font-size: 2.5rem;
   }
 
   .footer {

@@ -1,18 +1,17 @@
 package com.tfg.adapter.out.persistence.indiba;
 
-import com.tfg.indiba.IndibaSession;
+import com.tfg.model.indiba.IndibaSession;
 import com.tfg.model.indiba.IndibaSessionFactory;
 import com.tfg.model.patient.PatientFactory;
 import com.tfg.model.physiotherapist.PhysiotherapistFactory;
-import com.tfg.patient.Patient;
-import com.tfg.physiotherapist.Physiotherapist;
-import com.tfg.pojos.pagedpojos.PageQuery;
-import com.tfg.pojos.pagedpojos.PagedResponse;
-import com.tfg.pojos.query.IndibaSummaryElement;
-import com.tfg.pojos.query.PatientSummaryElement;
-import com.tfg.port.out.persistence.IndibaSessionRepository;
-import com.tfg.port.out.persistence.PatientRepository;
-import com.tfg.port.out.persistence.PhysiotherapistRepository;
+import com.tfg.model.patient.Patient;
+import com.tfg.model.physiotherapist.Physiotherapist;
+import com.tfg.application.pojos.pagedpojos.PageQuery;
+import com.tfg.application.pojos.pagedpojos.PagedResponse;
+import com.tfg.application.pojos.query.IndibaSummaryElement;
+import com.tfg.application.port.out.persistence.IndibaSessionRepository;
+import com.tfg.application.port.out.persistence.PatientRepository;
+import com.tfg.application.port.out.persistence.PhysiotherapistRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -183,5 +182,44 @@ public abstract class AbstractIndibaRepositoryTest extends BaseRepositoryIT {
     public void givenNoIndibaSessions_whenFindAllForExport_returnEmptyList() {
         List<IndibaSession> result = indibaSessionRepository.findAllForExport();
         assertThat(result).isEmpty();
+    }
+
+    @Test
+    public void givenSessionsForTwoPatients_whenFindAllByPatientId_thenReturnOnlyTargetPatientSessions() {
+        Patient testPatient2 = PatientFactory.createTestPatient("p2@gmail.com", "12345678X");
+        patientRepository.save(testPatient2);
+
+        Date begin = new Date(System.currentTimeMillis() - 3600_000);
+        Date end = new Date(System.currentTimeMillis());
+        IndibaSession session1 = IndibaSessionFactory.createTestIndibaSession(testPatient, testPhysiotherapist, begin, end);
+        IndibaSession session2 = IndibaSessionFactory.createTestIndibaSession(testPatient2, testPhysiotherapist, begin, end);
+        indibaSessionRepository.save(session1);
+        indibaSessionRepository.save(session2);
+
+        List<IndibaSession> result = indibaSessionRepository.findAllByPatientId(testPatient.getId());
+
+        assertThat(result).hasSize(1);
+        assertThat(result.get(0).getId()).isEqualTo(session1.getId());
+    }
+
+    @Test
+    public void givenNoSessionsForPatient_whenFindAllByPatientId_thenReturnEmptyList() {
+        List<IndibaSession> result = indibaSessionRepository.findAllByPatientId(testPatient.getId());
+
+        assertThat(result).isEmpty();
+    }
+
+    @Test
+    public void givenSessionsForPatient_whenDeleteAllByPatientId_thenSessionsAreGone() {
+        indibaSessionRepository.save(testIndibaSession);
+        indibaSessionRepository.save(testIndibaSession2);
+
+        indibaSessionRepository.deleteAllByPatientId(testPatient.getId());
+
+        PageQuery query = new PageQuery(0, 10);
+        PagedResponse<IndibaSummaryElement> response = indibaSessionRepository.findAllByPatientId(query, testPatient.getId());
+
+        assertThat(response.content()).isEmpty();
+        assertThat(response.totalElements()).isZero();
     }
 }

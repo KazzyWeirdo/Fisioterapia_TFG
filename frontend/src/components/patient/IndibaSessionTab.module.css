@@ -106,50 +106,6 @@
   gap: 0.5rem;
 }
 
-.filterBtn {
-  border: 1.5px solid #e5e7eb;
-  border-radius: 8px;
-  background: white;
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  cursor: pointer;
-  color: #374151;
-}
-
-.filterBtn:hover {
-  background: #f9fafb;
-}
-
-.downloadBtn {
-  background: #1a3a6b;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  cursor: pointer;
-  font-weight: 600;
-}
-
-.downloadBtn:hover {
-  background: #1e40af;
-}
-
-.registerBtn {
-  background: white;
-  color: #1a3a6b;
-  border: 1.5px solid #1a3a6b;
-  border-radius: 8px;
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  cursor: pointer;
-  font-weight: 600;
-}
-
-.registerBtn:hover {
-  background: #f0f4ff;
-}
-
 .tableWrap {
   border: 1px solid #e5e7eb;
   border-radius: 12px;
@@ -239,32 +195,6 @@
 .pagination {
   display: flex;
   gap: 0.25rem;
-}
-
-.pageBtn {
-  min-width: 2rem;
-  height: 2rem;
-  border-radius: 6px;
-  border: 1px solid #e5e7eb;
-  background: white;
-  font-size: 0.875rem;
-  cursor: pointer;
-  padding: 0 0.25rem;
-}
-
-.pageBtn:hover:not(:disabled) {
-  background: #f3f4f6;
-}
-
-.pageBtn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-.pageBtnActive {
-  background: #1a3a6b;
-  color: white;
-  border-color: #1a3a6b;
 }
 
 @media (max-width: 640px) {

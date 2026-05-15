@@ -6,3 +6,9 @@
   max-width: 440px;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
 }
+
+@media (max-width: 440px) {
+  .card {
+    padding: 28px 20px;
+  }
+}

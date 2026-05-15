@@ -1,0 +1,25 @@
+sequenceDiagram
+  actor Client
+  participant JWTFilter
+  participant GetExerciseTemplateByIdController
+  participant GetExerciseTemplateByIdService
+  participant ExerciseTemplateRepository
+
+  Client->>JWTFilter: GET /exercise-template/{id} + Bearer token
+  JWTFilter->>JWTFilter: validateToken()
+  alt Token invàlid
+    JWTFilter-->>Client: 401 Unauthorized
+  else Token vàlid
+    JWTFilter->>GetExerciseTemplateByIdController: forward request
+    GetExerciseTemplateByIdController->>GetExerciseTemplateByIdService: getById(id)
+    GetExerciseTemplateByIdService->>ExerciseTemplateRepository: findById(id)
+    alt Plantilla no trobada
+      ExerciseTemplateRepository-->>GetExerciseTemplateByIdService: Optional.empty()
+      GetExerciseTemplateByIdService-->>GetExerciseTemplateByIdController: throw InvalidIdException
+      GetExerciseTemplateByIdController-->>Client: 404 Not Found
+    else Plantilla trobada
+      ExerciseTemplateRepository-->>GetExerciseTemplateByIdService: Optional[exerciseTemplate]
+      GetExerciseTemplateByIdService-->>GetExerciseTemplateByIdController: exerciseTemplate
+      GetExerciseTemplateByIdController-->>Client: 200 OK {ExerciseTemplateWebModel}
+    end
+  end

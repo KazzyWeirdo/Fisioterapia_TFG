@@ -1,8 +1,8 @@
 package com.tfg.service.exercisetemplate;
 
 import com.tfg.port.in.exercisetemplate.GetAllExerciseTemplatesUseCase;
-import com.tfg.port.out.persistence.ExerciseTemplateRepository;
-import com.tfg.trainingsession.ExerciseTemplate;
+import com.tfg.application.port.out.persistence.ExerciseTemplateRepository;
+import com.tfg.model.trainingsession.ExerciseTemplate;
 
 import java.util.List;
 

@@ -1,0 +1,31 @@
+sequenceDiagram
+  actor Client
+  participant RegisterController
+  participant RegisterPhysiotherapistService
+  participant PhysiotherapistRepository
+  participant PasswordEncoderPort
+  participant RequestPasswordResetService
+  participant PasswordResetTokenRepository
+  participant EmailSenderPort
+
+  Client->>RegisterController: POST /physiotherapist/register {name, surname, email}
+  RegisterController->>RegisterPhysiotherapistService: registerPhysiotherapist(physiotherapist)
+  RegisterPhysiotherapistService->>PhysiotherapistRepository: findByEmail(email)
+  alt Email ja existeix
+    PhysiotherapistRepository-->>RegisterPhysiotherapistService: Optional[physiotherapist]
+    RegisterPhysiotherapistService-->>RegisterController: throw DuplicateEmailException
+    RegisterController-->>Client: 409 Conflict
+  else Email lliure
+    PhysiotherapistRepository-->>RegisterPhysiotherapistService: Optional.empty()
+    RegisterPhysiotherapistService->>RegisterPhysiotherapistService: generateRandomPassword (UUID + "Aa1!")
+    RegisterPhysiotherapistService->>PasswordEncoderPort: encode(rawPassword)
+    PasswordEncoderPort-->>RegisterPhysiotherapistService: encodedPassword
+    RegisterPhysiotherapistService->>PhysiotherapistRepository: save(physiotherapist)
+    PhysiotherapistRepository-->>RegisterPhysiotherapistService: saved
+    RegisterPhysiotherapistService->>RequestPasswordResetService: requestReset(email)
+    RequestPasswordResetService->>PasswordResetTokenRepository: save(token, expiresAt +1h)
+    RequestPasswordResetService->>EmailSenderPort: sendResetEmail(email, token)
+    EmailSenderPort-->>RequestPasswordResetService: sent
+    RegisterPhysiotherapistService-->>RegisterController: void
+    RegisterController-->>Client: 200 OK
+  end

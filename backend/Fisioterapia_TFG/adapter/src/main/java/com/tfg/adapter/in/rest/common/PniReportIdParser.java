@@ -1,6 +1,6 @@
 package com.tfg.adapter.in.rest.common;
 
-import com.tfg.pni.PniReportId;
+import com.tfg.model.pni.PniReportId;
 
 public class PniReportIdParser {
     private PniReportIdParser() {}

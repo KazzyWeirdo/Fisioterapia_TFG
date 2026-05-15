@@ -1,6 +1,6 @@
 package com.tfg.adapter.in.rest.common;
 
-import com.tfg.trainingsession.TrainingSessionId;
+import com.tfg.model.trainingsession.TrainingSessionId;
 
 public class TrainingSessionIdParser {
     private TrainingSessionIdParser() {}

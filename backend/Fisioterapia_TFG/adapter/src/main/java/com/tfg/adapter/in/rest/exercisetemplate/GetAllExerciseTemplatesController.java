@@ -1,6 +1,6 @@
 package com.tfg.adapter.in.rest.exercisetemplate;
 
-import com.tfg.port.in.exercisetemplate.GetAllExerciseTemplatesUseCase;
+import com.tfg.application.port.in.exercisetemplate.GetAllExerciseTemplatesUseCase;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;

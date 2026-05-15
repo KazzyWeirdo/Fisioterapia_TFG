@@ -1,9 +1,9 @@
 package com.tfg.adapter.in.rest.trainingsession;
 
 import com.tfg.adapter.in.rest.common.TrainingSessionIdParser;
-import com.tfg.port.in.trainingsession.GetTrainingSessionUseCase;
-import com.tfg.trainingsession.TrainingSession;
-import com.tfg.trainingsession.TrainingSessionId;
+import com.tfg.application.port.in.trainingsession.GetTrainingSessionUseCase;
+import com.tfg.model.trainingsession.TrainingSession;
+import com.tfg.model.trainingsession.TrainingSessionId;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;

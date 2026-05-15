@@ -1,0 +1,29 @@
+sequenceDiagram
+  actor Client
+  participant ManagePolarConnectionController
+  participant ManagePolarConnectionService
+  participant PatientRepository
+  participant PolarRepository
+  participant PolarAPI
+
+  PolarAPI->>ManagePolarConnectionController: GET /api/auth/polar/callback?code=X&state=patientId
+  ManagePolarConnectionController->>ManagePolarConnectionService: finalizeConnection(code, patientId)
+  ManagePolarConnectionService->>PatientRepository: findById(patientId)
+  alt Pacient no trobat
+    PatientRepository-->>ManagePolarConnectionService: Optional.empty()
+    ManagePolarConnectionService-->>ManagePolarConnectionController: throw InvalidIdException
+    ManagePolarConnectionController-->>Client: 404 Not Found
+  else Pacient trobat
+    PatientRepository-->>ManagePolarConnectionService: Optional[patient]
+    ManagePolarConnectionService->>PolarRepository: exchangeCodeForTokens(code)
+    PolarRepository->>PolarAPI: POST /oauth2/token {code, clientId, clientSecret}
+    PolarAPI-->>PolarRepository: {accessToken, userId}
+    PolarRepository-->>ManagePolarConnectionService: {accessToken, polarUserId}
+    ManagePolarConnectionService->>PolarRepository: registerUser(polarUserId, accessToken)
+    PolarRepository->>PolarAPI: POST /v3/users {memberid: polarUserId}
+    PolarAPI-->>PolarRepository: registered
+    ManagePolarConnectionService->>PatientRepository: updatePolarTokens(patientId, accessToken, polarUserId)
+    PatientRepository-->>ManagePolarConnectionService: updated
+    ManagePolarConnectionService-->>ManagePolarConnectionController: void
+    ManagePolarConnectionController-->>Client: 200 OK "Connexió amb Polar reeixida!"
+  end

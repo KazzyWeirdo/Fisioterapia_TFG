@@ -1,0 +1,43 @@
+sequenceDiagram
+  actor Client
+  participant JWTFilter
+  participant CreateTrainingSessionController
+  participant PatientRepository
+  participant PhysiotherapistRepository
+  participant ExerciseTemplateRepository
+  participant CreateTrainingSessionService
+  participant TrainingSessionRepository
+
+  Client->>JWTFilter: POST /training-session/create {TrainingSessionCreationModel} + Bearer token
+  JWTFilter->>JWTFilter: validateToken()
+  alt Token invàlid
+    JWTFilter-->>Client: 401 Unauthorized
+  else Token vàlid
+    JWTFilter->>CreateTrainingSessionController: forward request
+    CreateTrainingSessionController->>PatientRepository: findById(patientId)
+    alt Pacient no trobat
+      PatientRepository-->>CreateTrainingSessionController: Optional.empty()
+      CreateTrainingSessionController-->>Client: 404 Not Found
+    else Pacient trobat
+      PatientRepository-->>CreateTrainingSessionController: Optional[patient]
+      CreateTrainingSessionController->>PhysiotherapistRepository: findById(physiotherapistId)
+      alt Fisioterapeuta no trobat
+        PhysiotherapistRepository-->>CreateTrainingSessionController: Optional.empty()
+        CreateTrainingSessionController-->>Client: 404 Not Found
+      else Fisioterapeuta trobat
+        PhysiotherapistRepository-->>CreateTrainingSessionController: Optional[physiotherapist]
+        CreateTrainingSessionController->>ExerciseTemplateRepository: findById(exerciseTemplateId)
+        alt Plantilla no trobada
+          ExerciseTemplateRepository-->>CreateTrainingSessionController: Optional.empty()
+          CreateTrainingSessionController-->>Client: 404 Not Found
+        else Plantilla trobada
+          ExerciseTemplateRepository-->>CreateTrainingSessionController: Optional[exerciseTemplate]
+          CreateTrainingSessionController->>CreateTrainingSessionService: createTrainingSession(session)
+          CreateTrainingSessionService->>TrainingSessionRepository: save(trainingSession)
+          TrainingSessionRepository-->>CreateTrainingSessionService: saved
+          CreateTrainingSessionService-->>CreateTrainingSessionController: void
+          CreateTrainingSessionController-->>Client: 200 OK
+        end
+      end
+    end
+  end

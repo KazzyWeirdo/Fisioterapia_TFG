@@ -2,8 +2,8 @@ package com.tfg.adapter.out.persistence.exercisetemplate;
 
 import com.tfg.adapter.out.persistence.trainingsession.ExercisesJpaEntity;
 import com.tfg.adapter.out.persistence.trainingsession.ExercisesJpaMapper;
-import com.tfg.trainingsession.ExerciseTemplate;
-import com.tfg.trainingsession.ExerciseTemplateId;
+import com.tfg.model.trainingsession.ExerciseTemplate;
+import com.tfg.model.trainingsession.ExerciseTemplateId;
 
 import java.util.ArrayList;
 

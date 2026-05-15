@@ -1,0 +1,38 @@
+sequenceDiagram
+  actor Client
+  participant JWTFilter
+  participant GetTrainingSessionByPatientController
+  participant GetTrainingSessionByPatientService
+  participant PatientRepository
+  participant TrainingSessionRepository
+
+  Client->>JWTFilter: GET /training-session/{patientId}?page=0&size=10 + Bearer token
+  JWTFilter->>JWTFilter: validateToken()
+  alt Token invàlid
+    JWTFilter-->>Client: 401 Unauthorized
+  else Token vàlid
+    JWTFilter->>GetTrainingSessionByPatientController: forward request
+    GetTrainingSessionByPatientController->>GetTrainingSessionByPatientService: getTrainingSessionFromPatient(patientId, PageQuery)
+    GetTrainingSessionByPatientService->>GetTrainingSessionByPatientService: validate(page >= 0, size > 0)
+    alt Paràmetres invàlids
+      GetTrainingSessionByPatientService-->>GetTrainingSessionByPatientController: throw InvalidPageQueryException
+      GetTrainingSessionByPatientController-->>Client: 400 Bad Request
+    else Paràmetres vàlids
+      GetTrainingSessionByPatientService->>PatientRepository: findById(patientId)
+      alt Pacient no trobat
+        PatientRepository-->>GetTrainingSessionByPatientService: Optional.empty()
+        GetTrainingSessionByPatientService-->>GetTrainingSessionByPatientController: throw InvalidIdException
+        GetTrainingSessionByPatientController-->>Client: 404 Not Found
+      else Pacient trobat
+        PatientRepository-->>GetTrainingSessionByPatientService: Optional[patient]
+        GetTrainingSessionByPatientService->>TrainingSessionRepository: findByPatientIdPaged(patientId, page, size)
+        TrainingSessionRepository-->>GetTrainingSessionByPatientService: PagedResponse[TrainingSession]
+        GetTrainingSessionByPatientService-->>GetTrainingSessionByPatientController: PagedResponse[TrainingSession]
+        alt Llista buida
+          GetTrainingSessionByPatientController-->>Client: 204 No Content
+        else Llista amb dades
+          GetTrainingSessionByPatientController-->>Client: 200 OK {PagedResponse[TrainingSessionListWebModel]}
+        end
+      end
+    end
+  end

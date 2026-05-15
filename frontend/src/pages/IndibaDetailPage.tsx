@@ -6,6 +6,8 @@ import { getIndibaSession, type IndibaSession } from '../services/indibaService'
 import { getPatient, type PatientDetail } from '../services/patientService'
 import { useLanguage } from '../contexts/LanguageContext'
 import styles from './IndibaDetailPage.module.css'
+import TabBar from '../components/TabBar'
+import Breadcrumb from '../components/Breadcrumb'
 
 function formatHeaderDate(raw: string, locale: string): string {
   return new Date(raw).toLocaleDateString(locale, {
@@ -29,9 +31,6 @@ function computeDuration(begin: string, end: string): number {
 }
 
 
-function formatMode(mode: string): string {
-  return mode.charAt(0).toUpperCase() + mode.slice(1).toLowerCase()
-}
 
 export default function IndibaDetailPage() {
   const { sessionId } = useParams<{ sessionId: string }>()
@@ -72,38 +71,23 @@ export default function IndibaDetailPage() {
       {/* Header */}
       <div className={styles.header}>
         <div className={styles.headerLeft}>
-          <nav className={styles.breadcrumb}>
-            <button type="button" className={styles.breadcrumbLink} onClick={() => navigate('/patients')}>
-              {t('nav_patients')}
-            </button>
-            <span className={styles.breadcrumbSep}>›</span>
-            <button type="button" className={styles.breadcrumbLink} onClick={() => navigate(`/patients/${session.patiendId}`)}>
-              {patient
-                ? [patient.nameToUse, patient.surname, patient.secondSurname].filter(Boolean).join(' ')
-                : `Patient #${session.patiendId}`}
-            </button>
-            <span className={styles.breadcrumbSep}>›</span>
-            <span className={styles.breadcrumbCurrent}>{t('indiba_breadcrumb_current')}</span>
-          </nav>
+          <Breadcrumb items={[
+            { label: t('nav_patients'), onClick: () => navigate('/patients') },
+            { label: patient ? [patient.nameToUse, patient.surname, patient.secondSurname].filter(Boolean).join(' ') : `Patient #${session.patiendId}`, onClick: () => navigate(`/patients/${session.patiendId}`) },
+            { label: t('indiba_breadcrumb_current') },
+          ]} />
           <h1 className={styles.title}>{formatHeaderDate(session.beginSession, localeTag)}</h1>
           <p className={styles.sessionId}>{t('indiba_session_id_label')} {formatSessionId(session.id, session.beginSession)}</p>
         </div>
       </div>
 
       {/* Tab bar */}
-      <nav className={styles.tabBar} aria-label="Patient sections">
-        {TABS.map(({ label, tab }) => (
-          <button
-            key={tab}
-            type="button"
-            className={`${styles.tab} ${tab === 'indiba' ? styles.tabActive : ''}`}
-            onClick={() => navigate(`/patients/${session.patiendId}`, { state: { tab } })}
-          >
-            {label}
-          </button>
-        ))}
-      </nav>
-      <div className={styles.tabSeparator} />
+      <TabBar
+        tabs={TABS.map(({ label, tab }) => ({ id: tab, label }))}
+        activeTab="indiba"
+        onTabChange={tab => navigate(`/patients/${session.patiendId}`, { state: { tab } })}
+        ariaLabel="Patient sections"
+      />
 
       {/* Body */}
       <div className={styles.body}>
@@ -119,16 +103,12 @@ export default function IndibaDetailPage() {
               <span className={styles.fieldLabel}>{t('indiba_field_treated_area')}</span>
               <span className={styles.fieldValue}>{session.treatedArea}</span>
             </div>
-            <div className={styles.field}>
-              <span className={styles.fieldLabel}>{t('indiba_field_objective')}</span>
-              <span className={styles.fieldValue}>{session.objective}</span>
-            </div>
           </div>
 
           <div className={styles.miniCards}>
             <div className={styles.miniCard}>
               <span className={styles.miniLabel}>{t('indiba_field_mode')}</span>
-              <span className={styles.miniValue}><FontAwesomeIcon icon={faBolt} /> {formatMode(session.mode)}</span>
+              <span className={styles.miniValue}><FontAwesomeIcon icon={faBolt} /> {t('indiba_mode_' + session.mode.toLowerCase())}</span>
             </div>
             {session.mode === 'DUAL' ? (
               <>
@@ -186,7 +166,7 @@ export default function IndibaDetailPage() {
             </div>
             <div className={styles.durationRow}>
               <span className={styles.durationLabel}>{t('indiba_duration_label')}</span>
-              <span className={styles.durationBadge}>
+              <span className="badge rounded-pill bg-primary-subtle text-primary-emphasis fs-6 fw-semibold px-3 py-2">
                 {computeDuration(session.beginSession, session.endSession)} {t('indiba_duration_unit')}
               </span>
             </div>

@@ -27,4 +27,8 @@ public interface IndibaJpaDataRepository extends JpaRepository<IndibaJpaEntity, 
 
     @Query("SELECT EXTRACT(MONTH FROM i.beginSession) as month, COUNT(i.id) as total FROM IndibaJpaEntity i WHERE i.patient.id = ?1 AND EXTRACT(YEAR FROM i.beginSession) = ?2 GROUP BY month")
     List<Object[]> countSessionByMonthForYear(Integer patientId, Integer year);
+
+    List<IndibaJpaEntity> findByPatientId(int patientId);
+
+    void deleteByPatientId(int patientId);
 }

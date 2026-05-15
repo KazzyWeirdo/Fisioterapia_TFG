@@ -49,4 +49,6 @@ public interface TrainingSessionJpaDataRepository extends JpaRepository<Training
             @Param("patientId") Integer patientId,
             @Param("exerciseName") String exerciseName
     );
+
+    void deleteByPatientId(int patientId);
 }

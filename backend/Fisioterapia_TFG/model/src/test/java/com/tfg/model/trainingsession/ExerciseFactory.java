@@ -1,8 +1,5 @@
 package com.tfg.model.trainingsession;
 
-import com.tfg.trainingsession.Exercise;
-import com.tfg.trainingsession.ExerciseSet;
-
 public class ExerciseFactory {
 
     public static Exercise createTestExercise(String name) {

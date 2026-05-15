@@ -1,7 +1,8 @@
 package com.tfg.adapter.out.persistence.patient;
 
-import com.tfg.patient.PatientGender;
-import com.tfg.patient.PatientSex;
+import com.tfg.model.patient.Pathology;
+import com.tfg.model.patient.PatientGender;
+import com.tfg.model.patient.PatientSex;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,4 +44,12 @@ public class PatientJpaEntity {
     private LocalDate dateOfBirth;
     private String polarAccessToken;
     private Long polarUserId;
+    @Enumerated(EnumType.STRING)
+    private Pathology pathology;
+    @Column(nullable = false)
+    @Temporal(TemporalType.DATE)
+    private LocalDate registrationDate;
+    private Integer functionalScore;
+    @Temporal(TemporalType.DATE)
+    private LocalDate dischargeDate;
 }

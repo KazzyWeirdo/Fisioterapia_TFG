@@ -1,0 +1,19 @@
+sequenceDiagram
+  actor Client
+  participant JWTFilter
+  participant GetAllIndibaSessionsForExportController
+  participant GetAllIndibaSessionsForExportService
+  participant IndibaSessionRepository
+
+  Client->>JWTFilter: GET /indiba/export + Bearer token
+  JWTFilter->>JWTFilter: validateToken()
+  alt Token invàlid
+    JWTFilter-->>Client: 401 Unauthorized
+  else Token vàlid
+    JWTFilter->>GetAllIndibaSessionsForExportController: forward request
+    GetAllIndibaSessionsForExportController->>GetAllIndibaSessionsForExportService: getAllIndibaSessionsForExport()
+    GetAllIndibaSessionsForExportService->>IndibaSessionRepository: findAll()
+    IndibaSessionRepository-->>GetAllIndibaSessionsForExportService: List[IndibaSession]
+    GetAllIndibaSessionsForExportService-->>GetAllIndibaSessionsForExportController: List[IndibaSession]
+    GetAllIndibaSessionsForExportController-->>Client: 200 OK {List[IndibaExportWebModel]}
+  end

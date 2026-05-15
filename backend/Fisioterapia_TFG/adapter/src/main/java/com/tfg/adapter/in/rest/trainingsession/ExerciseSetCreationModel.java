@@ -1,6 +1,6 @@
 package com.tfg.adapter.in.rest.trainingsession;
 
-import com.tfg.trainingsession.ExerciseSet;
+import com.tfg.model.trainingsession.ExerciseSet;
 import jakarta.validation.constraints.NotNull;
 
 public record ExerciseSetCreationModel(

@@ -2,9 +2,9 @@ package com.tfg.adapter.in.rest.passwordreset;
 
 
 import com.tfg.adapter.in.rest.common.GlobalExceptionHandler;
-import com.tfg.exceptions.InvalidTokenException;
-import com.tfg.port.in.physiotherapist.RequestPasswordResetUseCase;
-import com.tfg.port.in.physiotherapist.ResetPasswordUseCase;
+import com.tfg.application.exceptions.InvalidTokenException;
+import com.tfg.application.port.in.physiotherapist.RequestPasswordResetUseCase;
+import com.tfg.application.port.in.physiotherapist.ResetPasswordUseCase;
 import io.restassured.http.ContentType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;

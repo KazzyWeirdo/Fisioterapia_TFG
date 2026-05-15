@@ -1,9 +1,9 @@
 package com.tfg.adapter.in.rest.trainingsession;
 
-import com.tfg.port.in.trainingsession.CreateTrainingSessionUseCase;
-import com.tfg.port.out.persistence.ExerciseTemplateRepository;
-import com.tfg.port.out.persistence.PatientRepository;
-import com.tfg.port.out.persistence.PhysiotherapistRepository;
+import com.tfg.application.port.in.trainingsession.CreateTrainingSessionUseCase;
+import com.tfg.application.port.out.persistence.ExerciseTemplateRepository;
+import com.tfg.application.port.out.persistence.PatientRepository;
+import com.tfg.application.port.out.persistence.PhysiotherapistRepository;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;

@@ -1,0 +1,22 @@
+erDiagram
+
+  EXERCISE_TEMPLATE {
+    int id PK
+    int trainingSessionId FK
+    string name
+  }
+
+  TRAINING_SESSION {
+    int id PK
+    datetime startDateTime
+    datetime endDateTime
+  }
+
+  EXERCISE {
+    int id PK
+    int exerciseTemplateId FK
+    string name
+  }
+
+  TRAINING_SESSION ||--|{ EXERCISE_TEMPLATE : "conté"
+  EXERCISE_TEMPLATE ||--|{ EXERCISE : "conté"

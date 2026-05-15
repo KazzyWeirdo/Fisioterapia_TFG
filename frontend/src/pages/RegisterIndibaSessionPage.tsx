@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faClock, faGear, faShield, faEye, faTrash, faCheck } from '@fortawesome/free-solid-svg-icons'
+import { faClock, faGear, faShield, faEye, faCheck } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import { useLanguage } from '../contexts/LanguageContext'
@@ -8,6 +8,7 @@ import { createIndibaSession } from '../services/indibaService'
 import type { PhysiotherapistSummary } from '../services/physiotherapistService'
 import { getPatients, type PatientSummary } from '../services/patientService'
 import styles from './RegisterIndibaSessionPage.module.css'
+import PageTitle from '../components/PageTitle'
 
 function parseTokenPayload(token: string): { sub: string; name: string; surname: string } {
   const base64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')
@@ -23,7 +24,6 @@ const EMPTY_FORM = {
   mode: 'CAPACITIVE',
   capacitiveIntensity: '40',
   resistiveIntensity: '40',
-  objective: '',
   observations: '',
 }
 
@@ -68,7 +68,6 @@ export default function RegisterIndibaSessionPage() {
         mode: form.mode,
         capacitiveIntensity: (isDual || isCapacitive) ? parseFloat(form.capacitiveIntensity) : null,
         resistiveIntensity: (isDual || !isCapacitive) ? parseFloat(form.resistiveIntensity) : null,
-        objective: form.objective,
         physiotherapistId: physio.id,
         observations: form.observations,
       })
@@ -84,8 +83,7 @@ export default function RegisterIndibaSessionPage() {
     <form className={styles.page} onSubmit={handleSubmit}>
 
       <div>
-        <h1 className={styles.heading}>{t('indiba_register_title')}</h1>
-        <p className={styles.subtitle}>{t('indiba_register_subtitle')}</p>
+        <PageTitle title={t('indiba_register_title')} subtitle={t('indiba_register_subtitle')} />
       </div>
 
       {/* SESSION TIMING */}
@@ -147,7 +145,7 @@ export default function RegisterIndibaSessionPage() {
               value={form.mode} onChange={handleChange} required>
               {MODES.map(m => (
                 <option key={m} value={m}>
-                  {m.charAt(0) + m.slice(1).toLowerCase()}
+                  {t('indiba_mode_' + m.toLowerCase())}
                 </option>
               ))}
             </select>
@@ -202,12 +200,6 @@ export default function RegisterIndibaSessionPage() {
           </div>
         </div>
 
-        <div className={styles.field}>
-          <label className={styles.label} htmlFor="objective">{t('indiba_objective')}</label>
-          <input id="objective" name="objective" type="text"
-            className={styles.input} placeholder={t('indiba_objective_placeholder')}
-            value={form.objective} onChange={handleChange} />
-        </div>
       </div>
 
       {/* CLINICAL OBSERVATIONS */}
@@ -226,10 +218,7 @@ export default function RegisterIndibaSessionPage() {
       {error && <p className={styles.error}>{error}</p>}
 
       <div className={styles.footer}>
-        <button type="button" className={styles.discardBtn} onClick={() => navigate(-1)}>
-          <FontAwesomeIcon icon={faTrash} /> {t('indiba_discard')}
-        </button>
-        <button type="submit" className={styles.submitBtn} disabled={submitting || !physio}>
+        <button type="submit" className="btn btn-primary" disabled={submitting || !physio}>
           <FontAwesomeIcon icon={faCheck} /> {t('indiba_submit')}
         </button>
       </div>

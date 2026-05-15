@@ -1,12 +1,11 @@
 package com.tfg.adapter.in.rest.statistics;
 
 import com.tfg.adapter.in.rest.common.PatientIdParser;
-import com.tfg.patient.PatientId;
-import com.tfg.port.in.statistics.GetWorkloadProgressionUseCase;
-import com.tfg.statistics.WorkloadProgression;
+import com.tfg.model.patient.PatientId;
+import com.tfg.application.port.in.statistics.GetWorkloadProgressionUseCase;
+import com.tfg.model.statistics.WorkloadProgression;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

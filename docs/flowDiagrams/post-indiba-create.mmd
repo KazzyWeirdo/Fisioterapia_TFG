@@ -1,0 +1,35 @@
+sequenceDiagram
+  actor Client
+  participant JWTFilter
+  participant CreateIndibaSessionController
+  participant PatientRepository
+  participant PhysiotherapistRepository
+  participant CreateIndibaSessionService
+  participant IndibaSessionRepository
+
+  Client->>JWTFilter: POST /indiba/create {IndibaCreationModel} + Bearer token
+  JWTFilter->>JWTFilter: validateToken()
+  alt Token invàlid
+    JWTFilter-->>Client: 401 Unauthorized
+  else Token vàlid
+    JWTFilter->>CreateIndibaSessionController: forward request
+    CreateIndibaSessionController->>PatientRepository: findById(patientId)
+    alt Pacient no trobat
+      PatientRepository-->>CreateIndibaSessionController: Optional.empty()
+      CreateIndibaSessionController-->>Client: 404 Not Found
+    else Pacient trobat
+      PatientRepository-->>CreateIndibaSessionController: Optional[patient]
+      CreateIndibaSessionController->>PhysiotherapistRepository: findById(physiotherapistId)
+      alt Fisioterapeuta no trobat
+        PhysiotherapistRepository-->>CreateIndibaSessionController: Optional.empty()
+        CreateIndibaSessionController-->>Client: 404 Not Found
+      else Fisioterapeuta trobat
+        PhysiotherapistRepository-->>CreateIndibaSessionController: Optional[physiotherapist]
+        CreateIndibaSessionController->>CreateIndibaSessionService: createIndibaSession(session)
+        CreateIndibaSessionService->>IndibaSessionRepository: save(indibaSession)
+        IndibaSessionRepository-->>CreateIndibaSessionService: saved
+        CreateIndibaSessionService-->>CreateIndibaSessionController: void
+        CreateIndibaSessionController-->>Client: 200 OK
+      end
+    end
+  end

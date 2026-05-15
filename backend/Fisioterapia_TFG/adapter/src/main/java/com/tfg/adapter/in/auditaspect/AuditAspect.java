@@ -1,17 +1,19 @@
 package com.tfg.adapter.in.auditaspect;
 
-import com.tfg.auditlog.AuditLog;
-import com.tfg.auditlog.AuditLogId;
-import com.tfg.indiba.IndibaSession;
-import com.tfg.patient.Patient;
-import com.tfg.physiotherapist.Physiotherapist;
-import com.tfg.pni.PniReport;
-import com.tfg.port.out.persistence.AuditLogRepository;
-import com.tfg.trainingsession.ExerciseTemplate;
-import com.tfg.trainingsession.TrainingSession;
+import com.tfg.model.auditlog.AuditLog;
+import com.tfg.model.auditlog.AuditLogId;
+import com.tfg.model.indiba.IndibaSession;
+import com.tfg.model.patient.Patient;
+import com.tfg.model.patient.PatientId;
+import com.tfg.model.physiotherapist.Physiotherapist;
+import com.tfg.model.pni.PniReport;
+import com.tfg.application.port.out.persistence.AuditLogRepository;
+import com.tfg.model.trainingsession.ExerciseTemplate;
+import com.tfg.model.trainingsession.TrainingSession;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -57,6 +59,27 @@ public class AuditAspect {
             writeLog(args[1], "UPDATE");
         } catch (Exception e) {
             log.error("Audit log failed for update: {}", e.getMessage());
+        }
+    }
+
+    @Before("execution(* com.tfg.adapter.out.persistence.patient.PatientJpaRepository.deleteById(..))")
+    public void logBeforePatientDelete(JoinPoint joinPoint) {
+        Object[] args = joinPoint.getArgs();
+        if (args == null || args.length == 0) return;
+        try {
+            PatientId patientId = (PatientId) args[0];
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String user = (auth != null) ? auth.getName() : "system";
+            auditLogRepository.save(new AuditLog(
+                    new AuditLogId(ThreadLocalRandom.current().nextInt(1_000_000)),
+                    "Patient",
+                    "DELETE",
+                    LocalDateTime.now().toString(),
+                    "PatientId: " + patientId.value(),
+                    user
+            ));
+        } catch (Exception e) {
+            log.error("Audit log failed for patient delete: {}", e.getMessage());
         }
     }
 

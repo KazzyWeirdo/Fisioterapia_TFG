@@ -1,6 +1,6 @@
 package com.tfg.adapter.in.scheduler.polar;
 
-import com.tfg.port.in.polar.SyncPolarDataUseCase;
+import com.tfg.application.port.in.polar.SyncPolarDataUseCase;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 

@@ -1,9 +1,9 @@
 package com.tfg.adapter.out.persistence.patient;
 
-import com.tfg.patient.Patient;
-import com.tfg.patient.PatientDNI;
-import com.tfg.patient.PatientEmail;
-import com.tfg.patient.PatientId;
+import com.tfg.model.patient.Patient;
+import com.tfg.model.patient.PatientDNI;
+import com.tfg.model.patient.PatientEmail;
+import com.tfg.model.patient.PatientId;
 
 public class PatientJpaMapper {
 
@@ -24,6 +24,10 @@ public class PatientJpaMapper {
         entity.setDateOfBirth(patient.getDateOfBirth());
         entity.setPolarAccessToken(patient.getPolarAccessToken());
         entity.setPolarUserId(patient.getPolarUserId());
+        entity.setPathology(patient.getPathology());
+        entity.setRegistrationDate(patient.getRegistrationDate());
+        entity.setFunctionalScore(patient.getFunctionalScore());
+        entity.setDischargeDate(patient.getDischargeDate());
         return entity;
     }
 
@@ -43,7 +47,11 @@ public class PatientJpaMapper {
                 entity.getDateOfBirth(),
                 entity.getPhoneNumber(),
                 entity.getPolarAccessToken(),
-                entity.getPolarUserId()
+                entity.getPolarUserId(),
+                entity.getPathology(),
+                entity.getRegistrationDate(),
+                entity.getFunctionalScore(),
+                entity.getDischargeDate()
         );
     }
 }

@@ -1,0 +1,14 @@
+package com.tfg.model.patient;
+
+public enum Pathology {
+    TENDINOPATHY,
+    LUMBAR_PAIN,
+    CERVICAL_PAIN,
+    PLANTAR_FASCIITIS,
+    ROTATOR_CUFF_INJURY,
+    KNEE_OSTEOARTHRITIS,
+    ANKLE_SPRAIN,
+    FIBROMYALGIA,
+    SPORT_INJURY,
+    POST_SURGICAL_RECOVERY
+}

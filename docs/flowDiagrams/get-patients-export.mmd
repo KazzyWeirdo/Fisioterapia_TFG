@@ -1,0 +1,23 @@
+sequenceDiagram
+  actor Client
+  participant JWTFilter
+  participant GetAllPatientsForExportController
+  participant GetAllPatientsForExportService
+  participant PatientRepository
+
+  Client->>JWTFilter: GET /patients/export + Bearer token
+  JWTFilter->>JWTFilter: validateToken()
+  alt Token invàlid
+    JWTFilter-->>Client: 401 Unauthorized
+  else Token vàlid
+    JWTFilter->>GetAllPatientsForExportController: forward request
+    GetAllPatientsForExportController->>GetAllPatientsForExportService: getAllPatientsForExport()
+    GetAllPatientsForExportService->>PatientRepository: findAll()
+    PatientRepository-->>GetAllPatientsForExportService: List[Patient]
+    GetAllPatientsForExportService-->>GetAllPatientsForExportController: List[Patient]
+    alt Llista buida
+      GetAllPatientsForExportController-->>Client: 204 No Content
+    else Llista amb dades
+      GetAllPatientsForExportController-->>Client: 200 OK {List[PatientExportWebModel]}
+    end
+  end

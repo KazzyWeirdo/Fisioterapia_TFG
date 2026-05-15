@@ -8,7 +8,7 @@ interface AuthButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export default function AuthButton({ loading, children, disabled, ...props }: AuthButtonProps) {
   return (
-    <button className={styles.button} disabled={disabled || loading} {...props}>
+    <button className="btn btn-primary w-100" disabled={disabled || loading} {...props}>
       {loading && <span className={styles.spinner} aria-hidden="true" />}
       {children}
     </button>

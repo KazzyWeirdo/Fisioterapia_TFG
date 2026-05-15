@@ -4,7 +4,7 @@ import com.tfg.adapter.out.persistence.physiotherapist.PhysiotherapistJpaDataRep
 import com.tfg.adapter.out.persistence.physiotherapist.PhysiotherapistJpaEntity;
 import com.tfg.adapter.out.persistence.physiotherapist.RoleJpaDataRepository;
 import com.tfg.adapter.out.persistence.physiotherapist.RoleJpaEntity;
-import com.tfg.physiotherapist.ERole;
+import com.tfg.model.physiotherapist.ERole;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

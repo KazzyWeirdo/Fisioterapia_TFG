@@ -1,0 +1,8 @@
+package com.tfg.application.port.in.patient;
+
+import com.tfg.model.patient.Patient;
+import com.tfg.model.patient.PatientId;
+
+public interface UpdatePatientUseCase {
+    void updatePatient(PatientId id, Patient patient);
+}
