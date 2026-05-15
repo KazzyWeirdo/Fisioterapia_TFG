@@ -39,7 +39,7 @@ public class ManagePolarConnectionControllerTest {
         when(managePolarConnectionUseCase.initiateConnection(PatientIdParser.parsePatientId(patientId)))
                 .thenReturn(expectedUrl);
 
-        mockMvc.perform(get("/api/auth/polar/authorize")
+        mockMvc.perform(get("/auth/polar/authorize")
                         .param("patientId", patientId))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl(expectedUrl));
@@ -50,7 +50,7 @@ public class ManagePolarConnectionControllerTest {
         String code = "testCode";
         String state = "123";
 
-        mockMvc.perform(get("/api/auth/polar/callback")
+        mockMvc.perform(get("/auth/polar/callback")
                         .param("code", code)
                         .param("state", state)
                         .accept(MediaType.APPLICATION_JSON))
