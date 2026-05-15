@@ -5,9 +5,9 @@ export interface TransitionRatioPoint {
   transitionRatio: number
 }
 
-export interface WorkloadPoint {
+export interface AverageRpePoint {
   sessionDate: string
-  workload: number
+  averageRpe: number
 }
 
 export async function getTransitionRatio(
@@ -21,11 +21,11 @@ export async function getTransitionRatio(
   return response.data
 }
 
-export async function getWorkloadProgression(
+export async function getAverageRpeProgression(
   patientId: number,
   exerciseName: string,
-): Promise<WorkloadPoint[]> {
-  const response = await apiClient.get<WorkloadPoint[]>(
+): Promise<AverageRpePoint[]> {
+  const response = await apiClient.get<AverageRpePoint[]>(
     `/statistics/${patientId}/${encodeURIComponent(exerciseName)}/workload-progression`,
   )
   if (response.status === 204 || !response.data) return []

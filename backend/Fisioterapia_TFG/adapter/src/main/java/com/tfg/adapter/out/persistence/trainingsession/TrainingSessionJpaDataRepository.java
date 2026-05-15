@@ -35,7 +35,7 @@ public interface TrainingSessionJpaDataRepository extends JpaRepository<Training
     @Query("""
     SELECT
         CAST(t.startDateTime AS DATE) as sessionDate,
-        SUM(s.reps * s.weightKg) as totalVolume
+        AVG(s.rpe) as averageRpe
     FROM TrainingSessionJpaEntity t
     JOIN t.exerciseTemplates et
     JOIN et.exercises e
@@ -45,7 +45,7 @@ public interface TrainingSessionJpaDataRepository extends JpaRepository<Training
     GROUP BY CAST(t.startDateTime AS DATE)
     ORDER BY CAST(t.startDateTime AS DATE) ASC
     """)
-    List<Object[]> calculateVolumeProgression(
+    List<Object[]> calculateRpeProgression(
             @Param("patientId") Integer patientId,
             @Param("exerciseName") String exerciseName
     );

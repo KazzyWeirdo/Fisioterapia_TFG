@@ -85,8 +85,8 @@ public class TrainingSessionJpaRepository implements TrainingSessionRepository {
     }
 
     @Override
-    public List<Object[]> calculateVolumeProgression(PatientId patientId, String exerciseName) {
-        return trainingSessionJpaDataRepository.calculateVolumeProgression(patientId.value(), exerciseName);
+    public List<Object[]> calculateRpeProgression(PatientId patientId, String exerciseName) {
+        return trainingSessionJpaDataRepository.calculateRpeProgression(patientId.value(), exerciseName);
     }
 
     @Transactional(readOnly = true)

@@ -176,19 +176,19 @@ public abstract class AbstractTrainingSessionRepositoryTest extends BaseReposito
     }
 
     @Test
-    public void givenExistingTrainingSession_whenCalculateVolumeProgression_thenReturnList() {
+    public void givenExistingTrainingSession_whenCalculateRpeProgression_thenReturnList() {
         trainingSessionRepository.save(testTrainingSession1);
         trainingSessionRepository.save(testTrainingSession2);
 
-        List<Object[]> progression = trainingSessionRepository.calculateVolumeProgression(testPatient.getId(), "Test Exercise");
+        List<Object[]> progression = trainingSessionRepository.calculateRpeProgression(testPatient.getId(), "Test Exercise");
 
         assertThat(progression).isNotEmpty();
         assertThat(progression.size()).isEqualTo(2);
     }
 
     @Test
-    public void givenNoTrainingSessions_whenCalculateVolumeProgression_thenReturnEmptyList() {
-        List<Object[]> progression = trainingSessionRepository.calculateVolumeProgression(testPatient.getId(), "Test Exercise");
+    public void givenNoTrainingSessions_whenCalculateRpeProgression_thenReturnEmptyList() {
+        List<Object[]> progression = trainingSessionRepository.calculateRpeProgression(testPatient.getId(), "Test Exercise");
 
         assertThat(progression).isEmpty();
     }

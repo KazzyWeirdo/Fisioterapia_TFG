@@ -11,10 +11,10 @@ import {
 } from 'chart.js'
 import { Line } from 'react-chartjs-2'
 import {
-  getWorkloadProgression,
+  getAverageRpeProgression,
   getIndibaSessionStats,
   getPathologyRehabStats,
-  type WorkloadPoint,
+  type AverageRpePoint,
   type IndibaSessionStats,
   type PathologyRehabStats,
 } from '../../services/statisticsService'
@@ -44,7 +44,7 @@ export default function StatisticsTab({ patientId }: StatisticsTabProps) {
   const [rehabStats, setRehabStats] = useState<PathologyRehabStats[]>([])
   const [exerciseInput, setExerciseInput] = useState('')
   const [exerciseName, setExerciseName] = useState('')
-  const [workload, setWorkload] = useState<WorkloadPoint[]>([])
+  const [workload, setWorkload] = useState<AverageRpePoint[]>([])
   const [workloadLoading, setWorkloadLoading] = useState(false)
   const [workloadError, setWorkloadError] = useState<string | null>(null)
 
@@ -69,7 +69,7 @@ export default function StatisticsTab({ patientId }: StatisticsTabProps) {
     if (!exerciseName) return
     setWorkloadLoading(true)
     setWorkloadError(null)
-    getWorkloadProgression(patientId, exerciseName)
+    getAverageRpeProgression(patientId, exerciseName)
       .then(setWorkload)
       .catch(() => setWorkloadError(t('stats_workload_error')))
       .finally(() => setWorkloadLoading(false))
@@ -82,7 +82,7 @@ export default function StatisticsTab({ patientId }: StatisticsTabProps) {
 
   const ceiling = useMemo(() => {
     if (workload.length === 0) return 1
-    const maxW = Math.max(...workload.map(p => p.workload))
+    const maxW = Math.max(...workload.map(p => p.averageRpe))
     return maxW > 0 ? maxW * 1.1 : 1
   }, [workload])
 
@@ -94,7 +94,7 @@ export default function StatisticsTab({ patientId }: StatisticsTabProps) {
     ),
     datasets: [
       {
-        data: workload.map(p => p.workload),
+        data: workload.map(p => p.averageRpe),
         borderColor: '#1a3a6b',
         backgroundColor: 'rgba(26, 58, 107, 0.06)',
         borderWidth: 2.5,
@@ -116,7 +116,7 @@ export default function StatisticsTab({ patientId }: StatisticsTabProps) {
       legend: { display: false },
       tooltip: {
         callbacks: {
-          label: ctx => `Volume: ${fmtVolume(ctx.parsed.y ?? 0)} kg`,
+          label: ctx => `RPE: ${(ctx.parsed.y ?? 0).toFixed(1)}`,
         },
       },
     },
@@ -127,12 +127,13 @@ export default function StatisticsTab({ patientId }: StatisticsTabProps) {
       },
       y: {
         min: 0,
+        max: 10,
         suggestedMax: ceiling,
         grid: { color: '#e5e7eb' },
         ticks: {
           color: '#9ca3af',
           font: { size: 10 },
-          callback: v => fmtVolume(v == null ? 0 : Number(v)),
+          callback: v => Number(v).toFixed(1),
         },
       },
     },

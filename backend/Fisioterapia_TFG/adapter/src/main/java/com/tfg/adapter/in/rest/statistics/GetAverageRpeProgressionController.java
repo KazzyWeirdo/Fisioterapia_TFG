@@ -2,8 +2,8 @@ package com.tfg.adapter.in.rest.statistics;
 
 import com.tfg.adapter.in.rest.common.PatientIdParser;
 import com.tfg.model.patient.PatientId;
-import com.tfg.application.port.in.statistics.GetWorkloadProgressionUseCase;
-import com.tfg.model.statistics.WorkloadProgression;
+import com.tfg.application.port.in.statistics.GetAverageRpeProgressionUseCase;
+import com.tfg.model.statistics.AverageRpeProgression;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +16,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/statistics/")
-public class GetWorkloadProgressionController {
+public class GetAverageRpeProgressionController {
 
-    private final GetWorkloadProgressionUseCase getWorkloadProgressionUseCase;
+    private final GetAverageRpeProgressionUseCase getAverageRpeProgressionUseCase;
 
-    public GetWorkloadProgressionController(GetWorkloadProgressionUseCase getWorkloadProgressionUseCase) {
-        this.getWorkloadProgressionUseCase = getWorkloadProgressionUseCase;
+    public GetAverageRpeProgressionController(GetAverageRpeProgressionUseCase getAverageRpeProgressionUseCase) {
+        this.getAverageRpeProgressionUseCase = getAverageRpeProgressionUseCase;
     }
 
     @GetMapping("/{patientId}/{exerciseName}/workload-progression")
@@ -30,10 +30,10 @@ public class GetWorkloadProgressionController {
             @ApiResponse(responseCode = "204", description = "There is no workload progression of this exercise"),
             @ApiResponse(responseCode = "404", description = "Patient not found")
     })
-    public ResponseEntity<List<WorkloadProgression>> getWorkloadProgression(@PathVariable("patientId")String grabbedPatientId,
+    public ResponseEntity<List<AverageRpeProgression>> getAverageRpeProgression(@PathVariable("patientId")String grabbedPatientId,
                                                                       @PathVariable("exerciseName") String exerciseName) {
         PatientId patientId = PatientIdParser.parsePatientId(grabbedPatientId);
-        List<WorkloadProgression> progression = getWorkloadProgressionUseCase.calculateProgression(patientId, exerciseName)
+        List<AverageRpeProgression> progression = getAverageRpeProgressionUseCase.calculateProgression(patientId, exerciseName)
                 .stream()
                 .toList();
 

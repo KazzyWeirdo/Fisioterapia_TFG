@@ -4,8 +4,8 @@ import com.tfg.adapter.in.rest.common.GlobalExceptionHandler;
 import com.tfg.application.exceptions.InvalidIdException;
 import com.tfg.model.patient.PatientFactory;
 import com.tfg.model.patient.Patient;
-import com.tfg.application.port.in.statistics.GetWorkloadProgressionUseCase;
-import com.tfg.model.statistics.WorkloadProgression;
+import com.tfg.application.port.in.statistics.GetAverageRpeProgressionUseCase;
+import com.tfg.model.statistics.AverageRpeProgression;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,31 +21,31 @@ import java.util.List;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
-public class GetWorkloadProgressionControllerTest {
+public class GetAverageRpeProgressionControllerTest {
     @Mock
-    private GetWorkloadProgressionUseCase getWorkloadProgressionUseCase;
+    private GetAverageRpeProgressionUseCase getAverageRpeProgressionUseCase;
 
     @InjectMocks
-    private GetWorkloadProgressionController getWorkloadProgressionController;
+    private GetAverageRpeProgressionController getAverageRpeProgressionController;
 
     private static final Patient TEST_PATIENT = PatientFactory.createTestPatient("hola@gmail.com", "85729487J");
-    private static final List<WorkloadProgression> workloadProgressions = List.of(
-            new WorkloadProgression(LocalDate.of(2024, 3, 1), 3),
-            new WorkloadProgression(LocalDate.of(2024, 3, 8), 4)
+    private static final List<AverageRpeProgression> averageRpeProgressions = List.of(
+            new AverageRpeProgression(LocalDate.of(2024, 3, 1), 6.5),
+            new AverageRpeProgression(LocalDate.of(2024, 3, 8), 5.0)
     );
 
     @BeforeEach
     void setUp() {
         RestAssuredMockMvc.standaloneSetup(
-                MockMvcBuilders.standaloneSetup(getWorkloadProgressionController)
+                MockMvcBuilders.standaloneSetup(getAverageRpeProgressionController)
                         .setControllerAdvice(new GlobalExceptionHandler())
         );
     }
 
     @Test
     public void givenValidPatientIdAndYear_whenGetPatientTransitionRatio_thenReturnsTransitionRatio() {
-        given(getWorkloadProgressionUseCase.calculateProgression(TEST_PATIENT.getId(), "Test_Exercise"))
-                .willReturn(workloadProgressions);
+        given(getAverageRpeProgressionUseCase.calculateProgression(TEST_PATIENT.getId(), "Test_Exercise"))
+                .willReturn(averageRpeProgressions);
 
         RestAssuredMockMvc.given()
                 .when()
@@ -56,7 +56,7 @@ public class GetWorkloadProgressionControllerTest {
 
     @Test
     public void givenInvalidPatientIdAndYer_whenGetPatientTransitionRatio_thenReturnsBadRequest() {
-        given(getWorkloadProgressionUseCase.calculateProgression(null, "Test_Exercise"))
+        given(getAverageRpeProgressionUseCase.calculateProgression(null, "Test_Exercise"))
                 .willThrow(new InvalidIdException());
 
         RestAssuredMockMvc.given()
@@ -68,7 +68,7 @@ public class GetWorkloadProgressionControllerTest {
 
     @Test
     public void givenPatientWithNoTransitionRatio_whenGetPatientTransitionRatio_thenReturnsNoContent() {
-        given(getWorkloadProgressionUseCase.calculateProgression(TEST_PATIENT.getId(), "Test_Exercise"))
+        given(getAverageRpeProgressionUseCase.calculateProgression(TEST_PATIENT.getId(), "Test_Exercise"))
                 .willReturn(List.of());
 
         RestAssuredMockMvc.given()

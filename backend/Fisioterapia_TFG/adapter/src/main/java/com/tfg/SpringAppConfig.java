@@ -30,7 +30,7 @@ import com.tfg.application.port.in.polar.ManagePolarConnectionUseCase;
 import com.tfg.application.port.in.polar.SyncPolarDataUseCase;
 import com.tfg.application.port.in.physiotherapist.RegisterPhysiotherapistUseCase;
 import com.tfg.application.port.in.statistics.GetPatientTransitionRatioUseCase;
-import com.tfg.application.port.in.statistics.GetWorkloadProgressionUseCase;
+import com.tfg.application.port.in.statistics.GetAverageRpeProgressionUseCase;
 import com.tfg.application.port.in.trainingsession.CreateTrainingSessionUseCase;
 import com.tfg.application.port.in.trainingsession.GetAllTrainingSessionsForExportUseCase;
 import com.tfg.application.port.in.trainingsession.GetTrainingSessionByPatientUseCase;
@@ -73,7 +73,7 @@ import com.tfg.application.service.polar.ManagePolarConnectionService;
 import com.tfg.application.service.polar.SyncPolarDataService;
 import com.tfg.application.service.physiotherapist.RegisterPhysiotherapistService;
 import com.tfg.application.service.statistics.GetPatientTransitionRatioService;
-import com.tfg.application.service.statistics.GetWorkloadProgressionService;
+import com.tfg.application.service.statistics.GetAverageRpeProgressionService;
 import com.tfg.application.service.trainingsession.GetAllTrainingSessionsForExportService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
@@ -207,8 +207,8 @@ public class SpringAppConfig {
     }
 
     @Bean
-    GetWorkloadProgressionUseCase getWorkloadProgressionUseCase() {
-        return new GetWorkloadProgressionService(trainingSessionRepository, patientRepository);
+    GetAverageRpeProgressionUseCase getAverageRpeProgressionUseCase() {
+        return new GetAverageRpeProgressionService(trainingSessionRepository, patientRepository);
     }
 
     @Bean

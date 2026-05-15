@@ -2,8 +2,8 @@ package com.tfg.model.statistics;
 
 import java.time.LocalDate;
 
-public record WorkloadProgression(
+public record AverageRpeProgression(
         LocalDate sessionDate,
-        double workload
+        double averageRpe
 ) {
 }
