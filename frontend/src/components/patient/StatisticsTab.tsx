@@ -29,10 +29,6 @@ interface StatisticsTabProps {
   patientId: number
 }
 
-function fmtVolume(v: number): string {
-  if (v >= 1000) return `${(v / 1000).toFixed(1)}k`
-  return v.toFixed(0)
-}
 
 export default function StatisticsTab({ patientId }: StatisticsTabProps) {
   const { t } = useLanguage()
