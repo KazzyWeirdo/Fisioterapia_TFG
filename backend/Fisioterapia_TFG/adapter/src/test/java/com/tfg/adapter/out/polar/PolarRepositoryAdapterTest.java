@@ -117,7 +117,7 @@ public class PolarRepositoryAdapterTest {
         ObjectNode mockSleep = factory.objectNode();
         mockSleep.put("sleep_start_time", "2023-10-27T22:00:00+00:00");
         mockSleep.put("sleep_end_time", "2023-10-28T06:00:00+00:00");
-        mockSleep.put("sleep_continuity", 4);
+        mockSleep.put("continuity", 4);
         mockSleep.put("deep_sleep", 5400); // 90 minutes in seconds
 
         ObjectNode hrSamples = mockSleep.putObject("heart_rate_samples");

@@ -38,7 +38,7 @@ public class PolarRepositoryAdapter implements PolarRepository {
     @Value("${polar.redirect-uri}")
     private String redirectUri;
 
-    private final RestTemplate restTemplate = new RestTemplate();
+    private RestTemplate restTemplate = new RestTemplate();
 
     @Override
     public String generateAuthUrl(String state) {
