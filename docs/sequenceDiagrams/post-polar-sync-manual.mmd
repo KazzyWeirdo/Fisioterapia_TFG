@@ -1,0 +1,44 @@
+sequenceDiagram
+  actor Client
+  participant JWTFilter
+  participant SyncPolarDataController
+  participant SyncPolarDataForPatientService
+  participant PatientRepository
+  participant PolarRepository
+  participant PniReportRepository
+
+  Client->>JWTFilter: POST /polar/sync/{patientId} + Bearer token
+  JWTFilter->>JWTFilter: validateToken()
+  alt Token invàlid
+    JWTFilter-->>Client: 401 Unauthorized
+  else Token vàlid
+    JWTFilter->>SyncPolarDataController: forward request
+    SyncPolarDataController->>SyncPolarDataForPatientService: syncForPatient(patientId)
+    SyncPolarDataForPatientService->>PatientRepository: findById(patientId)
+    alt Pacient no trobat
+      PatientRepository-->>SyncPolarDataForPatientService: Optional.empty()
+      SyncPolarDataForPatientService-->>SyncPolarDataController: throw PatientNotFoundException
+      SyncPolarDataController-->>Client: 404 Not Found
+    else Pacient trobat
+      PatientRepository-->>SyncPolarDataForPatientService: Optional[patient]
+      SyncPolarDataForPatientService->>PolarRepository: fetchDailyData(patient, today)
+      alt Sense dades Polar
+        PolarRepository-->>SyncPolarDataForPatientService: Optional.empty()
+        SyncPolarDataForPatientService-->>SyncPolarDataController: (no action)
+        SyncPolarDataController-->>Client: 204 No Content
+      else Dades obtingudes
+        PolarRepository-->>SyncPolarDataForPatientService: Optional[pniReport]
+        SyncPolarDataForPatientService->>PniReportRepository: findByPatientIdAndDate(patientId, today)
+        alt Informe ja existent
+          PniReportRepository-->>SyncPolarDataForPatientService: Optional[existing]
+          SyncPolarDataForPatientService->>PniReportRepository: save(updatedReport)
+        else Informe nou
+          PniReportRepository-->>SyncPolarDataForPatientService: Optional.empty()
+          SyncPolarDataForPatientService->>PniReportRepository: save(freshReport)
+        end
+        PniReportRepository-->>SyncPolarDataForPatientService: saved
+        SyncPolarDataForPatientService-->>SyncPolarDataController: void
+        SyncPolarDataController-->>Client: 204 No Content
+      end
+    end
+  end

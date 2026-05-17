@@ -293,6 +293,9 @@ Els endpoints estan protegits amb JWT excepte els marcats com a públics. La cap
 | `GET` | `/patients/export` | Exporta tots els pacients (CSV) | 🔒 USER |
 | `GET` | `/patients/{patientId}` | Obté les dades d'un pacient | 🔒 USER |
 | `PUT` | `/patients/{patientId}` | Actualitza les dades d'un pacient | 🔒 USER |
+| `DELETE` | `/patients/{id}` | Elimina un pacient del sistema | 🔒 ADMIN |
+| `PATCH` | `/patients/{id}/discharge` | Dona d'alta (discharge) un pacient | 🔒 USER |
+| `PATCH` | `/patients/{id}/functional-score` | Actualitza la puntuació funcional d'un pacient (0–100) | 🔒 USER |
 
 ### Sessions INDIBA (`/indiba`)
 
@@ -326,6 +329,8 @@ Els endpoints estan protegits amb JWT excepte els marcats com a públics. La cap
 |--------|----------|-----------|------|
 | `GET` | `/statistics/{patientId}/{exerciseName}/workload-progression` | Progressió de càrrega per exercici | 🔒 USER |
 | `GET` | `/statistics/{patientId}/{year}/patient-transition-ratio` | Ràtio de transició de fases anual | 🔒 USER |
+| `GET` | `/statistics/rehabilitation-by-pathology` | Dies mitjans de rehabilitació per patologia | 🔒 USER |
+| `GET` | `/patients/{id}/indiba-stats` | Estadístiques de sessions INDIBA d'un pacient | 🔒 USER |
 
 ### Logs d'auditoria (`/auditlogs`)
 
@@ -341,12 +346,13 @@ Els endpoints estan protegits amb JWT excepte els marcats com a públics. La cap
 | `GET` | `/exercise-template` | Llista totes les plantilles disponibles | 🔒 USER |
 | `GET` | `/exercise-template/{id}` | Obté una plantilla per ID | 🔒 USER |
 
-### Integració Polar (`/api/auth/polar`)
+### Integració Polar (`/auth/polar`, `/polar`)
 
 | Mètode | Endpoint | Descripció | Auth |
 |--------|----------|-----------|------|
-| `GET` | `/api/auth/polar/authorize` | Inicia el flux OAuth2 amb Polar | Públic |
-| `GET` | `/api/auth/polar/callback` | Callback OAuth2, rep el token de Polar | Públic |
+| `GET` | `/auth/polar/authorize` | Inicia el flux OAuth2 amb Polar (redirigeix al proveïdor) | Públic |
+| `GET` | `/auth/polar/callback` | Callback OAuth2, finalitza la connexió amb Polar | Públic |
+| `POST` | `/polar/sync/{patientId}` | Sincronitza manualment les dades Polar d'un pacient | 🔒 USER |
 
 ## 🔍 Arquitecture Overview
 

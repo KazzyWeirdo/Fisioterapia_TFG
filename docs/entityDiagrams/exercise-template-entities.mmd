@@ -1,0 +1,30 @@
+erDiagram
+  TRAINING_SESSION {
+    int id PK
+    int patient_id FK
+    int physiotherapist_id FK
+    datetime startDateTime
+    datetime endDateTime
+  }
+
+  EXERCISE_TEMPLATE {
+    int id PK
+    string name
+  }
+
+  EXERCISE {
+    int id PK
+    string name
+  }
+
+  EXERCISE_SET {
+    int setNumber
+    double weightKg
+    int reps
+    int restTimeSeconds
+    int rpe
+  }
+
+  TRAINING_SESSION ||--o{ EXERCISE_TEMPLATE : "contains"
+  EXERCISE_TEMPLATE ||--o{ EXERCISE : "groups"
+  EXERCISE ||--o{ EXERCISE_SET : "has"
