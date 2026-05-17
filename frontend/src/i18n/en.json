@@ -278,12 +278,12 @@
   "pni_assessment_subtitle": "Psychoneuroimmunology Comprehensive Assessment for",
   "pni_restoration_profile": "RESTORATION PROFILE",
   "pni_sleep_score": "Sleep Score",
+  "pni_continuity": "Sleep Continuity",
   "pni_hours_asleep": "HOURS ASLEEP",
-  "pni_hrv": "HRV (AVERAGE)",
-  "pni_ans_charge": "ANS Charge",
-  "pni_ans_optimal": "OPTIMAL",
-  "pni_ans_moderate": "MODERATE",
-  "pni_ans_low": "LOW",
+  "pni_avg_hr": "AVG HEART RATE",
+  "pni_min_hr": "MIN HEART RATE",
+  "pni_deep_sleep": "Deep Sleep",
+  "pni_deep_sleep_unit": "MINUTES",
   "pni_load_error": "Failed to load report",
   "pni_not_found": "Report not found",
   "audit_subtitle": "A rigorous, immutable chronological record of every interaction within the system.",
@@ -339,5 +339,8 @@
   "patient_delete_btn": "Delete patient",
   "patient_delete_confirm_text": "Are you sure? This action is irreversible.",
   "patient_confirm_delete": "Confirm deletion",
-  "patient_delete_error": "Failed to delete patient. Please try again."
+  "patient_delete_error": "Failed to delete patient. Please try again.",
+  "pni_sync_polar": "Sync Polar",
+  "pni_syncing": "Syncing…",
+  "pni_sync_error": "Failed to sync Polar data"
 }

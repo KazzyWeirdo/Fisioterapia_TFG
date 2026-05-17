@@ -5,7 +5,8 @@ public record PniExportWebModel(
         int reportId,
         String reportDate,
         double hoursAsleep,
-        double hrv,
-        int ansCharge,
-        int sleepScore
+        double avgHr,
+        int minHr,
+        int deepSleep,
+        double continuity
 ) {}

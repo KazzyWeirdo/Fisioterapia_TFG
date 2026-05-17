@@ -153,8 +153,8 @@ export default function PatientsPage() {
               'pni',
               getAllPniForExport,
               'pni_reports.csv',
-              ['patient_id', 'report_id', 'report_date', 'hours_asleep', 'hrv', 'ans_charge', 'sleep_score'],
-              (r) => [r.patientId, r.reportId, r.reportDate, r.hoursAsleep, r.hrv, r.ansCharge, r.sleepScore],
+              ['patient_id', 'report_id', 'report_date', 'hours_asleep', 'avg_hr', 'min_hr', 'deep_sleep', 'continuity'],
+              (r) => [r.patientId, r.reportId, r.reportDate, r.hoursAsleep, r.avgHr, r.minHr, r.deepSleep, r.continuity],
             )}
           >
             {downloading.pni ? t('patients_exporting') : <><FontAwesomeIcon icon={faDownload} /> {t('patients_export_pni')}</>}

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMoon, faBolt } from '@fortawesome/free-solid-svg-icons'
+import { faMoon, faBed } from '@fortawesome/free-solid-svg-icons'
 import { faHeart } from '@fortawesome/free-regular-svg-icons'
 import { useParams, useNavigate } from 'react-router-dom'
 import { getPniReport, type PniReport } from '../services/pniReportService'
@@ -16,11 +16,12 @@ function formatDate(raw: string, locale: string): string {
   })
 }
 
-function ansKey(value: number): 'pni_ans_optimal' | 'pni_ans_moderate' | 'pni_ans_low' {
-  if (value >= 70) return 'pni_ans_optimal'
-  if (value >= 40) return 'pni_ans_moderate'
-  return 'pni_ans_low'
+function formatHoursAsleep(hours: number): string {
+  const h = Math.floor(hours)
+  const m = Math.round((hours - h) * 60)
+  return m > 0 ? `${h}h ${m}min` : `${h}h`
 }
+
 
 export default function PniReportDetailPage() {
   const { reportId } = useParams<{ reportId: string }>()
@@ -93,10 +94,10 @@ export default function PniReportDetailPage() {
           <span className={styles.restorationBadge}>{t('pni_restoration_profile')}</span>
           <div className={styles.arcWrap}>
             <div className={styles.arcScore}>
-              <span className={styles.arcMain}>{report.ntrs}</span>
-              <span className={styles.arcMax}>/100</span>
+              <span className={styles.arcMain}>{report.continuity != null ? Number(report.continuity).toFixed(1) : '—'}</span>
+              <span className={styles.arcMax}>/5</span>
             </div>
-            <div className={styles.arcLabel}>{t('pni_sleep_score')}</div>
+            <div className={styles.arcLabel}>{t('pni_continuity')}</div>
           </div>
           <div className={styles.arcDecor} />
         </div>
@@ -109,14 +110,7 @@ export default function PniReportDetailPage() {
             <div className={styles.metricBody}>
               <div className={styles.metricLabel}>{t('pni_hours_asleep')}</div>
               <div className={styles.metricValue}>
-                {report.hours_asleep}<span className={styles.metricUnit}>h</span>
-              </div>
-              <div className="progress mt-2" style={{ height: '6px' }}>
-                <div
-                  className="progress-bar"
-                  role="progressbar"
-                  style={{ width: `${Math.min((report.hours_asleep / 10) * 100, 100)}%` }}
-                />
+                {formatHoursAsleep(report.hours_asleep)}
               </div>
             </div>
           </div>
@@ -124,9 +118,19 @@ export default function PniReportDetailPage() {
           <div className={styles.metricCard}>
             <div className={`${styles.metricIcon} ${styles.metricIconRose}`}><FontAwesomeIcon icon={faHeart} /></div>
             <div className={styles.metricBody}>
-              <div className={styles.metricLabel}>{t('pni_hrv')}</div>
+              <div className={styles.metricLabel}>{t('pni_avg_hr')}</div>
               <div className={styles.metricValue}>
-                {report.hrv}<span className={styles.metricUnit}>ms</span>
+                {report.avg_hr != null ? report.avg_hr.toFixed(1) : '—'}<span className={styles.metricUnit}>bpm</span>
+              </div>
+            </div>
+          </div>
+
+          <div className={styles.metricCard}>
+            <div className={`${styles.metricIcon} ${styles.metricIconRose}`}><FontAwesomeIcon icon={faHeart} /></div>
+            <div className={styles.metricBody}>
+              <div className={styles.metricLabel}>{t('pni_min_hr')}</div>
+              <div className={styles.metricValue}>
+                {report.min_hr}<span className={styles.metricUnit}>bpm</span>
               </div>
             </div>
           </div>
@@ -136,20 +140,12 @@ export default function PniReportDetailPage() {
 
       {/* Bottom row */}
       <div className={styles.bottomRow}>
-        <div className={styles.ansCard}>
-          <div className={styles.ansHeader}>
-            <div className={styles.ansIcon}><FontAwesomeIcon icon={faBolt} /></div>
-            <div>
-              <div className={styles.ansTitle}>{t('pni_ans_charge')}</div>
-            </div>
-          </div>
-          <div className={styles.gaugeWrap}>
-            <div
-              className={styles.gauge}
-              style={{ '--gauge-pct': `${report.stress}%` } as React.CSSProperties}
-            >
-              <span className={styles.gaugeValue}>{report.stress}</span>
-              <span className={styles.gaugeLabel}>{t(ansKey(report.stress))}</span>
+        <div className={styles.metricCard}>
+          <div className={`${styles.metricIcon} ${styles.metricIconBlue}`}><FontAwesomeIcon icon={faBed} /></div>
+          <div className={styles.metricBody}>
+            <div className={styles.metricLabel}>{t('pni_deep_sleep')}</div>
+            <div className={styles.metricValue}>
+              {report.deep_sleep}<span className={styles.metricUnit}>{t('pni_deep_sleep_unit')}</span>
             </div>
           </div>
         </div>

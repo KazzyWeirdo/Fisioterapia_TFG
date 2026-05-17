@@ -28,6 +28,7 @@ import com.tfg.application.port.in.pni.GetPniReportUseCase;
 import com.tfg.application.port.in.pni.GetPniReportsFromPatientUseCase;
 import com.tfg.application.port.in.polar.ManagePolarConnectionUseCase;
 import com.tfg.application.port.in.polar.SyncPolarDataUseCase;
+import com.tfg.application.port.in.polar.SyncPolarDataForPatientUseCase;
 import com.tfg.application.port.in.physiotherapist.RegisterPhysiotherapistUseCase;
 import com.tfg.application.port.in.statistics.GetPatientTransitionRatioUseCase;
 import com.tfg.application.port.in.statistics.GetAverageRpeProgressionUseCase;
@@ -71,6 +72,7 @@ import com.tfg.application.service.pni.GetPniReportService;
 import com.tfg.application.service.pni.GetPniReportsFromPatientService;
 import com.tfg.application.service.polar.ManagePolarConnectionService;
 import com.tfg.application.service.polar.SyncPolarDataService;
+import com.tfg.application.service.polar.SyncPolarDataForPatientService;
 import com.tfg.application.service.physiotherapist.RegisterPhysiotherapistService;
 import com.tfg.application.service.statistics.GetPatientTransitionRatioService;
 import com.tfg.application.service.statistics.GetAverageRpeProgressionService;
@@ -185,6 +187,9 @@ public class SpringAppConfig {
 
     @Bean
     SyncPolarDataUseCase syncPolarDataUseCase() { return new SyncPolarDataService(patientRepository, pniReportRepository, polarRepository);}
+
+    @Bean
+    SyncPolarDataForPatientUseCase syncPolarDataForPatientUseCase() { return new SyncPolarDataForPatientService(patientRepository, pniReportRepository, polarRepository);}
 
     @Bean
     CreateTrainingSessionUseCase createTrainingSessionUseCase() {

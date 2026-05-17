@@ -101,14 +101,8 @@ public class PolarRepositoryAdapter implements PolarRepository {
     }
 
     @Override
-    public Optional<PniReport> fetchDailyData(Patient patient) {
-        LocalDate targetDate = LocalDate.now().minusDays(1);
-
-        String dateStr = targetDate.toString();
-
-        PniReport result = new PniReport(patient, 0.0, 0.0, 0, 0);
-        boolean hasSleep = false;
-        boolean hasRecharge = false;
+    public Optional<PniReport> fetchDailyData(Patient patient, LocalDate date) {
+        String dateStr = date.toString();
 
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(patient.getPolarAccessToken());
@@ -119,53 +113,46 @@ public class PolarRepositoryAdapter implements PolarRepository {
             String sleepUrl = "https://www.polaraccesslink.com/v3/users/sleep/" + dateStr;
             ResponseEntity<JsonNode> response = restTemplate.exchange(sleepUrl, HttpMethod.GET, entity, JsonNode.class);
 
-            if (response.getBody() != null) {
-                JsonNode sleepJson = response.getBody();
+            if (response.getBody() == null) return Optional.empty();
 
-                String startStr = sleepJson.get("sleep_start_time").asText();
-                String endStr = sleepJson.get("sleep_end_time").asText();
+            JsonNode sleepJson = response.getBody();
 
-                ZonedDateTime startTime = ZonedDateTime.parse(startStr);
-                ZonedDateTime endTime = ZonedDateTime.parse(endStr);
-                Duration duration = Duration.between(startTime, endTime);
+            String startStr = sleepJson.get("sleep_start_time").asText();
+            String endStr   = sleepJson.get("sleep_end_time").asText();
+            Duration duration = Duration.between(ZonedDateTime.parse(startStr), ZonedDateTime.parse(endStr));
+            double hoursAsleep = duration.toMinutes() / 60.0;
 
-                result.setHours_asleep(duration.toMinutes() / 60.0);
-                result.setSleep_score(sleepJson.get("sleep_score").asInt());
-                hasSleep = true;
-            }
-        } catch (HttpClientErrorException.NotFound e) {
-            // No hay datos de sueño para hoy, seguimos
-        } catch (Exception e) {
-            System.err.println("Error fetching Sleep: " + e.getMessage());
-        }
+            double continuity = sleepJson.path("continuity").asDouble(0.0);
 
-        try {
-            String rechargeUrl = "https://www.polaraccesslink.com/v3/users/nightly-recharge/" + dateStr;
-            ResponseEntity<JsonNode> response = restTemplate.exchange(rechargeUrl, HttpMethod.GET, entity, JsonNode.class);
+            int deepSleepMinutes = sleepJson.has("deep_sleep")
+                    ? (int) (sleepJson.get("deep_sleep").asLong() / 60)
+                    : 0;
 
-            if (response.getBody() != null) {
-                JsonNode rechargeJson = response.getBody();
-
-                JsonNode ansStatus = rechargeJson.path("ans_charge_status");
-                if (!ansStatus.isMissingNode()) {
-                    if (ansStatus.has("heart_rate_variability_rmssd")) {
-                        result.setHrv(ansStatus.get("heart_rate_variability_rmssd").asDouble());
-                    }
-                    if (ansStatus.has("ans_charge")) {
-                        result.setAns_charge(ansStatus.get("ans_charge").asInt());
-                    }
-                    hasRecharge = true;
+            double avgHr = 0.0;
+            int minHr = 0;
+            JsonNode hrSamples = sleepJson.path("heart_rate_samples");
+            if (!hrSamples.isMissingNode() && hrSamples.isObject() && hrSamples.size() > 0) {
+                int sum = 0;
+                int min = Integer.MAX_VALUE;
+                int count = 0;
+                for (JsonNode val : hrSamples) {
+                    int bpm = val.asInt();
+                    sum += bpm;
+                    if (bpm < min) min = bpm;
+                    count++;
                 }
+                avgHr = (double) sum / count;
+                minHr = min;
             }
-        } catch (HttpClientErrorException.NotFound e) {
-            // No hay recharge data
-        } catch (Exception e) {
-            System.err.println("Error fetching Recharge: " + e.getMessage());
-        }
 
-        if (hasSleep || hasRecharge) {
+            PniReport result = new PniReport(patient, hoursAsleep, avgHr, minHr, deepSleepMinutes, continuity);
+            result.setReportDate(date);
             return Optional.of(result);
-        } else {
+
+        } catch (HttpClientErrorException.NotFound e) {
+            return Optional.empty();
+        } catch (Exception e) {
+            System.err.println("Error fetching Sleep data for " + date + ": " + e.getClass().getSimpleName() + " - " + e.getMessage());
             return Optional.empty();
         }
     }

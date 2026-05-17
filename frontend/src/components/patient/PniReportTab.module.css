@@ -195,6 +195,11 @@
   .controlsRight {
     margin-left: 0;
     flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .controlsRight :global(.btn) {
+    flex: 1;
   }
 
   .dateInput {

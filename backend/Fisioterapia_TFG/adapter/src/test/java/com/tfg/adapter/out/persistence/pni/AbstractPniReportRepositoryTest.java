@@ -39,8 +39,8 @@ public abstract class AbstractPniReportRepositoryTest extends BaseRepositoryIT {
 
         patientRepository.save(testPatient);
 
-        testPniReport1 = PniReportFactory.createTestPniReport(testPatient, 6);
-        testPniReport2 = PniReportFactory.createTestPniReport(testPatient, 6);
+        testPniReport1 = PniReportFactory.createTestPniReport(testPatient, 3);
+        testPniReport2 = PniReportFactory.createTestPniReport(testPatient, 3);
     }
 
     @AfterEach

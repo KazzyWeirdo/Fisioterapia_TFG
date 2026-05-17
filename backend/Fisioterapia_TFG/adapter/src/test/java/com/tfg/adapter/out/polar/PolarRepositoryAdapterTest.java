@@ -22,7 +22,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import java.time.LocalDate;
 import java.util.Optional;
-import java.util.function.Consumer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -40,12 +39,6 @@ public class PolarRepositoryAdapterTest {
 
     @Mock
     private RestTemplate restTemplate = mock(RestTemplate.class);
-
-    @Captor
-    private ArgumentCaptor<String> urlCaptor;
-
-    @Captor
-    private ArgumentCaptor<Consumer<JsonNode>> callbackCaptor;
 
     private ObjectMapper objectMapper;
 
@@ -68,7 +61,6 @@ public class PolarRepositoryAdapterTest {
         String state = "testState";
         String authUrl = polarRepositoryAdapter.generateAuthUrl(state);
 
-        // Assert that the generated URL contains the expected parameters
         assert authUrl.contains("response_type=code");
         assert authUrl.contains("client_id=");
         assert authUrl.contains("redirect_uri=");
@@ -99,7 +91,6 @@ public class PolarRepositoryAdapterTest {
     void testRegistreUserInPolar_Success() {
         String polarAccessToken = "testToken";
         Long polarUserId = 123L;
-        String expectedUrl = "https://www.polaraccesslink.com/v3/users";
 
         when(restTemplate.postForEntity(
                 eq("https://www.polaraccesslink.com/v3/users"),
@@ -118,18 +109,22 @@ public class PolarRepositoryAdapterTest {
 
     @Test
     void testFetchDailyData_Success() {
-        String dateStr = LocalDate.now().minusDays(1).toString();
+        LocalDate date = LocalDate.now().minusDays(1);
+        String dateStr = date.toString();
 
         JsonNodeFactory factory = JsonNodeFactory.instance;
 
         ObjectNode mockSleep = factory.objectNode();
         mockSleep.put("sleep_start_time", "2023-10-27T22:00:00+00:00");
         mockSleep.put("sleep_end_time", "2023-10-28T06:00:00+00:00");
+        mockSleep.put("sleep_continuity", 4);
+        mockSleep.put("deep_sleep", 5400); // 90 minutes in seconds
 
-        ObjectNode mockRecharge = factory.objectNode();
-        ObjectNode ansNode = mockRecharge.putObject("ans_charge_status");
-        ansNode.put("heart_rate_variability_rmssd", 55.5);
-        ansNode.put("ans_charge", -2.0);
+        ObjectNode hrSamples = mockSleep.putObject("heart_rate_samples");
+        hrSamples.put("02:00", 55);
+        hrSamples.put("02:05", 60);
+        hrSamples.put("02:10", 50);
+        hrSamples.put("02:15", 55);
 
         String expectedSleepUrl = "https://www.polaraccesslink.com/v3/users/sleep/" + dateStr;
         when(restTemplate.exchange(
@@ -137,21 +132,15 @@ public class PolarRepositoryAdapterTest {
                 eq(HttpMethod.GET),
                 any(HttpEntity.class),
                 eq(JsonNode.class))
-        ).thenReturn(new ResponseEntity<JsonNode>(mockSleep, HttpStatus.OK));
+        ).thenReturn(new ResponseEntity<>(mockSleep, HttpStatus.OK));
 
-        String expectedRechargeUrl = "https://www.polaraccesslink.com/v3/users/nightly-recharge/" + dateStr;
-        when(restTemplate.exchange(
-                eq(expectedRechargeUrl),
-                eq(HttpMethod.GET),
-                any(HttpEntity.class),
-                eq(JsonNode.class))
-        ).thenReturn(new ResponseEntity<JsonNode>(mockRecharge, HttpStatus.OK));
-
-        Optional<PniReport> result = polarRepositoryAdapter.fetchDailyData(TEST_PATIENT);
+        Optional<PniReport> result = polarRepositoryAdapter.fetchDailyData(TEST_PATIENT, date);
 
         assertThat(result).isPresent();
         assertThat(result.get().getHours_asleep()).isEqualTo(8.0);
-        assertThat(result.get().getHrv()).isEqualTo(55.5);
-        assertThat(result.get().getAns_charge()).isEqualTo(-2);
+        assertThat(result.get().getAvg_hr()).isEqualTo(55.0);
+        assertThat(result.get().getMin_hr()).isEqualTo(50);
+        assertThat(result.get().getDeep_sleep()).isEqualTo(90);
+        assertThat(result.get().getContinuity()).isEqualTo(4);
     }
 }

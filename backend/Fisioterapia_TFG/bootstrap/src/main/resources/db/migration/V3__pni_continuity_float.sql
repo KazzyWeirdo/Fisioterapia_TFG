@@ -1,0 +1,1 @@
+ALTER TABLE pni_reports ALTER COLUMN continuity TYPE NUMERIC(4,2);

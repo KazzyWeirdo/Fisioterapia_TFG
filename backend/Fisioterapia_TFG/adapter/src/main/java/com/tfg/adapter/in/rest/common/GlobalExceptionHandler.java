@@ -2,6 +2,7 @@ package com.tfg.adapter.in.rest.common;
 
 import com.tfg.application.exceptions.InvalidIdException;
 import com.tfg.application.exceptions.InvalidTokenException;
+import com.tfg.application.exceptions.PatientNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InvalidIdException.class)
     public ResponseEntity<String> handleInvalidIdException(InvalidIdException ex, HttpServletRequest request) {
         log.warn("Invalid ID exception at {}: {}", request.getRequestURI(), ex.getMessage());
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(PatientNotFoundException.class)
+    public ResponseEntity<String> handlePatientNotFoundException(PatientNotFoundException ex, HttpServletRequest request) {
+        log.warn("Patient not found at {}: {}", request.getRequestURI(), ex.getMessage());
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 

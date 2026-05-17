@@ -278,12 +278,12 @@
   "pni_assessment_subtitle": "Evaluación integral de psiconeuroinmunología para",
   "pni_restoration_profile": "PERFIL DE RESTAURACIÓN",
   "pni_sleep_score": "Calidad de sueño",
+  "pni_continuity": "Continuidad del sueño",
   "pni_hours_asleep": "HORAS DORMIDAS",
-  "pni_hrv": "VFC (MEDIA)",
-  "pni_ans_charge": "Carga ANS",
-  "pni_ans_optimal": "ÓPTIMO",
-  "pni_ans_moderate": "MODERADO",
-  "pni_ans_low": "BAJO",
+  "pni_avg_hr": "FC MEDIA",
+  "pni_min_hr": "FC MÍNIMA",
+  "pni_deep_sleep": "Sueño Profundo",
+  "pni_deep_sleep_unit": "MINUTOS",
   "pni_load_error": "Error al cargar el informe",
   "pni_not_found": "Informe no encontrado",
   "audit_subtitle": "Un registro cronológico riguroso e inmutable de cada interacción en el sistema.",
@@ -339,5 +339,8 @@
   "patient_delete_btn": "Eliminar paciente",
   "patient_delete_confirm_text": "¿Seguro? Esta acción es irreversible.",
   "patient_confirm_delete": "Confirmar eliminación",
-  "patient_delete_error": "Error al eliminar el paciente. Inténtalo de nuevo."
+  "patient_delete_error": "Error al eliminar el paciente. Inténtalo de nuevo.",
+  "pni_sync_polar": "Sincronizar Polar",
+  "pni_syncing": "Sincronizando…",
+  "pni_sync_error": "Error al sincronizar datos de Polar"
 }

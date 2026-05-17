@@ -21,8 +21,9 @@ public class PniReportJpaEntity {
     private java.time.LocalDate reportDate;
     @Column(nullable = false)
     private Double hoursAsleep;
-    private Double hrv;
-    private int ansCharge;
+    private Double avgHr;
+    private int minHr;
+    private int deepSleep;
     @Column(nullable = false)
-    private int sleepScore;
+    private Double continuity;
 }

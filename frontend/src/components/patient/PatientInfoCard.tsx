@@ -351,7 +351,7 @@ export default function PatientInfoCard({ patient, onPatientUpdated, isAdmin = f
             <button
               type="button"
               className="btn btn-danger fw-bold align-self-start"
-              onClick={() => window.open(`${import.meta.env.VITE_API_BASE_URL}/api/auth/polar/authorize?patientId=${patient.id}`, '_blank')}
+              onClick={() => window.open(`${import.meta.env.VITE_API_BASE_URL ?? ''}/api/auth/polar/authorize?patientId=${patient.id}`, '_blank')}
             >
               <FontAwesomeIcon icon={faHeart} /> {t('polar_connect_btn')}
             </button>

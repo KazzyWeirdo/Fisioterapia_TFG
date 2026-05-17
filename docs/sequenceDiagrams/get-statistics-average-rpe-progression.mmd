@@ -1,0 +1,49 @@
+sequenceDiagram
+    actor Client
+    participant SpringSecurity as Spring Security (JWT)
+    participant Controller as GetAverageRpeProgressionController
+    participant Service as GetAverageRpeProgressionService
+    participant PatientRepo as PatientRepository (JPA)
+    participant TrainingRepo as TrainingSessionRepository (JPA)
+
+    Client->>SpringSecurity: GET /statistics/{patientId}/{exerciseName}/workload-progression\nAuthorization: Bearer <token>
+
+    alt Token invàlid o absent
+        SpringSecurity-->>Client: 401 Unauthorized
+    else Token vàlid
+        SpringSecurity-->>Controller: Petició autenticada
+
+        Controller->>Controller: PatientIdParser.parsePatientId(patientId)
+
+        alt Format UUID invàlid
+            Controller-->>Client: 404 Not Found
+        else UUID vàlid
+            Controller->>Service: calculateProgression(patientId, exerciseName)
+
+            Service->>PatientRepo: findById(patientId)
+
+            alt Pacient no existeix
+                PatientRepo-->>Service: Optional.empty()
+                Service-->>Controller: throws InvalidIdException
+                Controller-->>Client: 404 Not Found
+            else Pacient existeix
+                PatientRepo-->>Service: Optional<Patient>
+
+                Service->>TrainingRepo: calculateRpeProgression(patientId, exerciseName)
+
+                Note over TrainingRepo: JPQL: SELECT CAST(startDateTime AS DATE), AVG(s.rpe)<br/>FROM TrainingSession JOIN ExerciseTemplates JOIN Exercises JOIN Sets<br/>WHERE patient.id = :patientId AND LOWER(e.name) = LOWER(:exerciseName)<br/>GROUP BY date ORDER BY date ASC
+
+                TrainingRepo-->>Service: List<Object[]> [sessionDate, averageRpe]
+
+                Service->>Service: map rows to AverageRpeProgression(sessionDate, averageRpe)
+
+                alt Llista buida
+                    Service-->>Controller: List<AverageRpeProgression> []
+                    Controller-->>Client: 204 No Content
+                else Llista amb dades
+                    Service-->>Controller: List<AverageRpeProgression>
+                    Controller-->>Client: 200 OK [{sessionDate, averageRpe}, ...]
+                end
+            end
+        end
+    end

@@ -22,9 +22,10 @@ export interface PniReport {
   patientId: number
   reportDate: string
   hours_asleep: number
-  hrv: number
-  stress: number
-  ntrs: number
+  avg_hr: number
+  min_hr: number
+  deep_sleep: number
+  continuity: number
 }
 
 export async function getPniReport(reportId: number): Promise<PniReport> {
@@ -37,9 +38,10 @@ export interface PniExport {
   reportId: number
   reportDate: string
   hoursAsleep: number
-  hrv: number
-  ansCharge: number
-  sleepScore: number
+  avgHr: number
+  minHr: number
+  deepSleep: number
+  continuity: number
 }
 
 export async function getAllPniForExport(): Promise<PniExport[]> {
@@ -57,4 +59,8 @@ export async function getPniReportsFromPatient(
   })
   if (response.status === 204 || !response.data) return EMPTY_PAGE
   return response.data
+}
+
+export async function syncPolarDataForPatient(patientId: number): Promise<void> {
+  await apiClient.post(`/polar/sync/${patientId}`)
 }

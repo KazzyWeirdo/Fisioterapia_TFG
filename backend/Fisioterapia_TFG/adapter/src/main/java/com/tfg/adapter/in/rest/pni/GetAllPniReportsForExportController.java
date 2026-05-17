@@ -28,9 +28,10 @@ public class GetAllPniReportsForExportController {
                 r.getId().value(),
                 r.getReportDate().toString(),
                 r.getHours_asleep(),
-                r.getHrv(),
-                r.getAns_charge(),
-                r.getSleep_score()
+                r.getAvg_hr(),
+                r.getMin_hr(),
+                r.getDeep_sleep(),
+                r.getContinuity()
         )).toList();
         return ResponseEntity.ok(dto);
     }

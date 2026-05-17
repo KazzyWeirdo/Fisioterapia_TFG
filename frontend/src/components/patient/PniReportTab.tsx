@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClipboardList } from '@fortawesome/free-solid-svg-icons'
-import { getPniReportsFromPatient, type PniReportSummary } from '../../services/pniReportService'
+import { getPniReportsFromPatient, syncPolarDataForPatient, type PniReportSummary } from '../../services/pniReportService'
 import { useLanguage } from '../../contexts/LanguageContext'
 import styles from './PniReportTab.module.css'
 
@@ -26,6 +26,9 @@ export default function PniReportTab({ patientId, patientName }: PniReportTabPro
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [dateFrom, setDateFrom] = useState('')
+  const [syncing, setSyncing] = useState(false)
+  const [syncError, setSyncError] = useState<string | null>(null)
+  const [refreshKey, setRefreshKey] = useState(0)
 
   useEffect(() => {
     let cancelled = false
@@ -41,7 +44,7 @@ export default function PniReportTab({ patientId, patientName }: PniReportTabPro
       .catch(() => { if (!cancelled) setError(t('common_error')) })
       .finally(() => { if (!cancelled) setLoading(false) })
     return () => { cancelled = true }
-  }, [patientId, currentPage])
+  }, [patientId, currentPage, refreshKey])
 
   const filtered = useMemo(() => reports.filter(r => {
     if (dateFrom && r.reportDate !== dateFrom) return false
@@ -49,6 +52,20 @@ export default function PniReportTab({ patientId, patientName }: PniReportTabPro
   }), [reports, dateFrom])
 
   const pageNumbers = useMemo(() => Array.from({ length: totalPages }, (_, i) => i), [totalPages])
+
+  async function handlePolarSync() {
+    setSyncing(true)
+    setSyncError(null)
+    try {
+      await syncPolarDataForPatient(patientId)
+      setCurrentPage(0)
+      setRefreshKey(k => k + 1)
+    } catch {
+      setSyncError(t('pni_sync_error'))
+    } finally {
+      setSyncing(false)
+    }
+  }
 
   function goToPage(page: number) {
     if (page < 0 || page >= totalPages) return
@@ -70,6 +87,19 @@ export default function PniReportTab({ patientId, patientName }: PniReportTabPro
         </div>
       </div>
 
+      {syncError && (
+        <div className="alert alert-danger alert-dismissible d-flex align-items-center py-2 px-3 mb-3" role="alert">
+          <span className="me-2">{syncError}</span>
+          <button
+            type="button"
+            className="btn-close ms-auto p-1"
+            style={{ fontSize: '0.65rem' }}
+            onClick={() => setSyncError(null)}
+            aria-label="Dismiss"
+          />
+        </div>
+      )}
+
       <div className={styles.controls}>
         <label className={styles.dateLabel}>
           {t('common_filter_by_date')}
@@ -80,6 +110,20 @@ export default function PniReportTab({ patientId, patientName }: PniReportTabPro
             onChange={e => setDateFrom(e.target.value)}
           />
         </label>
+        <div className={styles.controlsRight}>
+          <button
+            type="button"
+            className="btn btn-success btn-sm"
+            onClick={handlePolarSync}
+            disabled={syncing}
+            data-testid="polar-sync-btn"
+          >
+            {syncing && (
+              <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" />
+            )}
+            {syncing ? t('pni_syncing') : t('pni_sync_polar')}
+          </button>
+        </div>
       </div>
 
       <div className={styles.tableWrap}>

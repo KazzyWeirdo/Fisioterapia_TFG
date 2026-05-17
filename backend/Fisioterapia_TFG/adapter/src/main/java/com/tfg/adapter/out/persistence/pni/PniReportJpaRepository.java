@@ -10,6 +10,7 @@ import com.tfg.application.pojos.pagedpojos.PagedResponse;
 import com.tfg.application.pojos.query.PniReportSummaryElement;
 import com.tfg.application.port.out.persistence.PniReportRepository;
 import jakarta.transaction.Transactional;
+import java.time.LocalDate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -71,6 +72,12 @@ public class PniReportJpaRepository implements PniReportRepository {
                 page.getNumber(),
                 page.isLast()
         );
+    }
+
+    @Override
+    public Optional<PniReport> findByPatientIdAndDate(PatientId patientId, LocalDate date) {
+        return pniReportJpaDataRepository.findFirstByPatientIdAndReportDate(patientId.value(), date)
+                .map(PniReportJpaMapper::toModelEntity);
     }
 
     @Override

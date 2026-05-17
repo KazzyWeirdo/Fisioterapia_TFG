@@ -12,10 +12,11 @@ public class PniReportJpaMapper {
         entity.setId(pniReport.getId().value());
         entity.setPatient(patientJpaEntity);
         entity.setReportDate(pniReport.getReportDate());
-        entity.setHrv(pniReport.getHrv());
-        entity.setSleepScore(pniReport.getSleep_score());
+        entity.setAvgHr(pniReport.getAvg_hr());
+        entity.setMinHr(pniReport.getMin_hr());
+        entity.setDeepSleep(pniReport.getDeep_sleep());
+        entity.setContinuity(pniReport.getContinuity());
         entity.setHoursAsleep(pniReport.getHours_asleep());
-        entity.setAnsCharge(pniReport.getAns_charge());
         return entity;
     }
 
@@ -25,9 +26,10 @@ public class PniReportJpaMapper {
                 PatientJpaMapper.toModelEntity(entity.getPatient()),
                 entity.getReportDate(),
                 entity.getHoursAsleep(),
-                entity.getHrv(),
-                entity.getAnsCharge(),
-                entity.getSleepScore()
+                entity.getAvgHr(),
+                entity.getMinHr(),
+                entity.getDeepSleep(),
+                entity.getContinuity()
         );
     }
 }

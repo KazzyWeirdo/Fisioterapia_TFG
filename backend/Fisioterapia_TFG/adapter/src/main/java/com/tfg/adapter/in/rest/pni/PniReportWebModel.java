@@ -9,9 +9,10 @@ public record PniReportWebModel(
         int patientId,
         LocalDate reportDate,
         Double hours_asleep,
-        Double hrv,
-        int stress,
-        int ntrs
+        Double avg_hr,
+        int min_hr,
+        int deep_sleep,
+        Double continuity
 ) {
     static PniReportWebModel fromDomainModel(PniReport pniReport) {
         return new PniReportWebModel(
@@ -19,9 +20,10 @@ public record PniReportWebModel(
                 pniReport.getPatient().getId().value(),
                 pniReport.getReportDate(),
                 pniReport.getHours_asleep(),
-                pniReport.getHrv(),
-                pniReport.getAns_charge(),
-                pniReport.getSleep_score()
+                pniReport.getAvg_hr(),
+                pniReport.getMin_hr(),
+                pniReport.getDeep_sleep(),
+                pniReport.getContinuity()
         );
     }
 }

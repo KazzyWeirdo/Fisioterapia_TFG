@@ -30,7 +30,7 @@ public class GetAllPniReportsForExportControllerTest {
     private GetAllPniReportsForExportController getAllPniReportsForExportController;
 
     private static final Patient TEST_PATIENT = PatientFactory.createTestPatient("hola@gmail.com", "85729487J");
-    private static final PniReport TEST_REPORT = PniReportFactory.createTestPniReport(TEST_PATIENT, 75);
+    private static final PniReport TEST_REPORT = PniReportFactory.createTestPniReport(TEST_PATIENT, 3);
 
     @BeforeEach
     void setUp() {

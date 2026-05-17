@@ -20,8 +20,8 @@ public class GetAllPniReportsForExportServiceTest {
             new GetAllPniReportsForExportService(pniReportRepository);
 
     private static final Patient TEST_PATIENT = PatientFactory.createTestPatient("hola@gmail.com", "85729487J");
-    private static final PniReport REPORT_1 = PniReportFactory.createTestPniReport(TEST_PATIENT, 75);
-    private static final PniReport REPORT_2 = PniReportFactory.createTestPniReport(TEST_PATIENT, 80);
+    private static final PniReport REPORT_1 = PniReportFactory.createTestPniReport(TEST_PATIENT, 3);
+    private static final PniReport REPORT_2 = PniReportFactory.createTestPniReport(TEST_PATIENT, 4);
 
     @Test
     public void givenReportsExist_whenGetAllForExport_returnList() {

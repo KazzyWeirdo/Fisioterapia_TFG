@@ -83,6 +83,7 @@ public class SecurityConfiguration {
                     auth.requestMatchers("/training-session/**").access(hasScope("USER"));
                     auth.requestMatchers("/auditlogs/**").access(hasScope("ADMIN"));
                     auth.requestMatchers("/physiotherapist/**").access(hasScope("ADMIN"));
+                    auth.requestMatchers("/polar/**").access(hasScope("USER"));
                     auth.anyRequest().authenticated();
                 })
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

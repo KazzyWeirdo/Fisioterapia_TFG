@@ -16,36 +16,42 @@ public class PniReport {
     private final Patient patient;
     private LocalDate reportDate;
     private Double hours_asleep;
-    private Double hrv;
-    private int ans_charge;
-    private int sleep_score;
+    private Double avg_hr;
+    private int min_hr;
+    private int deep_sleep;
+    private Double continuity;
 
-    public PniReport(Patient patient, Double hours_asleep, Double hrv, int ans_charge, int sleep_score) {
-        checkDomain(sleep_score, hours_asleep, hrv, ans_charge);
+    public PniReport(Patient patient, Double hours_asleep, Double avg_hr, int min_hr, int deep_sleep, Double continuity) {
+        checkDomain(continuity, hours_asleep, avg_hr, min_hr, deep_sleep);
         this.id = new PniReportId(ThreadLocalRandom.current().nextInt(1_000_000));
         this.patient = patient;
         this.reportDate = LocalDate.now();
         this.hours_asleep = hours_asleep;
-        this.hrv = hrv;
-        this.ans_charge = ans_charge;
-        this.sleep_score = sleep_score;
+        this.avg_hr = avg_hr;
+        this.min_hr = min_hr;
+        this.deep_sleep = deep_sleep;
+        this.continuity = continuity;
     }
 
-    private void checkDomain(int sleep_score, Double hours_asleep, Double hrv, int ans_charge) {
-        if (sleep_score < 0 || sleep_score > 100) {
-            throw new IllegalArgumentException("Sleep score must be between 0 and 100");
+    private void checkDomain(Double continuity, Double hours_asleep, Double avg_hr, int min_hr, int deep_sleep) {
+        if (continuity < 1.0 || continuity > 5.0) {
+            throw new IllegalArgumentException("Continuity must be between 1 and 5");
         }
 
         if (hours_asleep < 0) {
             throw new IllegalArgumentException("Hours asleep cannot be negative");
         }
 
-        if (hrv < 0) {
-            throw new IllegalArgumentException("HRV cannot be negative");
+        if (avg_hr < 0) {
+            throw new IllegalArgumentException("Average HR cannot be negative");
         }
 
-        if (ans_charge < 0 || ans_charge > 100) {
-            throw new IllegalArgumentException("Ans Charge must be between 0 and 100");
+        if (min_hr < 0) {
+            throw new IllegalArgumentException("Min HR cannot be negative");
+        }
+
+        if (deep_sleep < 0) {
+            throw new IllegalArgumentException("Deep sleep cannot be negative");
         }
     }
 }
