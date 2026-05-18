@@ -71,21 +71,6 @@
   margin-bottom: 1.25rem;
 }
 
-.searchInput {
-  border: 1.5px solid #e5e7eb;
-  border-radius: 8px;
-  padding: 0.5rem 0.75rem;
-  font-size: 0.875rem;
-  flex: 1;
-  max-width: 280px;
-}
-
-.searchInput:focus {
-  outline: 2px solid #2563eb;
-  outline-offset: 2px;
-  border-color: transparent;
-}
-
 .dateInput {
   border: 1.5px solid #e5e7eb;
   border-radius: 8px;
@@ -98,12 +83,6 @@
   outline: 2px solid #2563eb;
   outline-offset: 2px;
   border-color: transparent;
-}
-
-.controlsRight {
-  margin-left: auto;
-  display: flex;
-  gap: 0.5rem;
 }
 
 .tableWrap {
@@ -205,15 +184,6 @@
   .controls {
     flex-direction: column;
     align-items: stretch;
-  }
-
-  .searchInput {
-    max-width: none;
-  }
-
-  .controlsRight {
-    margin-left: 0;
-    flex-wrap: wrap;
   }
 
   .dateInput {

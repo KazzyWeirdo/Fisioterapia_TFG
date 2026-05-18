@@ -157,17 +157,8 @@
   font-weight: 700;
 }
 
-.criticalText {
-  color: #b91c1c;
-}
-
 .timestampCell {
   white-space: nowrap;
-}
-
-.criticalTimestamp {
-  color: #b91c1c;
-  font-style: italic;
 }
 
 .detailsCell {

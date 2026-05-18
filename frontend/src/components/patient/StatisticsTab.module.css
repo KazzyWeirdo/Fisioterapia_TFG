@@ -1,11 +1,5 @@
 .tab { padding: 2rem 0; }
 
-.panels {
-  display: grid;
-  grid-template-columns: 1fr 1.8fr;
-  gap: 1.25rem;
-}
-
 .ratioCard,
 .workloadCard {
   background: white;
@@ -27,38 +21,6 @@
   margin: 0 0 1.5rem;
 }
 
-.gaugeWrap {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1.5rem;
-}
-
-.gauge {
-  width: 160px;
-  height: 160px;
-  border-radius: 50%;
-  background: conic-gradient(#1a3a6b var(--ratio-pct), #e5e7eb 0);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  box-shadow: inset 0 0 0 22px white;
-}
-
-.gaugeValue {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #111827;
-  line-height: 1;
-}
-
-.gaugeLabel {
-  font-size: 0.55rem;
-  font-weight: 700;
-  color: #6b7280;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
 
 .counters {
   display: flex;
@@ -122,17 +84,114 @@
 
 .chart { width: 100%; overflow: visible; }
 
+.monthlyChartCard {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid #e5e7eb;
+  margin-top: 1.25rem;
+  width: 100%;
+}
+
+.monthlyChartHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.yearSelector {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 999px;
+  padding: 0.25rem 0.5rem;
+}
+
+.yearBtn {
+  background: transparent;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+  cursor: pointer;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+}
+
+.yearBtn:hover:not(:disabled) {
+  background: #e5e7eb;
+}
+
+.yearBtn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.yearLabel {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #111827;
+  min-width: 3ch;
+  text-align: center;
+}
+
+.chartContainer {
+  width: 100%;
+  height: 260px;
+}
+
+.transitionLegend {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 0.75rem;
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.legendDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.legendLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+@media (max-width: 768px) {
+  .chartContainer { height: 220px; }
+}
+
 @media (max-width: 640px) {
-  .panels {
-    grid-template-columns: 1fr;
+  .monthlyChartHeader {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
 
-  .ratioCard {
-    order: 1;
-  }
+  .chartContainer { height: 180px; }
 
-  .workloadCard {
-    order: 2;
+  .transitionLegend {
+    justify-content: center;
+    flex-wrap: wrap;
   }
 }
 

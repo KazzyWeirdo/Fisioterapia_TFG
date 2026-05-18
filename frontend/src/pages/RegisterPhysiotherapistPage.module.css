@@ -77,12 +77,6 @@
   border-color: transparent;
 }
 
-.hint {
-  font-size: 0.75rem;
-  color: #6b7280;
-  margin-top: 0.3rem;
-}
-
 .rolesSection {
   display: flex;
   flex-direction: column;

@@ -302,16 +302,6 @@
   gap: 1.5rem;
 }
 
-.footerBadge {
-  font-size: 0.8rem;
-  color: #6b7280;
-}
-
-.footerSync {
-  font-size: 0.8rem;
-  color: #9ca3af;
-}
-
 @media (max-width: 1024px) {
   .body {
     flex-direction: column;

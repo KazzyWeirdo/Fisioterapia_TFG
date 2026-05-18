@@ -86,12 +86,6 @@
   border-color: transparent;
 }
 
-.controlsRight {
-  margin-left: auto;
-  display: flex;
-  gap: 0.5rem;
-}
-
 .tableWrap {
   border: 1px solid #e5e7eb;
   border-radius: 12px;
@@ -191,11 +185,6 @@
   .controls {
     flex-direction: column;
     align-items: stretch;
-  }
-
-  .controlsRight {
-    margin-left: 0;
-    flex-wrap: wrap;
   }
 
   .dateInput {

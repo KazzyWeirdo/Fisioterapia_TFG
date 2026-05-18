@@ -5,6 +5,7 @@ import {
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
   Filler,
   Tooltip,
   type ChartOptions,
@@ -18,12 +19,11 @@ import {
   type IndibaSessionStats,
   type PathologyRehabStats,
 } from '../../services/statisticsService'
-import { getTrainingSessionsFromPatient } from '../../services/trainingSessionService'
-import { getIndibaSessionsFromPatient } from '../../services/indibaService'
 import { useLanguage } from '../../contexts/LanguageContext'
+import MonthlyTransitionChart from './MonthlyTransitionChart'
 import styles from './StatisticsTab.module.css'
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Filler, Tooltip)
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Filler, Tooltip)
 
 interface StatisticsTabProps {
   patientId: number
@@ -32,8 +32,6 @@ interface StatisticsTabProps {
 
 export default function StatisticsTab({ patientId }: StatisticsTabProps) {
   const { t } = useLanguage()
-  const [trainingCount, setTrainingCount] = useState(0)
-  const [indibaCount, setIndibaCount] = useState(0)
   const [statsLoading, setStatsLoading] = useState(true)
   const [statsError, setStatsError] = useState<string | null>(null)
   const [indibaStats, setIndibaStats] = useState<IndibaSessionStats | null>(null)
@@ -46,14 +44,10 @@ export default function StatisticsTab({ patientId }: StatisticsTabProps) {
 
   useEffect(() => {
     Promise.all([
-      getTrainingSessionsFromPatient(patientId, 0, 1),
-      getIndibaSessionsFromPatient(patientId, 0, 1),
       getIndibaSessionStats(patientId),
       getPathologyRehabStats(),
     ])
-      .then(([training, indiba, iStats, rStats]) => {
-        setTrainingCount(training.totalElements)
-        setIndibaCount(indiba.totalElements)
+      .then(([iStats, rStats]) => {
         setIndibaStats(iStats)
         setRehabStats(rStats)
       })
@@ -70,11 +64,6 @@ export default function StatisticsTab({ patientId }: StatisticsTabProps) {
       .catch(() => setWorkloadError(t('stats_workload_error')))
       .finally(() => setWorkloadLoading(false))
   }, [patientId, exerciseName])
-
-  const currentRatio = useMemo(() => {
-    const total = trainingCount + indibaCount
-    return total > 0 ? trainingCount / total : null
-  }, [trainingCount, indibaCount])
 
   const ceiling = useMemo(() => {
     if (workload.length === 0) return 1
@@ -137,53 +126,9 @@ export default function StatisticsTab({ patientId }: StatisticsTabProps) {
 
   return (
     <div className={styles.tab}>
-      <div className={styles.panels}>
 
-        {/* Left: Transition Ratio */}
-        <div className={styles.ratioCard}>
-          <h3 className={styles.cardTitle}>{t('stats_transition_title')}</h3>
-          <p className={styles.cardSub}>{t('stats_transition_subtitle')}</p>
-
-          {statsLoading ? (
-            <p className={styles.chartState}>{t('common_loading')}</p>
-          ) : statsError ? (
-            <p className={styles.chartError}>{statsError}</p>
-          ) : (
-            <>
-              <div className={styles.gaugeWrap}>
-                <div
-                  className={styles.gauge}
-                  style={{ '--ratio-pct': `${(currentRatio ?? 0) * 100}%` } as React.CSSProperties}
-                >
-                  <span className={styles.gaugeValue}>
-                    {currentRatio !== null ? currentRatio.toFixed(2) : '—'}
-                  </span>
-                  <span className={styles.gaugeLabel}>{t('stats_ratio_label')}</span>
-                </div>
-              </div>
-
-              <div className={styles.counters}>
-                <div className={styles.counter}>
-                  <span className={styles.counterDot} style={{ background: '#1a3a6b' }} />
-                  <div>
-                    <div className={styles.counterLabel}>{t('stats_training_sessions')}</div>
-                    <div className={styles.counterValue}>{trainingCount}</div>
-                  </div>
-                </div>
-                <div className={styles.counter}>
-                  <span className={styles.counterDot} style={{ background: '#b45309' }} />
-                  <div>
-                    <div className={styles.counterLabel}>{t('stats_indiba_sessions')}</div>
-                    <div className={styles.counterValue}>{indibaCount}</div>
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
-        </div>
-
-        {/* Right: Workload Progression */}
-        <div className={styles.workloadCard}>
+      {/* Workload Progression */}
+      <div className={styles.workloadCard}>
           <div className={styles.workloadHeader}>
             <div>
               <h3 className={styles.cardTitle}>{t('stats_workload_title')}</h3>
@@ -220,9 +165,9 @@ export default function StatisticsTab({ patientId }: StatisticsTabProps) {
           {!workloadLoading && !workloadError && workload.length > 0 && (
             <Line data={chartData} options={chartOptions} className={styles.chart} />
           )}
-        </div>
-
       </div>
+
+      <MonthlyTransitionChart patientId={patientId} />
 
       {/* INDIBA Protocol Summary */}
       {!statsLoading && !statsError && indibaStats && (
