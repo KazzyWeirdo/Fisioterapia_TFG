@@ -3,6 +3,8 @@ import apiClient from '../api/client'
 export interface TransitionRatioPoint {
   month: number
   transitionRatio: number
+  indibaSessions: number
+  trainingSessions: number
 }
 
 export interface AverageRpePoint {

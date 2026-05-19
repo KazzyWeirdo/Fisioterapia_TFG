@@ -15,6 +15,7 @@ import { getAllTrainingForExport, type TrainingSetExport } from '../services/tra
 import { downloadCsv } from '../utils/csvUtils'
 import styles from './PatientsPage.module.css'
 import PageTitle from '../components/PageTitle'
+import Toast from '../components/Toast'
 
 const PAGE_SIZE = 10
 
@@ -31,6 +32,7 @@ export default function PatientsPage() {
   const [search, setSearch] = useState('')
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc')
   const [downloading, setDownloading] = useState<Record<string, boolean>>({})
+  const [exportError, setExportError] = useState<string | null>(null)
 
   useEffect(() => {
     let cancelled = false
@@ -81,6 +83,8 @@ export default function PatientsPage() {
     try {
       const data = await fetchFn()
       downloadCsv(filename, headers, data.map(toRow))
+    } catch {
+      setExportError(t('patients_export_error'))
     } finally {
       setDownloading((d) => ({ ...d, [key]: false }))
     }
@@ -287,6 +291,10 @@ export default function PatientsPage() {
           </div>
         </div>
       </div>
+
+      {exportError && (
+        <Toast message={exportError} onClose={() => setExportError(null)} />
+      )}
     </div>
   )
 }

@@ -45,7 +45,7 @@ export default function RegisterIndibaSessionPage() {
     if (!token) return
     const { sub, name, surname } = parseTokenPayload(token)
     setPhysio({ id: Number(sub), name, surname })
-    getPatients(0, 100).then(p => setPatients(p.content)).catch(() => {})
+    getPatients(0, 100).then(p => setPatients(p.content.filter(p => !p.dischargeDate))).catch(() => {})
   }, [token])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {

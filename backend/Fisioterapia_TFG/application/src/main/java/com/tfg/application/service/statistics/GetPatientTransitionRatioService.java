@@ -45,6 +45,7 @@ public class GetPatientTransitionRatioService implements GetPatientTransitionRat
             long indibaCount = indibaSessionsMap.getOrDefault(month, 0L);
             long trainingCount = trainingSessionsMap.getOrDefault(month, 0L);
 
+            if (indibaCount == 0 && trainingCount == 0) continue;
             ratios.add(new PatientMonthTransitionRatio(month, year, indibaCount, trainingCount));
         }
 

@@ -174,12 +174,19 @@ export default function PatientInfoCard({ patient, onPatientUpdated, isAdmin = f
     }
   }
 
-  function select(name: keyof EditForm, options: string[]) {
+  function select(name: keyof EditForm, options: string[], tPrefix: 'gender' | 'sex') {
     return (
       <select className={styles.fieldInput} name={name} value={formData[name]} onChange={handleChange} required>
-        {options.map(o => <option key={o} value={o}>{o}</option>)}
+        {options.map(o => <option key={o} value={o}>{t(`${tPrefix}_${o}`)}</option>)}
       </select>
     )
+  }
+
+  function translateEnum(prefix: 'gender' | 'sex', value: string) {
+    if (!value) return value
+    const key = `${prefix}_${value}`
+    const translated = t(key)
+    return translated === key ? value : translated
   }
 
   return (
@@ -249,12 +256,12 @@ export default function PatientInfoCard({ patient, onPatientUpdated, isAdmin = f
       <div className={styles.rowGroup}>
         <Field label={t('patient_info_email')} value={patient.email} isEditing={isEditing} editNode={input('email', 'email')} />
         <Field label={t('patient_info_phone')} value={String(patient.phoneNumber)} isEditing={isEditing} editNode={input('phoneNumber', 'tel')} />
-        <Field label={t('patient_info_gender')} value={patient.genderIdentity} isEditing={isEditing} editNode={select('genderIdentity', GENDER_OPTIONS)} />
+        <Field label={t('patient_info_gender')} value={translateEnum('gender', patient.genderIdentity)} isEditing={isEditing} editNode={select('genderIdentity', GENDER_OPTIONS, 'gender')} />
       </div>
 
       <div className={styles.rowGroup}>
-        <Field label={t('patient_info_clinical_sex')} value={patient.clinicalUseSex} isEditing={isEditing} editNode={select('clinicalUseSex', SEX_OPTIONS)} />
-        <Field label={t('patient_info_admin_sex')} value={patient.administrativeSex} isEditing={isEditing} editNode={select('administrativeSex', SEX_OPTIONS)} />
+        <Field label={t('patient_info_clinical_sex')} value={translateEnum('sex', patient.clinicalUseSex)} isEditing={isEditing} editNode={select('clinicalUseSex', SEX_OPTIONS, 'sex')} />
+        <Field label={t('patient_info_admin_sex')} value={translateEnum('sex', patient.administrativeSex)} isEditing={isEditing} editNode={select('administrativeSex', SEX_OPTIONS, 'sex')} />
         <Field label={t('patient_info_pronouns')} value={patient.pronouns} isEditing={isEditing} editNode={input('pronouns')} />
       </div>
 

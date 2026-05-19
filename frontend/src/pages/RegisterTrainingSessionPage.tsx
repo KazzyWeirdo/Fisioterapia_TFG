@@ -31,7 +31,7 @@ export default function RegisterTrainingSessionPage() {
   const [submitted, setSubmitted] = useState(false)
 
   useEffect(() => {
-    getPatients(0, 200).then(p => setPatients(p.content)).catch(() => {})
+    getPatients(0, 200).then(p => setPatients(p.content.filter(p => !p.dischargeDate))).catch(() => {})
     getAllExerciseTemplates().then(t => setTemplates(t)).catch(() => {})
     if (token) {
       const payload = decodeJwtPayload(token)

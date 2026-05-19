@@ -55,7 +55,7 @@ public class GetPatientTransitionRatioServiceTest {
         List<PatientMonthTransitionRatio> result = getPatientTransitionRatioService.getTransitionRatio(new PatientId(1), TEST_TRAINING_SESSION.getStartDateTime().getYear());
 
         assertNotNull(result);
-        assertEquals(12, result.size());
+        assertEquals(2, result.size());
         assertEquals(2, result.get(0).trainingSessions());
         assertEquals(2, result.get(0).indibaSessions());
 

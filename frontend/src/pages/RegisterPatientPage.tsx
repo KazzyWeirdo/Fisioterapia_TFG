@@ -231,7 +231,7 @@ export default function RegisterPatientPage() {
                 >
                   <option value="" disabled>{t('reg_patient_select_option')}</option>
                   {GENDER_OPTIONS.map(opt => (
-                    <option key={opt} value={opt}>{opt}</option>
+                    <option key={opt} value={opt}>{t(`gender_${opt}`)}</option>
                   ))}
                 </select>
               </div>
@@ -246,7 +246,7 @@ export default function RegisterPatientPage() {
                 >
                   <option value="" disabled>{t('reg_patient_select_option')}</option>
                   {SEX_OPTIONS.map(opt => (
-                    <option key={opt} value={opt}>{opt}</option>
+                    <option key={opt} value={opt}>{t(`sex_${opt}`)}</option>
                   ))}
                 </select>
               </div>
@@ -261,7 +261,7 @@ export default function RegisterPatientPage() {
                 >
                   <option value="" disabled>{t('reg_patient_select_option')}</option>
                   {SEX_OPTIONS.map(opt => (
-                    <option key={opt} value={opt}>{opt}</option>
+                    <option key={opt} value={opt}>{t(`sex_${opt}`)}</option>
                   ))}
                 </select>
               </div>

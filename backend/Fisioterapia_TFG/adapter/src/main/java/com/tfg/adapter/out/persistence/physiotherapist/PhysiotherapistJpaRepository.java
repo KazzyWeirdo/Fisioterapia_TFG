@@ -8,20 +8,28 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public class PhysiotherapistJpaRepository implements PhysiotherapistRepository {
 
     private final PhysiotherapistJpaDataRepository psychiatristJpaDataRepository;
+    private final RoleJpaDataRepository roleJpaDataRepository;
 
-    public PhysiotherapistJpaRepository(PhysiotherapistJpaDataRepository psychiatristJpaDataRepository) {
+    public PhysiotherapistJpaRepository(PhysiotherapistJpaDataRepository psychiatristJpaDataRepository,
+                                        RoleJpaDataRepository roleJpaDataRepository) {
         this.psychiatristJpaDataRepository = psychiatristJpaDataRepository;
+        this.roleJpaDataRepository = roleJpaDataRepository;
     }
 
     @Override
     @Transactional
     public void save(Physiotherapist psychiatrist) {
         PhysiotherapistJpaEntity psychiatristJpaEntity = PhysiotherapistJpaMapper.toJpaEntity(psychiatrist);
+        Set<RoleJpaEntity> roleEntities = psychiatrist.getRoles().stream()
+                .map(role -> roleJpaDataRepository.findByName(role).orElseThrow())
+                .collect(java.util.stream.Collectors.toSet());
+        psychiatristJpaEntity.setRoles(roleEntities);
         psychiatristJpaDataRepository.save(psychiatristJpaEntity);
     }
 

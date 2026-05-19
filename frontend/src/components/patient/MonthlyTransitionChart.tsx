@@ -72,7 +72,9 @@ export default function MonthlyTransitionChart({ patientId }: MonthlyTransitionC
   }, [patientId, year])
 
   const sorted = useMemo(
-    () => [...data].sort((a, b) => a.month - b.month),
+    () => [...data]
+      .filter(p => p.indibaSessions + p.trainingSessions > 0)
+      .sort((a, b) => a.month - b.month),
     [data],
   )
 
@@ -117,6 +119,8 @@ export default function MonthlyTransitionChart({ patientId }: MonthlyTransitionC
             const index = ctx.dataIndex
             const point = sorted[index]
             if (!point) return ''
+            const total = point.indibaSessions + point.trainingSessions
+            if (total === 0) return `Training: 0 / INDIBA: 0`
             const trainingPct = Math.round(point.transitionRatio * 100)
             const indibaPct = Math.round((1 - point.transitionRatio) * 100)
             return `Training: ${trainingPct}% / INDIBA: ${indibaPct}%`

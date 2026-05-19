@@ -127,7 +127,7 @@ export default function StatisticsTab({ patientId }: StatisticsTabProps) {
   return (
     <div className={styles.tab}>
 
-      {/* Workload Progression */}
+      {/* Average RPE Progression */}
       <div className={styles.workloadCard}>
           <div className={styles.workloadHeader}>
             <div>
